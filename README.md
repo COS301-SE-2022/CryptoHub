@@ -64,4 +64,39 @@ Final Year Bsc Computer Science, University of Pretoria. Possess quality listeni
 
 ---
 
+### Sinothando Mabhena
+
+<img alt="Sinothando image" height="400" width="400" src="https://avatars.githubusercontent.com/u/53974039?v=4"/>
+
+#### Description
+
+Final year Bsc Information & Knowledge Systems student. Has one year experience as a frontend developer working on responsive web applications in React. Has the necessary skills & expertise to lead the frontend and deliver a beautifully designed, mobile responsive web application. Previously a tutor(COS122, COS212, COS216), capable of helping and teaching others in need.
+
+#### Links
+
+[![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white "Linkedin")](https://www.linkedin.com/in/sinothando-mabhena-2ab5301a9/) [![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white "Github")](https://github.com/sinothandomabhena)
+
+#### Stats
+
+<img alt="stats" src="https://github-readme-stats.vercel.app/api?username=sinothandomabhena&show_icons=true&hide_border=true"/>
+
+---
+
+### Daniel de Nobrega
+
+
+<img alt="khotso image" height="400" width="400" src="https://avatars.githubusercontent.com/u/92922089?v=4"/>
+
+#### Description
+
+Final year BSc Computer Science student, I am a dedicated hard-working student, good at explaining work. I always strive to review my knowledge and build on my understanding. I strive to achieve a high caliber of work in all aspects of my life and I am determined to achieve my full potential.
+
+#### Links
+
+[![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white "Linkedin")](https://www.linkedin.com/in/daniel-de-nobrega-4a320022b/) [![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white "Github")](https://github.com/DanieldeNobrega)
+
+#### Stats
+
+<img alt="stats" src="https://github-readme-stats.vercel.app/api?username=
+DanieldeNobrega&show_icons=true&hide_border=true"/>
 
