@@ -85,7 +85,7 @@ Final year Bsc Information & Knowledge Systems student. Has one year experience 
 ### Daniel de Nobrega
 
 
-<img alt="khotso image" height="400" width="400" src="https://avatars.githubusercontent.com/u/92922089?v=4"/>
+<img alt="Daniel image" height="400" width="400" src="https://avatars.githubusercontent.com/u/92922089?v=4"/>
 
 #### Description
 
@@ -97,6 +97,5 @@ Final year BSc Computer Science student, I am a dedicated hard-working student, 
 
 #### Stats
 
-<img alt="stats" src="https://github-readme-stats.vercel.app/api?username=
-DanieldeNobrega&show_icons=true&hide_border=true"/>
+<img alt="stats" src="https://github-readme-stats.vercel.app/api?username=DanieldeNobrega&show_icons=true&hide_border=true"/>
 
