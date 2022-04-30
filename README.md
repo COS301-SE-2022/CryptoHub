@@ -11,6 +11,24 @@
 
 ## Code Force
 
+### Thabo Jerome Chesane(Team Leader) 
+
+<img alt="Thabo image" height="400" width="400" src="https://avatars.githubusercontent.com/u/92906455?s=400&u=544e7423683247e11527ab14709634c43b50e42f&v=4"/>
+
+#### Description
+
+Final year student, I enjoy problem solving. I have strong communication and leadership skills. I am open to learning new things. I do community service in my free time.
+
+#### Links
+
+[![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white "Linkedin")](https://www.linkedin.com/in/thabo-chesane-b09980218/) [![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white "Github")](https://github.com/ThaboJChesane)
+
+#### Stats
+
+<img alt="stats" src="https://github-readme-stats.vercel.app/api?username=ThaboJChesane&show_icons=true&hide_border=true"/>
+
+---
+
 ### Khotso Bore
 
 <img alt="khotso image" height="400" width="400" src="https://avatars.githubusercontent.com/u/82458587?v=4"/>
@@ -29,18 +47,4 @@ blah blah blah
 
 ---
 
-### Thabo Jerome Chesane 
 
-<img alt="Thabo image" height="400" width="400" src="https://avatars.githubusercontent.com/u/92906455?s=400&u=544e7423683247e11527ab14709634c43b50e42f&v=4"/>
-
-#### Description
-
-blah blah blah
-
-#### Links
-
-[![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white "Linkedin")](https://www.linkedin.com/in/thabo-chesane-b09980218/) [![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white "Github")](https://github.com/ThaboJChesane)
-
-#### Stats
-
-<img alt="stats" src="https://github-readme-stats.vercel.app/api?username=ThaboJChesane&show_icons=true&hide_border=true"/>
