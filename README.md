@@ -35,7 +35,7 @@ Final year student, I enjoy problem solving. I have strong communication and lea
 
 #### Description
 
-blah blah blah
+Final Year Bsc Computer Science, University of Pretoria. Possess quality listening skills and collaborates well with people making for an excellent team member. Has previous experience tutoring Assembly language to second year students. Has worked with various technologies to create RESTful API’s in frameworks such as Flask and .NET Core.
 
 #### Links
 
