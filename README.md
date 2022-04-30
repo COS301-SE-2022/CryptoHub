@@ -39,8 +39,8 @@ blah blah blah
 
 #### Links
 
-[![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white "Linkedin")](https://www.linkedin.com/in/thabo-chesane-b09980218/) [![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white "Github")](**GITHUB LINK\***)
+[![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white "Linkedin")](https://www.linkedin.com/in/thabo-chesane-b09980218/) [![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white "Github")](https://github.com/ThaboJChesane)
 
 #### Stats
 
-<img alt="stats" src="https://github-readme-stats.vercel.app/api?username=****GITHUB USERNAME***&show_icons=true&hide_border=true"/>
+<img alt="stats" src="https://github-readme-stats.vercel.app/api?username=ThaboJChesane&show_icons=true&hide_border=true"/>
