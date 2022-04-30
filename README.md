@@ -29,9 +29,9 @@ blah blah blah
 
 ---
 
-### Name
+### Thabo Jerome Chesane 
 
-<img alt="khotso image" height="400" width="400" src="***GITHUB PROLICE LINK***"/>
+<img alt="khotso image" height="400" width="400" src="https://avatars.githubusercontent.com/u/92906455?s=400&u=544e7423683247e11527ab14709634c43b50e42f&v=4"/>
 
 #### Description
 
