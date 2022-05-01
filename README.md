@@ -14,7 +14,7 @@
 
 ### Thabo Jerome Chesane(Team Leader) 
 
-<img alt="Thabo image" height="400" width="400" src="https://avatars.githubusercontent.com/u/92906455?s=400&u=544e7423683247e11527ab14709634c43b50e42f&v=4"/>
+<img alt="Thabo image" height="200" width="200" src="https://avatars.githubusercontent.com/u/92906455?s=400&u=544e7423683247e11527ab14709634c43b50e42f&v=4"/>
 
 #### Description
 
@@ -32,7 +32,7 @@ Final year student, I enjoy problem solving. I have strong communication and lea
 
 ### Casparus Bresler
 
-<img alt="Casparus image" height="400" width="400" src="https://avatars.githubusercontent.com/u/92540552?v=4"/>
+<img alt="Casparus image" height="200" width="200" src="https://avatars.githubusercontent.com/u/92540552?v=4"/>
 
 #### Description
 Final year BSc Computer Science. Has a year and a half of experience working as an embedded software developer adapting to new technologies frequently. Used to working under a strict deadline. Never afraid to ask questions rather than remain ignorant.
@@ -49,7 +49,7 @@ Final year BSc Computer Science. Has a year and a half of experience working as 
 ---
 ### Khotso Bore
 
-<img alt="khotso image" height="400" width="400" src="https://avatars.githubusercontent.com/u/82458587?v=4"/>
+<img alt="khotso image" height="200" width="200" src="https://avatars.githubusercontent.com/u/82458587?v=4"/>
 
 #### Description
 
@@ -67,7 +67,7 @@ Final Year Bsc Computer Science, University of Pretoria. Possess quality listeni
 
 ### Sinothando Mabhena
 
-<img alt="Sinothando image" height="400" width="400" src="https://avatars.githubusercontent.com/u/53974039?v=4"/>
+<img alt="Sinothando image" height="200" width="200" src="https://avatars.githubusercontent.com/u/53974039?v=4"/>
 
 #### Description
 
@@ -86,7 +86,7 @@ Final year Bsc Information & Knowledge Systems student. Has one year experience 
 ### Daniel de Nobrega
 
 
-<img alt="Daniel image" height="400" width="400" src="https://avatars.githubusercontent.com/u/92922089?v=4"/>
+<img alt="Daniel image" height="200" width="200" src="https://avatars.githubusercontent.com/u/92922089?v=4"/>
 
 #### Description
 
