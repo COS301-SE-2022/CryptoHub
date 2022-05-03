@@ -4,6 +4,8 @@
 
 ## Documentation
 
+- [System Requiremnts Specification](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS))
+
 
 ## Demo Vidoes
 
