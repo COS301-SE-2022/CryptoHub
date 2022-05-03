@@ -1,8 +1,5 @@
 import React, { Fragment } from "react";
-
-/* This example requires Tailwind CSS v2.0+ */
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import {Menu, Transition } from "@headlessui/react";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -10,7 +7,6 @@ function classNames(...classes) {
 
 const NavigationProfile = () => {
   return (
-    // <button className="w-10 h-10 rounded-full bg-black" title="username"></button>
     <Menu as="div" className="ml-3 relative">
       <div>
         <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
