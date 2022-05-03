@@ -4,7 +4,7 @@
 
 ## Documentation
 
-- System Requiremnts Specification ![Github](https://github.com/ThaboJChesane)
+- [System Requiremnts Specification](https://github.com/ThaboJChesane)
 
 
 ## Demo Vidoes
