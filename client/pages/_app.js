@@ -1,11 +1,20 @@
 import Layout from "../components/Layout";
 import "../styles/globals.css";
+import { useState } from "react";
 
 function MyApp({ Component, pageProps }) {
+  const [isUserLoggedIn] = useState(true);
+
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <>
+      {isUserLoggedIn ? (
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      ) : (
+        <h1 className="flex justify-center">Please login</h1>
+      )}
+    </>
   );
 }
 
