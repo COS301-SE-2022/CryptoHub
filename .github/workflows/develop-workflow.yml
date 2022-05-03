@@ -27,15 +27,19 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
+      working-directory: ./client
     - run: npm run build
+      working-directory: ./client
     - run: npm run export
+      working-directory: ./client
     - run: npm test
+      working-directory: ./client
     
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@v4.3.3
       with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: out # The folder the action should deploy.
+          folder: ./client/out # The folder the action should deploy.
     
     
     
