@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import NavigationSearchBar from "./NavigationSearchBar";
 import CreatePostButton from "./CreatePostButton";
+import NavigationProfile from "./NavigationProfile";
 
 const NavigationBar = () => {
   return (
@@ -11,7 +12,7 @@ const NavigationBar = () => {
         <NavigationSearchBar />
         <CreatePostButton />
       </div>
-      <div>profile</div>
+      <NavigationProfile />
     </nav>
   );
 };
