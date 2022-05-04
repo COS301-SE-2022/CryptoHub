@@ -1,0 +1,36 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "cypress": "cypress open",
+    "cypress:headless": "cypress run",
+    "e2e": "start-server-and-test start http://localhost:3000 cypress",
+    "e2e:headless": "start-server-and-test start http://localhost:3000 cypress:headless",
+    "test": "jest --watch",
+    "export": "next export"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.6.1",
+    "@heroicons/react": "^1.0.6",
+    "next": "12.1.5",
+    "react": "18.1.0",
+    "react-dom": "18.1.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.1.1",
+    "autoprefixer": "^10.4.7",
+    "cypress": "^9.6.0",
+    "eslint": "8.14.0",
+    "eslint-config-next": "12.1.5",
+    "jest": "^28.0.3",
+    "jest-environment-jsdom": "^28.0.2",
+    "postcss": "^8.4.13",
+    "tailwindcss": "^3.0.24"
+  }
+}
