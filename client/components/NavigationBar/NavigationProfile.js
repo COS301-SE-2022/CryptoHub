@@ -1,11 +1,14 @@
-import React, { Fragment } from "react";
-import {Menu, Transition } from "@headlessui/react";
+import React, { Fragment, useContext } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { userContext } from "../../auth/auth";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const NavigationProfile = () => {
+  const { logout } = useContext(userContext);
+
   return (
     <Menu as="div" className="ml-3 relative">
       <div>
@@ -31,15 +34,15 @@ const NavigationProfile = () => {
         <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
           <Menu.Item>
             {({ active }) => (
-              <a
-                href="#"
+              <button
+                onClick={logout}
                 className={classNames(
                   active ? "bg-gray-100" : "",
-                  "block px-4 py-2 text-sm text-gray-700"
+                  "block px-4 py-2 text-sm text-gray-700 w-full"
                 )}
               >
                 Sign out
-              </a>
+              </button>
             )}
           </Menu.Item>
         </Menu.Items>
