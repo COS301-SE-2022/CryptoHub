@@ -1,9 +1,11 @@
 import Layout from "../components/Layout";
+import LandingPage from "../components/LandingPage/LandingPage";
 import "../styles/globals.css";
 import { useState } from "react";
+import "../components/LandingPage/Carousel.css";
 
 function MyApp({ Component, pageProps }) {
-  const [isUserLoggedIn] = useState(true);
+  const [isUserLoggedIn] = useState(false);
 
   return (
     <>
@@ -12,7 +14,7 @@ function MyApp({ Component, pageProps }) {
           <Component {...pageProps} />
         </Layout>
       ) : (
-        <h1 className="flex justify-center">Please login</h1>
+        <LandingPage />
       )}
     </>
   );
