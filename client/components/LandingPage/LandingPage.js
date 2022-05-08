@@ -12,8 +12,23 @@ const LandingPage = () => {
           Explore the world of cryptocurrencies
         </p>
       </div>
-      <div className="w-8/12 rounded-md justify-center flex mt-16 p-6">
-        {/* <Carousel /> */}
+      <div className="w-8/12 rounded-md justify-center flex mt-8">
+        <div className="inline-flex rounded-md shadow">
+          <a
+            href="#"
+            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+          >
+            Create account
+          </a>
+        </div>
+        <div className="ml-3 inline-flex rounded-md shadow">
+          <a
+            href="#"
+            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50"
+          >
+            Log in
+          </a>
+        </div>
       </div>
     </div>
   );
