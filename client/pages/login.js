@@ -1,7 +1,11 @@
 import React from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { userContext } from "../auth/auth";
+import { useContext } from "react";
 
 export default function Login() {
+  const { login } = useContext(userContext);
+
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
