@@ -1,15 +1,18 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
+import { useRouter } from "next/router";
 
-export const userContext = createContext({ name: "", auth: true });
+export const userContext = createContext({ name: "", auth: false });
 
 const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({ name: "", auth: true });
+  const router = useRouter();
+  const [user, setUser] = useState({ name: "", auth: false });
 
   const login = (name) => {
     setUser((user) => ({
       name: name,
       auth: true,
     }));
+    router.push("/");
   };
 
   const logout = () => {
