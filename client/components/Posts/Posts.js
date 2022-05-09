@@ -12,6 +12,7 @@ const Posts = () => {
             content={data.content}
             likes={data.likes}
             comments={data.comments}
+            liked={data.liked}
           />
         );
       })}
