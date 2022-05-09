@@ -6,7 +6,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "heroku-postbuild": "npm run build",
     "lint": "next lint",
     "cypress": "cypress open",
     "cypress:headless": "cypress run",
