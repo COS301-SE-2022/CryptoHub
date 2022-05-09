@@ -6,7 +6,14 @@ const Posts = () => {
   return (
     <div className="w-5/12">
       {mockPosts.map((data, index) => {
-        return <Post name={data.username} content={data.content} />;
+        return (
+          <Post
+            name={data.username}
+            content={data.content}
+            likes={data.likes}
+            comments={data.comments}
+          />
+        );
       })}
     </div>
   );
