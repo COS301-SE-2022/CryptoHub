@@ -3,7 +3,7 @@ import Post from "./Post";
 
 const Posts = () => {
   return (
-    <div>
+    <div className="w-5/12">
       <Post />
       <Post />
       <Post />
