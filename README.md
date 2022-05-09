@@ -7,6 +7,11 @@ CryptoHub is an interactive and social application that allows a user to explore
 
 - [System Requiremnts Specification](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS))
 
+## Code quality 
+<!--Still need to add/edit badges-->
+[![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2021/Silicon-Scraper)](https://img.shields.io/github/issues/COS301-SE-2022/Silicon-Scraper?style=for-the-badge)
+[![GitHub issues-closed](https://img.shields.io/github/issues-closed/COS301-SE-2022/CryptoHub)](https://github.com/COS301-SE-2022/CryptoHub/issues?q=is%3Aissue+is%3Aclosed)
+[![GitHub pull-requests](https://img.shields.io/github/issues-pr/COS301-SE-2022/CryptoHub)](https://github.com/COS301-SE-2022/CryptoHub/pulls)
 
 ## Demo Vidoes
 
