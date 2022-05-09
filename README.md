@@ -3,6 +3,7 @@
 ## Description
 
 ## Documentation
+CryptoHub is an interactive and social application that allows a user to explore the world of crypto. Each user has the ability to share and explore investment recommendations, crypto stories as well as have insight into crypto coins and the current global crypto news.
 
 - [System Requiremnts Specification](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS))
 
