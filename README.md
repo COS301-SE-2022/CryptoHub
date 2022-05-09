@@ -17,6 +17,8 @@ CryptoHub is an interactive and social application that allows a user to explore
    <p>
       <img src="https://img.shields.io/badge/Spring-5CB652?style=for-the-badge&logo=spring&logoColor=white" >
    </p>
+<h4>Database:</h4>
+   <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" >
 
 ## Documentation
 
