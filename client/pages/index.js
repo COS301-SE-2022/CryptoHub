@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import LandingPage from "../components/LandingPage/LandingPage";
 import { userContext } from "../auth/auth";
 import Feed from "../components/Feed/Feed";
+import Head from "next/head";
 
 export default function Home({ Component, pageProps }) {
   const [isUserLoggedIn] = useState(false);
@@ -10,6 +11,9 @@ export default function Home({ Component, pageProps }) {
 
   return (
     <>
+      <Head>
+        <title>CryptoHub</title>
+      </Head>
       {user.auth ? (
         <Layout>
           <Feed />
