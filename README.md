@@ -1,7 +1,19 @@
 # CryptoHub
 
-## Description
+## Project Description
 CryptoHub is an interactive and social application that allows a user to explore the world of crypto. Each user has the ability to share and explore investment recommendations, crypto stories as well as have insight into crypto coins and the current global crypto news.
+
+## Technology Stack
+<h4>Frontend</h4>
+   <p>
+      <img src="https://img.shields.io/badge/Next-2C2C2C?style=for-the-badge&logo=nextdotjs&logoColor=white" >
+      <img src="https://img.shields.io/badge/React-1EB5CC?style=for-the-badge&logo=react&logoColor=white" >
+      <img src="https://img.shields.io/badge/Tailwind-525CB6?style=for-the-badge&logo=tailwindcss&logoColor=white" >
+   </p>
+<h4>Backend</h4>
+   <p>
+      <img src="https://img.shields.io/badge/Spring-5CB652?style=for-the-badge&logo=spring&logoColor=white" >
+   </p>
 
 ## Documentation
 
@@ -9,7 +21,7 @@ CryptoHub is an interactive and social application that allows a user to explore
 
 ## Code quality 
 <!--Still need to add/edit badges-->
-[![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2021/Silicon-Scraper)](https://img.shields.io/github/issues/COS301-SE-2022/Silicon-Scraper?style=for-the-badge)
+[![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2022/CryptoHub)](https://img.shields.io/github/issues/COS301-SE-2022/Silicon-Scraper?style=for-the-badge)
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/COS301-SE-2022/CryptoHub)](https://github.com/COS301-SE-2022/CryptoHub/issues?q=is%3Aissue+is%3Aclosed)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/COS301-SE-2022/CryptoHub)](https://github.com/COS301-SE-2022/CryptoHub/pulls)
 
