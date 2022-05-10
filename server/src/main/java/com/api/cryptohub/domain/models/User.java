@@ -21,11 +21,36 @@ public class User {
             generator = "users_sequence"
 
     )
+
+    @Column(
+            name = "userid",
+            updatable = false
+    )
     private Integer userId;
+    @Column(
+            name = "first_name",
+            updatable = true
+    )
     private String fistName;
+    @Column(
+            name = "last_name",
+            updatable = true
+    )
     private String lastName;
+    @Column(
+            name = "email",
+            updatable = true
+    )
     private String email;
+    @Column(
+            name = "password",
+            updatable = true
+    )
     private String password;
+    @Column(
+            name = "user_name",
+            updatable = true
+    )
     private String userName;
 
     public User() {
