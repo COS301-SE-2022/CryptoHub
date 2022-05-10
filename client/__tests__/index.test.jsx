@@ -3,14 +3,17 @@
 import { render, screen } from "@testing-library/react";
 import Home from "../pages/index";
 import "@testing-library/jest-dom";
+import Feed from "../components/Feed/Feed";
+import { userContext } from "../auth/auth";
+import Landing from "../components/LandingPage/LandingPage";
+import { Component } from "react";
 
-describe("Home", () => {
-  it("renders a heading", () => {
-    render(<Home />);
 
-    const heading = screen.getByRole("heading", {
-      name: /welcome to next\.js!/i,
-    });
+describe("Landing Page", () => {
+  it("renders the landing page", () => {
+    const Component = render(<Landing />);
+
+    const heading = screen.getByRole('link', { name: "Log in" });
 
     expect(heading).toBeInTheDocument();
   });
