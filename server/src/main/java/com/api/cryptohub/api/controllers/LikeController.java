@@ -2,20 +2,35 @@ package com.api.cryptohub.api.controllers;
 
 import com.api.cryptohub.domain.models.Like;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static com.api.cryptohub.mocks.LikeMock.likeMock;
 
 
 @RestController
 @RequestMapping(path="api/like")
 public class LikeController {
 
-    @GetMapping(path="getlikesforpost/{id}")
-    public ResponseEntity<Like> GetLikesForPost(@PathVariable("id") Integer id)
+    @PostMapping(path = "likepost")
+    public ResponseEntity<Like> likePost(@RequestBody Like like)
     {
-        return null;
+        var likedPost = likeMock
+                        .stream()
+                        .filter(l -> l.getUserId().equals(like.getUserId()) && l.getPostId().equals(like.getPostId()))
+                        .findAny()
+                        .orElse(null);
+
+        if(likedPost==null)
+        {
+            like.setLiked(true);
+            likeMock.add(like);
+        }
+        else
+            likedPost.setLiked(!likedPost.getLiked());
+
+        return ResponseEntity.ok().body(likedPost);
     }
 
 }
