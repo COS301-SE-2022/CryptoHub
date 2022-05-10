@@ -1,6 +1,6 @@
 import React from "react";
 import Post from "./Post";
-import { mockPosts } from "./MockUserPost";
+import { mockPosts } from "../../mocks/mockUserPost";
 
 const Posts = () => {
   return (
