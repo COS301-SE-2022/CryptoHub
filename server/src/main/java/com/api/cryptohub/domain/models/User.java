@@ -1,7 +1,14 @@
 package com.api.cryptohub.domain.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity(name = "User")
+@Table(name="users")
 public class User {
 
+    @Id
     private Integer userId;
     private String fistName;
     private String lastName;
