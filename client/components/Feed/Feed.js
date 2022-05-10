@@ -4,9 +4,9 @@ import InfoSection from "../InfoSection/InfoSection";
 
 const Feed = () => {
   return (
-    <div className="w-11/12 flex">
-      <Posts />
+    <div className="w-11/12 sm:flex">
       <InfoSection />
+      <Posts />
     </div>
   );
 };

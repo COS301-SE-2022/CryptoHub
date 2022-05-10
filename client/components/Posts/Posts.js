@@ -4,7 +4,7 @@ import { mockPosts } from "../../mocks/mockUserPost";
 
 const Posts = () => {
   return (
-    <div className="w-5/12">
+    <div className="sm:w-5/12">
       {mockPosts.map((data, index) => {
         return (
           <Post
