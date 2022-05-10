@@ -5,7 +5,14 @@ import javax.persistence.*;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity(name = "User")
-@Table(name="users")
+@Table(
+
+        name="users",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "users_email_unique",columnNames = "email"),
+                @UniqueConstraint(name = "users_username_unique",columnNames = "username")
+        }
+)
 public class User {
 
     @Id
@@ -29,27 +36,32 @@ public class User {
     private Integer userId;
     @Column(
             name = "first_name",
-            updatable = true
+            nullable = false,
+            columnDefinition = "TEXT"
     )
     private String fistName;
     @Column(
             name = "last_name",
-            updatable = true
+            nullable = false,
+            columnDefinition = "TEXT"
     )
     private String lastName;
     @Column(
             name = "email",
-            updatable = true
+            nullable = false,
+            columnDefinition = "TEXT"
     )
     private String email;
     @Column(
             name = "password",
-            updatable = true
+            nullable = false,
+            columnDefinition = "TEXT"
     )
     private String password;
     @Column(
-            name = "user_name",
-            updatable = true
+            name = "username",
+            nullable = false,
+            columnDefinition = "TEXT"
     )
     private String userName;
 
