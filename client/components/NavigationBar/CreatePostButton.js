@@ -7,7 +7,7 @@ const CreatePostButton = () => {
   return (
     <>
       <button
-        className="w-40 border px-1 p-1 rounded-md bg-indigo-600 text-white"
+        className=" mx-5 w-40 border px-1 p-1 rounded-md bg-indigo-600 text-white"
         type="button"
         onClick={() => setShowModal(true)}
       >
