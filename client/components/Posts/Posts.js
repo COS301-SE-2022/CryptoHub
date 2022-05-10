@@ -13,6 +13,7 @@ const Posts = () => {
             likes={data.likes}
             comments={data.comments}
             liked={data.liked}
+            image={data.image}
           />
         );
       })}
