@@ -3,7 +3,7 @@ import { mockCoinInfo } from "../../mocks/mockCoinInfo";
 
 const Carousel = () => {
   return (
-    <div className="flex flew-row justify-center flex-wrap">
+    <div className="flex flew-row sm:justify-center flex-wrap">
       {mockCoinInfo.map((data, index) => {
         return (
           <CoinInfo
