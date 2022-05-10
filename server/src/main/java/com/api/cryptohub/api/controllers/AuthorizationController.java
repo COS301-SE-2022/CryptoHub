@@ -49,9 +49,9 @@ public class AuthorizationController {
         return ResponseEntity.badRequest().body(new Response("registered"));
     }
 
-    public class Response
+    public static class Response
     {
-        private String response;
+        private final String response;
         public Response(String response)
         {
             this.response = response;
