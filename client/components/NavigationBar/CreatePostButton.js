@@ -7,18 +7,11 @@ const CreatePostButton = () => {
   return (
     <>
       <button
-        className="mx-1 sm:mx-5 justify-center flex sm:hidden w-40 border px-1 p-1 rounded-md bg-indigo-600 text-white"
+        className="mx-1 sm:mx-5 justify-center flex w-40 border px-1 p-1 rounded-md bg-indigo-600 text-white"
         type="button"
         onClick={() => setShowModal(true)}
       >
         Post
-      </button>
-      <button
-        className="hidden sm:flex mx-5 w-40 border px-1 p-1 rounded-md bg-indigo-600 text-white"
-        type="button"
-        onClick={() => setShowModal(true)}
-      >
-        Create Post
       </button>
       {showModal ? (
         <>
