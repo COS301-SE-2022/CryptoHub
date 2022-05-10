@@ -1,5 +1,8 @@
 package com.api.cryptohub.domain.models;
 
+import javax.persistence.Entity;
+
+
 public class User {
 
     private Integer userId;
