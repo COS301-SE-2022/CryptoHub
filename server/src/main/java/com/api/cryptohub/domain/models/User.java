@@ -2,6 +2,8 @@ package com.api.cryptohub.domain.models;
 
 import javax.persistence.*;
 
+import java.util.List;
+
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity(name = "User")
@@ -54,6 +56,10 @@ public class User {
     )
     private String userName;
 
+    @OneToMany
+    private List<User> following;
+
+
     public User() {
     }
 
@@ -79,7 +85,6 @@ public class User {
         this.password = password;
         this.userName = userName;
     }
-
 
     public Integer getUserId() {
         return userId;
@@ -127,5 +132,13 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public List<User> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<User> following) {
+        this.following = following;
     }
 }

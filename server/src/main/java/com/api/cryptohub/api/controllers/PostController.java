@@ -40,6 +40,7 @@ public class PostController {
 
     @PostMapping("createpost")
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
+
         User u = new User();
         u.setUserId(post.getUserid());
         post.setUser(u);
