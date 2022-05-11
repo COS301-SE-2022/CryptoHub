@@ -43,6 +43,11 @@ public class Post {
 )
     private String post;
 
+@ManyToOne(
+        cascade = CascadeType.ALL
+)
+private User user;
+
     public Post(Integer userId, Integer postId,String post) {
         this.userId = userId;
         this.postId = postId;
@@ -51,6 +56,14 @@ public class Post {
 
     public Post() {
 
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Integer getUserId() {
