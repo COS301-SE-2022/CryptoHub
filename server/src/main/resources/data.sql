@@ -13,4 +13,12 @@ VALUES (1, 'I like this coin'),
        (1, 'The is a reflection of the world state'),
        (2, 'we are in need of cryptos more than ever'),
        (2, 'How do i make money'),
-       (3, 'Awesome site')
+       (3, 'Awesome site');
+
+INSERT INTO users_following (user_userid, following_userid)
+VALUES (1, 2),
+       (1, 3),
+       (1, 4),
+       (1, 5),
+       (2, 1),
+       (3, 1);

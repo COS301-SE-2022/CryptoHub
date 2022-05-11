@@ -44,13 +44,26 @@ public class UserController {
 
     }
 
-    @GetMapping()
-    public ResponseEntity<List<User>> getFollowers(@PathVariable)
-    {
+    @GetMapping(path = "getfollowing/{id}")
+    public ResponseEntity<List<User>> getFollowing(@PathVariable("id") Integer id) {
+        User user = userRepository.getById(id);
+        if (user == null)
+            return ResponseEntity
+                    .badRequest()
+                    .body(null);
+
+        return ResponseEntity.ok().body(user.getFollowing());
 
     }
 
-    @PostMapping
+    @GetMapping(path = "getfollowers/{id}")
+    public ResponseEntity<List<User>> getFollowers(@PathVariable("id") Integer id) {
+
+        return ResponseEntity.ok().body(userRepository.getUserFollowers(id));
+
+    }
+
+    @PostMapping(path = "follow")
     public ResponseEntity<String> followUser(@RequestBody FollowDTO followDTO) {
 
         if (followDTO.getFollowerId().equals(followDTO.getUserId()))
@@ -81,13 +94,11 @@ public class UserController {
 
     }
 
-    public class FollowDTO {
+    public static class FollowDTO {
         private Integer userId;
         private Integer followerId;
 
-        public FollowDTO(Integer userId, Integer followerId) {
-            this.userId = userId;
-            this.followerId = followerId;
+        public FollowDTO() {
         }
 
         public Integer getUserId() {
