@@ -829,34 +829,13 @@ false Zulu
       <ObjectId>16976</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
-    <role id="7" parent="1" name="pg_execute_server_program">
-      <ObjectId>4571</ObjectId>
-    </role>
-    <role id="8" parent="1" name="pg_monitor">
-      <ObjectId>3373</ObjectId>
-      <RoleGrants>3374
-3375
-3377</RoleGrants>
-    </role>
-    <role id="9" parent="1" name="pg_read_all_settings">
-      <ObjectId>3374</ObjectId>
-    </role>
-    <role id="10" parent="1" name="pg_read_all_stats">
-      <ObjectId>3375</ObjectId>
-    </role>
-    <role id="11" parent="1" name="pg_read_server_files">
-      <ObjectId>4569</ObjectId>
-    </role>
-    <role id="12" parent="1" name="pg_signal_backend">
+    <role id="7" parent="1" name="pg_signal_backend">
       <ObjectId>4200</ObjectId>
     </role>
-    <role id="13" parent="1" name="pg_stat_scan_tables">
-      <ObjectId>3377</ObjectId>
+    <role id="8" parent="1" name="pg_read_server_files">
+      <ObjectId>4569</ObjectId>
     </role>
-    <role id="14" parent="1" name="pg_write_server_files">
-      <ObjectId>4570</ObjectId>
-    </role>
-    <role id="15" parent="1" name="postgres">
+    <role id="9" parent="1" name="postgres">
       <BypassRls>1</BypassRls>
       <CanLogin>1</CanLogin>
       <CreateDb>1</CreateDb>
@@ -864,6 +843,27 @@ false Zulu
       <ObjectId>10</ObjectId>
       <Replication>1</Replication>
       <SuperRole>1</SuperRole>
+    </role>
+    <role id="10" parent="1" name="pg_write_server_files">
+      <ObjectId>4570</ObjectId>
+    </role>
+    <role id="11" parent="1" name="pg_execute_server_program">
+      <ObjectId>4571</ObjectId>
+    </role>
+    <role id="12" parent="1" name="pg_read_all_stats">
+      <ObjectId>3375</ObjectId>
+    </role>
+    <role id="13" parent="1" name="pg_monitor">
+      <ObjectId>3373</ObjectId>
+      <RoleGrants>3374
+3375
+3377</RoleGrants>
+    </role>
+    <role id="14" parent="1" name="pg_read_all_settings">
+      <ObjectId>3374</ObjectId>
+    </role>
+    <role id="15" parent="1" name="pg_stat_scan_tables">
+      <ObjectId>3377</ObjectId>
     </role>
     <tablespace id="16" parent="1" name="pg_default">
       <ObjectId>1663</ObjectId>
@@ -4152,5 +4152,108 @@ false Zulu
       <StateNumber>287</StateNumber>
       <OwnerName>postgres</OwnerName>
     </schema>
+    <sequence id="257" parent="256" name="users_sequence">
+      <DataType>bigint|0s</DataType>
+      <ObjectId>17026</ObjectId>
+      <StateNumber>552</StateNumber>
+      <OwnerName>postgres</OwnerName>
+    </sequence>
+    <table id="258" parent="256" name="users">
+      <ObjectId>17028</ObjectId>
+      <StateNumber>553</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <column id="259" parent="258" name="userid">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>553</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="260" parent="258" name="email">
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>553</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="261" parent="258" name="first_name">
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>553</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="262" parent="258" name="last_name">
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>553</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="263" parent="258" name="password">
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>553</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="264" parent="258" name="username">
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+      <StateNumber>553</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <index id="265" parent="258" name="users_pkey">
+      <ColNames>userid</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17034</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>553</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="266" parent="258" name="users_email_unique">
+      <ColNames>email</ColNames>
+      <ObjectId>17036</ObjectId>
+      <StateNumber>554</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationNames>default</CollationNames>
+      <CollationIds>100</CollationIds>
+      <CollationParentNames>pg_catalog</CollationParentNames>
+    </index>
+    <index id="267" parent="258" name="users_username_unique">
+      <ColNames>username</ColNames>
+      <ObjectId>17038</ObjectId>
+      <StateNumber>555</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationNames>default</CollationNames>
+      <CollationIds>100</CollationIds>
+      <CollationParentNames>pg_catalog</CollationParentNames>
+    </index>
+    <key id="268" parent="258" name="users_pkey">
+      <ColNames>userid</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17035</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>553</StateNumber>
+      <UnderlyingIndexId>17034</UnderlyingIndexId>
+    </key>
+    <key id="269" parent="258" name="users_email_unique">
+      <ColNames>email</ColNames>
+      <ObjectId>17037</ObjectId>
+      <StateNumber>554</StateNumber>
+      <UnderlyingIndexId>17036</UnderlyingIndexId>
+    </key>
+    <key id="270" parent="258" name="users_username_unique">
+      <ColNames>username</ColNames>
+      <ObjectId>17039</ObjectId>
+      <StateNumber>555</StateNumber>
+      <UnderlyingIndexId>17038</UnderlyingIndexId>
+    </key>
   </database-model>
 </dataSource>

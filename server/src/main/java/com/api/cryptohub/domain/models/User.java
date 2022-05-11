@@ -68,6 +68,14 @@ public class User {
     public User() {
     }
 
+    public User(String fistName, String lastName, String email, String password, String userName) {
+        this.fistName = fistName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.userName = userName;
+    }
+
     public User(
             Integer userId,
             String fistName,
@@ -82,6 +90,8 @@ public class User {
         this.password = password;
         this.userName = userName;
     }
+
+
 
     public Integer getUserId() {
         return userId;
