@@ -10,6 +10,5 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Query("select u from User u where u.following in :userid")
-    List<User> getUserFollowers(Integer userid);
+
 }

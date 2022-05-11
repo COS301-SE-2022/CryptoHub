@@ -810,11 +810,13 @@ false Zulu
 13158||10|U|G</Grants>
       <IntrospectionStateNumber>538</IntrospectionStateNumber>
       <ObjectId>16997</ObjectId>
-      <Relations>sequence|table|18459|18463|1
-sequence|table|18461|18463|3
-sequence|table|18473|18475|1
-sequence|table|18484|18488|1
-sequence|table|18486|18488|2
+      <Relations>sequence|table|19054|19058|1
+sequence|table|19056|19058|3
+sequence|table|19068|19070|1
+sequence|table|19079|19083|1
+sequence|table|19081|19083|2
+sequence|table|19088|19092|1
+sequence|table|19090|19092|2
 </Relations>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4160,232 +4162,310 @@ sequence|table|18486|18488|2
     </schema>
     <sequence id="257" parent="256" name="posts_postid_seq">
       <DataType>integer|0s</DataType>
-      <ObjectId>18459</ObjectId>
-      <StateNumber>1173</StateNumber>
+      <ObjectId>19054</ObjectId>
+      <StateNumber>1373</StateNumber>
       <OwnerName>postgres</OwnerName>
     </sequence>
     <sequence id="258" parent="256" name="posts_user_id_seq">
       <DataType>integer|0s</DataType>
-      <ObjectId>18461</ObjectId>
-      <StateNumber>1173</StateNumber>
+      <ObjectId>19056</ObjectId>
+      <StateNumber>1373</StateNumber>
       <OwnerName>postgres</OwnerName>
     </sequence>
-    <sequence id="259" parent="256" name="users_following_following_userid_seq">
+    <sequence id="259" parent="256" name="users_followers_followers_userid_seq">
       <DataType>integer|0s</DataType>
-      <ObjectId>18486</ObjectId>
-      <StateNumber>1175</StateNumber>
+      <ObjectId>19081</ObjectId>
+      <StateNumber>1375</StateNumber>
       <OwnerName>postgres</OwnerName>
     </sequence>
-    <sequence id="260" parent="256" name="users_following_user_userid_seq">
+    <sequence id="260" parent="256" name="users_followers_user_userid_seq">
       <DataType>integer|0s</DataType>
-      <ObjectId>18484</ObjectId>
-      <StateNumber>1175</StateNumber>
+      <ObjectId>19079</ObjectId>
+      <StateNumber>1375</StateNumber>
       <OwnerName>postgres</OwnerName>
     </sequence>
-    <sequence id="261" parent="256" name="users_userid_seq">
+    <sequence id="261" parent="256" name="users_following_following_userid_seq">
       <DataType>integer|0s</DataType>
-      <ObjectId>18473</ObjectId>
-      <StateNumber>1174</StateNumber>
+      <ObjectId>19090</ObjectId>
+      <StateNumber>1376</StateNumber>
       <OwnerName>postgres</OwnerName>
     </sequence>
-    <table id="262" parent="256" name="posts">
-      <ObjectId>18463</ObjectId>
-      <StateNumber>1178</StateNumber>
+    <sequence id="262" parent="256" name="users_following_user_userid_seq">
+      <DataType>integer|0s</DataType>
+      <ObjectId>19088</ObjectId>
+      <StateNumber>1376</StateNumber>
+      <OwnerName>postgres</OwnerName>
+    </sequence>
+    <sequence id="263" parent="256" name="users_userid_seq">
+      <DataType>integer|0s</DataType>
+      <ObjectId>19068</ObjectId>
+      <StateNumber>1374</StateNumber>
+      <OwnerName>postgres</OwnerName>
+    </sequence>
+    <table id="264" parent="256" name="posts">
+      <ObjectId>19058</ObjectId>
+      <StateNumber>1381</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <table id="263" parent="256" name="users">
-      <ObjectId>18475</ObjectId>
-      <StateNumber>1178</StateNumber>
+    <table id="265" parent="256" name="users">
+      <ObjectId>19070</ObjectId>
+      <StateNumber>1381</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <table id="264" parent="256" name="users_following">
-      <ObjectId>18488</ObjectId>
-      <StateNumber>1179</StateNumber>
+    <table id="266" parent="256" name="users_followers">
+      <ObjectId>19083</ObjectId>
+      <StateNumber>1382</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <column id="265" parent="262" name="postid">
+    <table id="267" parent="256" name="users_following">
+      <ObjectId>19092</ObjectId>
+      <StateNumber>1384</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <column id="268" parent="264" name="postid">
       <DataType>integer|0s</DataType>
       <DefaultExpression>nextval(&apos;posts_postid_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>1173</StateNumber>
+      <StateNumber>1373</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="266" parent="262" name="post">
+    <column id="269" parent="264" name="post">
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
-      <StateNumber>1173</StateNumber>
+      <StateNumber>1373</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="267" parent="262" name="user_id">
+    <column id="270" parent="264" name="user_id">
       <DataType>integer|0s</DataType>
       <DefaultExpression>nextval(&apos;posts_user_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>3</Position>
-      <StateNumber>1173</StateNumber>
+      <StateNumber>1373</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="268" parent="262" name="fk5lidm6cqbc7u4xhqpxm898qme">
+    <foreign-key id="271" parent="264" name="fk5lidm6cqbc7u4xhqpxm898qme">
       <ColNames>user_id</ColNames>
-      <ObjectId>18497</ObjectId>
+      <ObjectId>19105</ObjectId>
       <RefColNames>userid</RefColNames>
       <RefColPositions>1</RefColPositions>
       <RefKeyName>users_pkey</RefKeyName>
-      <StateNumber>1178</StateNumber>
-      <RefTableId>18475</RefTableId>
+      <StateNumber>1381</StateNumber>
+      <RefTableId>19070</RefTableId>
       <RefTableName>users</RefTableName>
       <RefTableKind>table</RefTableKind>
     </foreign-key>
-    <index id="269" parent="262" name="posts_pkey">
+    <index id="272" parent="264" name="posts_pkey">
       <ColNames>postid</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>18471</ObjectId>
+      <ObjectId>19066</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1173</StateNumber>
+      <StateNumber>1373</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="270" parent="262" name="posts_pkey">
+    <key id="273" parent="264" name="posts_pkey">
       <ColNames>postid</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>18472</ObjectId>
+      <ObjectId>19067</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1173</StateNumber>
-      <UnderlyingIndexId>18471</UnderlyingIndexId>
+      <StateNumber>1373</StateNumber>
+      <UnderlyingIndexId>19066</UnderlyingIndexId>
     </key>
-    <column id="271" parent="263" name="userid">
+    <column id="274" parent="265" name="userid">
       <DataType>integer|0s</DataType>
       <DefaultExpression>nextval(&apos;users_userid_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>1174</StateNumber>
+      <StateNumber>1374</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="272" parent="263" name="email">
+    <column id="275" parent="265" name="email">
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
-      <StateNumber>1174</StateNumber>
+      <StateNumber>1374</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="273" parent="263" name="first_name">
+    <column id="276" parent="265" name="first_name">
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
-      <StateNumber>1174</StateNumber>
+      <StateNumber>1374</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="274" parent="263" name="last_name">
+    <column id="277" parent="265" name="last_name">
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
-      <StateNumber>1174</StateNumber>
+      <StateNumber>1374</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="275" parent="263" name="password">
+    <column id="278" parent="265" name="password">
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
-      <StateNumber>1174</StateNumber>
+      <StateNumber>1374</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="276" parent="263" name="username">
+    <column id="279" parent="265" name="username">
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <Position>6</Position>
-      <StateNumber>1174</StateNumber>
+      <StateNumber>1374</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <index id="277" parent="263" name="users_pkey">
+    <index id="280" parent="265" name="users_pkey">
       <ColNames>userid</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>18482</ObjectId>
+      <ObjectId>19077</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1174</StateNumber>
+      <StateNumber>1374</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="278" parent="263" name="users_email_unique">
+    <index id="281" parent="265" name="users_email_unique">
       <ColNames>email</ColNames>
-      <ObjectId>18493</ObjectId>
-      <StateNumber>1176</StateNumber>
+      <ObjectId>19097</ObjectId>
+      <StateNumber>1377</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
       <CollationNames>default</CollationNames>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <index id="279" parent="263" name="users_username_unique">
+    <index id="282" parent="265" name="users_username_unique">
       <ColNames>username</ColNames>
-      <ObjectId>18495</ObjectId>
-      <StateNumber>1177</StateNumber>
+      <ObjectId>19099</ObjectId>
+      <StateNumber>1378</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
       <CollationNames>default</CollationNames>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="280" parent="263" name="users_pkey">
+    <key id="283" parent="265" name="users_pkey">
       <ColNames>userid</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>18483</ObjectId>
+      <ObjectId>19078</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1174</StateNumber>
-      <UnderlyingIndexId>18482</UnderlyingIndexId>
+      <StateNumber>1374</StateNumber>
+      <UnderlyingIndexId>19077</UnderlyingIndexId>
     </key>
-    <key id="281" parent="263" name="users_email_unique">
+    <key id="284" parent="265" name="users_email_unique">
       <ColNames>email</ColNames>
-      <ObjectId>18494</ObjectId>
-      <StateNumber>1176</StateNumber>
-      <UnderlyingIndexId>18493</UnderlyingIndexId>
+      <ObjectId>19098</ObjectId>
+      <StateNumber>1377</StateNumber>
+      <UnderlyingIndexId>19097</UnderlyingIndexId>
     </key>
-    <key id="282" parent="263" name="users_username_unique">
+    <key id="285" parent="265" name="users_username_unique">
       <ColNames>username</ColNames>
-      <ObjectId>18496</ObjectId>
-      <StateNumber>1177</StateNumber>
-      <UnderlyingIndexId>18495</UnderlyingIndexId>
+      <ObjectId>19100</ObjectId>
+      <StateNumber>1378</StateNumber>
+      <UnderlyingIndexId>19099</UnderlyingIndexId>
     </key>
-    <column id="283" parent="264" name="user_userid">
+    <column id="286" parent="266" name="user_userid">
+      <DataType>integer|0s</DataType>
+      <DefaultExpression>nextval(&apos;users_followers_user_userid_seq&apos;::regclass)</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1375</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="287" parent="266" name="followers_userid">
+      <DataType>integer|0s</DataType>
+      <DefaultExpression>nextval(&apos;users_followers_followers_userid_seq&apos;::regclass)</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1375</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="288" parent="266" name="fkeuuc1080yboj5j9xmlkwynghl">
+      <ColNames>user_userid</ColNames>
+      <ObjectId>19115</ObjectId>
+      <RefColNames>userid</RefColNames>
+      <RefColPositions>1</RefColPositions>
+      <StateNumber>1383</StateNumber>
+      <RefTableId>19070</RefTableId>
+      <RefTableName>users</RefTableName>
+      <RefTableKind>table</RefTableKind>
+    </foreign-key>
+    <foreign-key id="289" parent="266" name="fkc61ge0ej7wtyoib154nsnvl7f">
+      <ColNames>followers_userid</ColNames>
+      <ObjectId>19110</ObjectId>
+      <RefColNames>userid</RefColNames>
+      <RefColPositions>1</RefColPositions>
+      <StateNumber>1382</StateNumber>
+      <RefTableId>19070</RefTableId>
+      <RefTableName>users</RefTableName>
+      <RefTableKind>table</RefTableKind>
+    </foreign-key>
+    <index id="290" parent="266" name="uk_77xqgbegrmm25jorwawn7rt2q">
+      <ColNames>followers_userid</ColNames>
+      <ObjectId>19101</ObjectId>
+      <StateNumber>1379</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="291" parent="266" name="uk_77xqgbegrmm25jorwawn7rt2q">
+      <ColNames>followers_userid</ColNames>
+      <ObjectId>19102</ObjectId>
+      <StateNumber>1379</StateNumber>
+      <UnderlyingIndexId>19101</UnderlyingIndexId>
+    </key>
+    <column id="292" parent="267" name="user_userid">
       <DataType>integer|0s</DataType>
       <DefaultExpression>nextval(&apos;users_following_user_userid_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>1175</StateNumber>
+      <StateNumber>1376</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="284" parent="264" name="following_userid">
+    <column id="293" parent="267" name="following_userid">
       <DataType>integer|0s</DataType>
       <DefaultExpression>nextval(&apos;users_following_following_userid_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>2</Position>
-      <StateNumber>1175</StateNumber>
+      <StateNumber>1376</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="285" parent="264" name="fk6n6qruwo2xptoeysgsmp6d1m5">
+    <foreign-key id="294" parent="267" name="fk6n6qruwo2xptoeysgsmp6d1m5">
       <ColNames>user_userid</ColNames>
-      <ObjectId>18507</ObjectId>
+      <ObjectId>19125</ObjectId>
       <RefColNames>userid</RefColNames>
       <RefColPositions>1</RefColPositions>
-      <RefKeyName>users_pkey</RefKeyName>
-      <StateNumber>1180</StateNumber>
-      <RefTableId>18475</RefTableId>
+      <StateNumber>1385</StateNumber>
+      <RefTableId>19070</RefTableId>
       <RefTableName>users</RefTableName>
       <RefTableKind>table</RefTableKind>
     </foreign-key>
-    <foreign-key id="286" parent="264" name="fk2atvd3v0emd4dqvwe7e7n7qj8">
+    <foreign-key id="295" parent="267" name="fk2atvd3v0emd4dqvwe7e7n7qj8">
       <ColNames>following_userid</ColNames>
-      <ObjectId>18502</ObjectId>
+      <ObjectId>19120</ObjectId>
       <RefColNames>userid</RefColNames>
       <RefColPositions>1</RefColPositions>
-      <RefKeyName>users_pkey</RefKeyName>
-      <StateNumber>1179</StateNumber>
-      <RefTableId>18475</RefTableId>
+      <StateNumber>1384</StateNumber>
+      <RefTableId>19070</RefTableId>
       <RefTableName>users</RefTableName>
       <RefTableKind>table</RefTableKind>
     </foreign-key>
+    <index id="296" parent="267" name="uk_iwbcn5twjsgic9iqq5dmdidkq">
+      <ColNames>following_userid</ColNames>
+      <ObjectId>19103</ObjectId>
+      <StateNumber>1380</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="297" parent="267" name="uk_iwbcn5twjsgic9iqq5dmdidkq">
+      <ColNames>following_userid</ColNames>
+      <ObjectId>19104</ObjectId>
+      <StateNumber>1380</StateNumber>
+      <UnderlyingIndexId>19103</UnderlyingIndexId>
+    </key>
   </database-model>
 </dataSource>

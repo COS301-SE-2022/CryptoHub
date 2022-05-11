@@ -8,8 +8,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/api/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/api/controllers/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/businesslogic/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/businesslogic/repositories/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/domain/models/FollowMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/domain/models/FollowMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/domain/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/domain/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/mocks/FollowMapMock.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/mocks/FollowMapMock.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +105,7 @@
       <option name="presentableId" value="Default" />
       <updated>1652256961396</updated>
       <workItem from="1652256964051" duration="203000" />
-      <workItem from="1652257187580" duration="20795000" />
+      <workItem from="1652257187580" duration="24395000" />
     </task>
     <servers />
   </component>

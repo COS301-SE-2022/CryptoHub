@@ -1,5 +1,7 @@
 package com.api.cryptohub.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -57,7 +59,10 @@ public class User {
     )
     private String userName;
 
-    @ManyToMany
+    @OneToMany()
+    private List<User> followers = new ArrayList<>();
+
+    @OneToMany()
     private List<User> following = new ArrayList<>();
 
 
@@ -137,5 +142,17 @@ public class User {
 
     public List<User> getFollowing() {
         return following;
+    }
+
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
+
+    public void setFollowing(List<User> following) {
+        this.following = following;
     }
 }
