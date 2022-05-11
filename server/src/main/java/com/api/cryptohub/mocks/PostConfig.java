@@ -1,3 +1,4 @@
+/*
 package com.api.cryptohub.mocks;
 
 import com.api.cryptohub.businesslogic.repositories.PostRepository;
@@ -67,3 +68,4 @@ public class PostConfig {
         };
     }
 }
+*/

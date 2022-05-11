@@ -1,3 +1,4 @@
+/*
 package com.api.cryptohub.mocks;
 
 import com.api.cryptohub.businesslogic.repositories.UserRepository;
@@ -37,3 +38,4 @@ public class UserConfig {
         };
     }
 }
+*/
