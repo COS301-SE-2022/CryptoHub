@@ -34,6 +34,8 @@ export default function Signup() {
         console.warn(data);
         if (data.authorized) {
           authorise();
+        } else {
+          setError(true);
         }
       })
       .catch((error) => {
