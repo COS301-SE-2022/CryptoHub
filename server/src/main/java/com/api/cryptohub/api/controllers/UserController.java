@@ -32,10 +32,8 @@ public class UserController {
 
     @GetMapping(path = "{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
-        User user = userMock.stream()
-                .filter(u -> id.equals(u.getUserId()))
-                .findAny()
-                .orElse(null);
+
+        User user = userRepository.getById(id);
 
         if (user == null)
             return ResponseEntity
@@ -46,17 +44,41 @@ public class UserController {
 
     }
 
+    @GetMapping()
+    public ResponseEntity<List<User>> getFollowers(@PathVariable)
+    {
+
+    }
+
     @PostMapping
-    public ResponseEntity<String> followUser() {
-        User user = userMock.stream()
-                .filter(u -> id.equals(u.getUserId()))
-                .findAny()
-                .orElse(null);
+    public ResponseEntity<String> followUser(@RequestBody FollowDTO followDTO) {
+
+        if (followDTO.getFollowerId().equals(followDTO.getUserId()))
+            return ResponseEntity
+                    .badRequest()
+                    .body("cannot follow self");
+
+        User user = userRepository.getById(followDTO.getUserId());
+        User follow = userRepository.getById(followDTO.getFollowerId());
 
         if (user == null)
             return ResponseEntity
                     .badRequest()
-                    .body(null);
+                    .body("user not found");
+
+
+        if (follow == null)
+            return ResponseEntity
+                    .badRequest()
+                    .body("target not found");
+
+        user.getFollowing().add(follow);
+
+        return ResponseEntity
+                .ok()
+                .body("following " + follow.getUserName());
+
+
     }
 
     public class FollowDTO {

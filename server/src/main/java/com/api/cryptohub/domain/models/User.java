@@ -2,6 +2,7 @@ package com.api.cryptohub.domain.models;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -57,7 +58,7 @@ public class User {
     private String userName;
 
     @OneToMany
-    private List<User> following;
+    private List<User> following = new ArrayList<>();
 
 
     public User() {
@@ -136,9 +137,5 @@ public class User {
 
     public List<User> getFollowing() {
         return following;
-    }
-
-    public void setFollowing(List<User> following) {
-        this.following = following;
     }
 }
