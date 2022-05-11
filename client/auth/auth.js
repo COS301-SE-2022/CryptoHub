@@ -12,15 +12,6 @@ const UserProvider = ({ children }) => {
     return formattedName;
   };
 
-  const login = (name) => {
-    setUser((user) => ({
-      name: formatEmail(name),
-      email: name,
-      auth: true,
-    }));
-    router.push("/");
-  };
-
   const logout = () => {
     setUser({
       auth: false,
@@ -33,7 +24,7 @@ const UserProvider = ({ children }) => {
   };
 
   return (
-    <userContext.Provider value={{ user, login, logout, authorise }}>
+    <userContext.Provider value={{ user, logout, authorise }}>
       {children}
     </userContext.Provider>
   );
