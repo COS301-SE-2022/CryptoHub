@@ -24,7 +24,8 @@ export default function Login() {
     };
 
     // fetch("https:localhost:3000/login", options)
-    fetch("https://627bcb89b54fe6ee008f5488.mockapi.io/login", options)
+    // fetch("https://627bcb89b54fe6ee008f5488.mockapi.io/login", options)
+    fetch("http://localhost:8082/api/authorization/login", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
