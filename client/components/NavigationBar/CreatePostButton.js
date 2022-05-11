@@ -1,8 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { XIcon } from "@heroicons/react/outline";
+import { userContext } from "../../auth/auth";
+
 
 const CreatePostButton = () => {
+  const { user } = useContext(userContext)
   const [showModal, setShowModal] = useState(false);
+  const [post, setPost] = useState("")
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleCreatePost = (e) => {
+    e.preventDefault()
+
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userid: user.id,
+        post: post,
+      }),
+    };
+
+    fetch("http://localhost:8082/api/post/createpost", options)
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+        console.warn(data);
+        if (data.userId == user.id) {
+          console.warn("Posted");
+        } else {
+          setError(true);
+        }
+      })
+      .catch((error) => {
+        console.warn("Error", error);
+        setError(true);
+        setLoading(false);
+      });
+
+  }
 
   return (
     <>
@@ -29,7 +66,7 @@ const CreatePostButton = () => {
                   </button>
                 </div>
                 <div className="relative flex-auto">
-                  <form action="#" method="POST">
+                  <form method="POST" onSubmit={handleCreatePost}>
                     <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                       <div>
                         <div className="mt-1">
@@ -40,19 +77,23 @@ const CreatePostButton = () => {
                             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
                             placeholder="Share your crypto thoughts"
                             defaultValue={""}
+                            onChange={(e) => {
+                              setPost(e.target.value);
+                            }}
                           />
                         </div>
                       </div>
                     </div>
-                  </form>
-                </div>
-                <div className="flex items-center justify-end p-6 border-solid border-slate-200 rounded-b">
-                  <button
+                    <button
                     type="submit"
                     className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Share
                   </button>
+                  </form>
+                </div>
+                <div className="flex items-center justify-end p-6 border-solid border-slate-200 rounded-b">
+                  
                 </div>
               </div>
             </div>
