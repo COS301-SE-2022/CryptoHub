@@ -1,3 +1,7 @@
+import imageOne from "../public/images/post-image-1.png";
+import imageTwo from "../public/images/post-image-2.png";
+import imageThree from "../public/images/post-image-3.png";
+
 export const mockPosts = [
   {
     username: "Casparus",
@@ -6,6 +10,7 @@ export const mockPosts = [
     likes: 45,
     comments: 12,
     liked: false,
+    image: imageOne,
   },
   {
     username: "Elon Musk",
@@ -14,6 +19,7 @@ export const mockPosts = [
     likes: 12,
     comments: 2,
     liked: true,
+    image: "",
   },
   {
     username: "Daniel",
@@ -22,6 +28,7 @@ export const mockPosts = [
     likes: 67,
     comments: 9,
     liked: false,
+    image: imageTwo,
   },
   {
     username: "Thabo",
@@ -29,6 +36,7 @@ export const mockPosts = [
       "Binance coin’s price decreased by 3.13% to $347 in the last 24 hours. In the last 7 days, BNB price has shrunk by 11.05%. It is currently ranked as fourth biggest crypto asset in terms of market capitalisation.",
     likes: 420,
     comments: 69,
+    image: "",
   },
   {
     username: "Khotso",
@@ -36,6 +44,7 @@ export const mockPosts = [
     likes: 1,
     comments: 4,
     liked: false,
+    image: "",
   },
   {
     username: "Sino",
@@ -44,5 +53,6 @@ export const mockPosts = [
     likes: 89,
     comments: 5,
     liked: true,
+    image: imageThree,
   },
 ];

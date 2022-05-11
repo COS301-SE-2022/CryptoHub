@@ -7,6 +7,7 @@ const Carousel = () => {
       {mockCoinInfo.map((data, index) => {
         return (
           <CoinInfo
+            key={index}
             name={data.name}
             price={data.price}
             difference={data.difference}

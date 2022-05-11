@@ -5,7 +5,7 @@ import Suggestions from "./Suggestions";
 
 const InfoSection = () => {
   return (
-    <div className="bg-white sm:w-6/12 m-4 p-4 rounded-lg sm:fixed right-10">
+    <div className="bg-white sm:w-6/12 m-4 p-4 rounded-lg sm:fixed right-10 overflow-auto max-h-[40rem]">
       <Carousel />
       <News />
       <Suggestions />
