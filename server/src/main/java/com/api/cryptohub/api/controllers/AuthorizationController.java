@@ -26,12 +26,12 @@ public class AuthorizationController {
         var loginUser = userRepository.getUserByEmail(user.getEmail());
 
         if(loginUser == null)
-            return ResponseEntity.badRequest().body(new Response("incorrect username or password",false ));
+            return ResponseEntity.badRequest().body(new Response("incorrect username or password",false,-1 ));
 
         if(!loginUser.getPassword().equals(user.getPassword()))
-            return ResponseEntity.badRequest().body(new Response("incorrect username or password",false));
+            return ResponseEntity.badRequest().body(new Response("incorrect username or password",false,-1));
 
-        return ResponseEntity.ok().body(new Response("logged in",true));
+        return ResponseEntity.ok().body(new Response("logged in",true,loginUser.getUserId()));
     }
 
     @PostMapping("register")
@@ -40,27 +40,34 @@ public class AuthorizationController {
         var registerUser = userRepository.getUserByEmail(user.getEmail());
 
         if(registerUser != null)
-            return ResponseEntity.badRequest().body(new Response("user already exists",false));
+            return ResponseEntity.badRequest().body(new Response("user already exists",false,-1));
 
         userRepository.save(user);
 
-        return ResponseEntity.badRequest().body(new Response("registered",true));
+        return ResponseEntity.badRequest().body(new Response("registered",true,user.getUserId()));
     }
 
     public static class Response
     {
         private final String response;
         private final Boolean authorized;
-        public Response(String response, Boolean authtorized)
+
+        private final Integer userId;
+        public Response(String response, Boolean authtorized,Integer userId)
         {
             this.response = response;
             this.authorized = authtorized;
+            this.userId  = userId;
         }
 
         public String getResponse() {
             return response;
         }
         public Boolean getAuthorized(){return authorized;}
+
+        public Integer getUserId() {
+            return userId;
+        }
     }
 
 

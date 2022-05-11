@@ -1,25 +1,22 @@
 import { createContext, useState } from "react";
 import { useRouter } from "next/router";
 
-export const userContext = createContext({ auth: false });
+export const userContext = createContext({ auth: false, id: 0 });
 
 const UserProvider = ({ children }) => {
   const router = useRouter();
-  const [user, setUser] = useState({ auth: false });
-
-  const formatEmail = (email) => {
-    let formattedName = email.split("@")[0];
-    return formattedName;
-  };
+  const [user, setUser] = useState({ auth: false, id: 0 });
 
   const logout = () => {
     setUser({
       auth: false,
+      id: 0
     });
   };
 
-  const authorise = () => {
-    setUser({ auth: true });
+  const authorise = (id) => {
+    setUser({ auth: true, id: id });
+    console.warn("User id: ", id)
     router.push("/");
   };
 

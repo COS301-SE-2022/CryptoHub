@@ -36,7 +36,7 @@ export default function Signup() {
         setLoading(false);
         console.warn(data);
         if (data.authorized) {
-          authorise();
+          authorise(data.userId);
         } else {
           setError(true);
         }
