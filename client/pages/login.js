@@ -31,7 +31,7 @@ export default function Login() {
         setLoading(false);
         console.warn(data);
         if (data.authorized) {
-          authorise(data.userId);
+          authorise(data.username, data.userId);
         } else {
           setError(true);
         }

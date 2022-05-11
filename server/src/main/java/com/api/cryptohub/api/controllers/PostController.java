@@ -44,6 +44,7 @@ public class PostController {
 
         User u = new User();
         u.setUserId(post.getUserid());
+
         post.setUser(u);
 
         postRepository.save(post);
