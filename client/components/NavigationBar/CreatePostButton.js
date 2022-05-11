@@ -4,7 +4,7 @@ import { userContext } from "../../auth/auth";
 
 
 const CreatePostButton = () => {
-  const { user } = useContext(userContext)
+  const { user, refreshfeed } = useContext(userContext)
   const [showModal, setShowModal] = useState(false);
   const [post, setPost] = useState("")
   const [error, setError] = useState(false);
@@ -27,8 +27,11 @@ const CreatePostButton = () => {
       .then((data) => {
         setLoading(false);
         console.warn(data);
+        setShowModal(false)
+        refreshfeed()
         if (data.userId == user.id) {
           console.warn("Posted");
+          
         } else {
           setError(true);
         }
@@ -83,17 +86,18 @@ const CreatePostButton = () => {
                           />
                         </div>
                       </div>
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
+                        Share
+                      </button>
                     </div>
-                    <button
-                    type="submit"
-                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    Share
-                  </button>
+
                   </form>
                 </div>
                 <div className="flex items-center justify-end p-6 border-solid border-slate-200 rounded-b">
-                  
+
                 </div>
               </div>
             </div>

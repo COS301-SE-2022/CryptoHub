@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0090bfec-13bd-4f20-b1ed-db71d5d9cac5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/auth/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/auth/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/pages/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/pages/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/pages/signup.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/pages/signup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/api/controllers/AuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/api/controllers/AuthorizationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/api/controllers/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/api/controllers/PostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/domain/models/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/domain/models/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/com/api/cryptohub/CryptoHubApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/com/api/cryptohub/CryptoHubApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/NavigationBar/CreatePostButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/components/NavigationBar/CreatePostButton.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +107,7 @@
       <workItem from="1652257187580" duration="2657000" />
       <workItem from="1652267341591" duration="605000" />
       <workItem from="1652291237183" duration="10637000" />
-      <workItem from="1652302967673" duration="1036000" />
+      <workItem from="1652302967673" duration="1272000" />
     </task>
     <servers />
   </component>
