@@ -1,23 +1,61 @@
 package com.api.cryptohub.domain.models;
 
-public class Post {
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-    private Integer userId;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.SEQUENCE;
+
+@Entity(name = "Post")
+@Table(
+        name = "posts"
+)
+public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(
+            name = "postid",
+            updatable = false,
+            columnDefinition = "serial"
+    )
     private Integer postId;
+    @Column(
+            name = "post",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String post;
 
-    public Post(Integer userId, Integer postId,String post) {
-        this.userId = userId;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Transient
+    private Integer userid = null;
+
+    public Post(Integer postId, String post) {
         this.postId = postId;
         this.post = post;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Post(String post) {
+        this.post = post;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public Post() {
+
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Integer getPostId() {
@@ -34,5 +72,16 @@ public class Post {
 
     public void setPost(String post) {
         this.post = post;
+    }
+
+    public Integer getUserid() {
+        if (userid != null)
+            return userid;
+
+        return user.getUserId();
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 }
