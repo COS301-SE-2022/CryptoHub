@@ -1,53 +1,52 @@
 package com.api.cryptohub.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.*;
+
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity(name = "Post")
 @Table(
         name = "posts"
-
 )
-
-
-
-
 public class Post {
-
-@Id
-@SequenceGenerator(
-        name = "posts_sequence",
-        sequenceName = "posts_sequence",
-        allocationSize = 1
-)
-
-@GeneratedValue(
-        strategy = SEQUENCE,
-        generator = "posts_sequence"
-)
-
-@Column(
-        name = "postid",
-        updatable = false
-)
+    @Id
+    @SequenceGenerator(
+            name = "posts_sequence",
+            sequenceName = "posts_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "posts_sequence"
+    )
+    @Column(
+            name = "postid",
+            updatable = false
+    )
     private Integer postId;
-@Column(
-        name = "post",
-        nullable = false,
-        columnDefinition = "TEXT"
-)
+    @Column(
+            name = "post",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String post;
 
-@ManyToOne(
-        cascade = CascadeType.ALL
-)
-@JoinColumn(name = "user_id")
-private User user;
+    @JsonIgnore
+    @ManyToOne(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Post(Integer postId,String post) {
+    @Transient
+    private Integer userid;
+
+    public Post(Integer postId, String post) {
         this.postId = postId;
         this.post = post;
     }
@@ -82,5 +81,13 @@ private User user;
 
     public void setPost(String post) {
         this.post = post;
+    }
+
+    public Integer getUserid() {
+        return user.getUserId();
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 }
