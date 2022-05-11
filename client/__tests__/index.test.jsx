@@ -11,6 +11,8 @@ import Signup from "../pages/signup";
 import Feed from "../components/Feed/Feed";
 import NavBar from "../components/NavigationBar/NavigationBar";
 import PostButton from "../components/NavigationBar/CreatePostButton";
+import Suggestions from "../components/InfoSection/Suggestions";
+import News from "../components/InfoSection/News";
 
 
 describe("Landing Page", () => {
@@ -80,4 +82,18 @@ describe("Post button", () => {
 
   });
 
+});
+
+describe("Suggestions", () => {
+  it("Correctly renders the suggestions", () => {
+    const Component = render(<Suggestions />);
+    expect(Component.getByText("Suggestions")).toBeInTheDocument();
+  });
+});
+
+describe("News", () => {
+  it("Correctly renders the news", () => {
+    const Component = render(<News />);
+    expect(Component.getByText("News")).toBeInTheDocument();
+  });
 });
