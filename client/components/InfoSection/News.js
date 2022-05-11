@@ -7,7 +7,9 @@ const News = () => {
     <div className="flex flew-row justify-start flex-wrap">
       <p className="mt-3 font-bold text-indigo-600">News</p>
       {mockNewsData.map((data, index) => {
-        return <Article title={data.title} content={data.content} />;
+        return (
+          <Article key={index} title={data.title} content={data.content} />
+        );
       })}
     </div>
   );

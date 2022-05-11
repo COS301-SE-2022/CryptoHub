@@ -8,6 +8,7 @@ const Posts = () => {
       {mockPosts.map((data, index) => {
         return (
           <Post
+            key={index}
             name={data.username}
             content={data.content}
             likes={data.likes}

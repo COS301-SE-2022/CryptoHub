@@ -12,7 +12,7 @@ const Post = ({ name, content, likes, comments, liked, image }) => {
       </div>
       {image == "" ? null : (
         <div>
-          <Image src={image} />
+          <Image src={image} placeholder={blur} />
         </div>
       )}
       <p className="text-sm">{content}</p>

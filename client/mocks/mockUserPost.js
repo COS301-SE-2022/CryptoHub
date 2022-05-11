@@ -1,6 +1,6 @@
-import imageOne from "./images/post-image-1.png";
-import imageTwo from "./images/post-image-2.png";
-import imageThree from "./images/post-image-3.png";
+import imageOne from "../public/images/post-image-1.png";
+import imageTwo from "../public/images/post-image-2.png";
+import imageThree from "../public/images/post-image-3.png";
 
 export const mockPosts = [
   {
