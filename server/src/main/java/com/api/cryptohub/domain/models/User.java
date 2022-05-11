@@ -59,10 +59,14 @@ public class User {
     )
     private String userName;
 
+    @JsonIgnore
     @ManyToMany
+    @JoinTable(joinColumns = @JoinColumn(name = "user_userid"),
+    inverseJoinColumns = @JoinColumn(name = "followers_userid"))
     private List<User> followers = new ArrayList<>();
 
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany(mappedBy = "followers")
     private List<User> following = new ArrayList<>();
 
 
@@ -140,19 +144,30 @@ public class User {
         this.userName = userName;
     }
 
+
     public List<User> getFollowing() {
         return following;
-    }
-
-    public List<User> getFollowers() {
-        return followers;
     }
 
     public void setFollowers(List<User> followers) {
         this.followers = followers;
     }
 
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public void addFollowers(User follower) {
+        this.followers.add(follower);
+    }
+
     public void setFollowing(List<User> following) {
         this.following = following;
     }
+
+    public void addFollowing(User following) {
+        this.following.add(following);
+    }
+
+
 }

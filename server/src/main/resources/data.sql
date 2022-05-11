@@ -15,13 +15,13 @@ VALUES (1, 'I like this coin'),
        (2, 'How do i make money'),
        (3, 'Awesome site');
 
-INSERT INTO users_following (user_userid, following_userid)
-VALUES (1, 2),
-       (1, 3),
-       (1, 4),
-       (1, 5),
-       (2, 1),
-       (3, 1);
+-- INSERT INTO users_following (user_userid, following_userid)
+-- VALUES (1, 2),
+--        (1, 3),
+--        (1, 4),
+--        (1, 5),
+--        (2, 1),
+--        (3, 1);
 
 INSERT INTO users_followers (user_userid, followers_userid)
 VALUES (2, 1),

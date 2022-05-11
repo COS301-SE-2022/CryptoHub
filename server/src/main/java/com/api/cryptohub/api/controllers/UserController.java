@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.api.cryptohub.mocks.UserMock.userMock;
@@ -91,8 +92,24 @@ public class UserController {
                     .badRequest()
                     .body("target not found");
 
-        user.getFollowing().add(follow);
-        follow.getFollowers().add(user);
+        var isFollowed = user.getFollowing()
+                .stream()
+                .filter(f -> f.getUserId().equals(follow.getUserId()))
+                .findFirst()
+                .orElse(null);
+
+        if (isFollowed!=null)
+            return ResponseEntity
+                    .badRequest()
+                    .body("already followings");
+
+
+        //user.setFollowing(new ArrayList<>());
+        user.addFollowing(follow);
+        follow.addFollowers(user);
+
+        userRepository.save(user);
+        userRepository.save(follow);
 
         return ResponseEntity
                 .ok()
