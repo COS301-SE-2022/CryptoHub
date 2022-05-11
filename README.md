@@ -1,4 +1,6 @@
 # CryptoHub
+<p align="center"><img src="https://user-images.githubusercontent.com/53974039/167720947-8c431792-b411-480e-9458-65c14e64a755.gif" alt="HTTPie in action" width="75%"/> </p>
+
 [![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2022/CryptoHub)](https://img.shields.io/github/issues/COS301-SE-2022/Silicon-Scraper?style=for-the-badge)
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/COS301-SE-2022/CryptoHub)](https://github.com/COS301-SE-2022/CryptoHub/issues?q=is%3Aissue+is%3Aclosed)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/COS301-SE-2022/CryptoHub)](https://github.com/COS301-SE-2022/CryptoHub/pulls)
