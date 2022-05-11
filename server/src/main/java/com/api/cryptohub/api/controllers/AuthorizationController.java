@@ -1,6 +1,8 @@
 package com.api.cryptohub.api.controllers;
 
+import com.api.cryptohub.businesslogic.repositories.UserRepository;
 import com.api.cryptohub.domain.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +16,17 @@ import static com.api.cryptohub.mocks.UserMock.userMock;
 @RequestMapping(path="api/authorization")
 public class AuthorizationController {
 
+    private final UserRepository userRepository;
+
+    @Autowired
+    public AuthorizationController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @PostMapping(path = "login")
     public ResponseEntity<Response> Login(@RequestBody User user)
     {
-        var loginUser = userMock.stream()
-                .filter(u -> user.getEmail().equals(u.getEmail()))
-                .findAny()
-                .orElse(null);
+        var loginUser
 
         if(loginUser == null)
             return ResponseEntity.badRequest().body(new Response("incorrect username or password"));

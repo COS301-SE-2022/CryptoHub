@@ -59,10 +59,10 @@ public class User {
     )
     private String userName;
 
-    @OneToMany()
+    @ManyToMany
     private List<User> followers = new ArrayList<>();
 
-    @OneToMany()
+    @ManyToMany
     private List<User> following = new ArrayList<>();
 
 
