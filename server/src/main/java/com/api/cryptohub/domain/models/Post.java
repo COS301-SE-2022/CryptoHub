@@ -1,5 +1,11 @@
 package com.api.cryptohub.domain.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity(name = "Post")
+
+
 public class Post {
 
     private Integer userId;
@@ -11,7 +17,7 @@ public class Post {
         this.postId = postId;
         this.post = post;
     }
-
+@Id
     public Integer getUserId() {
         return userId;
     }
