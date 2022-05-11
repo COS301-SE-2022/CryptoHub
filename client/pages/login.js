@@ -112,10 +112,19 @@ export default function Login() {
                     aria-hidden="true"
                   />
                 </span>
-                Log in
+                {loading ? (
+                  <p className="text-indigo-200">Loading...</p>
+                ) : (
+                  <p>Log in</p>
+                )}
               </button>
             </div>
           </form>
+          {error ? (
+            <h2 className="text-center text-sm font-semibold text-red-500">
+              Failed to login
+            </h2>
+          ) : null}
         </div>
       </div>
     </>
