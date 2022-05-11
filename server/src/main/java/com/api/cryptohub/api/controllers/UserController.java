@@ -4,10 +4,7 @@ import com.api.cryptohub.businesslogic.repositories.UserRepository;
 import com.api.cryptohub.domain.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,8 +22,7 @@ public class UserController {
     }
 
     @GetMapping("getallusers")
-    public ResponseEntity<List<User>> getAllUsers()
-    {
+    public ResponseEntity<List<User>> getAllUsers() {
 
         var users = userRepository.findAll();
         return ResponseEntity
@@ -35,20 +31,58 @@ public class UserController {
     }
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Integer id)
-    {
+    public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
         User user = userMock.stream()
                 .filter(u -> id.equals(u.getUserId()))
                 .findAny()
                 .orElse(null);
 
-        if(user==null)
+        if (user == null)
             return ResponseEntity
                     .badRequest()
                     .body(null);
 
         return ResponseEntity.ok().body(user);
 
+    }
+
+    @PostMapping
+    public ResponseEntity<String> followUser() {
+        User user = userMock.stream()
+                .filter(u -> id.equals(u.getUserId()))
+                .findAny()
+                .orElse(null);
+
+        if (user == null)
+            return ResponseEntity
+                    .badRequest()
+                    .body(null);
+    }
+
+    public class FollowDTO {
+        private Integer userId;
+        private Integer followerId;
+
+        public FollowDTO(Integer userId, Integer followerId) {
+            this.userId = userId;
+            this.followerId = followerId;
+        }
+
+        public Integer getUserId() {
+            return userId;
+        }
+
+        public void setUserId(Integer userId) {
+            this.userId = userId;
+        }
+
+        public Integer getFollowerId() {
+            return followerId;
+        }
+
+        public void setFollowerId(Integer followerId) {
+            this.followerId = followerId;
+        }
     }
 
 
