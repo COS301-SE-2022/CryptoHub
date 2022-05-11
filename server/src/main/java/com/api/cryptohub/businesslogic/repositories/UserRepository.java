@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+    User getUserByEmail(String email);
 
 }

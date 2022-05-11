@@ -3,12 +3,8 @@ package com.api.cryptohub.api.controllers;
 import com.api.cryptohub.businesslogic.repositories.UserRepository;
 import com.api.cryptohub.domain.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.api.cryptohub.mocks.UserMock.userMock;
 
@@ -26,46 +22,44 @@ public class AuthorizationController {
     @PostMapping(path = "login")
     public ResponseEntity<Response> Login(@RequestBody User user)
     {
-        var loginUser
+        var loginUser = userRepository.getUserByEmail(user.getEmail());
 
         if(loginUser == null)
-            return ResponseEntity.badRequest().body(new Response("incorrect username or password"));
+            return ResponseEntity.badRequest().body(new Response("incorrect username or password",false ));
 
         if(!loginUser.getPassword().equals(user.getPassword()))
-            return ResponseEntity.badRequest().body(new Response("incorrect username or password"));
+            return ResponseEntity.badRequest().body(new Response("incorrect username or password",false));
 
-        return ResponseEntity.ok().body(new Response("logged in"));
+        return ResponseEntity.ok().body(new Response("logged in",true));
     }
 
     @PostMapping("register")
     public ResponseEntity<Response> Register(@RequestBody User user)
     {
-        var registerUser = userMock.stream()
-                .filter(u -> user.getEmail().equals(u.getEmail()))
-                .findAny()
-                .orElse(null);
+        var registerUser = userRepository.getUserByEmail(user.getEmail());
 
         if(registerUser != null)
-            return ResponseEntity.badRequest().body(new Response("user already exists"));
+            return ResponseEntity.badRequest().body(new Response("user already exists",false));
 
-        int newId = userMock.get(userMock.size()-1).getUserId()+1;
-        user.setUserId(newId);
-        userMock.add(user);
+        userRepository.save(user);
 
-        return ResponseEntity.badRequest().body(new Response("registered"));
+        return ResponseEntity.badRequest().body(new Response("registered",true));
     }
 
     public static class Response
     {
         private final String response;
-        public Response(String response)
+        private final Boolean authorized;
+        public Response(String response, Boolean authtorized)
         {
             this.response = response;
+            this.authorized = authtorized;
         }
 
         public String getResponse() {
             return response;
         }
+        public Boolean getAuthorized(){return authorized;}
     }
 
 
