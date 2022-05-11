@@ -17,8 +17,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 
 public class Post {
 
-
-    private Integer userId;
 @Id
 @SequenceGenerator(
         name = "posts_sequence",
@@ -46,11 +44,15 @@ public class Post {
 @ManyToOne(
         cascade = CascadeType.ALL
 )
+@JoinColumn(name = "user_id")
 private User user;
 
-    public Post(Integer userId, Integer postId,String post) {
-        this.userId = userId;
+    public Post(Integer postId,String post) {
         this.postId = postId;
+        this.post = post;
+    }
+
+    public Post(String post) {
         this.post = post;
     }
 
@@ -64,14 +66,6 @@ private User user;
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public Integer getPostId() {

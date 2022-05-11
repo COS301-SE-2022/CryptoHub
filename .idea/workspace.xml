@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0090bfec-13bd-4f20-b1ed-db71d5d9cac5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/businesslogic/repositories/PostRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/mocks/PostConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cdd8952e-a552-4fe5-b07a-20d7c86d9c17.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cdd8952e-a552-4fe5-b07a-20d7c86d9c17.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/domain/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/domain/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/mocks/UserConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/mocks/UserConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/api/controllers/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/api/controllers/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/domain/models/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/domain/models/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/mocks/PostMock.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/mocks/PostMock.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +56,12 @@
     "spring.configuration.checksum": "3d49d44bdbb893a230b12f6dedf9a95c"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.api.cryptohub.mocks" />
+      <recent name="com.api.cryptohub.businesslogic.repositories" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="CryptoHubApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="CryptoHub" />
@@ -82,7 +91,7 @@
       <option name="presentableId" value="Default" />
       <updated>1652256961396</updated>
       <workItem from="1652256964051" duration="203000" />
-      <workItem from="1652257187580" duration="2657000" />
+      <workItem from="1652257187580" duration="7567000" />
     </task>
     <servers />
   </component>
