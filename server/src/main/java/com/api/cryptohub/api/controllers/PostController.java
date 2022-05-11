@@ -2,6 +2,7 @@ package com.api.cryptohub.api.controllers;
 
 import com.api.cryptohub.businesslogic.repositories.PostRepository;
 import com.api.cryptohub.domain.models.Post;
+import com.api.cryptohub.domain.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,16 +23,14 @@ public class PostController {
     }
 
     @GetMapping("getallposts")
-    public ResponseEntity<List<Post>> getAllPosts()
-    {
-        return  ResponseEntity
+    public ResponseEntity<List<Post>> getAllPosts() {
+        return ResponseEntity
                 .ok()
                 .body(postRepository.findAll());
     }
 
     @GetMapping(path = "getpostsbyuser/{id}")
-    public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable("id") Integer id)
-    {
+    public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable("id") Integer id) {
         var post = postRepository.findPostsByUserId(id);
 
         return ResponseEntity
@@ -40,12 +39,12 @@ public class PostController {
     }
 
     @PostMapping("createpost")
-    public ResponseEntity<Post> createPost(@RequestBody Post post)
-    {
-        Integer postId = postMock.get(postMock.size()-1).getPostId()+1;
-        post.setPostId(postId);
-        postMock.add(post);
+    public ResponseEntity<Post> createPost(@RequestBody Post post) {
+        User u = new User();
+        u.setUserId(post.getUserid());
+        post.setUser(u);
 
+        postRepository.save(post);
         return ResponseEntity
                 .ok()
                 .body(post);

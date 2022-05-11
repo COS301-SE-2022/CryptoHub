@@ -15,18 +15,11 @@ import static javax.persistence.GenerationType.SEQUENCE;
 )
 public class Post {
     @Id
-    @SequenceGenerator(
-            name = "posts_sequence",
-            sequenceName = "posts_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "posts_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "postid",
-            updatable = false
+            updatable = false,
+            columnDefinition = "serial"
     )
     private Integer postId;
     @Column(
@@ -37,14 +30,12 @@ public class Post {
     private String post;
 
     @JsonIgnore
-    @ManyToOne(
-            cascade = CascadeType.ALL
-    )
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @Transient
-    private Integer userid;
+    private Integer userid = null;
 
     public Post(Integer postId, String post) {
         this.postId = postId;
@@ -84,6 +75,9 @@ public class Post {
     }
 
     public Integer getUserid() {
+        if (userid != null)
+            return userid;
+
         return user.getUserId();
     }
 

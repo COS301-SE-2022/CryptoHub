@@ -7,31 +7,20 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Entity(name = "User")
 @Table(
 
-        name="users",
+        name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(name = "users_email_unique",columnNames = "email"),
-                @UniqueConstraint(name = "users_username_unique",columnNames = "username")
+                @UniqueConstraint(name = "users_email_unique", columnNames = "email"),
+                @UniqueConstraint(name = "users_username_unique", columnNames = "username")
         }
 )
 public class User {
 
     @Id
-    @SequenceGenerator(
-            name =  "users_sequence",
-            sequenceName  = "users_sequence",
-            allocationSize = 1
-
-    )
-
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "users_sequence"
-
-    )
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "userid",
-            updatable = false
+            updatable = false,
+            columnDefinition = "serial"
     )
     private Integer userId;
     @Column(
@@ -90,7 +79,6 @@ public class User {
         this.password = password;
         this.userName = userName;
     }
-
 
 
     public Integer getUserId() {
