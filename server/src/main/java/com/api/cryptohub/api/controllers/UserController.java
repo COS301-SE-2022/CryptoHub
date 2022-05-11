@@ -44,25 +44,30 @@ public class UserController {
 
     }
 
-//    @GetMapping(path = "getfollowing/{id}")
-//    public ResponseEntity<List<User>> getFollowing(@PathVariable("id") Integer id) {
-//        User user = userRepository.getById(id);
-//        if (user == null)
-//            return ResponseEntity
-//                    .badRequest()
-//                    .body(null);
-//
-//        return ResponseEntity.ok().body(user.getFollowing());
-//
-//    }
-//
-//    @GetMapping(path = "getfollowers/{id}")
-//    public ResponseEntity<List<User>> getFollowers(@PathVariable("id") Integer id) {
-//
-//        User user = userRepository.getById(id);
-//        return ResponseEntity.ok().body(userRepository.getUserFollowers(user));
-//
-//    }
+    @GetMapping(path = "getfollowing/{id}")
+    public ResponseEntity<List<User>> getFollowing(@PathVariable("id") Integer id) {
+        User user = userRepository.getById(id);
+        if (user == null)
+            return ResponseEntity
+                    .badRequest()
+                    .body(null);
+
+        return ResponseEntity.ok().body(user.getFollowing());
+
+    }
+
+    @GetMapping(path = "getfollowers/{id}")
+    public ResponseEntity<List<User>> getFollowers(@PathVariable("id") Integer id) {
+
+        User user = userRepository.getById(id);
+        if (user == null)
+            return ResponseEntity
+                    .badRequest()
+                    .body(null);
+
+        return ResponseEntity.ok().body(user.getFollowers());
+
+    }
 
     @PostMapping(path = "follow")
     public ResponseEntity<String> followUser(@RequestBody FollowDTO followDTO) {
@@ -87,6 +92,7 @@ public class UserController {
                     .body("target not found");
 
         user.getFollowing().add(follow);
+        follow.getFollowers().add(user);
 
         return ResponseEntity
                 .ok()
