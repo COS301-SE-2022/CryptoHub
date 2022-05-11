@@ -20,13 +20,26 @@ public class PostConfig {
     {
         return args -> {
 
-            User one = new User();
+
+
+
+                    new User("tony","stark","ironman@gmail.com",
+                            "avenger","ironman"),
+                    new User("stephen","strange","drstrange@gmail.com",
+                            "doctor","drstrange"),
+                    new User("loki","odinson","mischief@gmail.com",
+                            "evil","mischief")
+                    )
+            User one = new User("bruce","wayne","batman@gmail.com",
+                    "P@55w0rd","batman")
             one.setUserId(1);
 
-            User two = new User();
+            User two = new User("clark","kent","superman@gmail.com",
+                    "mypassword","superman")
             one.setUserId(2);
 
-            User three = new User();
+            User three = new User("peter","parker","spiderman@gmail.com",
+                    "123four","spiderman"),
             one.setUserId(3);
 
 
