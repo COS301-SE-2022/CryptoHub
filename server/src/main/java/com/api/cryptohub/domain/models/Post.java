@@ -7,6 +7,10 @@ import javax.persistence.*;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity(name = "Post")
+@Table(
+        name = "posts"
+
+)
 
 
 
