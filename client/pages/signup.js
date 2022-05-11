@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { userContext } from "../auth/auth";
 
 export default function Signup() {
+  const { authorise } = useContext(userContext);
+
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -23,11 +26,15 @@ export default function Signup() {
       }),
     };
 
-    fetch("https:localhost:3000/signup", options)
+    // fetch("https:localhost:3000/signup", options)
+    fetch("https://627bcb89b54fe6ee008f5488.mockapi.io/users", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.log(data);
+        console.warn(data);
+        if (data.authorized) {
+          authorise();
+        }
       })
       .catch((error) => {
         console.warn("Error", error);
@@ -125,7 +132,11 @@ export default function Signup() {
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                {loading ? <p>loading...</p> : <p>Create account</p>}
+                {loading ? (
+                  <p className="text-indigo-200">Loading...</p>
+                ) : (
+                  <p>Create account</p>
+                )}
               </button>
             </div>
           </form>
