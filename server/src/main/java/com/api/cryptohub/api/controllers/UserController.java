@@ -55,7 +55,7 @@ public class UserController {
                     .body(null);
 
         return ResponseEntity.ok().body(user.getFollowing());
-
+        
     }
 
     @GetMapping(path = "getfollowers/{id}")

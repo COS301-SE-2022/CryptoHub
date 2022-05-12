@@ -36,9 +36,26 @@ class UserControllerIntTest {
 
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/getallusers"));
         response.andExpect(MockMvcResultMatchers.status().isOk());
-        response.andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(users.size() + 6)));
+        response.andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(userRepository.findAll().size())));
     }
 
+    @Test
+    public void givenUserId_whenGetUserById_thenUserOfId() throws Exception
+    {
+        User user = new User("Casparus", "Bresler", "theMan2@gmail.com", "123", "TheGhost2");
+        //user.setUserId(3000);
+        userRepository.save(user);
 
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/7"));
+
+        response.andExpect(MockMvcResultMatchers.status().isOk());
+        response.andExpect(MockMvcResultMatchers.jsonPath("$.userName", CoreMatchers.is(user.getUserName())));
+    }
+
+    @Test
+    public void givenUserId_whenGetFollowing_thenUserOfFollowing() throws Exception
+    {
+
+    }
 
 }
