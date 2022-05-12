@@ -49,7 +49,7 @@ const Suggestions = () => {
       return acc.userId != user.id;
     });
 
-    setSuggestedAccounts(final);
+    setSuggestedAccounts(final.slice(0, 4));
     console.warn("suggested", suggestedAccounts);
   }, [refresh]);
 
