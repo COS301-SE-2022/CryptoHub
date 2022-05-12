@@ -4,12 +4,14 @@ import Head from "next/head";
 import { userContext } from "../auth/auth";
 import Posts from "../components/Posts/Posts";
 import Post from "../components/Posts/Post";
+import { useRouter } from "next/router";
 
 const Profile = () => {
   const { user } = useContext(userContext);
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleGetAllPosts = () => {
     setLoading(true);
@@ -33,6 +35,12 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    if (!user.auth) {
+      router.push("/");
+    }
+  }, [user]);
+
+  useEffect(() => {
     handleGetAllPosts();
   }, []);
 
@@ -53,16 +61,16 @@ const Profile = () => {
             </p>{" "}
             <br />
             <div className="flex flex-row -translate-y-5">
-              <p className="mr-3">
+              <button className="mr-3">
                 <span className="font-semibold">10 </span> following
-              </p>
-              <p>
+              </button>
+              <button>
                 {" "}
                 <span className="font-semibold" f>
                   4{" "}
                 </span>
                 followers
-              </p>
+              </button>
             </div>
           </div>
         </div>
