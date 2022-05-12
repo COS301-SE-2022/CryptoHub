@@ -2,9 +2,39 @@ import React, { useState, useEffect, useContext } from "react";
 import Layout from "../components/Layout";
 import Head from "next/head";
 import { userContext } from "../auth/auth";
+import Posts from "../components/Posts/Posts";
+import Post from "../components/Posts/Post";
 
 const Profile = () => {
   const { user } = useContext(userContext);
+  const [posts, setPosts] = useState([]);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleGetAllPosts = () => {
+    setLoading(true);
+
+    const options = {
+      method: "GET",
+    };
+
+    fetch("http://localhost:8082/api/post/getallposts", options)
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+        console.warn(data);
+        setPosts(data.reverse());
+      })
+      .catch((error) => {
+        console.warn("Error", error);
+        setError(true);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    handleGetAllPosts();
+  }, []);
 
   return (
     <>
@@ -34,6 +64,19 @@ const Profile = () => {
                 followers
               </p>
             </div>
+          </div>
+        </div>
+        <div className="bg-gray-400 w-8/12" style={{ height: "1px" }}></div>
+        <div className="flex flex-col items-center w-8/12">
+          <div>
+            <p>my posts</p>
+          </div>
+          <div className="sm:w-8/12">
+            {posts.map((data, index) => {
+              return data.username == user.username ? (
+                <Post key={index} name={data.username} content={data.post} />
+              ) : null;
+            })}
           </div>
         </div>
       </Layout>

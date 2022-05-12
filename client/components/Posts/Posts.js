@@ -4,8 +4,8 @@ import { mockPosts } from "../../mocks/mockUserPost";
 import { userContext } from "../../auth/auth";
 
 const Posts = () => {
-  const { feedstate } = useContext(userContext)
-  const [posts, setPosts] = useState([])
+  const { feedstate } = useContext(userContext);
+  const [posts, setPosts] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -21,12 +21,7 @@ const Posts = () => {
       .then((data) => {
         setLoading(false);
         console.warn(data);
-        setPosts(data.reverse())
-        // if (data.authorized) {
-        //   authorise(data.username, data.userId);
-        // } else {
-        //   setError(true);
-        // }
+        setPosts(data.reverse());
       })
       .catch((error) => {
         console.warn("Error", error);
@@ -36,32 +31,30 @@ const Posts = () => {
   };
 
   useEffect(() => {
-    handleGetAllPosts()
-  }, [feedstate])
+    handleGetAllPosts();
+  }, [feedstate]);
 
   return (
     <div className="sm:w-5/12">
       {posts.map((data, index) => {
-        return <Post key={index} name={data.username} content={data.post} />
+        return <Post key={index} name={data.username} content={data.post} />;
       })}
-      
     </div>
   );
 };
 
 export default Posts;
 
-
 // {mockPosts.map((data, index) => {
-      //   return (
-      //     <Post
-      //       key={index}
-      //       name={data.username}
-      //       content={data.content}
-      //       likes={data.likes}
-      //       comments={data.comments}
-      //       liked={data.liked}
-      //       image={data.image}
-      //     />
-      //   );
-      // })}
+//   return (
+//     <Post
+//       key={index}
+//       name={data.username}
+//       content={data.content}
+//       likes={data.likes}
+//       comments={data.comments}
+//       liked={data.liked}
+//       image={data.image}
+//     />
+//   );
+// })}
