@@ -17,14 +17,23 @@ const Suggestions = () => {
     fetch("http://localhost:8082/api/user/getallusers", options)
       .then((response) => response.json())
       .then((data) => {
-        console.warn(data);
+        console.warn("all users", data);
         setAccounts(data);
-        fetch(`http://localhost:8082/api/user/getfollowers/${user.id}`, options)
+        fetch(`http://localhost:8082/api/user/getfollowing/${user.id}`, options)
           .then((response) => response.json())
           .then((data) => {
-            console.warn("followers", data);
+            console.warn("following", data);
             setFollowers(data);
-            setSuggestedAccounts(accounts.concat(followers));
+
+            let suggested = accounts.filter((account) => {
+              return !followers.find((acc) => {
+                console.warn(account);
+                console.warn(acc);
+                return acc.userId == account.userId;
+              });
+            });
+
+            setSuggestedAccounts(suggested);
             console.warn("suggested", suggestedAccounts);
           })
           .catch((error) => {
