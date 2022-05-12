@@ -42,7 +42,7 @@ const Profile = () => {
         <title>CryptoHub</title>
       </Head>
       <Layout>
-        <div className="flex flex-col sm:flex-row w-8/12 items-center mt-8">
+        <div className="flex flex-col sm:flex-row w-full sm:w-6/12 items-center mt-8">
           <div
             className="w-20 h-20 bg-black sm:mr-10 mb-5"
             style={{ borderRadius: "50px" }}
@@ -66,12 +66,12 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="bg-gray-400 w-8/12" style={{ height: "1px" }}></div>
-        <div className="flex flex-col items-center w-8/12">
+        <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
+        <div className="flex flex-col items-center w-full sm:w-6/12">
           <div>
-            <p>my posts</p>
+            <p className="text-sm mt-4 text-gray-600">Posts</p>
           </div>
-          <div className="sm:w-8/12">
+          <div className="w-full">
             {posts.map((data, index) => {
               return data.username == user.username ? (
                 <Post key={index} name={data.username} content={data.post} />
