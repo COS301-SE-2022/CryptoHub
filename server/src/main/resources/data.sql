@@ -1,10 +1,10 @@
 INSERT INTO users (first_name, last_name, email, password, username)
-VALUES ('bruce', 'wayne', 'batman@gmail.com', '123', 'batman'),
-       ('peter', 'parker', 'spiderman@gmail.com', '123four', 'spiderman'),
-       ('clark', 'kent', 'superman@gmail.com', 'mypassword', 'superman'),
-       ('tony', 'stark', 'ironman@gmail.com', 'avenger', 'ironman'),
-       ('stephen', 'strange', 'drstrange@gmail.com', 'doctor', 'drstrange'),
-       ('loki', 'odinson', 'mischief@gmail.com', 'evil', 'mischief');
+VALUES ('John', 'Doe', 'JohnDoe@gmail.com', '123', 'John Doe'),
+       ('Peter', 'Parker', 'PeterParker@gmail.com', '123four', 'Peter Parker'),
+       ('Jenessa', 'Cheyanne', 'JenessaCheyanne@gmail.com', 'mypassword', 'Jenessa Cheyanne'),
+       ('Tony', 'Stark', 'TonyStark@gmail.com', 'avenger', 'Ironman'),
+       ('Stephen', 'Strange', 'StephenStrange@gmail.com', 'doctor', 'Stephen Strange'),
+       ('Midge', 'Abigail', 'MidgeAbigail@gmail.com', 'Password', 'Midge Abigail');
 
 INSERT INTO posts (user_id, post)
 VALUES (1, 'I like this coin'),
