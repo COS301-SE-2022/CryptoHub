@@ -101,8 +101,8 @@ const Profile = () => {
       <Layout>
         <div className="flex flex-col sm:flex-row w-full sm:w-6/12 items-center mt-8">
           <div
-            className="w-20 h-20 bg-black sm:mr-10 mb-5"
-            style={{ borderRadius: "50px" }}
+            className="w-32 h-32 bg-black sm:mr-10 mb-5"
+            style={{ borderRadius: "100%" }}
           ></div>
           <div className="flex flex-col">
             <p className="font-semibold text-center sm:text-left">
