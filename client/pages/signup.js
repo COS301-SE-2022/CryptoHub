@@ -4,7 +4,7 @@ import { userContext } from "../auth/auth";
 export default function Signup() {
   const { authorise } = useContext(userContext);
 
-  const [username, setUsername] = useState("")
+  const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -28,8 +28,6 @@ export default function Signup() {
       }),
     };
 
-    // fetch("https:localhost:3000/signup", options)
-    // fetch("https://627bcb89b54fe6ee008f5488.mockapi.io/users", options)
     fetch("http://localhost:8082/api/authorization/register", options)
       .then((response) => response.json())
       .then((data) => {
@@ -64,7 +62,7 @@ export default function Signup() {
           >
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
-            <div>
+              <div>
                 <label htmlFor="username" className="sr-only">
                   Username
                 </label>
