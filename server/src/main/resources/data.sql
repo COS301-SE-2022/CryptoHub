@@ -26,9 +26,10 @@ VALUES (1, 'Bitcoin Drops to 2020 Levels of Near $24K'),
 --        (3, 1);
 
 INSERT INTO users_followers (user_userid, followers_userid)
-VALUES (2, 1),
-       (3, 1),
+VALUES (1, 4),
+       (2, 1),
        (4, 1),
        (5, 1),
        (1, 2),
-       (1, 3);
+       (1, 3),
+       (2, 3);
