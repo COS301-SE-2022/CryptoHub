@@ -7,27 +7,29 @@ const Suggestions = () => {
   const { user } = useContext(userContext);
   const [accounts, setAccounts] = useState([]);
   const [followers, setFollowers] = useState([]);
+  const [suggestedAccounts, setSuggestedAccounts] = useState([]);
 
   useEffect(() => {
     const options = {
       method: "GET",
     };
 
-    fetch(`http://localhost:8082/api/user/getfollowers/${user.id}`, options)
-      .then((response) => response.json())
-      .then((data) => {
-        console.warn("followers", data);
-        setFollowers(data);
-      })
-      .catch((error) => {
-        console.warn("Error", error);
-      });
-
     fetch("http://localhost:8082/api/user/getallusers", options)
       .then((response) => response.json())
       .then((data) => {
         console.warn(data);
         setAccounts(data);
+        fetch(`http://localhost:8082/api/user/getfollowers/${user.id}`, options)
+          .then((response) => response.json())
+          .then((data) => {
+            console.warn("followers", data);
+            setFollowers(data);
+            setSuggestedAccounts(accounts.concat(followers));
+            console.warn("suggested", suggestedAccounts);
+          })
+          .catch((error) => {
+            console.warn("Error", error);
+          });
       })
       .catch((error) => {
         console.warn("Error", error);
