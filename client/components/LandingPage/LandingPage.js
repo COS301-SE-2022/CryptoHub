@@ -5,7 +5,7 @@ const LandingPage = () => {
     <div className="flex flex-col h-40 px-10 py-24 sm:p-24 items-center h-8/12 justify-between">
       <div className="flex flex-col items-center">
         <h1 className="sm:text-5xl text-4xl font-bold text-center">
-          Welcome to <span className="text-indigo-600 ">CrytoHub</span>
+          Welcome to <span className="text-indigo-600 ">CryptoHub</span>
         </h1>
         <p className=" text-lg sm:text-md text-gray-600 mt-4">
           Explore the world of cryptocurrencies
