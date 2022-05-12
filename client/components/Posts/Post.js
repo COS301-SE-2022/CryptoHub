@@ -26,25 +26,3 @@ const Post = ({ name, content, likes, comments, liked, image }) => {
 };
 
 export default Post;
-
-// <div className="flex flex-row mt-4">
-// <button className="text-sm mr-4 flex flex-row">
-//   {liked ? (
-//     <RedHeartIcon className="h-5 w-5 text-red-500 " />
-//   ) : (
-//     <HeartIcon className="h-5 w-5 text-black " />
-//   )}{" "}
-//   {""}
-//   <p className="ml-1">{likes} likes</p>
-// </button>
-// <button className="text-sm flex flex-row">
-//   <ChatIcon className="h-5 w-5 text-black " /> {""}
-//   <p className="ml-1">{comments} comments</p>
-// </button>
-// </div>
-
-// {image == "" ? null : (
-//   <div>
-//     <Image src={image} placeholder={blur} />
-//   </div>
-// )}

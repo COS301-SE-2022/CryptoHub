@@ -28,10 +28,6 @@ const SuggestedAccount = ({ name, hidefollow, id }) => {
       });
   };
 
-  // useEffect(() => {
-  //   handleGetAllPosts();
-  // }, [feedstate]);
-
   return (
     <div className="flex flex-row p-2 w-full justify-between bg-gray-100 mb-2 rounded-md">
       <div className="flex flex-row">

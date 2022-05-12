@@ -40,7 +40,6 @@ const Suggestions = () => {
     let suggested = accounts.filter((account) => {
       return !followers.find((acc) => {
         console.warn(account);
-        // console.warn(acc);
         return acc.userId == account.userId;
       });
     });
@@ -50,7 +49,6 @@ const Suggestions = () => {
     });
 
     setSuggestedAccounts(final.slice(0, 4));
-    console.warn("suggested", suggestedAccounts);
   }, [refresh]);
 
   return (
