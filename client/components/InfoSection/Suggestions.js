@@ -59,7 +59,9 @@ const Suggestions = () => {
         Suggestions
       </p>
       {suggestedAccounts.map((data, index) => {
-        return <SuggestedAccount key={index} name={data.userName} />;
+        return (
+          <SuggestedAccount key={index} name={data.userName} id={data.userId} />
+        );
       })}
     </div>
   );
