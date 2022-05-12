@@ -58,11 +58,19 @@ const Suggestions = () => {
       <p className="text-md font-bold text-indigo-600 mb-2 overflow-auto">
         Suggestions
       </p>
-      {suggestedAccounts.map((data, index) => {
-        return (
-          <SuggestedAccount key={index} name={data.userName} id={data.userId} />
-        );
-      })}
+      {suggestedAccounts.length == 0 ? (
+        <p className="text-sm text-gray-500">No suggestions</p>
+      ) : (
+        suggestedAccounts.map((data, index) => {
+          return (
+            <SuggestedAccount
+              key={index}
+              name={data.userName}
+              id={data.userId}
+            />
+          );
+        })
+      )}
     </div>
   );
 };
