@@ -97,3 +97,14 @@ describe("News", () => {
     expect(Component.getByText("News")).toBeInTheDocument();
   });
 });
+
+describe("Profile", () => {
+  it("Profile icon renders and works correctly", () => {
+    const Component = render(<NavBar />);
+    const button = screen.getByText('Open user menu');
+    expect(button).toBeInTheDocument();
+
+    fireEvent(button, new MouseEvent('click', { bubbles: true }));
+    expect(Component.getByRole("menuitem", { name: "Sign out" })).toBeInTheDocument();
+  });
+});
