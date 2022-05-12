@@ -37,6 +37,11 @@ public class Post {
     @Transient
     private Integer userid = null;
 
+
+
+    @Transient
+    private String  username = null;
+
     public Post(Integer postId, String post) {
         this.postId = postId;
         this.post = post;
@@ -83,5 +88,13 @@ public class Post {
 
     public void setUserid(Integer userid) {
         this.userid = userid;
+    }
+
+    public String getUsername() {
+        return user.getUserName();
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

@@ -11,7 +11,7 @@ class CryptoHubApplicationTests {
 
     @Test
     void contextLoads() {
-        AuthorizationController.Response controller = new AuthorizationController.Response("Test",true);
+        AuthorizationController.Response controller = new AuthorizationController.Response("Test",true,1,"");
         String response = controller.getResponse();
         assertEquals("Test", response);
     }

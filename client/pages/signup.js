@@ -4,6 +4,7 @@ import { userContext } from "../auth/auth";
 export default function Signup() {
   const { authorise } = useContext(userContext);
 
+  const [username, setUsername] = useState("")
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -19,21 +20,23 @@ export default function Signup() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        firstname: firstname,
-        lastname: lastname,
+        userName: username,
+        firstName: firstname,
+        lastName: lastname,
         email: email,
         password: password,
       }),
     };
 
     // fetch("https:localhost:3000/signup", options)
-    fetch("https://627bcb89b54fe6ee008f5488.mockapi.io/users", options)
+    // fetch("https://627bcb89b54fe6ee008f5488.mockapi.io/users", options)
+    fetch("http://localhost:8082/api/authorization/register", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
         console.warn(data);
         if (data.authorized) {
-          authorise();
+          authorise(data.username, data.userId);
         } else {
           setError(true);
         }
@@ -61,6 +64,22 @@ export default function Signup() {
           >
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+                <label htmlFor="username" className="sr-only">
+                  Username
+                </label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  required
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  placeholder="Username"
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                />
+              </div>
               <div>
                 <label htmlFor="firstname" className="sr-only">
                   Firstname
@@ -70,7 +89,7 @@ export default function Signup() {
                   name="firstname"
                   type="text"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Firstname"
                   onChange={(e) => {
                     setFirstname(e.target.value);

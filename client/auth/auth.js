@@ -1,30 +1,36 @@
 import { createContext, useState } from "react";
 import { useRouter } from "next/router";
 
-export const userContext = createContext({ auth: false });
+export const userContext = createContext({ username: "", auth: false, id: 0 });
 
 const UserProvider = ({ children }) => {
   const router = useRouter();
-  const [user, setUser] = useState({ auth: false });
-
-  const formatEmail = (email) => {
-    let formattedName = email.split("@")[0];
-    return formattedName;
-  };
+  const [user, setUser] = useState({ username: "", auth: false, id: 0 });
+  const [feedstate, setFeedstate] = useState(false);
 
   const logout = () => {
     setUser({
+      username: "",
       auth: false,
+      id: 0,
     });
-  };
-
-  const authorise = () => {
-    setUser({ auth: true });
     router.push("/");
   };
 
+  const authorise = (username, id) => {
+    setUser({ username: username, auth: true, id: id });
+    console.warn("User id: ", id);
+    router.push("/");
+  };
+
+  const refreshfeed = () => {
+    setFeedstate(!feedstate);
+  };
+
   return (
-    <userContext.Provider value={{ user, logout, authorise }}>
+    <userContext.Provider
+      value={{ user, logout, authorise, feedstate, refreshfeed }}
+    >
       {children}
     </userContext.Provider>
   );

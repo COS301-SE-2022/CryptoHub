@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.api.cryptohub.mocks.UserMock.userMock;
 
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 @RequestMapping(path="api/authorization")
 public class AuthorizationController {
@@ -25,12 +26,12 @@ public class AuthorizationController {
         var loginUser = userRepository.getUserByEmail(user.getEmail());
 
         if(loginUser == null)
-            return ResponseEntity.badRequest().body(new Response("incorrect username or password",false ));
+            return ResponseEntity.badRequest().body(new Response("incorrect username or password",false,-1 ,""));
 
         if(!loginUser.getPassword().equals(user.getPassword()))
-            return ResponseEntity.badRequest().body(new Response("incorrect username or password",false));
+            return ResponseEntity.badRequest().body(new Response("incorrect username or password",false,-1,""));
 
-        return ResponseEntity.ok().body(new Response("logged in",true));
+        return ResponseEntity.ok().body(new Response("logged in",true,loginUser.getUserId(), loginUser.getUserName()));
     }
 
     @PostMapping("register")
@@ -39,27 +40,41 @@ public class AuthorizationController {
         var registerUser = userRepository.getUserByEmail(user.getEmail());
 
         if(registerUser != null)
-            return ResponseEntity.badRequest().body(new Response("user already exists",false));
+            return ResponseEntity.badRequest().body(new Response("user already exists",false,-1,""));
 
         userRepository.save(user);
 
-        return ResponseEntity.badRequest().body(new Response("registered",true));
+        return ResponseEntity.badRequest().body(new Response("registered",true,user.getUserId(), user.getUserName()));
     }
 
     public static class Response
     {
         private final String response;
         private final Boolean authorized;
-        public Response(String response, Boolean authtorized)
+
+        private final Integer userId;
+
+        private final String username;
+        public Response(String response, Boolean authtorized,Integer userId,String username)
         {
             this.response = response;
             this.authorized = authtorized;
+            this.userId  = userId;
+            this.username = username;
         }
 
         public String getResponse() {
             return response;
         }
         public Boolean getAuthorized(){return authorized;}
+
+        public Integer getUserId() {
+            return userId;
+        }
+
+        public String getUsername() {
+            return username;
+        }
     }
 
 

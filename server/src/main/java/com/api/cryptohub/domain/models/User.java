@@ -33,7 +33,7 @@ public class User {
             nullable = false,
             columnDefinition = "TEXT"
     )
-    private String fistName;
+    private String firstName;
     @Column(
             name = "last_name",
             nullable = false,
@@ -73,8 +73,8 @@ public class User {
     public User() {
     }
 
-    public User(String fistName, String lastName, String email, String password, String userName) {
-        this.fistName = fistName;
+    public User(String firstName, String lastName, String email, String password, String userName) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
@@ -83,13 +83,13 @@ public class User {
 
     public User(
             Integer userId,
-            String fistName,
+            String firstName,
             String lastName,
             String email,
             String password,
             String userName) {
         this.userId = userId;
-        this.fistName = fistName;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
@@ -104,12 +104,12 @@ public class User {
         this.userId = userId;
     }
 
-    public String getFistName() {
-        return fistName;
+    public String getfirstName() {
+        return firstName;
     }
 
-    public void setFistName(String fistName) {
-        this.fistName = fistName;
+    public void setfirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {

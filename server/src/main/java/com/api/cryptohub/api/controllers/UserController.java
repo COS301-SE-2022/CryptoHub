@@ -11,6 +11,7 @@ import java.util.List;
 
 import static com.api.cryptohub.mocks.UserMock.userMock;
 
+@CrossOrigin(origins="http://localhost:3000")
 @RequestMapping(path = "api/user")
 @RestController
 public class UserController {

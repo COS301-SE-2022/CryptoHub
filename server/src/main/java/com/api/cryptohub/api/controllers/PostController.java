@@ -11,6 +11,7 @@ import java.util.List;
 
 import static com.api.cryptohub.mocks.PostMock.postMock;
 
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 @RequestMapping(path = "api/post")
 public class PostController {
@@ -43,6 +44,7 @@ public class PostController {
 
         User u = new User();
         u.setUserId(post.getUserid());
+
         post.setUser(u);
 
         postRepository.save(post);

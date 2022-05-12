@@ -10,25 +10,15 @@ const Post = ({ name, content, likes, comments, liked, image }) => {
         <div className="w-8 h-8 bg-black rounded-3xl"></div>
         <p className="text-sm font-semibold mb-2 translate-y-1 ml-2">{name}</p>
       </div>
-      {image == "" ? null : (
-        <div>
-          <Image src={image} placeholder={blur} />
-        </div>
-      )}
       <p className="text-sm">{content}</p>
       <div className="flex flex-row mt-4">
         <button className="text-sm mr-4 flex flex-row">
-          {liked ? (
-            <RedHeartIcon className="h-5 w-5 text-red-500 " />
-          ) : (
-            <HeartIcon className="h-5 w-5 text-black " />
-          )}{" "}
-          {""}
-          <p className="ml-1">{likes} likes</p>
+          <HeartIcon className="h-5 w-5 text-black " /> {""}
+          <p className="ml-1">{Math.floor(Math.random() * 300)} likes</p>
         </button>
         <button className="text-sm flex flex-row">
           <ChatIcon className="h-5 w-5 text-black " /> {""}
-          <p className="ml-1">{comments} comments</p>
+          <p className="ml-1">{Math.floor(Math.random() * 50)} comments</p>
         </button>
       </div>
     </div>
@@ -36,3 +26,25 @@ const Post = ({ name, content, likes, comments, liked, image }) => {
 };
 
 export default Post;
+
+// <div className="flex flex-row mt-4">
+// <button className="text-sm mr-4 flex flex-row">
+//   {liked ? (
+//     <RedHeartIcon className="h-5 w-5 text-red-500 " />
+//   ) : (
+//     <HeartIcon className="h-5 w-5 text-black " />
+//   )}{" "}
+//   {""}
+//   <p className="ml-1">{likes} likes</p>
+// </button>
+// <button className="text-sm flex flex-row">
+//   <ChatIcon className="h-5 w-5 text-black " /> {""}
+//   <p className="ml-1">{comments} comments</p>
+// </button>
+// </div>
+
+// {image == "" ? null : (
+//   <div>
+//     <Image src={image} placeholder={blur} />
+//   </div>
+// )}
