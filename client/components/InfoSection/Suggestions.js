@@ -8,6 +8,7 @@ const Suggestions = () => {
   const [accounts, setAccounts] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [suggestedAccounts, setSuggestedAccounts] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     const options = {
@@ -24,17 +25,7 @@ const Suggestions = () => {
           .then((data) => {
             console.warn("following", data);
             setFollowers(data);
-
-            let suggested = accounts.filter((account) => {
-              return !followers.find((acc) => {
-                console.warn(account);
-                console.warn(acc);
-                return acc.userId == account.userId;
-              });
-            });
-
-            setSuggestedAccounts(suggested);
-            console.warn("suggested", suggestedAccounts);
+            setRefresh(true);
           })
           .catch((error) => {
             console.warn("Error", error);
@@ -44,13 +35,31 @@ const Suggestions = () => {
         console.warn("Error", error);
       });
   }, []);
+
+  useEffect(() => {
+    let suggested = accounts.filter((account) => {
+      return !followers.find((acc) => {
+        console.warn(account);
+        // console.warn(acc);
+        return acc.userId == account.userId;
+      });
+    });
+
+    let final = suggested.filter((acc) => {
+      return acc.userId != user.id;
+    });
+
+    setSuggestedAccounts(final);
+    console.warn("suggested", suggestedAccounts);
+  }, [refresh]);
+
   return (
     <div>
       <p className="text-md font-bold text-indigo-600 mb-2 overflow-auto">
         Suggestions
       </p>
-      {mockSuggestedAccounts.map((data, index) => {
-        return <SuggestedAccount key={index} name={data.name} />;
+      {suggestedAccounts.map((data, index) => {
+        return <SuggestedAccount key={index} name={data.userName} />;
       })}
     </div>
   );
