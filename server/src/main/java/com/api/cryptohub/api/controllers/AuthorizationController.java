@@ -44,7 +44,7 @@ public class AuthorizationController {
 
         userRepository.save(user);
 
-        return ResponseEntity.badRequest().body(new Response("registered",true,user.getUserId(), user.getUserName()));
+        return ResponseEntity.ok().body(new Response("registered",true,user.getUserId(), user.getUserName()));
     }
 
     public static class Response
