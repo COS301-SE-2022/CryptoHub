@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.api.cryptohub.mocks.UserMock.userMock;
-
 @CrossOrigin(origins="http://localhost:3000")
 @RestController
 @RequestMapping(path="api/authorization")

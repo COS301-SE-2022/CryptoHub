@@ -26,8 +26,8 @@ public class PostControllerIntTests {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private UserRepository userRepository;
+    //@Autowired
+    //private UserRepository userRepository;
 
     @Test
     public void givenPost_whenGetAllPosts_thenListOfPosts() throws Exception
@@ -47,27 +47,27 @@ public class PostControllerIntTests {
         response.andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(postRepository.findAll().size())));
     }
 
-    @Test
-    public void givenUserId_whenGetPostByUserId_thenUserOfId() throws Exception
-    {
-
-        Post post = new Post();
-        post.setPost("This is a post");
-        post.setPostId(100);
-        User u = new User("John", "Smith", "Adress@gmail.com", "123", "user");
-        userRepository.save(u);
-        post.setUser(u);
-
-
-        int num = postRepository.findAll().size();
-        post.setUserid(num);
-
-        postRepository.save(post);
-        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/post/getpostsbyuser/" + num));
-
-        response.andExpect(MockMvcResultMatchers.status().isOk());
-        response.andExpect(MockMvcResultMatchers.jsonPath("$[0].post", CoreMatchers.is(post.getPost())));
-    }
+//    @Test
+//    public void givenUserId_whenGetPostByUserId_thenUserOfId() throws Exception
+//    {
+//
+//        Post post = new Post();
+//        post.setPost("This is a post");
+//        post.setPostId(100);
+//        User u = new User("John", "Smith", "Adress@gmail.com", "123", "user");
+//        userRepository.save(u);
+//        post.setUser(u);
+//
+//
+//        int num = postRepository.findAll().size();
+//        post.setUserid(num);
+//
+//        postRepository.save(post);
+//        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/post/getpostsbyuser/" + num));
+//
+//        response.andExpect(MockMvcResultMatchers.status().isOk());
+//        response.andExpect(MockMvcResultMatchers.jsonPath("$[0].post", CoreMatchers.is(post.getPost())));
+//    }
 
 //    @Test
 //    public void givenPost_whencreatePost_thenPost() throws Exception
