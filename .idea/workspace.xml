@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0090bfec-13bd-4f20-b1ed-db71d5d9cac5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/components/NavigationBar/CreatePostButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/components/NavigationBar/CreatePostButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/api/controllers/AuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/api/controllers/AuthorizationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/com/api/cryptohub/AuthorizationControllerIntTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/com/api/cryptohub/AuthorizationControllerIntTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +76,23 @@
     ]
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.AuthorizationControllerIntTest.Register_UnregisteredUser_ReturnError">
+    <configuration name="AuthorizationControllerIntTest.Register_UnregisteredUser_ReturnError" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CryptoHub" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.api.cryptohub.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.api.cryptohub" />
+      <option name="MAIN_CLASS_NAME" value="com.api.cryptohub.AuthorizationControllerIntTest" />
+      <option name="METHOD_NAME" value="Register_UnregisteredUser_ReturnError" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CryptoHubApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="CryptoHub" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.api.cryptohub.CryptoHubApplication" />
@@ -91,6 +108,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AuthorizationControllerIntTest.Register_UnregisteredUser_ReturnError" />
         <item itemvalue="Spring Boot.CryptoHubApplication" />
       </list>
     </recent_temporary>
@@ -106,8 +124,8 @@
       <workItem from="1652256964051" duration="203000" />
       <workItem from="1652257187580" duration="2657000" />
       <workItem from="1652267341591" duration="605000" />
-      <workItem from="1652291237183" duration="10637000" />
-      <workItem from="1652302967673" duration="1272000" />
+      <workItem from="1652291237183" duration="1598000" />
+      <workItem from="1652390834155" duration="6319000" />
     </task>
     <servers />
   </component>
