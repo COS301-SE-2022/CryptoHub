@@ -57,10 +57,10 @@ public class AuthorizationControllerIntTest {
                 .content(this.mapper.writeValueAsString(record));
 
         mockMvc.perform(mockRequest)
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$",notNullValue()))
                 .andExpect(jsonPath("$.userId", Matchers.is((Field) null)))
-                .andExpect(jsonPath("$.response", Matchers.is("user already exists")));
+                .andExpect(jsonPath("$.response", Matchers.is("registered")));
         ;
     }
 
