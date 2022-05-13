@@ -55,7 +55,7 @@ public class UserController {
                     .body(null);
 
         return ResponseEntity.ok().body(user.getFollowing());
-        
+
     }
 
     @GetMapping(path = "getfollowers/{id}")
@@ -124,6 +124,11 @@ public class UserController {
         private Integer followerId;
 
         public FollowDTO() {
+        }
+
+        public FollowDTO(Integer userId, Integer followerId) {
+            this.userId = userId;
+            this.followerId = followerId;
         }
 
         public Integer getUserId() {
