@@ -4,13 +4,43 @@ import { userContext } from "../auth/auth";
 import { useContext } from "react";
 
 export default function Login() {
-  const { login } = useContext(userContext);
+  const { authorise } = useContext(userContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
+    setLoading(true);
     e.preventDefault();
-    login(email);
+
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    };
+
+    // fetch("https:localhost:3000/login", options)
+    // fetch("https://627bcb89b54fe6ee008f5488.mockapi.io/login", options)
+    fetch("http://localhost:8082/api/authorization/login", options)
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+        console.warn(data);
+        if (data.authorized) {
+          authorise(data.username, data.userId);
+        } else {
+          setError(true);
+        }
+      })
+      .catch((error) => {
+        console.warn("Error", error);
+        setError(true);
+        setLoading(false);
+      });
   };
 
   return (
@@ -22,7 +52,7 @@ export default function Login() {
               Log in to your account
             </h2>
           </div>
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <form className="mt-8 space-y-6" onSubmit={handleLogin}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
@@ -83,10 +113,19 @@ export default function Login() {
                     aria-hidden="true"
                   />
                 </span>
-                Log in
+                {loading ? (
+                  <p className="text-indigo-200">Loading...</p>
+                ) : (
+                  <p>Log in</p>
+                )}
               </button>
             </div>
           </form>
+          {error ? (
+            <h2 className="text-center text-sm font-semibold text-red-500">
+              invalid login credentials
+            </h2>
+          ) : null}
         </div>
       </div>
     </>
