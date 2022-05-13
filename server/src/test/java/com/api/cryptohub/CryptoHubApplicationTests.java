@@ -16,6 +16,4 @@ class CryptoHubApplicationTests {
         assertEquals("Test", response);
     }
 
-
-
 }
