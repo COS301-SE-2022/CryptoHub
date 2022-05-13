@@ -64,10 +64,14 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/Michael/Desktop/COS301/Capstone/CryptoHub&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;spring.configuration.checksum&quot;: &quot;3d49d44bdbb893a230b12f6dedf9a95c&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -76,8 +80,14 @@
     ]
   }
 }</component>
+<<<<<<< HEAD
   <component name="RunManager" selected="JUnit.AuthorizationControllerIntTest.Register_UnregisteredUser_ReturnError">
     <configuration name="AuthorizationControllerIntTest.Register_UnregisteredUser_ReturnError" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+=======
+  <component name="RunManager" selected="Application.CryptoHubApplication">
+    <configuration name="CryptoHubApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.api.cryptohub.CryptoHubApplication" />
+>>>>>>> f6f459f5d6327d0612890570bc47df9f7390524a
       <module name="CryptoHub" />
       <extension name="coverage">
         <pattern>
@@ -85,10 +95,13 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+<<<<<<< HEAD
       <option name="PACKAGE_NAME" value="com.api.cryptohub" />
       <option name="MAIN_CLASS_NAME" value="com.api.cryptohub.AuthorizationControllerIntTest" />
       <option name="METHOD_NAME" value="Register_UnregisteredUser_ReturnError" />
       <option name="TEST_OBJECT" value="method" />
+=======
+>>>>>>> f6f459f5d6327d0612890570bc47df9f7390524a
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -108,8 +121,12 @@
     </configuration>
     <recent_temporary>
       <list>
+<<<<<<< HEAD
         <item itemvalue="JUnit.AuthorizationControllerIntTest.Register_UnregisteredUser_ReturnError" />
         <item itemvalue="Spring Boot.CryptoHubApplication" />
+=======
+        <item itemvalue="Application.CryptoHubApplication" />
+>>>>>>> f6f459f5d6327d0612890570bc47df9f7390524a
       </list>
     </recent_temporary>
   </component>
@@ -125,7 +142,10 @@
       <workItem from="1652257187580" duration="2657000" />
       <workItem from="1652267341591" duration="605000" />
       <workItem from="1652291237183" duration="1598000" />
+<<<<<<< HEAD
       <workItem from="1652390834155" duration="6319000" />
+=======
+>>>>>>> f6f459f5d6327d0612890570bc47df9f7390524a
     </task>
     <servers />
   </component>

@@ -123,7 +123,7 @@ export default function Login() {
           </form>
           {error ? (
             <h2 className="text-center text-sm font-semibold text-red-500">
-              Failed to login
+              invalid login credentials
             </h2>
           ) : null}
         </div>
