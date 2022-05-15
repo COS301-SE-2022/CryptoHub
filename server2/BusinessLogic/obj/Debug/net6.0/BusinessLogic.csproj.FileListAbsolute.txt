@@ -1,0 +1,12 @@
+C:\Users\borek\Documents\GitHub\CryptoHub\server2\BusinessLogic\bin\Debug\net6.0\BusinessLogic.deps.json
+C:\Users\borek\Documents\GitHub\CryptoHub\server2\BusinessLogic\bin\Debug\net6.0\BusinessLogic.dll
+C:\Users\borek\Documents\GitHub\CryptoHub\server2\BusinessLogic\bin\Debug\net6.0\BusinessLogic.pdb
+C:\Users\borek\Documents\GitHub\CryptoHub\server2\BusinessLogic\obj\Debug\net6.0\BusinessLogic.csproj.AssemblyReference.cache
+C:\Users\borek\Documents\GitHub\CryptoHub\server2\BusinessLogic\obj\Debug\net6.0\BusinessLogic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\borek\Documents\GitHub\CryptoHub\server2\BusinessLogic\obj\Debug\net6.0\BusinessLogic.AssemblyInfoInputs.cache
+C:\Users\borek\Documents\GitHub\CryptoHub\server2\BusinessLogic\obj\Debug\net6.0\BusinessLogic.AssemblyInfo.cs
+C:\Users\borek\Documents\GitHub\CryptoHub\server2\BusinessLogic\obj\Debug\net6.0\BusinessLogic.csproj.CoreCompileInputs.cache
+C:\Users\borek\Documents\GitHub\CryptoHub\server2\BusinessLogic\obj\Debug\net6.0\BusinessLogic.dll
+C:\Users\borek\Documents\GitHub\CryptoHub\server2\BusinessLogic\obj\Debug\net6.0\refint\BusinessLogic.dll
+C:\Users\borek\Documents\GitHub\CryptoHub\server2\BusinessLogic\obj\Debug\net6.0\BusinessLogic.pdb
+C:\Users\borek\Documents\GitHub\CryptoHub\server2\BusinessLogic\obj\Debug\net6.0\ref\BusinessLogic.dll

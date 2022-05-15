@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "gCSmmSgw9o1xdLcNFLTMZw6+lQDJDwOXYciThvA+RlM=",
+  "Source": "CryptoHubAPI",
+  "BasePath": "_content/CryptoHubAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
