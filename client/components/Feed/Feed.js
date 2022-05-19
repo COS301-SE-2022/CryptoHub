@@ -8,7 +8,7 @@ const Feed = () => {
 
   return (
     <div className="w-11/12 sm:flex">
-      {user.auth ? null : <InfoSection />}
+      <InfoSection />
       <Posts />
     </div>
   );

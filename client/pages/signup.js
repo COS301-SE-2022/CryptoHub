@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
 import { userContext } from "../auth/auth";
+import { useRouter } from "next/router";
 
 export default function Signup() {
   const { authorise } = useContext(userContext);
-
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -157,6 +158,18 @@ export default function Signup() {
                   <p>Create account</p>
                 )}
               </button>
+              <div className="text-gray-400 text-center font-sm mt-5">
+                Already signed up ?{" "}
+                <span className="text-indigo-700 focus:underline">
+                  <button
+                    onClick={() => {
+                      router.push("/login");
+                    }}
+                  >
+                    Log in here
+                  </button>
+                </span>
+              </div>
             </div>
           </form>
           {error ? (

@@ -53,7 +53,7 @@ const MainContent = () => {
         <div className="mt-20 w-11/12 sm:w-12/12 justify-center flex">
           <Image src={PhoneImage} layout="intrinsic" />
           <div className="flex flex-col ml-2 mt-2">
-            <div className="bg-indigo-300 h-24 sm:h-7 px-3 w-7/12 rounded-lg text-indigo-800 text-lg mb-3">
+            <div className="bg-indigo-300 h-24 sm:h-7 px-3 w-5/12 rounded-lg text-indigo-800 text-lg mb-3">
               to the moon 🚀
             </div>
             <button
@@ -62,7 +62,7 @@ const MainContent = () => {
               }}
               className="bg-indigo-300 h-24 text-left sm:h-7 px-3 rounded-lg text-indigo-800 text-lg"
             >
-              click here to see some posts 💰
+              not ready to sign up? see some posts here 💰
             </button>
           </div>
         </div>
