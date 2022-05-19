@@ -1,5 +1,7 @@
 import React from "react";
 import NavigationBar from "../NavigationBar/NavigationBar";
+import Image from "next/image";
+import PhoneImage from "../../public/images/landing.png";
 
 const LandingPage = () => {
   return (
@@ -31,6 +33,15 @@ const LandingPage = () => {
             >
               Log in
             </a>
+          </div>
+        </div>
+        <div className="mt-24 w-8/12 justify-center flex">
+          <div className="bg-indigo-300 h-6 px-2 rounded-lg text-indigo-800 invisible">
+            to the moon 🚀
+          </div>
+          <Image src={PhoneImage} />
+          <div className="bg-indigo-300 h-7 px-2 rounded-lg text-indigo-800 text-lg">
+            to the moon 🚀
           </div>
         </div>
       </div>
