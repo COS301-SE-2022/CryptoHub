@@ -60,7 +60,7 @@ const MainContent = () => {
               onClick={() => {
                 router.push("/guest");
               }}
-              className="bg-indigo-300 h-24 text-left sm:h-7 px-3 rounded-lg text-indigo-800 text-lg"
+              className="bg-indigo-300 hover:bg-indigo-400 h-24 text-left sm:h-7 px-3 rounded-lg text-indigo-800 text-lg"
             >
               not ready to sign up? see some posts here 💰
             </button>
