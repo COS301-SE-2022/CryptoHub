@@ -37,18 +37,20 @@ const Suggestions = () => {
   }, []);
 
   useEffect(() => {
-    let suggested = accounts.filter((account) => {
-      return !followers.find((acc) => {
-        console.warn(account);
-        return acc.userId == account.userId;
+    try {
+      let suggested = accounts.filter((account) => {
+        return !followers.find((acc) => {
+          console.warn(account);
+          return acc.userId == account.userId;
+        });
       });
-    });
 
-    let final = suggested.filter((acc) => {
-      return acc.userId != user.id;
-    });
+      let final = suggested.filter((acc) => {
+        return acc.userId != user.id;
+      });
 
-    setSuggestedAccounts(final.slice(0, 4));
+      setSuggestedAccounts(final.slice(0, 4));
+    } catch {}
   }, [refresh]);
 
   return (
