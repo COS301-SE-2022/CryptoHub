@@ -18,6 +18,7 @@ namespace Domain.Models
 
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UserFollower> UserFollowers { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -41,6 +42,39 @@ namespace Domain.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Post_User");
+
+                entity.HasData(
+                    new Post
+                    {
+                        PostId = 1,
+                        UserId = 1,
+                        Post1 = "Crypto awesome"
+                    },
+                    new Post
+                    {
+                        PostId = 2,
+                        UserId = 1,
+                        Post1 = "Crypto Amazing"
+                    }, 
+                    new Post
+                    {
+                        PostId = 3,
+                        UserId = 2,
+                        Post1 = "cool site"
+                    }, 
+                    new Post
+                    {
+                        PostId = 4,
+                        UserId = 3,
+                        Post1 = "send money"
+                    }, 
+                    new Post
+                    {
+                        PostId = 5,
+                        UserId = 3,
+                        Post1 = "please"
+                    }
+                );
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -57,31 +91,91 @@ namespace Domain.Models
 
                 entity.Property(e => e.Username).HasMaxLength(50);
 
-                entity.HasMany(d => d.Follows)
-                    .WithMany(p => p.Users)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "UserFollower",
-                        l => l.HasOne<User>().WithMany().HasForeignKey("FollowId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_UserFollower_FollowerId"),
-                        r => r.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_UserFollower_UserId"),
-                        j =>
-                        {
-                            j.HasKey("UserId", "FollowId");
+                entity.HasData(
+                    new User
+                    {
+                        UserId = 1,
+                        Email = "johndoe@gmail.com",
+                        Firstname = "john",
+                        Lastname = "doe",
+                        Username = "john",
+                        Password = "1234"
+                    },
+                    new User
+                    {
+                        UserId = 2,
+                        Email = "elonmusk@gmail.com",
+                        Firstname = "elon",
+                        Lastname = "musk",
+                        Username = "elon",
+                        Password = "1234"
+                    },
+                    new User
+                    {
+                        UserId = 3,
+                        Email = "billgates@gmail.com",
+                        Firstname = "bill",
+                        Lastname = "gates",
+                        Username = "bill",
+                        Password = "windows"
+                    }
 
-                            j.ToTable("UserFollower");
-                        });
+                );
+            });
 
-                entity.HasMany(d => d.Users)
-                    .WithMany(p => p.Follows)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "UserFollower",
-                        l => l.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_UserFollower_UserId"),
-                        r => r.HasOne<User>().WithMany().HasForeignKey("FollowId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_UserFollower_FollowerId"),
-                        j =>
-                        {
-                            j.HasKey("UserId", "FollowId");
+            modelBuilder.Entity<UserFollower>(entity =>
+            {
+                entity.ToTable("UserFollower");
 
-                            j.ToTable("UserFollower");
-                        });
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.FollowDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Follow)
+                    .WithMany(p => p.UserFollowerFollows)
+                    .HasForeignKey(d => d.FollowId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserFollower_FollowerId");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserFollowerUsers)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserFollower_UserId");
+
+                entity.HasData(
+                    new UserFollower
+                    {
+                        Id=1,
+                        UserId=1,
+                        FollowId=2,
+                        FollowDate=DateTime.Now
+                    },
+                    new UserFollower
+                    {
+                        Id = 2,
+                        UserId = 1,
+                        FollowId = 3,
+                        FollowDate = DateTime.Now
+                    },
+                    new UserFollower
+                    {
+                        Id = 3,
+                        UserId = 3,
+                        FollowId = 2,
+                        FollowDate = DateTime.Now
+                    },
+                    new UserFollower
+                    {
+                        Id = 4,
+                        UserId = 2,
+                        FollowId = 1,
+                        FollowDate = DateTime.Now
+                    }
+
+                    );
             });
 
             OnModelCreatingPartial(modelBuilder);

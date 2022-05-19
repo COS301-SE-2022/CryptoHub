@@ -23,6 +23,10 @@ namespace Domain.IRepository
 
         Task DeleteRange(Expression<Func<TEntity, bool>> expression);
 
+        Task<TEntity> Add(TEntity entity);
+
+
+
 
     }
 }

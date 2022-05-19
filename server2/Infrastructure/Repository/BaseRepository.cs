@@ -80,5 +80,12 @@ namespace Infrastructure.Repository
             return entity;
 
         }
+
+        public async Task<TEntity> Add(TEntity entity)
+        {
+            var response = await dbSet.AddAsync(entity);
+            return entity;
+
+        }
     }
 }

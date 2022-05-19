@@ -8,8 +8,8 @@ namespace Domain.Models
         public User()
         {
             Posts = new HashSet<Post>();
-            Follows = new HashSet<User>();
-            Users = new HashSet<User>();
+            UserFollowerFollows = new HashSet<UserFollower>();
+            UserFollowerUsers = new HashSet<UserFollower>();
         }
 
         public int UserId { get; set; }
@@ -20,8 +20,7 @@ namespace Domain.Models
         public string Password { get; set; } = null!;
 
         public virtual ICollection<Post> Posts { get; set; }
-
-        public virtual ICollection<User> Follows { get; set; }
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<UserFollower> UserFollowerFollows { get; set; }
+        public virtual ICollection<UserFollower> UserFollowerUsers { get; set; }
     }
 }
