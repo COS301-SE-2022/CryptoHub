@@ -1,11 +1,9 @@
 # CryptoHub
-<p align="center"><img src="https://user-images.githubusercontent.com/53974039/167720947-8c431792-b411-480e-9458-65c14e64a755.gif" alt="HTTPie in action" width="75%"/> </p>
+<p align="center"><img src="https://user-images.githubusercontent.com/53974039/169389638-2e93a52a-06b9-4cc3-b5a1-3b32fbc76b40.gif" alt="HTTPie in action" width="85%"/> </p>
 
 [![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2022/CryptoHub)](https://img.shields.io/github/issues/COS301-SE-2022/Silicon-Scraper?style=for-the-badge)
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/COS301-SE-2022/CryptoHub)](https://github.com/COS301-SE-2022/CryptoHub/issues?q=is%3Aissue+is%3Aclosed)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/COS301-SE-2022/CryptoHub)](https://github.com/COS301-SE-2022/CryptoHub/pulls)
-
-https://cryptohub301.netlify.app/
 
 ## Project Description
 CryptoHub is an interactive and social application that allows a user to explore the world of crypto. Each user has the ability to share and explore investment recommendations, crypto stories as well as have insight into crypto coins and the current global crypto news.
