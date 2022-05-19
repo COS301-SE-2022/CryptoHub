@@ -2,16 +2,15 @@ import React, { useState, useContext } from "react";
 import { XIcon } from "@heroicons/react/outline";
 import { userContext } from "../../auth/auth";
 
-
 const CreatePostButton = () => {
-  const { user, refreshfeed } = useContext(userContext)
+  const { user, refreshfeed } = useContext(userContext);
   const [showModal, setShowModal] = useState(false);
-  const [post, setPost] = useState("")
+  const [post, setPost] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleCreatePost = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const options = {
       method: "POST",
@@ -27,11 +26,10 @@ const CreatePostButton = () => {
       .then((data) => {
         setLoading(false);
         console.warn(data);
-        setShowModal(false)
-        refreshfeed()
+        setShowModal(false);
+        refreshfeed();
         if (data.userId == user.id) {
           console.warn("Posted");
-          
         } else {
           setError(true);
         }
@@ -41,8 +39,7 @@ const CreatePostButton = () => {
         setError(true);
         setLoading(false);
       });
-
-  }
+  };
 
   return (
     <>
@@ -55,7 +52,7 @@ const CreatePostButton = () => {
       </button>
       {showModal ? (
         <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div className="justify-center items-start mt-16 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative sm:w-6/12 my-6 mx-auto max-w-3xl">
               <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 <div className="flex items-start justify-between p-5 border-solid border-slate-200 rounded-t">
@@ -93,12 +90,9 @@ const CreatePostButton = () => {
                         Share
                       </button>
                     </div>
-
                   </form>
                 </div>
-                <div className="flex items-center justify-end p-6 border-solid border-slate-200 rounded-b">
-
-                </div>
+                <div className="flex items-center justify-end p-6 border-solid border-slate-200 rounded-b"></div>
               </div>
             </div>
           </div>
