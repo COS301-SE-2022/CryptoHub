@@ -35,12 +35,9 @@ const LandingPage = () => {
             </a>
           </div>
         </div>
-        <div className="mt-24 w-8/12 justify-center flex">
-          <div className="bg-indigo-300 h-6 px-2 rounded-lg text-indigo-800 invisible">
-            to the moon 🚀
-          </div>
+        <div className="mt-20 w-11/12 sm:w-8/12 justify-center flex">
           <Image src={PhoneImage} />
-          <div className="bg-indigo-300 h-7 px-2 rounded-lg text-indigo-800 text-lg">
+          <div className="bg-indigo-300 h-16 sm:h-7 px-2 rounded-lg text-indigo-800 text-lg">
             to the moon 🚀
           </div>
         </div>
