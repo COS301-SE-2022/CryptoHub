@@ -35,6 +35,17 @@ namespace CryptoHubAPI.Controllers
 
         }
 
+        [HttpGet("{email}")]
+        public async Task<ActionResult<User>> GetUserByEmail(string email)
+        {
+            var response = await userRepository.FindOne(u => u.Email == email);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+
+        }
+
         [HttpPost]
         public async Task<ActionResult<User>> AddUser([FromBody] User user)
         {
