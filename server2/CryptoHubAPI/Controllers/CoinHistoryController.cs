@@ -39,6 +39,13 @@ namespace CryptoHubAPI.Controllers
 			return Ok(response);
 		}
 
+		[HttpDelete]
+		public async Task<IActionResult> Delete(int id)
+		{
+			await _coinHistoryRepository.DeleteOne(u => u.HistoryId == id);
+			return Ok();
+		}
+
 
 	}
 }
