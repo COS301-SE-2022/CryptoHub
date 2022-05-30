@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserFollowerRepository, UserFollowerRepository>();
 builder.Services.AddTransient<IPostRepository, PostRepository>();
+builder.Services.AddTransient<ICoinRepository, CoinRepository>();
 
 
 builder.Services.AddCors();
