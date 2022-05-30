@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(CryptoHubDBContext))]
-    [Migration("20220518194428_first")]
+    [Migration("20220524182654_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -173,28 +173,28 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            FollowDate = new DateTime(2022, 5, 18, 21, 44, 28, 716, DateTimeKind.Local).AddTicks(6284),
+                            FollowDate = new DateTime(2022, 5, 24, 20, 26, 54, 245, DateTimeKind.Local).AddTicks(6064),
                             FollowId = 2,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            FollowDate = new DateTime(2022, 5, 18, 21, 44, 28, 716, DateTimeKind.Local).AddTicks(6293),
+                            FollowDate = new DateTime(2022, 5, 24, 20, 26, 54, 245, DateTimeKind.Local).AddTicks(6075),
                             FollowId = 3,
                             UserId = 1
                         },
                         new
                         {
                             Id = 3,
-                            FollowDate = new DateTime(2022, 5, 18, 21, 44, 28, 716, DateTimeKind.Local).AddTicks(6294),
+                            FollowDate = new DateTime(2022, 5, 24, 20, 26, 54, 245, DateTimeKind.Local).AddTicks(6076),
                             FollowId = 2,
                             UserId = 3
                         },
                         new
                         {
                             Id = 4,
-                            FollowDate = new DateTime(2022, 5, 18, 21, 44, 28, 716, DateTimeKind.Local).AddTicks(6295),
+                            FollowDate = new DateTime(2022, 5, 24, 20, 26, 54, 245, DateTimeKind.Local).AddTicks(6077),
                             FollowId = 1,
                             UserId = 2
                         });

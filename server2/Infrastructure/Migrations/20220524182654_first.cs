@@ -9,15 +9,6 @@ namespace Infrastructure.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Post");
-
-            migrationBuilder.DropTable(
-                name: "UserFollower");
-
-            migrationBuilder.DropTable(
-                name: "User");
-
             migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
@@ -110,10 +101,10 @@ namespace Infrastructure.Migrations
                 columns: new[] { "id", "FollowDate", "FollowId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 5, 18, 21, 44, 28, 716, DateTimeKind.Local).AddTicks(6284), 2, 1 },
-                    { 2, new DateTime(2022, 5, 18, 21, 44, 28, 716, DateTimeKind.Local).AddTicks(6293), 3, 1 },
-                    { 3, new DateTime(2022, 5, 18, 21, 44, 28, 716, DateTimeKind.Local).AddTicks(6294), 2, 3 },
-                    { 4, new DateTime(2022, 5, 18, 21, 44, 28, 716, DateTimeKind.Local).AddTicks(6295), 1, 2 }
+                    { 1, new DateTime(2022, 5, 24, 20, 26, 54, 245, DateTimeKind.Local).AddTicks(6064), 2, 1 },
+                    { 2, new DateTime(2022, 5, 24, 20, 26, 54, 245, DateTimeKind.Local).AddTicks(6075), 3, 1 },
+                    { 3, new DateTime(2022, 5, 24, 20, 26, 54, 245, DateTimeKind.Local).AddTicks(6076), 2, 3 },
+                    { 4, new DateTime(2022, 5, 24, 20, 26, 54, 245, DateTimeKind.Local).AddTicks(6077), 1, 2 }
                 });
 
             migrationBuilder.CreateIndex(
