@@ -84,6 +84,7 @@ namespace Infrastructure.Repository
         public async Task<TEntity> Add(TEntity entity)
         {
             var response = await dbSet.AddAsync(entity);
+            dBContext.SaveChanges();
             return entity;
 
         }

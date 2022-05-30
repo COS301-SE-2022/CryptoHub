@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Domain.Models
 {
@@ -19,8 +20,12 @@ namespace Domain.Models
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
 
-        public virtual ICollection<Post> Posts { get; set; }
-        public virtual ICollection<UserFollower> UserFollowerFollows { get; set; }
-        public virtual ICollection<UserFollower> UserFollowerUsers { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Post>? Posts { get; set; }
+        
+        [JsonIgnore]
+        public virtual ICollection<UserFollower>? UserFollowerFollows { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<UserFollower>? UserFollowerUsers { get; set; }
     }
 }
