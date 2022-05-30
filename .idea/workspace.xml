@@ -4,41 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0090bfec-13bd-4f20-b1ed-db71d5d9cac5" name="Changes" comment="">
+    <list default="true" id="60f608ef-fdc8-45c5-8760-30a7d429321b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cdd8952e-a552-4fe5-b07a-20d7c86d9c17.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cdd8952e-a552-4fe5-b07a-20d7c86d9c17/storage_v2/_src_/database/cryptohub.lGBEXw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cdd8952e-a552-4fe5-b07a-20d7c86d9c17/storage_v2/_src_/database/cryptohub.lGBEXw/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cdd8952e-a552-4fe5-b07a-20d7c86d9c17/storage_v2/_src_/database/cryptohub.lGBEXw/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cdd8952e-a552-4fe5-b07a-20d7c86d9c17/storage_v2/_src_/database/cryptohub.lGBEXw/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/api/controllers/AuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/api/cryptohub/api/controllers/AuthorizationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/com/api/cryptohub/AuthorizationControllerIntTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/com/api/cryptohub/AuthorizationControllerIntTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="JpbToolWindowState">
-    <option name="myId2FirstActivated">
-      <map>
-        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
-        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
-        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
-      </map>
-    </option>
-    <option name="myId2Visible">
-      <map>
-        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
-        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
-        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
-      </map>
-    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -50,62 +35,27 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectId" id="290jZzcDwLLfi7BJbEUprzsCZDg" />
+  <component name="ProjectId" id="296NCjyAikKqwvxGvZr2Ri1nRA3" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/Michael/Desktop/COS301/Capstone/CryptoHub&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;3d49d44bdbb893a230b12f6dedf9a95c&quot;
-  },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
-    ]
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "spring.configuration.checksum": "3d49d44bdbb893a230b12f6dedf9a95c"
   }
-}</component>
-<<<<<<< HEAD
-  <component name="RunManager" selected="JUnit.AuthorizationControllerIntTest.Register_UnregisteredUser_ReturnError">
-    <configuration name="AuthorizationControllerIntTest.Register_UnregisteredUser_ReturnError" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-=======
-  <component name="RunManager" selected="Application.CryptoHubApplication">
-    <configuration name="CryptoHubApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.api.cryptohub.CryptoHubApplication" />
->>>>>>> f6f459f5d6327d0612890570bc47df9f7390524a
-      <module name="CryptoHub" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.api.cryptohub.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-<<<<<<< HEAD
-      <option name="PACKAGE_NAME" value="com.api.cryptohub" />
-      <option name="MAIN_CLASS_NAME" value="com.api.cryptohub.AuthorizationControllerIntTest" />
-      <option name="METHOD_NAME" value="Register_UnregisteredUser_ReturnError" />
-      <option name="TEST_OBJECT" value="method" />
-=======
->>>>>>> f6f459f5d6327d0612890570bc47df9f7390524a
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+}]]></component>
+  <component name="RunManager">
     <configuration name="CryptoHubApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="CryptoHub" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.api.cryptohub.CryptoHubApplication" />
@@ -121,46 +71,24 @@
     </configuration>
     <recent_temporary>
       <list>
-<<<<<<< HEAD
-        <item itemvalue="JUnit.AuthorizationControllerIntTest.Register_UnregisteredUser_ReturnError" />
         <item itemvalue="Spring Boot.CryptoHubApplication" />
-=======
-        <item itemvalue="Application.CryptoHubApplication" />
->>>>>>> f6f459f5d6327d0612890570bc47df9f7390524a
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0090bfec-13bd-4f20-b1ed-db71d5d9cac5" name="Changes" comment="" />
-      <created>1652256961396</created>
+      <changelist id="60f608ef-fdc8-45c5-8760-30a7d429321b" name="Changes" comment="" />
+      <created>1652429454014</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1652256961396</updated>
-      <workItem from="1652256964051" duration="203000" />
-      <workItem from="1652257187580" duration="2657000" />
-      <workItem from="1652267341591" duration="605000" />
-      <workItem from="1652291237183" duration="1598000" />
-<<<<<<< HEAD
-      <workItem from="1652390834155" duration="6319000" />
-=======
->>>>>>> f6f459f5d6327d0612890570bc47df9f7390524a
+      <updated>1652429454014</updated>
+      <workItem from="1652429457045" duration="926000" />
+      <workItem from="1652628779755" duration="898000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
 </project>
