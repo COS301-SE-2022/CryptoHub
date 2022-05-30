@@ -1,5 +1,6 @@
 ﻿using System;
 using Domain.IRepository;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoHubAPI.Controllers
@@ -15,6 +16,14 @@ namespace CryptoHubAPI.Controllers
 		{
 			_coinRepository = coinRepository;
 		}
+
+		[HttpGet]
+		// GET: PostController
+		public async Task<ActionResult<List<Coin>>> GetAllCoins()
+		{
+			return Ok(await _coinRepository.GetAll());
+		}
+
 
 
 	}
