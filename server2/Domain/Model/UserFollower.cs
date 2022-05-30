@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domain.Models
+namespace Domain.Model
 {
     public partial class UserFollower
     {
