@@ -1,4 +1,5 @@
-﻿using Domain.IRepository;
+﻿using Domain.Infrastructure;
+using Domain.IRepository;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
