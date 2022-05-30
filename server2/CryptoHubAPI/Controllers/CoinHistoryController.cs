@@ -1,13 +1,25 @@
 ﻿using System;
+using Domain.IRepository;
+using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
+
 namespace CryptoHubAPI.Controllers
 {
 
 	[ApiController]
 	[Route("api/[controller]/[action]")]
-	public class CoinHistoryController
+	public class CoinHistoryController : Controller
 	{
-		public CoinHistoryController()
+		private readonly ICoinHistoryRepository _coinHistoryRepository;
+		public CoinHistoryController(ICoinHistoryRepository coinHistoryRepository)
 		{
+			_coinHistoryRepository = coinHistoryRepository;
+		}
+
+		[HttpGet]
+		public async Task<ActionResult<List<CoinHistory>>> GetAllCoins()
+		{
+			return Ok(await _coinHistoryRepository.GetAll());
 		}
 	}
 }
