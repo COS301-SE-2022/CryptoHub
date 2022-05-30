@@ -21,6 +21,13 @@ namespace CryptoHubAPI.Controllers
 		{
 			return Ok(await _coinHistoryRepository.GetAll());
 		}
+
+		[HttpPost]
+		public async Task<ActionResult<CoinHistory>> AddPost([FromBody] CoinHistory _coinHistory)
+		{
+			return Ok(await _coinHistoryRepository.Add(_coinHistory));
+
+		}
 	}
 }
 
