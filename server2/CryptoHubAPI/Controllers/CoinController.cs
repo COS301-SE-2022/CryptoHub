@@ -18,12 +18,21 @@ namespace CryptoHubAPI.Controllers
 		}
 
 		[HttpGet]
-		// GET: PostController
 		public async Task<ActionResult<List<Coin>>> GetAllCoins()
 		{
 			return Ok(await _coinRepository.GetAll());
 		}
 
+
+		[HttpPut]
+		public async Task<ActionResult<Post>> UpdateCoin([FromBody] Coin _coin)
+		{
+			var response = await _coinRepository.Update(u => u.CoinId == _coin.CoinId, _coin);
+			if (response == null)
+				return null;
+
+			return Ok(response);
+		}
 
 
 	}
