@@ -1,38 +1,36 @@
 {
   "format": 1,
   "restore": {
-    "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\UnitTests\\UnitTests.csproj": {}
+    "/Users/thabochesane/Desktop/CryptoHub/server2/UnitTests/UnitTests.csproj": {}
   },
   "projects": {
-    "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\CryptoHubAPI\\CryptoHubAPI.csproj": {
+    "/Users/thabochesane/Desktop/CryptoHub/server2/CryptoHubAPI/CryptoHubAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\CryptoHubAPI\\CryptoHubAPI.csproj",
+        "projectUniqueName": "/Users/thabochesane/Desktop/CryptoHub/server2/CryptoHubAPI/CryptoHubAPI.csproj",
         "projectName": "CryptoHubAPI",
-        "projectPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\CryptoHubAPI\\CryptoHubAPI.csproj",
-        "packagesPath": "C:\\Users\\Cassi\\.nuget\\packages\\",
-        "outputPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\CryptoHubAPI\\obj\\",
+        "projectPath": "/Users/thabochesane/Desktop/CryptoHub/server2/CryptoHubAPI/CryptoHubAPI.csproj",
+        "packagesPath": "/Users/thabochesane/.nuget/packages/",
+        "outputPath": "/Users/thabochesane/Desktop/CryptoHub/server2/CryptoHubAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Cassi\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/thabochesane/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Domain\\Domain.csproj"
+              "/Users/thabochesane/Desktop/CryptoHub/server2/Domain/Domain.csproj": {
+                "projectPath": "/Users/thabochesane/Desktop/CryptoHub/server2/Domain/Domain.csproj"
               },
-              "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Infrastructure\\Infrastructure.csproj"
+              "/Users/thabochesane/Desktop/CryptoHub/server2/Infrastructure/Infrastructure.csproj": {
+                "projectPath": "/Users/thabochesane/Desktop/CryptoHub/server2/Infrastructure/Infrastructure.csproj"
               }
             }
           }
@@ -76,28 +74,26 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.300/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Domain\\Domain.csproj": {
+    "/Users/thabochesane/Desktop/CryptoHub/server2/Domain/Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Domain\\Domain.csproj",
+        "projectUniqueName": "/Users/thabochesane/Desktop/CryptoHub/server2/Domain/Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\Cassi\\.nuget\\packages\\",
-        "outputPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Domain\\obj\\",
+        "projectPath": "/Users/thabochesane/Desktop/CryptoHub/server2/Domain/Domain.csproj",
+        "packagesPath": "/Users/thabochesane/.nuget/packages/",
+        "outputPath": "/Users/thabochesane/Desktop/CryptoHub/server2/Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Cassi\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/thabochesane/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -142,36 +138,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.300/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Infrastructure\\Infrastructure.csproj": {
+    "/Users/thabochesane/Desktop/CryptoHub/server2/Infrastructure/Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "/Users/thabochesane/Desktop/CryptoHub/server2/Infrastructure/Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Cassi\\.nuget\\packages\\",
-        "outputPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Infrastructure\\obj\\",
+        "projectPath": "/Users/thabochesane/Desktop/CryptoHub/server2/Infrastructure/Infrastructure.csproj",
+        "packagesPath": "/Users/thabochesane/.nuget/packages/",
+        "outputPath": "/Users/thabochesane/Desktop/CryptoHub/server2/Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Cassi\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/thabochesane/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Domain\\Domain.csproj"
+              "/Users/thabochesane/Desktop/CryptoHub/server2/Domain/Domain.csproj": {
+                "projectPath": "/Users/thabochesane/Desktop/CryptoHub/server2/Domain/Domain.csproj"
               }
             }
           }
@@ -210,39 +204,37 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.300/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\UnitTests\\UnitTests.csproj": {
+    "/Users/thabochesane/Desktop/CryptoHub/server2/UnitTests/UnitTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\UnitTests\\UnitTests.csproj",
+        "projectUniqueName": "/Users/thabochesane/Desktop/CryptoHub/server2/UnitTests/UnitTests.csproj",
         "projectName": "UnitTests",
-        "projectPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\UnitTests\\UnitTests.csproj",
-        "packagesPath": "C:\\Users\\Cassi\\.nuget\\packages\\",
-        "outputPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\UnitTests\\obj\\",
+        "projectPath": "/Users/thabochesane/Desktop/CryptoHub/server2/UnitTests/UnitTests.csproj",
+        "packagesPath": "/Users/thabochesane/.nuget/packages/",
+        "outputPath": "/Users/thabochesane/Desktop/CryptoHub/server2/UnitTests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Cassi\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/thabochesane/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\CryptoHubAPI\\CryptoHubAPI.csproj": {
-                "projectPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\CryptoHubAPI\\CryptoHubAPI.csproj"
+              "/Users/thabochesane/Desktop/CryptoHub/server2/CryptoHubAPI/CryptoHubAPI.csproj": {
+                "projectPath": "/Users/thabochesane/Desktop/CryptoHub/server2/CryptoHubAPI/CryptoHubAPI.csproj"
               },
-              "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\UP\\2022\\Semester_1\\COS301\\Development\\tuks\\CryptoHub\\server2\\Domain\\Domain.csproj"
+              "/Users/thabochesane/Desktop/CryptoHub/server2/Domain/Domain.csproj": {
+                "projectPath": "/Users/thabochesane/Desktop/CryptoHub/server2/Domain/Domain.csproj"
               }
             }
           }
@@ -297,7 +289,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.300/RuntimeIdentifierGraph.json"
         }
       }
     }
