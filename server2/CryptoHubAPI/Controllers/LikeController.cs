@@ -16,6 +16,17 @@ namespace CryptoHubAPI.Controllers
             this.likeRepository = likeRepository;
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Like>> GetLikeByUserId(int id)
+        {
+            var response = await likeRepository.FindRange(p => p.UserId == id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+
+        }
+
         [HttpPost]
         public async Task<ActionResult<Like>> AddLike([FromBody] Like Like)
         {
