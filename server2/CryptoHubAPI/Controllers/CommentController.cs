@@ -1,6 +1,14 @@
-﻿namespace CryptoHubAPI.Controllers
+﻿using Domain.IRepository;
+using Domain.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace CryptoHubAPI.Controllers
 {
-    public class Class
+    [ApiController]
+    [Route("api/[controller]/[action]")]
+    public class CommentController : Controller
     {
+
     }
 }
