@@ -10,5 +10,10 @@ namespace UnitTests.ControllerTests
     public class PostControllerTest
     {
         private readonly Mock<IPostRepository> _postRepositoryMock;
+
+        public PostControllerTest()
+        {
+            _postRepositoryMock = new Mock<IPostRepository>();
+        }
     }
 }
