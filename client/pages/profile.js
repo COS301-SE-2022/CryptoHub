@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import Layout from "../components/Layout";
 import Head from "next/head";
 import { userContext } from "../auth/auth";
-import Posts from "../components/Posts/Posts";
 import Post from "../components/Posts/Post";
 import { useRouter } from "next/router";
 import { XIcon } from "@heroicons/react/outline";
@@ -11,8 +10,8 @@ import SuggestedAccount from "../components/InfoSection/SuggestedAccount";
 const Profile = () => {
   const { user } = useContext(userContext);
   const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [, setError] = useState(false);
+  const [, setLoading] = useState(false);
   const router = useRouter();
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
@@ -28,11 +27,9 @@ const Profile = () => {
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.warn("Followers", data);
         setFollowing(data);
       })
       .catch((error) => {
-        console.warn("Error", error);
         setError(true);
         setLoading(false);
       });
@@ -47,11 +44,9 @@ const Profile = () => {
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.warn("Followers", data);
         setFollowers(data);
       })
       .catch((error) => {
-        console.warn("Error", error);
         setError(true);
         setLoading(false);
       });

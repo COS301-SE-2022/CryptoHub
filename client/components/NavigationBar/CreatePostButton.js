@@ -6,8 +6,8 @@ const CreatePostButton = () => {
   const { user, refreshfeed } = useContext(userContext);
   const [showModal, setShowModal] = useState(false);
   const [post, setPost] = useState("");
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [, setError] = useState(false);
+  const [, setLoading] = useState(false);
 
   const handleCreatePost = (e) => {
     e.preventDefault();
@@ -25,17 +25,14 @@ const CreatePostButton = () => {
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.warn(data);
         setShowModal(false);
         refreshfeed();
         if (data.userId == user.id) {
-          console.warn("Posted");
         } else {
           setError(true);
         }
       })
-      .catch((error) => {
-        console.warn("Error", error);
+      .catch(() => {
         setError(true);
         setLoading(false);
       });

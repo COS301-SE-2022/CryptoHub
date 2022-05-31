@@ -8,8 +8,6 @@ import { userContext } from "../../auth/auth";
 const NavigationBar = () => {
   const router = useRouter();
   const { user } = useContext(userContext);
-  const style = user.auth ? "" : "justify-center w-3";
-  console.warn("style", style);
 
   return (
     <nav className="fixed bg-white w-full h-16 flex flex-row justify-between items-center px-3 sm:px-14 py-1 z-50 shadow-sm">
