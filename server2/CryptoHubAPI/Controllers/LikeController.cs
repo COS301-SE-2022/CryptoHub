@@ -41,5 +41,15 @@ namespace CryptoHubAPI.Controllers
         {
             return Ok(await likeRepository.Add(Like));
         }
+
+        [HttpPut]
+        public async Task<ActionResult<Like>> UpdateLike([FromBody] Like Like)
+        {
+            var response = await likeRepository.Update(u => u.LikeId == Like.LikeId, Like);
+            if (response == null)
+                return null;
+
+            return Ok(response);
+        }
     }
 }
