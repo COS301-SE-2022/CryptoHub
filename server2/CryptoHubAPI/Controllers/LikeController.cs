@@ -24,7 +24,16 @@ namespace CryptoHubAPI.Controllers
                 return NotFound();
 
             return Ok(response);
+        }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Like>> GetLikeByPostId(int id)
+        {
+            var response = await likeRepository.FindRange(p => p.PostId == id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
         }
 
         [HttpPost]
