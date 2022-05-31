@@ -1,7 +1,5 @@
 import React from "react";
-import Image from "next/image";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
-import { HeartIcon as RedHeartIcon } from "@heroicons/react/solid";
 
 const Post = ({ name, content, likes, comments, liked, image }) => {
   return (

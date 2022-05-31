@@ -1,12 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../../auth/auth";
 import { XIcon } from "@heroicons/react/outline";
-import { mockSuggestedAccounts } from "../../mocks/mockSuggestedAccounts";
 
 const NavigationSearchBar = () => {
-  const { user } = useContext(userContext);
   const [showModal, setShowModal] = useState(false);
-  const [search, setSearch] = useState("");
 
   return (
     <>

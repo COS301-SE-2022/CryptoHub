@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { userContext } from "../auth/auth";
 import { useRouter } from "next/router";
 
-export default function Signup() {
+const Signup = () => {
   const { authorise } = useContext(userContext);
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -181,4 +181,6 @@ export default function Signup() {
       </div>
     </>
   );
-}
+};
+
+export default Signup;

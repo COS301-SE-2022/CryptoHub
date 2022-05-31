@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import Post from "./Post";
-import { mockPosts } from "../../mocks/mockUserPost";
 import { userContext } from "../../auth/auth";
 
 const Posts = () => {
   const { feedstate } = useContext(userContext);
   const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [, setError] = useState(false);
+  const [, setLoading] = useState(false);
 
   const handleGetAllPosts = () => {
     setLoading(true);
@@ -20,11 +19,9 @@ const Posts = () => {
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.warn(data);
         setPosts(data.reverse());
       })
-      .catch((error) => {
-        console.warn("Error", error);
+      .catch(() => {
         setError(true);
         setLoading(false);
       });

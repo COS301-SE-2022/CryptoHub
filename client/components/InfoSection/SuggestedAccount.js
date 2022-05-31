@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { userContext } from "../../auth/auth";
 
 const SuggestedAccount = ({ name, hidefollow, id }) => {
@@ -23,9 +23,7 @@ const SuggestedAccount = ({ name, hidefollow, id }) => {
       .then((data) => {
         setClicked(true);
       })
-      .catch((error) => {
-        console.warn("Error", error);
-      });
+      .catch(() => {});
   };
 
   return (
