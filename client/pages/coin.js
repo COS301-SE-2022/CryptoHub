@@ -29,6 +29,12 @@ const Coin = () => {
             className="w-32 h-32 bg-black sm:mr-10 mb-5"
             style={{ borderRadius: "100%" }}
           ></div>
+          <div className="flex flex-col">
+            <p className="font-semibold text-center sm:text-left">
+              {user.username}
+            </p>{" "}
+            <br />
+          </div>
         </div>
       </Layout>
     </>
