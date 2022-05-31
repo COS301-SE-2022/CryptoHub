@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Domain.Models
 {
@@ -11,10 +10,7 @@ namespace Domain.Models
         public int FollowId { get; set; }
         public DateTime FollowDate { get; set; }
 
-        [JsonIgnore]
         public virtual User Follow { get; set; } = null!;
-
-        [JsonIgnore]
         public virtual User User { get; set; } = null!;
     }
 }
