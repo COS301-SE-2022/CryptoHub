@@ -34,6 +34,15 @@ const Coin = () => {
               {user.username}
             </p>{" "}
             <br />
+            <div className="flex flex-row -translate-y-5">
+              <button onClick={() => setShowModal(true)}>
+                {" "}
+                <span className="font-semibold" f>
+                  {`${followers.length} `}
+                </span>
+                followers
+              </button>
+            </div>
           </div>
         </div>
       </Layout>
