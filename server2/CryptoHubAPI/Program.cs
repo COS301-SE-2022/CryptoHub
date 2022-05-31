@@ -12,6 +12,7 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserFollowerRepository, UserFollowerRepository>();
 builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<ICoinRepository, CoinRepository>();
+builder.Services.AddTransient<ICoinHistoryRepository, CoinHistoryRepository>();
 
 
 builder.Services.AddCors();
