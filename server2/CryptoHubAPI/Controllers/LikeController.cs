@@ -9,17 +9,17 @@ namespace CryptoHubAPI.Controllers
     [Route("api/[controller]/[action]")]
     public class LikeController : Controller
     {
-        private readonly ILikeRepository likeRepository;
+        private readonly ILikeRepository _likeRepository;
 
-        public LikeController(ILikeRepository likeRepository)
+        public LikeController(ILikeRepository _likeRepository)
         {
-            this.likeRepository = likeRepository;
+            this._likeRepository = _likeRepository;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Like>> GetLikeByUserId(int id)
         {
-            var response = await likeRepository.FindRange(p => p.UserId == id);
+            var response = await _likeRepository.FindRange(p => p.UserId == id);
             if (response == null)
                 return NotFound();
 
@@ -29,7 +29,7 @@ namespace CryptoHubAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Like>> GetLikeByPostId(int id)
         {
-            var response = await likeRepository.FindRange(p => p.PostId == id);
+            var response = await _likeRepository.FindRange(p => p.PostId == id);
             if (response == null)
                 return NotFound();
 
@@ -39,13 +39,13 @@ namespace CryptoHubAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Like>> AddLike([FromBody] Like Like)
         {
-            return Ok(await likeRepository.Add(Like));
+            return Ok(await _likeRepository.Add(Like));
         }
 
         [HttpPut]
         public async Task<ActionResult<Like>> UpdateLike([FromBody] Like Like)
         {
-            var response = await likeRepository.Update(u => u.LikeId == Like.LikeId, Like);
+            var response = await _likeRepository.Update(u => u.LikeId == Like.LikeId, Like);
             if (response == null)
                 return null;
 
@@ -55,7 +55,7 @@ namespace CryptoHubAPI.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            await likeRepository.DeleteOne(u => u.LikeId == id);
+            await _likeRepository.DeleteOne(u => u.LikeId == id);
             return Ok();
         }
     }
