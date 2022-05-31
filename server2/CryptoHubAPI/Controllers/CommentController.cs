@@ -9,6 +9,13 @@ namespace CryptoHubAPI.Controllers
     [Route("api/[controller]/[action]")]
     public class CommentController : Controller
     {
+        private readonly ICommentRepository _commentRepository;
+
+        public CommentController(ICommentRepository commentRepository)
+        {
+            _commentRepository = commentRepository;
+        }
+
 
     }
 }
