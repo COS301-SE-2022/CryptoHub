@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 
 const CoinInfo = ({ name, price }) => {
@@ -23,7 +23,14 @@ const CoinInfo = ({ name, price }) => {
           </div>
         </div>
 
-        <p className="text-3xl font-bold mb-2 translate-y-1 ml-2">{price}</p>
+        <div className="flex flex-row">
+          <p className="text-5xl font-bold mb-2 translate-y-1 ml-2 justify-between">
+            {price}
+          </p>
+          <p className="text-xl font-semibold mb-2 translate-y-5 ml-2 text-left justify-between">
+            USD
+          </p>
+        </div>
       </div>
     </div>
   );
