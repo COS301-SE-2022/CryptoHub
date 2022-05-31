@@ -11,9 +11,9 @@ namespace CryptoHubAPI.Controllers
     {
         private readonly ILikeRepository _likeRepository;
 
-        public LikeController(ILikeRepository _likeRepository)
+        public LikeController(ILikeRepository likeRepository)
         {
-            this._likeRepository = _likeRepository;
+            _likeRepository = likeRepository;
         }
 
         [HttpGet("{id}")]
