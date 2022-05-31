@@ -16,6 +16,13 @@ namespace CryptoHubAPI.Controllers
             _likeRepository = likeRepository;
         }
 
+        [HttpGet]
+        // GET: LikeController
+        public async Task<ActionResult<List<Like>>> GetAllLikes()
+        {
+            return Ok(await _likeRepository.GetAll());
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Like>> GetLikeByUserId(int id)
         {
