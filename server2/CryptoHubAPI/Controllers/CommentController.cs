@@ -35,5 +35,11 @@ namespace CryptoHubAPI.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Comment>> AddComment([FromBody] Comment Comment)
+        {
+            return Ok(await _commentRepository.Add(Comment));
+        }
     }
 }
