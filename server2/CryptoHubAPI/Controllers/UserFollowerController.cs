@@ -16,8 +16,8 @@ namespace CryptoHubAPI.Controllers
 
         public UserFollowerController(IUserFollowerRepository userFollowerRepository, IUserRepository userRepository)
         {
-            this._userFollowerRepository = userFollowerRepository;
-            this._userRepository = userRepository;
+        _userFollowerRepository = userFollowerRepository;
+        _userRepository = userRepository;
         }
 
         [HttpGet]
