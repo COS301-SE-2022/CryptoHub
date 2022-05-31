@@ -18,7 +18,7 @@ const CoinInfo = ({ name, price }) => {
               USD
             </button>
             <button className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-right border-black border-2 p-1 rounded-md">
-              UAE
+              EUR
             </button>
           </div>
         </div>
@@ -27,7 +27,7 @@ const CoinInfo = ({ name, price }) => {
           <p className="text-5xl font-bold mb-2 translate-y-1 ml-2 justify-between">
             {price}
           </p>
-          <p className="text-xl font-semibold mb-2 translate-y-5 ml-2 text-left justify-between">
+          <p className="text-xl font-semibold mb-2 translate-y-6 ml-2 text-left justify-between">
             USD
           </p>
         </div>

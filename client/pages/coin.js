@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../components/InfoSection/SuggestedAccount";
 import CoinInfo from "../components/CoinAccount/CoinInfo";
+import CoinInfoNext from "../components/CoinAccount/CoinInfoNext";
 
 const Coin = () => {
   const { user } = useContext(userContext);
@@ -54,6 +55,7 @@ const Coin = () => {
           </div>
           <div className="w-full"></div>
           <CoinInfo name="Current Price: " price="100" />
+          <CoinInfoNext name="Current Price: " price="100" />
         </div>
       </Layout>
     </>
