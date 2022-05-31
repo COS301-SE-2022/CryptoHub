@@ -21,7 +21,7 @@ const Coin = () => {
   return (
     <>
       <Head>
-        <title>Coin</title>
+        <title>Coin Account</title>
       </Head>
       <Layout>
         <div className="flex flex-col sm:flex-row w-full sm:w-6/12 items-center mt-8">
@@ -49,8 +49,9 @@ const Coin = () => {
         <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
         <div className="flex flex-col items-center w-full sm:w-6/12">
           <div>
-            <p className="text-sm mt-4 text-gray-600">Posts</p>
+            <p className="text-sm mt-4 text-gray-600">Coin Info</p>
           </div>
+          <div className="w-full"></div>
         </div>
       </Layout>
     </>
