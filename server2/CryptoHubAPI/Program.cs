@@ -21,7 +21,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<CryptoHubDBContext>(
     options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("AZSQL"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DBCOnnection"));
     });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

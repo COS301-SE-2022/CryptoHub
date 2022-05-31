@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dm+iufV3Bt7xDy0nUNkdDJBe4mEeXH/c/obv7XoID6NInWwN7oYzc2L1kBoxWUgjDlSowCuluuwXx246ssftNA==",
+  "dgSpecHash": "xw0Yva/2txBwWQTztsIaDGTFatmG57RdCoUImVforRTONzIDQ87no5d3IgvDvlPuzLYj0v9t3oQiTI+quFe4xQ==",
   "success": true,
-  "projectFilePath": "/Users/thabochesane/Desktop/CryptoHub/server2/BusinessLogic/BusinessLogic.csproj",
+  "projectFilePath": "C:\\Users\\borek\\Documents\\GitHub\\CryptoHub\\server2\\BusinessLogic\\BusinessLogic.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
