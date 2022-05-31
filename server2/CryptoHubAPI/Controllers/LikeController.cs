@@ -44,15 +44,15 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Like>> AddLike([FromBody] Like Like)
+        public async Task<ActionResult<Like>> AddLike([FromBody] Like like)
         {
-            return Ok(await _likeRepository.Add(Like));
+            return Ok(await _likeRepository.Add(like));
         }
 
         [HttpPut]
-        public async Task<ActionResult<Like>> UpdateLike([FromBody] Like Like)
+        public async Task<ActionResult<Like>> UpdateLike([FromBody] Like like)
         {
-            var response = await _likeRepository.Update(u => u.LikeId == Like.LikeId, Like);
+            var response = await _likeRepository.Update(u => u.LikeId == like.LikeId, like);
             if (response == null)
                 return null;
 
