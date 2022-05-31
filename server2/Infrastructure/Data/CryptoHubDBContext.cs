@@ -33,7 +33,7 @@ namespace Domain.Infrastructure
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=127.0.0.1;Database=CryptoHubDB;User Id = SA;Password = Codeforce12345$");
+                optionsBuilder.UseSqlServer("Server=127.0.0.1;Database=CryptoHubDB;User Id = SA;Password = CodeForce12345$");
             }
         }
 
@@ -42,8 +42,6 @@ namespace Domain.Infrastructure
             modelBuilder.Entity<Coin>(entity =>
             {
                 entity.ToTable("Coin");
-
-                entity.Property(e => e.CoinId).ValueGeneratedNever();
 
                 entity.Property(e => e.CoinName).HasMaxLength(50);
 
@@ -67,8 +65,6 @@ namespace Domain.Infrastructure
                 entity.HasKey(e => e.HistoryId);
 
                 entity.ToTable("CoinHistory");
-
-                entity.Property(e => e.HistoryId).ValueGeneratedNever();
 
                 entity.Property(e => e.MarketCapUsd).HasColumnType("decimal(18, 4)");
 
@@ -116,11 +112,9 @@ namespace Domain.Infrastructure
             {
                 entity.ToTable("Like");
 
-                entity.Property(e => e.LikeId).ValueGeneratedOnAdd();
-
-                entity.HasOne(d => d.LikeNavigation)
-                    .WithOne(p => p.Like)
-                    .HasForeignKey<Like>(d => d.LikeId)
+                entity.HasOne(d => d.Post)
+                    .WithMany(p => p.Likes)
+                    .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Like_Post1");
 
@@ -175,10 +169,6 @@ namespace Domain.Infrastructure
             {
                 entity.ToTable("UserCoin");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CoinId).ValueGeneratedOnAdd();
-
                 entity.HasOne(d => d.Coin)
                     .WithMany(p => p.UserCoins)
                     .HasForeignKey(d => d.CoinId)
@@ -196,9 +186,7 @@ namespace Domain.Infrastructure
             {
                 entity.ToTable("UserFollower");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.FollowDate).HasColumnType("datetime");
 
