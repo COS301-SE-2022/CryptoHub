@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserFollowerRepository, UserFollowerRepository>();
 builder.Services.AddTransient<IPostRepository, PostRepository>();
+builder.Services.AddTransient<ICoinRepository, CoinRepository>();
+builder.Services.AddTransient<ICoinHistoryRepository, CoinHistoryRepository>();
 
 
 builder.Services.AddCors();
@@ -21,7 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<CryptoHubDBContext>(
     options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DBCOnnection"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("AZSQL"));
     });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

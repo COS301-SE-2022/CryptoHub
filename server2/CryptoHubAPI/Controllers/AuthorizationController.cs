@@ -10,17 +10,17 @@ namespace CryptoHubAPI.Controllers
     public class AuthorizationController : Controller
     {
 
-        private readonly IUserRepository userRepository;
+        private readonly IUserRepository _userRepository;
 
         public AuthorizationController(IUserRepository userRepository)
         {
-            this.userRepository = userRepository;
+            this._userRepository = userRepository;
         }
 
         [HttpPost]
         public async Task<ActionResult<Response<User>>> Login([FromBody] User user)
         {
-            var loginUser = await userRepository.FindOne(u => u.Email == user.Email);
+            var loginUser = await _userRepository.FindOne(u => u.Email == user.Email);
 
             if (loginUser == null)
                 return BadRequest(new Response<User>
@@ -49,7 +49,7 @@ namespace CryptoHubAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Response<User>>> Register([FromBody] User user)
         {
-            var registerUser = await userRepository.FindOne(u => u.Email == user.Email);
+            var registerUser = await _userRepository.FindOne(u => u.Email == user.Email);
 
             if (registerUser != null)
                 return BadRequest(new Response<User>
@@ -58,7 +58,7 @@ namespace CryptoHubAPI.Controllers
                     Message = "user already exists",
                     Model = null
                 });
-            await userRepository.Add(user);
+            await _userRepository.Add(user);
 
             return Ok(new Response<User>
             {

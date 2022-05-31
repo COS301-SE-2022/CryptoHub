@@ -11,27 +11,27 @@ namespace CryptoHubAPI.Controllers
     public class UserFollowerController : Controller
     {
 
-        private readonly IUserFollowerRepository userFollowerRepository;
-        private readonly IUserRepository userRepository;
+        private readonly IUserFollowerRepository _userFollowerRepository;
+        private readonly IUserRepository _userRepository;
 
         public UserFollowerController(IUserFollowerRepository userFollowerRepository, IUserRepository userRepository)
         {
-            this.userFollowerRepository = userFollowerRepository;
-            this.userRepository = userRepository;
+        _userFollowerRepository = userFollowerRepository;
+        _userRepository = userRepository;
         }
 
         [HttpGet]
         // GET: UserFollowerController
         public async Task<ActionResult<List<UserFollower>>> GetAllUserFollowers()
         {
-            return Ok(await userFollowerRepository.GetAll());
+            return Ok(await _userFollowerRepository.GetAll());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserUserFollower(int id)
         {
-            var followers = await userFollowerRepository.FindRange(uf => uf.UserId == id);
-            var users = await userRepository.GetAll();
+            var followers = await _userFollowerRepository.FindRange(uf => uf.UserId == id);
+            var users = await _userRepository.GetAll();
 
 
 
@@ -50,8 +50,8 @@ namespace CryptoHubAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserFollowing(int id)
         {
-            var followers = await userFollowerRepository.FindRange(uf => uf.FollowId == id);
-            var users = await userRepository.GetAll();
+            var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
+            var users = await _userRepository.GetAll();
 
 
 
@@ -70,7 +70,7 @@ namespace CryptoHubAPI.Controllers
         [HttpPost("{userid}/{targetid}")]
         public async Task<IActionResult> FollowUser(int userid, int targetid)
         {
-            var response = await userFollowerRepository.FindOne(uf => uf.UserId==userid && uf.FollowId==targetid);
+            var response = await _userFollowerRepository.FindOne(uf => uf.UserId==userid && uf.FollowId==targetid);
             
             if(response != null)
                 return BadRequest("Already following this account");
@@ -82,7 +82,7 @@ namespace CryptoHubAPI.Controllers
                 FollowDate = DateTime.Now
             };
 
-            await userFollowerRepository.Add(userFollower);
+            await _userFollowerRepository.Add(userFollower);
             return Ok("user followed");
 
 
