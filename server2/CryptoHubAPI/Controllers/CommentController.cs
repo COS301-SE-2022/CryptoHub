@@ -16,6 +16,14 @@ namespace CryptoHubAPI.Controllers
             _commentRepository = commentRepository;
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Comment>> GetCommentByUserId(int id)
+        {
+            var response = await _commentRepository.FindRange(p => p.UserId == id);
+            if (response == null)
+                return NotFound();
 
+            return Ok(response);
+        }
     }
 }
