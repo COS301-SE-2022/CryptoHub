@@ -3,7 +3,7 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { userContext } from "../auth/auth";
 import { useContext } from "react";
 
-export default function Login() {
+const Login = () => {
   const { authorise } = useContext(userContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,21 +23,17 @@ export default function Login() {
       }),
     };
 
-    // fetch("https:localhost:3000/login", options)
-    // fetch("https://627bcb89b54fe6ee008f5488.mockapi.io/login", options)
     fetch("http://localhost:8082/api/authorization/login", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.warn(data);
         if (data.authorized) {
           authorise(data.username, data.userId);
         } else {
           setError(true);
         }
       })
-      .catch((error) => {
-        console.warn("Error", error);
+      .catch(() => {
         setError(true);
         setLoading(false);
       });
@@ -130,4 +126,6 @@ export default function Login() {
       </div>
     </>
   );
-}
+};
+
+export default Login;
