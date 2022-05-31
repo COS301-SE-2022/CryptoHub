@@ -6,6 +6,7 @@ import Post from "../components/Posts/Post";
 import { useRouter } from "next/router";
 import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../components/InfoSection/SuggestedAccount";
+import CoinInfo from "../components/CoinAccount/CoinInfo";
 
 const Coin = () => {
   const { user } = useContext(userContext);
@@ -52,6 +53,7 @@ const Coin = () => {
             <p className="text-sm mt-4 text-gray-600">Coin Info</p>
           </div>
           <div className="w-full"></div>
+          <CoinInfo />
         </div>
       </Layout>
     </>
