@@ -45,6 +45,13 @@ const Coin = () => {
             </div>
           </div>
         </div>
+
+        <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
+        <div className="flex flex-col items-center w-full sm:w-6/12">
+          <div>
+            <p className="text-sm mt-4 text-gray-600">Posts</p>
+          </div>
+        </div>
       </Layout>
     </>
   );
