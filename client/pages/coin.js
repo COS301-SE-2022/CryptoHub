@@ -8,6 +8,19 @@ import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../components/InfoSection/SuggestedAccount";
 
 const Coin = () => {
+
+    const { user } = useContext(userContext);
+    const [posts, setPosts] = useState([]);
+    const [, setError] = useState(false);
+    const [, setLoading] = useState(false);
+    const router = useRouter();
+    const [followers, setFollowers] = useState([]);
+    const [following, setFollowing] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [showFollowingModal, setFollowingShowModal] = useState(false);
+
+
+
     return(<>
     <Layout></Layout>
     </>)
