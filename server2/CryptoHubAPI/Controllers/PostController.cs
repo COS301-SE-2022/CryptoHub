@@ -10,24 +10,24 @@ namespace CryptoHubAPI.Controllers
     public class PostController : Controller
     {
 
-        private readonly IPostRepository postRepository;
+        private readonly IPostRepository _postRepository;
 
         public PostController(IPostRepository postRepository)
         {
-            this.postRepository = postRepository;
+            this._postRepository = postRepository;
         }
 
         [HttpGet]
         // GET: PostController
         public async Task<ActionResult<List<Post>>> GetAllPosts()
         {
-            return Ok(await postRepository.GetAll());
+            return Ok(await _postRepository.GetAll());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPostByUserId(int id)
         {
-            var response = await postRepository.FindRange(p => p.UserId == id);
+            var response = await _postRepository.FindRange(p => p.UserId == id);
             if(response == null)
                 return NotFound();
 
@@ -38,14 +38,14 @@ namespace CryptoHubAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Post>> AddPost([FromBody] Post Post)
         {
-            return Ok( await postRepository.Add(Post));
+            return Ok( await _postRepository.Add(Post));
 
         }
 
         [HttpPut]       
         public async Task<ActionResult<Post>> UpdatePost([FromBody] Post Post)
         {
-            var response = await postRepository.Update(u => u.PostId == Post.PostId,Post);
+            var response = await _postRepository.Update(u => u.PostId == Post.PostId,Post);
             if (response == null)
                 return null;
             
@@ -57,7 +57,7 @@ namespace CryptoHubAPI.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            await postRepository.DeleteOne(u => u.PostId == id);
+            await _postRepository.DeleteOne(u => u.PostId == id);
             return Ok();
         }
 
