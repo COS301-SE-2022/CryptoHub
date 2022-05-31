@@ -12,7 +12,8 @@
     "e2e": "start-server-and-test start http://localhost:3000 cypress",
     "e2e:headless": "start-server-and-test start http://localhost:3000 cypress:headless",
     "test": "jest --watch",
-    "export": "next build && next export"
+    "export": "next build && next export",
+    "scraper": "cd ../scraper && python3 main.py"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.1",

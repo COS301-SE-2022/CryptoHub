@@ -1,20 +1,14 @@
-from distutils.log import debug
-from flask import Flask, jsonify
+from flask import Flask
+import json
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
-    response = [
-        {
-            "data": "hello"
-        },
-        {
-            "data": "world"
-        }
-    ]
-    return jsonify(response)
+    file = open("data.json")
+    response = json.load(file)
+    return response
 
 
 if __name__ == "__main__":
