@@ -51,5 +51,12 @@ namespace CryptoHubAPI.Controllers
 
             return Ok(response);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _commentRepository.DeleteOne(u => u.CommentId == id);
+            return Ok();
+        }
     }
 }
