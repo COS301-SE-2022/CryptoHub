@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 
 const CoinInfo = ({ name, price }) => {
@@ -10,15 +11,15 @@ const CoinInfo = ({ name, price }) => {
             {name}
           </p>
           <div className="flex flex-row justify-between">
-            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-right border-black border-2 p-1 rounded-md">
+            <button className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-right border-black border-2 p-1 rounded-md">
               Rand
-            </p>
-            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-right border-black border-2 p-1 rounded-md">
+            </button>
+            <button className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-right border-black border-2 p-1 rounded-md">
               USD
-            </p>
-            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-right border-black border-2 p-1 rounded-md">
+            </button>
+            <button className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-right border-black border-2 p-1 rounded-md">
               UAE
-            </p>
+            </button>
           </div>
         </div>
 

@@ -53,7 +53,7 @@ const Coin = () => {
             <p className="text-sm mt-4 text-gray-600">Coin Info</p>
           </div>
           <div className="w-full"></div>
-          <CoinInfo name="Current Price" price="$100" />
+          <CoinInfo name="Current Price: " price="$100" />
         </div>
       </Layout>
     </>
