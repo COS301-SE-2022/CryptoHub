@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repository
 {
-    public class LikeRepository : BaseRepository<Like>, ILikeRepository
+    internal class CommentRepository : BaseRepository<Comment>, ICommentRepository
     {
-        public LikeRepository(CryptoHubDBContext dBContext) : base(dBContext)
+        public CommentRepository(CryptoHubDBContext dBContext) : base(dBContext)
         {
 
         }
