@@ -55,7 +55,7 @@ const Coin = () => {
           </div>
           <div className="w-full"></div>
           <CoinInfo name="Current Price: " price="100" />
-          <CoinInfoNext name="Current State: " state="13.56%" />
+          <CoinInfoNext name="Current State: " state="13.56%" arrow="up" />
         </div>
       </Layout>
     </>

@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 
-const CoinInfoNext = ({ name, state }) => {
+const CoinInfoNext = ({ name, state, arrow }) => {
   return (
     <div className="bg-white m-4 p-4 rounded-lg w-full">
       <div className="flex flex-col mb-2">
@@ -15,7 +15,11 @@ const CoinInfoNext = ({ name, state }) => {
           <p className="text-3xl font-bold mb-2 translate-y-1 ml-2 justify-between">
             {state}
           </p>
-          <div class="h-0 w-4 border-x-8 border-x-transparent border-b-[16px] border-b-green-600"></div>
+          {arrow == "down" ? (
+            <div class="h-0 w-4.5 border-x-8 border-x-transparent translate-y-3.5 translate-x-2 border-b-[15px] border-b-green-600"></div>
+          ) : (
+            <div class="h-0 w-4.5 border-x-8 border-x-transparent translate-y-3.5 translate-x-2 border-b-[15px] border-b-red-600 rotate-180"></div>
+          )}
         </div>
       </div>
     </div>
