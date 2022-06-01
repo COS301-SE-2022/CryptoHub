@@ -19,7 +19,6 @@ const UserProvider = ({ children }) => {
 
   const authorise = (username, id) => {
     setUser({ username: username, auth: true, id: id });
-    console.warn("User id: ", id);
     router.push("/");
   };
 

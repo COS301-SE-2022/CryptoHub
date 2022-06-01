@@ -33,7 +33,6 @@ const Suggestions = () => {
     try {
       let suggested = accounts.filter((account) => {
         return !followers.find((acc) => {
-          console.warn(account);
           return acc.userId == account.userId;
         });
       });

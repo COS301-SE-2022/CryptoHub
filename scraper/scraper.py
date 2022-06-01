@@ -14,7 +14,7 @@ class Scraper:
 
         # set webdriver
         # driver = webdriver.Chrome(path)
-        driver = webdriver.Chrome(path, options=chrome_options)
+        driver = webdriver.Chrome(executable_path=path, options=chrome_options)
 
         # launch web driver
         driver.get("https://www.coindesk.com/")
@@ -46,3 +46,7 @@ class Scraper:
         with open("scraper/data.json", "w") as outfile:
             json.dump(json_data, outfile)
         driver.quit()
+
+
+s = Scraper
+s.get_news()

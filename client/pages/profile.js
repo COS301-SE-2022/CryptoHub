@@ -63,11 +63,9 @@ const Profile = () => {
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.warn(data);
         setPosts(data.reverse());
       })
       .catch((error) => {
-        console.warn("Error", error);
         setError(true);
         setLoading(false);
       });
