@@ -12,7 +12,7 @@ const CoinInfo = ({ name, price }) => {
           </p>
           <div className="flex flex-row justify-between">
             <button className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-right border-black border-2 p-1 rounded-md">
-              Rand
+              ZAR
             </button>
             <button className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-right border-black border-2 p-1 rounded-md">
               USD
