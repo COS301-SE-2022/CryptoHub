@@ -9,12 +9,12 @@ class Scraper:
         # chromedriver path
         path = "scraper/chromedriver"
 
-        # chrome_options = Options()
-        # chrome_options.add_argument("--headless")
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
 
         # set webdriver
-        driver = webdriver.Chrome(path)
-        # driver = webdriver.Chrome(options=chrome_options)
+        # driver = webdriver.Chrome(path)
+        driver = webdriver.Chrome(path, options=chrome_options)
 
         # launch web driver
         driver.get("https://www.coindesk.com/")
