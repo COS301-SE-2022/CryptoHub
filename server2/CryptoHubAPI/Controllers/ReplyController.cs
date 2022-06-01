@@ -52,6 +52,16 @@ namespace CryptoHubAPI.Controllers
             return Ok(response);
         }
 
+        [HttpPut("{replyId}")]
+        public async Task<IActionResult> UpdateReply(int replyId,Reply reply)
+        {
+            var resposne = await _replyRepository.Update(r => r.ReplyId == replyId, reply);
+            if(resposne == null)
+                return BadRequest("reply by specified id not found");
+
+            return Ok(resposne);
+        }
+
         [HttpDelete("{userId}")]
         public async Task<IActionResult> Delete(int replyId)
         {
