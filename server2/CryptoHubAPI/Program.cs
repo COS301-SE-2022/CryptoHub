@@ -15,6 +15,7 @@ builder.Services.AddTransient<ICoinRepository, CoinRepository>();
 builder.Services.AddTransient<ICoinHistoryRepository, CoinHistoryRepository>();
 builder.Services.AddTransient<ILikeRepository, LikeRepository>();
 builder.Services.AddTransient<ICommentRepository, CommentRepository>();
+builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
 
 
 builder.Services.AddCors();
