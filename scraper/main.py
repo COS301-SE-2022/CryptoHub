@@ -1,12 +1,15 @@
 from flask import Flask
 import json
+import scraper
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
-    file = open("data.json")
+    s = scraper.Scraper
+    s.get_news()
+    file = open("scraper/data.json")
     response = json.load(file)
     return response
 
