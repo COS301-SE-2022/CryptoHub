@@ -23,7 +23,7 @@ namespace CryptoHubAPI.Controllers
         [HttpGet("{userid}")]
         public async Task<ActionResult<List<Reply>>> GetRepliesByUserId(int userId)
         {
-            var user = _userRepository.FindOne(u => u.UserId == userId);
+            var user = await _userRepository.FindOne(u => u.UserId == userId);
             if (user == null)
                 return BadRequest("user by specified id not found");
 
@@ -36,13 +36,27 @@ namespace CryptoHubAPI.Controllers
         public async Task<ActionResult<List<Reply>>> GetRepliesByCommentId(int commentId)
         {
             
-            var comment = _commentRepository.FindOne(u => u.CommentId == commentId);
+            var comment = await _commentRepository.FindOne(u => u.CommentId == commentId);
             if (comment == null)
                 return BadRequest("comment by specified id not found");
 
             var reply = await _replyRepository.FindRange(r => r.CommentId == commentId);
             return Ok(reply);
 
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Reply>> AddReply(Reply reply)
+        {
+            var response = await _replyRepository.Add(reply);
+            return Ok(response);
+        }
+
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> Delete(int replyId)
+        {
+            await _replyRepository.DeleteOne(r => r.ReplyId == replyId);
+            return Ok();
         }
     }
 }
