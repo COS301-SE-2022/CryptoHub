@@ -1,3 +1,7 @@
 .idea/*
 server/src/main/resources/application.properties
 server2/.vs
+
+
+# python files
+scraper/__pycache__/
