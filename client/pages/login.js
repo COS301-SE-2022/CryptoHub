@@ -27,12 +27,11 @@ const Login = () => {
       }),
     };
 
-    // fetch("http://localhost:8082/api/authorization/login", options)
     fetch("http://localhost:7215/api/Authorization/Login", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        if (data.authorized) {
+        if (!data.hasError) {
           authorise(data.username, data.userId);
         } else {
           setError(true);
