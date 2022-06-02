@@ -22,6 +22,7 @@ namespace Domain.Infrastructure
         public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<Like> Likes { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
+        public virtual DbSet<Reply> Replies { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserCoin> UserCoins { get; set; } = null!;
@@ -112,11 +113,20 @@ namespace Domain.Infrastructure
             {
                 entity.ToTable("Like");
 
+                entity.HasOne(d => d.Comment)
+                    .WithMany(p => p.Likes)
+                    .HasForeignKey(d => d.CommentId)
+                    .HasConstraintName("FK_Like_Comment");
+
                 entity.HasOne(d => d.Post)
                     .WithMany(p => p.Likes)
                     .HasForeignKey(d => d.PostId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Like_Post1");
+
+                entity.HasOne(d => d.Reply)
+                    .WithMany(p => p.Likes)
+                    .HasForeignKey(d => d.ReplyId)
+                    .HasConstraintName("FK_Like_Reply");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Likes)
@@ -136,6 +146,25 @@ namespace Domain.Infrastructure
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Post_User");
+            });
+
+            modelBuilder.Entity<Reply>(entity =>
+            {
+                entity.ToTable("Reply");
+
+                entity.Property(e => e.Comment).HasMaxLength(4000);
+
+                entity.HasOne(d => d.CommentNavigation)
+                    .WithMany(p => p.Replies)
+                    .HasForeignKey(d => d.CommentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Reply_Comment");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Replies)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Reply_User");
             });
 
             modelBuilder.Entity<Role>(entity =>
