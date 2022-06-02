@@ -5,7 +5,7 @@ export const userContext = createContext({ username: "", auth: false, id: 0 });
 
 const UserProvider = ({ children }) => {
   const router = useRouter();
-  const [user, setUser] = useState({ username: "", auth: true, id: 0 });
+  const [user, setUser] = useState({ username: "", auth: false, id: 0 });
   const [feedstate, setFeedstate] = useState(false);
 
   const logout = () => {

@@ -5,8 +5,8 @@ import { userContext } from "../../auth/auth";
 const Posts = () => {
   const { feedstate } = useContext(userContext);
   const [posts, setPosts] = useState([]);
-  const [, setError] = useState(false);
-  const [, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleGetAllPosts = () => {
     setLoading(true);
@@ -33,9 +33,18 @@ const Posts = () => {
 
   return (
     <div className="sm:w-5/12">
-      {posts.map((data, index) => {
-        return <Post key={index} name={data.username} content={data.post} />;
-      })}
+      {loading ? (
+        <p>loading...</p>
+      ) : (
+        posts.map((data, index) => {
+          return <Post key={index} name={data.username} content={data.post} />;
+        })
+      )}
+      {error ? (
+        <p className="text-sm text-gray-500 translate-y-16 text-center">
+          Failed to load posts
+        </p>
+      ) : null}
     </div>
   );
 };

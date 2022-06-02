@@ -21,13 +21,14 @@ const Login = () => {
         userId: 0,
         firtname: "",
         lastname: "",
+        username: "",
         email: email,
         password: password,
       }),
     };
 
     // fetch("http://localhost:8082/api/authorization/login", options)
-    fetch("https://localhost:7215/api/Authorization/Login", options)
+    fetch("http://localhost:7215/api/Authorization/Login", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
