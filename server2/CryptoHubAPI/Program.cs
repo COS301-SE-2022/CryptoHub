@@ -1,3 +1,4 @@
+using BusinessLogic.Services.UserService;
 using Domain.Infrastructure;
 using Domain.IRepository;
 using Domain.Models;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Repository Dependency Injection.
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserFollowerRepository, UserFollowerRepository>();
@@ -16,6 +17,14 @@ builder.Services.AddTransient<ICoinHistoryRepository, CoinHistoryRepository>();
 builder.Services.AddTransient<ILikeRepository, LikeRepository>();
 builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
+
+//Services Dependency Injection.
+builder.Services.AddTransient<IUserService, UserService>();
+
+
+
+
+//
 
 
 builder.Services.AddCors();
