@@ -32,8 +32,8 @@ const Coin = () => {
             style={{ borderRadius: "100%" }}
           ></div>
           <div className="flex flex-col">
-            <p className="font-semibold text-center sm:text-left">
-              {user.username}
+            <p className="font-bold text-center sm:text-left text-3xl">
+              Bitcoin
             </p>{" "}
             <br />
             <div className="flex flex-row -translate-y-5">
@@ -55,7 +55,7 @@ const Coin = () => {
           </div>
           <div className="w-full"></div>
           <CoinInfo name="Current Price: " price="100" />
-          <CoinInfoNext name="Current State: " price="100" />
+          <CoinInfoNext name="Current State: " state="13.56%" arrow="up" />
         </div>
       </Layout>
     </>
