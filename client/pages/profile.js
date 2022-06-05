@@ -65,15 +65,13 @@ const Profile = () => {
       method: "GET",
     };
 
-    fetch("http://localhost:8082/api/post/getallposts", options)
+    fetch("http://localhost:7215/api/Post/GetAllPosts", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.warn(data);
         setPosts(data.reverse());
       })
       .catch((error) => {
-        console.warn("Error", error);
         setError(true);
         setLoading(false);
       });
