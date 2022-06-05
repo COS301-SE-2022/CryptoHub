@@ -23,7 +23,10 @@ const Profile = () => {
       method: "GET",
     };
 
-    fetch(`http://localhost:8082/api/user/getfollowing/${user.id}`, options)
+    fetch(
+      `http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`,
+      options
+    )
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -40,7 +43,10 @@ const Profile = () => {
       method: "GET",
     };
 
-    fetch(`http://localhost:8082/api/user/getfollowers/${user.id}`, options)
+    fetch(
+      `http://localhost:7215/api/UserFollower/GetUserUserFollower/${user.id}`,
+      options
+    )
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
