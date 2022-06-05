@@ -14,11 +14,14 @@ const Suggestions = () => {
       method: "GET",
     };
 
-    fetch("http://localhost:8082/api/user/getallusers", options)
+    fetch("http://localhost:7215/api/UserFollower/GetAllUserFollowers", options)
       .then((response) => response.json())
       .then((data) => {
         setAccounts(data);
-        fetch(`http://localhost:8082/api/user/getfollowing/${user.id}`, options)
+        fetch(
+          `http://localhost:7215/api/UserFollower/GetUserFollowing//${user.id}`,
+          options
+        )
           .then((response) => response.json())
           .then((data) => {
             setFollowers(data);

@@ -16,10 +16,12 @@ const Login = () => {
 
     const options = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        userId: 0,
-        firtname: "",
+        userId: 1,
+        firstname: "",
         lastname: "",
         username: "",
         email: email,
@@ -32,7 +34,7 @@ const Login = () => {
       .then((data) => {
         setLoading(false);
         if (!data.hasError) {
-          authorise(data.username, data.userId);
+          authorise(data.model.username, data.model.userId);
         } else {
           setError(true);
         }

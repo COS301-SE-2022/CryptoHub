@@ -15,7 +15,7 @@ const Posts = () => {
       method: "GET",
     };
 
-    fetch("http://localhost:8082/api/post/getallposts", options)
+    fetch("http://localhost:7215/api/Post/GetAllPosts", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -37,7 +37,7 @@ const Posts = () => {
         <p>loading...</p>
       ) : (
         posts.map((data, index) => {
-          return <Post key={index} name={data.username} content={data.post} />;
+          return <Post key={index} name={data.username} content={data.post1} />;
         })
       )}
       {error ? (
