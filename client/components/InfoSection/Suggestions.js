@@ -60,7 +60,7 @@ const Suggestions = () => {
           return (
             <SuggestedAccount
               key={index}
-              name={data.userName}
+              name={data.username}
               id={data.userId}
             />
           );

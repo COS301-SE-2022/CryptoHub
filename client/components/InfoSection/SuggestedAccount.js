@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { userContext } from "../../auth/auth";
+import Link from "next/link";
 
 const SuggestedAccount = ({ name, hidefollow, id }) => {
   const { user } = useContext(userContext);
@@ -30,7 +31,11 @@ const SuggestedAccount = ({ name, hidefollow, id }) => {
     <div className="flex flex-row p-2 w-full justify-between bg-gray-100 mb-2 rounded-md">
       <div className="flex flex-row">
         <div className="w-6 h-6 bg-black rounded-3xl"></div>
-        <p className="text-sm font-semibold translate-y-1 ml-2">{name}</p>
+        <Link href={`/user/${id}`} className="cursor-pointer">
+          <p className="text-sm font-semibold translate-y-1 ml-2 cursor-pointer">
+            {name}
+          </p>
+        </Link>
       </div>
       {hidefollow ? null : (
         <button onClick={handleFollowUser}>
