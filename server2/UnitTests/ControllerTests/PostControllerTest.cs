@@ -125,5 +125,29 @@ namespace UnitTests.ControllerTests
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<Post>(actual);
         }
+
+        [Fact]
+        public async Task UpdatePost_Post_ReturnsPost()
+        {
+            var post = new Post
+            {
+                PostId = 1,
+                Post1 = "Post 1",
+                UserId = 1
+            };
+
+            _postRepositoryMock.Setup(u => u.Update(It.IsAny<Expression<Func<Post, bool>>>(), It.IsAny<Post>())).ReturnsAsync(post);
+
+            var controller = new PostController(_postRepositoryMock.Object);
+
+            //act
+            var result = await controller.UpdatePost(post);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<Post>(actual);
+        }
     }
 }
