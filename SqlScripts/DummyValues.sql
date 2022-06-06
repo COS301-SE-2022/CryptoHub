@@ -46,3 +46,11 @@ VALUES
 (2,'Admin'),
 (3,'User');
 
+INSERT INTO [dbo].[Coin]([Rank],[Symbol],[CoinName])
+Values
+(1,'BTC','bitcoin'),
+(2,'ETH','ethereum'),
+(3,'XRP','ripple'),
+(4,'XLM','stellar'),
+(5,'LTC','litecoin'),
+(6,'BTG','bitcoin-gold');
