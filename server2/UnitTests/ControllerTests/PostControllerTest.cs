@@ -89,8 +89,41 @@ namespace UnitTests.ControllerTests
                 UserId = 1
             };
 
+            //_postRepositoryMock.Setup(u => u.GetById(It.IsAny<Expression<Func<Post, bool>>>())).ReturnsAsync(post);
 
+            //var controller = new PostController(_postRepositoryMock.Object);
+
+            ////act
+            //var result = await controller.GetPostByUserId(1);
+
+            //Assert.NotNull(result);
+            //Assert.IsType<OkObjectResult>(result.Result);
+
+            //var actual = (result.Result as OkObjectResult).Value;
+            //Assert.IsType<User>(actual);
         }
 
+        [Fact]
+        public async Task AddPost_Post_ReturnsPost()
+        {
+            var post = new Post
+            {
+                PostId = 1,
+                Post1 = "Post 1",
+                UserId = 1
+            };
+            _postRepositoryMock.Setup(u => u.Add(It.IsAny<Post>())).ReturnsAsync(post);
+
+            var controller = new PostController(_postRepositoryMock.Object);
+
+            //act
+            var result = await controller.AddPost(post);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<Post>(actual);
+        }
     }
 }
