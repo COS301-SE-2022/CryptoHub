@@ -1,12 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CryptoHubAPI.Controllers;
+using Domain.IRepository;
+using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using System.Linq.Expressions;
 
 namespace UnitTests.ControllerTests
 {
-    internal class CoinControllerTest
+    public class CoinControllerTest
     {
+        private readonly Mock<ICoinRepository> _coinRepositoryMock;
+
+        public CoinControllerTest()
+        {
+            _coinRepositoryMock = new Mock<ICoinRepository>();
+        }
+
+
     }
 }
