@@ -55,3 +55,4 @@ Values
 (4,'XLM','stellar'),
 (5,'LTC','litecoin'),
 (6,'BTG','bitcoin-gold');
+
