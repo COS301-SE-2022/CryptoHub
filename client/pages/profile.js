@@ -164,7 +164,7 @@ const Profile = () => {
                             return (
                               <SuggestedAccount
                                 key={index}
-                                name={data.userName}
+                                name={data.username}
                                 hidefollow={true}
                               />
                             );
@@ -205,7 +205,7 @@ const Profile = () => {
                             return (
                               <SuggestedAccount
                                 key={index}
-                                name={data.userName}
+                                name={data.username}
                                 hidefollow={true}
                               />
                             );
