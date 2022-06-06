@@ -175,6 +175,7 @@ const Profile = () => {
                                 key={index}
                                 name={data.username}
                                 hidefollow={true}
+                                id={data.userId}
                               />
                             );
                           })}
@@ -216,6 +217,7 @@ const Profile = () => {
                                 key={index}
                                 name={data.username}
                                 hidefollow={true}
+                                id={data.userId}
                               />
                             );
                           })}
