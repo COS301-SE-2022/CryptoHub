@@ -69,7 +69,11 @@ const Profile = () => {
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        setPosts(data.reverse());
+        let posts = data.reverse();
+        let myPosts = posts.filter((post) => {
+          return post.userId == user.id;
+        });
+        setPosts(myPosts);
       })
       .catch((error) => {
         setError(true);
@@ -133,9 +137,14 @@ const Profile = () => {
           </div>
           <div className="w-full">
             {posts.map((data, index) => {
-              return data.username == user.username ? (
-                <Post key={index} name={data.username} content={data.post} />
-              ) : null;
+              return (
+                <Post
+                  key={index}
+                  name={data.username}
+                  content={data.post1}
+                  userId={data.userId}
+                />
+              );
             })}
           </div>
         </div>

@@ -3,12 +3,13 @@ import React, { useState, useEffect, useContext } from "react";
 import Head from "next/head";
 import Layout from "../../components/Layout";
 import { userContext } from "../../auth/auth";
+import Post from "../../components/Posts/Post";
 
 const User = () => {
   const router = useRouter();
   const { id } = router.query;
-  //   const { user } = useContext(userContext);
   const [user, setUser] = useState({});
+  const [posts, setPosts] = useState([]);
 
   const handleGetUser = () => {
     const options = {
@@ -19,13 +20,30 @@ const User = () => {
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
-        console.warn(data);
       })
       .catch((error) => {});
   };
 
+  const handleGetAllPosts = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch("http://localhost:7215/api/Post/GetAllPosts", options)
+      .then((response) => response.json())
+      .then((data) => {
+        let posts = data.reverse();
+        let myPosts = posts.filter((post) => {
+          return post.userId == id;
+        });
+        setPosts(myPosts);
+      })
+      .catch(() => {});
+  };
+
   useEffect(() => {
     handleGetUser();
+    handleGetAllPosts();
   }, []);
 
   return (
@@ -60,6 +78,24 @@ const User = () => {
                 followers
               </button>
             </div> */}
+          </div>
+        </div>
+        <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
+        <div className="flex flex-col items-center w-full sm:w-6/12">
+          <div>
+            <p className="text-sm mt-4 text-gray-600">Posts</p>
+          </div>
+          <div className="w-full">
+            {posts.map((data, index) => {
+              return (
+                <Post
+                  key={index}
+                  name={data.username}
+                  content={data.post1}
+                  userId={data.userId}
+                />
+              );
+            })}
           </div>
         </div>
       </Layout>
