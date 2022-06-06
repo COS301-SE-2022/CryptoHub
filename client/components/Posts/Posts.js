@@ -37,7 +37,14 @@ const Posts = () => {
         <p>loading...</p>
       ) : (
         posts.map((data, index) => {
-          return <Post key={index} name={data.username} content={data.post1} />;
+          return (
+            <Post
+              key={index}
+              name={data.username}
+              content={data.post1}
+              userId={data.userId}
+            />
+          );
         })
       )}
       {error ? (

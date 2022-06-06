@@ -32,9 +32,7 @@ const Coin = () => {
             style={{ borderRadius: "100%" }}
           ></div>
           <div className="flex flex-col">
-            <p className="font-bold text-center sm:text-left text-3xl">
-              Bitcoin
-            </p>{" "}
+            <p className="font-semibold text-center sm:text-left ">Bitcoin</p>{" "}
             <br />
             <div className="flex flex-row -translate-y-5">
               <button onClick={() => setShowModal(true)}>
