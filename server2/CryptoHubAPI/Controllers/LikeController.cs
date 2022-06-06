@@ -26,7 +26,7 @@ namespace CryptoHubAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Like>> GetLikeByUserId(int id)
         {
-            var response = await _likeRepository.FindRange(p => p.UserId == id);
+            var response = await _likeRepository.FindRange(l => l.UserId == id);
             if (response == null)
                 return NotFound();
 
@@ -36,7 +36,27 @@ namespace CryptoHubAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Like>> GetLikeByPostId(int id)
         {
-            var response = await _likeRepository.FindRange(p => p.PostId == id);
+            var response = await _likeRepository.FindRange(l => l.PostId == id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Like>> GetLikeByCommentId(int id)
+        {
+            var response = await _likeRepository.FindRange(l => l.CommentId == id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Like>> GetLikeByReplyId(int id)
+        {
+            var response = await _likeRepository.FindRange(l => l.ReplyId == id);
             if (response == null)
                 return NotFound();
 
