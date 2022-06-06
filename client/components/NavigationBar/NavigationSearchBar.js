@@ -1,9 +1,46 @@
 import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../../auth/auth";
 import { XIcon } from "@heroicons/react/outline";
+import SuggestedAccount from "../InfoSection/SuggestedAccount";
 
 const NavigationSearchBar = () => {
   const [showModal, setShowModal] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [finalSearch, setFinalSearch] = useState([]);
+  const [startedSearch, setStartedSearch] = useState(false);
+
+  const getAllUsers = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch("http://localhost:7215/api/User/GetAllUsers", options)
+      .then((response) => response.json())
+      .then((data) => {
+        setUsers(data);
+      })
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
+  useEffect(() => {
+    setFinalSearch(searchUsers);
+    if (searchInput.length > 1) {
+      setStartedSearch(true);
+    }
+  }, [searchInput]);
+
+  const searchUsers = () => {
+    let filteredUsers = users.filter((user) => {
+      return user.username.toLowerCase().includes(searchInput.toLowerCase());
+    });
+
+    return filteredUsers;
+  };
 
   return (
     <>
@@ -26,6 +63,8 @@ const NavigationSearchBar = () => {
                         className="border rounded-md w-full px-2 py-1 mr-1 sm:mr-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         type="text"
                         placeholder="Search"
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
                       />
                       <button
                         className="px-1 p-1"
@@ -35,9 +74,23 @@ const NavigationSearchBar = () => {
                         <XIcon className="h-6 w-6" aria-hidden="true" />
                       </button>
                     </div>
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col p-5">
                       <div>
-                        <p className="text-gray-400">No recent searches</p>
+                        {finalSearch.length == 0 ||
+                        finalSearch.length == users.length ? (
+                          <p className="text-gray-400">No search results</p>
+                        ) : (
+                          finalSearch.map((data, index) => {
+                            return (
+                              <SuggestedAccount
+                                key={index}
+                                name={data.username}
+                                id={data.userId}
+                                hidefollow={true}
+                              />
+                            );
+                          })
+                        )}
                       </div>
                     </div>
                   </form>

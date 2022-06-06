@@ -13,6 +13,9 @@ builder.Services.AddTransient<IUserFollowerRepository, UserFollowerRepository>()
 builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<ICoinRepository, CoinRepository>();
 builder.Services.AddTransient<ICoinHistoryRepository, CoinHistoryRepository>();
+builder.Services.AddTransient<ILikeRepository, LikeRepository>();
+builder.Services.AddTransient<ICommentRepository, CommentRepository>();
+builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
 
 
 builder.Services.AddCors();
@@ -48,8 +51,6 @@ app.UseCors(
         AllowAnyHeader();
 
     });
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

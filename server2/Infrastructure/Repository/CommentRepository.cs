@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repository
 {
-    public class UserFollowerRepository : BaseRepository<UserFollower>, IUserFollowerRepository
+    public class CommentRepository : BaseRepository<Comment>, ICommentRepository
     {
-        public UserFollowerRepository(CryptoHubDBContext dBContext) : base(dBContext)
+        public CommentRepository(CryptoHubDBContext dBContext) : base(dBContext)
         {
+
         }
     }
 }

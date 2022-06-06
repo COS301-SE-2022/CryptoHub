@@ -16,12 +16,13 @@ const CreatePostButton = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        postId: 0,
+        post1: post,
         userid: user.id,
-        post: post,
       }),
     };
 
-    fetch("http://localhost:8082/api/post/createpost", options)
+    fetch("http://localhost:7215/api/Post/AddPost", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);

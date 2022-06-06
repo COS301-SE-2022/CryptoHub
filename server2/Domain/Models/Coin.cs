@@ -23,9 +23,9 @@ namespace Domain.Models
         public decimal? MarketCapUsd { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<CoinHistory> CoinHistories { get; set; }
+        public virtual ICollection<CoinHistory>? CoinHistories { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<UserCoin> UserCoins { get; set; }
+        public virtual ICollection<UserCoin>? UserCoins { get; set; }
     }
 }

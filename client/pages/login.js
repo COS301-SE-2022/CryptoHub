@@ -16,19 +16,25 @@ const Login = () => {
 
     const options = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
+        userId: 1,
+        firstname: "",
+        lastname: "",
+        username: "",
         email: email,
         password: password,
       }),
     };
 
-    fetch("http://localhost:8082/api/authorization/login", options)
+    fetch("http://localhost:7215/api/Authorization/Login", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        if (data.authorized) {
-          authorise(data.username, data.userId);
+        if (!data.hasError) {
+          authorise(data.model.username, data.model.userId);
         } else {
           setError(true);
         }

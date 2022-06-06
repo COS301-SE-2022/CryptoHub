@@ -11,9 +11,9 @@ namespace Domain.Models
         public int CoinId { get; set; }
 
         [JsonIgnore]
-        public virtual Coin Coin { get; set; } = null!;
+        public virtual Coin? Coin { get; set; }
 
         [JsonIgnore]
-        public virtual User User { get; set; } = null!;
+        public virtual User? User { get; set; }
     }
 }
