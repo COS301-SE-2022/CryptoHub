@@ -7,6 +7,7 @@ const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(userContext);
 
   const handleGetAllPosts = () => {
     setLoading(true);
@@ -19,7 +20,11 @@ const Posts = () => {
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        setPosts(data.reverse());
+        let posts = data.reverse();
+        let myPosts = posts.filter((post) => {
+          return post.userId != user.id;
+        });
+        setPosts(myPosts);
       })
       .catch(() => {
         setError(true);
