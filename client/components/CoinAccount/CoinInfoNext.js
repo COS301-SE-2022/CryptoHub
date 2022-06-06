@@ -27,9 +27,9 @@ const CoinInfoNext = ({ name, state, arrow }) => {
             {state}
           </p>
           {arrow == "up" ? (
-            <div class="h-0 w-4.5 border-x-8 border-x-transparent translate-y-3.5 translate-x-2 border-b-[15px] border-b-green-600"></div>
+            <div class="h-0 w-4.5 border-x-8 border-x-transparent translate-y-5 translate-x-2 border-b-[15px] border-b-green-600"></div>
           ) : (
-            <div class="h-0 w-4.5 border-x-8 border-x-transparent translate-y-3.5 translate-x-2 border-b-[15px] border-b-red-600 rotate-180"></div>
+            <div class="h-0 w-4.5 border-x-8 border-x-transparent translate-y-5 translate-x-2 border-b-[15px] border-b-red-600 rotate-180"></div>
           )}
         </div>
       </div>
