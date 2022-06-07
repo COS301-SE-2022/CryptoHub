@@ -27,6 +27,14 @@ namespace CryptoHubAPI.Controllers
 
 		}
 
+		[HttpPost]
+		public async Task<ActionResult<Image>> AddUser([FromBody] Image image)
+		{
+			return Ok(await _imageRepository.Add(image));
+
+		}
+
+
 	}
 }
 
