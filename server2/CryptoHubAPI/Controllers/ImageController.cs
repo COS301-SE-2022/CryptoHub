@@ -1,4 +1,5 @@
 ﻿using System;
+using Domain.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoHubAPI.Controllers
@@ -9,9 +10,12 @@ namespace CryptoHubAPI.Controllers
 
 	public class ImageController : Controller
 	{
-		public ImageController()
+		private readonly IImageRepository _imageRepository;
+		public ImageController(IImageRepository imageRepository)
 		{
+			_imageRepository = imageRepository;
 		}
+
 	}
 }
 
