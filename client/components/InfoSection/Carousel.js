@@ -1,8 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { mockCoinInfo } from "../../mocks/mockCoinInfo";
 import Link from "next/link";
 
 const Carousel = () => {
+  const [data, setData] = useState({});
+
+  const getCoinInfo = () => {
+    fetch("https://api.coincap.io/v2/assets")
+      .then((response) => response.json())
+      .then((data) => {
+        console.warn(data);
+        setData(data);
+      })
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    getCoinInfo();
+  }, []);
+
   return (
     <div className="flex flew-row sm:justify-center flex-wrap">
       {mockCoinInfo.map((data, index) => {
