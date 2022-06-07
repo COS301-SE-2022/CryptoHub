@@ -66,6 +66,7 @@ const User = () => {
       })
       .then((data) => {
         setClicked(true);
+        setIsFollowing(true);
       })
       .catch(() => {});
   };
