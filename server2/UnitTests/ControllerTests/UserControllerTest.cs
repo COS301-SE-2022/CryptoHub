@@ -76,36 +76,6 @@ namespace UnitTests.ControllerTests
         public async Task GetUserById_UserId_ReturnsUserOfId()
         {
             //arrange
-            List<User> users = new List<User>
-            {
-                new User
-                {
-                    UserId = 1,
-                    Email = "johndoe@gmail.com",
-                    Firstname = "john",
-                    Lastname = "doe",
-                    Username = "john",
-                    Password = "1234"
-                },
-                new User
-                {
-                    UserId = 2,
-                    Email = "elonmusk@gmail.com",
-                    Firstname = "elon",
-                    Lastname = "musk",
-                    Username = "elon",
-                    Password = "1234"
-                },
-                new User
-                {
-                    UserId = 3,
-                    Email = "billgates@gmail.com",
-                    Firstname = "bill",
-                    Lastname = "gates",
-                    Username = "bill",
-                    Password = "windows"
-                }
-            };
             var user = new User
             {
                 UserId = 1,
@@ -150,6 +120,61 @@ namespace UnitTests.ControllerTests
 
             //act
             var result = await controller.GetUserByEmail(user.Email);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<User>(actual);
+        }
+
+        [Fact]
+        public async Task AddUser_User_ReturnsUser()
+        {
+            //arrange
+            var user = new User
+            {
+                UserId = 1,
+                Email = "johndoe@gmail.com",
+                Firstname = "john",
+                Lastname = "doe",
+                Username = "john",
+                Password = "1234"
+            };
+            _userRepositoryMock.Setup(u => u.Add(It.IsAny<User>())).ReturnsAsync(user);
+
+            var controller = new UserController(_userRepositoryMock.Object);
+
+            //act
+            var result = await controller.AddUser(user);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<User>(actual);
+        }
+
+        [Fact]
+        public async Task UpdateUser_User_ReturnsUser()
+        {
+            //arrange
+            var user = new User
+            {
+                UserId = 1,
+                Email = "johndoe@gmail.com",
+                Firstname = "john",
+                Lastname = "doe",
+                Username = "john",
+                Password = "1234"
+            };
+
+            _userRepositoryMock.Setup(u => u.Update(It.IsAny<Expression<Func<User, bool>>>(), It.IsAny<User>())).ReturnsAsync(user);
+
+            var controller = new UserController(_userRepositoryMock.Object);
+
+            //act
+            var result = await controller.UpdateUser(user);
 
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result.Result);
