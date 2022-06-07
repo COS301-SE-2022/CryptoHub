@@ -44,6 +44,16 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        public async Task<IActionResult> GetLikeCountByPostId(int id)
+        {
+            var response = await _likeRepository.FindRange(l => l.PostId == id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(new { Count = response.Count() });
+        }
+
+        [HttpGet("{id}")]
         public async Task<ActionResult<List<Like>>> GetLikeByCommentId(int id)
         {
             var response = await _likeRepository.FindRange(l => l.CommentId == id);
@@ -54,6 +64,16 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        public async Task<ActionResult<List<Like>>> GetLikeCountByCommentId(int id)
+        {
+            var response = await _likeRepository.FindRange(l => l.CommentId == id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(new {Coount = response.Count()});
+        }
+
+        [HttpGet("{id}")]
         public async Task<ActionResult<List<Like>>> GetLikeByReplyId(int id)
         {
             var response = await _likeRepository.FindRange(l => l.ReplyId == id);
@@ -61,6 +81,16 @@ namespace CryptoHubAPI.Controllers
                 return NotFound();
 
             return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<Like>>> GetLikeCountByReplyId(int id)
+        {
+            var response = await _likeRepository.FindRange(l => l.ReplyId == id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(new {Count = response.Count()});
         }
 
         [HttpGet("{id}")]
