@@ -19,7 +19,7 @@ const Suggestions = () => {
       .then((data) => {
         setAccounts(data);
         fetch(
-          `http://localhost:7215/api/UserFollower/GetUserFollowing//${user.id}`,
+          `http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`,
           options
         )
           .then((response) => response.json())
@@ -45,6 +45,7 @@ const Suggestions = () => {
       });
 
       setSuggestedAccounts(final.slice(0, 4));
+      console.warn(suggestedAccounts);
     } catch {}
   }, [refresh]);
 
