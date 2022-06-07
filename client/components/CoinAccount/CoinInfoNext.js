@@ -10,17 +10,6 @@ const CoinInfoNext = ({ name, state, arrow }) => {
           <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-center">
             {name}
           </p>
-          <div className="flex flex-row justify-between">
-            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
-              1 day
-            </button>
-            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
-              1 week
-            </button>
-            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
-              1 month
-            </button>
-          </div>
         </div>
         <div className="flex flex-row">
           <p className="text-2xl font-bold mb-2 translate-y-1 ml-2 justify-between">

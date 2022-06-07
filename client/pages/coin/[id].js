@@ -50,7 +50,7 @@ const Coin = () => {
               {coinData.name}
             </p>{" "}
             <br />
-            <div className="flex flex-row -translate-y-5">
+            {/* <div className="flex flex-row -translate-y-5">
               <button onClick={() => setShowModal(true)}>
                 {" "}
                 <span className="font-semibold" f>
@@ -58,7 +58,7 @@ const Coin = () => {
                 </span>
                 followers
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
 
