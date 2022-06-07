@@ -21,7 +21,6 @@ const Post = ({ name, content, userId, postId }) => {
   };
 
   const handleLikePost = () => {
-    console.warn("Like post");
     const options = {
       method: "POST",
       headers: {
@@ -39,8 +38,23 @@ const Post = ({ name, content, userId, postId }) => {
       });
   };
 
+  const getLikeCount = () => {
+    const options = {
+      method: "GET",
+    };
+    fetch(
+      `http://localhost:7215/api/Like/GetLikeCountByPostId/${postId}`,
+      options
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setLikes(data.count);
+      });
+  };
+
   useEffect(() => {
     handleGetUser();
+    getLikeCount();
   }, []);
 
   return (
