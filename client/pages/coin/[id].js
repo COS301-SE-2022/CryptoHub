@@ -68,8 +68,15 @@ const Coin = () => {
             <p className="text-sm mt-4 text-gray-600">Coin Info</p>
           </div>
           <div className="w-full"></div>
-          <CoinInfo name="Current Price" price="100" />
-          <CoinInfoNext name="Current State" state="13.56%" arrow="up" />
+          <CoinInfo
+            name="Current Price"
+            price={Math.round(coinData.priceUsd * 100) / 100}
+          />
+          <CoinInfoNext
+            name="Current State"
+            state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
+            arrow="up"
+          />
         </div>
       </Layout>
     </>
