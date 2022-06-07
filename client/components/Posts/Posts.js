@@ -48,6 +48,7 @@ const Posts = () => {
               name={data.username}
               content={data.post1}
               userId={data.userId}
+              postId={data.postId}
             />
           );
         })

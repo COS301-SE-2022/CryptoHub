@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 
-const Post = ({ name, content, userId }) => {
+const Post = ({ name, content, userId, postId }) => {
   const [user, setUser] = useState({});
+  const [likes, setLikes] = useState(0);
+  const [comments, setComments] = useState(0);
+  const [liked, setLiked] = useState(false);
 
   const handleGetUser = () => {
     const options = {
@@ -18,8 +21,41 @@ const Post = ({ name, content, userId }) => {
       .catch((error) => {});
   };
 
+  const handleLikePost = () => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        postId: postId,
+      }),
+    };
+    fetch("http://localhost:7215/api/Like/AddLike", options)
+      .then((response) => response.json())
+      .then((data) => {
+        setLiked(true);
+      });
+  };
+
+  const getLikeCount = () => {
+    const options = {
+      method: "GET",
+    };
+    fetch(
+      `http://localhost:7215/api/Like/GetLikeCountByPostId/${postId}`,
+      options
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setLikes(data.count);
+      });
+  };
+
   useEffect(() => {
     handleGetUser();
+    getLikeCount();
   }, []);
 
   return (
@@ -31,17 +67,21 @@ const Post = ({ name, content, userId }) => {
             {user.username}
           </p>
         </Link>
-        {/* <p className="text-sm font-semibold mb-2 translate-y-1 ml-2">{name}</p> */}
       </div>
       <p className="text-sm">{content}</p>
       <div className="flex flex-row mt-4">
-        <button className="text-sm mr-4 flex flex-row">
-          <HeartIcon className="h-5 w-5 text-black " /> {""}
-          <p className="ml-1">{Math.floor(Math.random() * 300)} likes</p>
+        <button onClick={handleLikePost} className="text-sm mr-4 flex flex-row">
+          {liked ? (
+            <HeartIcon className="h-5 w-5 text-red-500 " />
+          ) : (
+            <HeartIcon className="h-5 w-5 text-black " />
+          )}{" "}
+          {""}
+          <p className="ml-1">{likes} likes</p>
         </button>
         <button className="text-sm flex flex-row">
           <ChatIcon className="h-5 w-5 text-black " /> {""}
-          <p className="ml-1">{Math.floor(Math.random() * 50)} comments</p>
+          <p className="ml-1">{comments} comments</p>
         </button>
       </div>
     </div>
