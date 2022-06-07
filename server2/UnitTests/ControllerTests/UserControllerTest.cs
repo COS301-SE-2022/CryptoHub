@@ -59,7 +59,7 @@ namespace UnitTests.ControllerTests
 
             //act
             var result = await controller.GetAllUsers();
-            
+
 
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result.Result);
@@ -134,36 +134,6 @@ namespace UnitTests.ControllerTests
         public async Task GetUserByEmail_UserEmail_ReturnsUserOfEmail()
         {
             //arrange
-            List<User> users = new List<User>
-            {
-                new User
-                {
-                    UserId = 1,
-                    Email = "johndoe@gmail.com",
-                    Firstname = "john",
-                    Lastname = "doe",
-                    Username = "john",
-                    Password = "1234"
-                },
-                new User
-                {
-                    UserId = 2,
-                    Email = "elonmusk@gmail.com",
-                    Firstname = "elon",
-                    Lastname = "musk",
-                    Username = "elon",
-                    Password = "1234"
-                },
-                new User
-                {
-                    UserId = 3,
-                    Email = "billgates@gmail.com",
-                    Firstname = "bill",
-                    Lastname = "gates",
-                    Username = "bill",
-                    Password = "windows"
-                }
-            };
             var user = new User
             {
                 UserId = 1,
