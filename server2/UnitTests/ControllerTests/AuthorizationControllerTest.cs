@@ -20,49 +20,41 @@ namespace UnitTests.ControllerTests
         public async Task Login_User_ReturnsUser()
         {
             //arrange
-            List<User> users = new List<User>
+
+            var user = new User
             {
-                new User
-                {
-                    UserId = 1,
-                    Email = "johndoe@gmail.com",
-                    Firstname = "john",
-                    Lastname = "doe",
-                    Username = "john",
-                    Password = "1234"
-                },
-                new User
-                {
-                    UserId = 2,
-                    Email = "elonmusk@gmail.com",
-                    Firstname = "elon",
-                    Lastname = "musk",
-                    Username = "elon",
-                    Password = "1234"
-                },
-                new User
-                {
-                    UserId = 3,
-                    Email = "billgates@gmail.com",
-                    Firstname = "bill",
-                    Lastname = "gates",
-                    Username = "bill",
-                    Password = "windows"
-                }
+                UserId = 1,
+                Email = "johndoe@gmail.com",
+                Firstname = "john",
+                Lastname = "doe",
+                Username = "john",
+                Password = "1234"
             };
 
-            _userRepositoryMock.Setup(u => u.FindOne(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(users[0]);
+            _userRepositoryMock.Setup(u => u.FindOne(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(user);
 
-            var controller = new AuthorizationController(_userRepositoryMock.Object);
+            var controllerAuth = new AuthorizationController(_userRepositoryMock.Object);
 
             //act
-            var result = await controller.Login(users[0]);
+            var result = await controllerAuth.Login(user);
 
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result.Result);
 
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<Response<User>>(actual);
+
+            //arrange 2 Tests for null return (no user found)
+            _userRepositoryMock.Setup(u => u.FindOne(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync((User)null);
+
+            //act2
+            var result2 = await controllerAuth.Login(user);
+
+            Assert.NotNull(result2);
+            Assert.IsType<BadRequestObjectResult>(result2.Result);
+
+            var actual2 = (result2.Result as BadRequestObjectResult).Value;
+            Assert.IsType<Response<User>>(actual2);
         }
     }
 }
