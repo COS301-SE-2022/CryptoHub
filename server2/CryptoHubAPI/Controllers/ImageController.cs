@@ -16,6 +16,17 @@ namespace CryptoHubAPI.Controllers
 			_imageRepository = imageRepository;
 		}
 
+		[HttpGet("{id}")]
+		public async Task<ActionResult<Image>> GetUserById(int id)
+		{
+			var response = await _imageRepository.GetById(u => u.UserId == id);
+			if (response == null)
+				return NotFound();
+
+			return Ok(response);
+
+		}
+
 	}
 }
 
