@@ -32,7 +32,7 @@ namespace CryptoHubAPI.Controllers
 
         }
 
-        [HttpGet("{commentd}")]
+        [HttpGet("{commentId}")]
         public async Task<ActionResult<List<Reply>>> GetRepliesByCommentId(int commentId)
         {
             
