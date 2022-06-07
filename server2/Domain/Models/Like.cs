@@ -8,12 +8,20 @@ namespace Domain.Models
     {
         public int LikeId { get; set; }
         public int UserId { get; set; }
-        public int PostId { get; set; }
+        public int? PostId { get; set; }
+        public int? CommentId { get; set; }
+        public int? ReplyId { get; set; }
 
         [JsonIgnore]
-        public virtual Post Post { get; set; } = null!;
+        public virtual Comment? Comment { get; set; }
 
         [JsonIgnore]
-        public virtual User User { get; set; } = null!;
+        public virtual Post? Post { get; set; }
+
+        [JsonIgnore]
+        public virtual Reply? Reply { get; set; }
+
+        [JsonIgnore]
+        public virtual User? User { get; set; }
     }
 }

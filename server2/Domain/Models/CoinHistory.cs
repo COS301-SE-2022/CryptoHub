@@ -17,6 +17,6 @@ namespace Domain.Models
         public decimal? MarketCapUsd { get; set; }
 
         [JsonIgnore]
-        public virtual Coin Coin { get; set; } = null!;
+        public virtual Coin? Coin { get; set; }
     }
 }

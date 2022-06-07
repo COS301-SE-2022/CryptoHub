@@ -1,25 +1,39 @@
 import React, { useState, useEffect, useContext } from "react";
-import Layout from "../components/Layout";
 import Head from "next/head";
-import { userContext } from "../auth/auth";
-import Post from "../components/Posts/Post";
 import { useRouter } from "next/router";
-import { XIcon } from "@heroicons/react/outline";
-import SuggestedAccount from "../components/InfoSection/SuggestedAccount";
-import CoinInfo from "../components/CoinAccount/CoinInfo";
-import CoinInfoNext from "../components/CoinAccount/CoinInfoNext";
+import CoinInfo from "../../components/CoinAccount/CoinInfo";
+import CoinInfoNext from "../../components/CoinAccount/CoinInfoNext";
+import Layout from "../../components/Layout";
+import { userContext } from "../../auth/auth";
 
 const Coin = () => {
+  const router = useRouter();
+  const { id } = router.query;
   const { user } = useContext(userContext);
   const [posts, setPosts] = useState([]);
   const [, setError] = useState(false);
   const [, setLoading] = useState(false);
-  const router = useRouter();
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showFollowingModal, setFollowingShowModal] = useState(false);
+  const [coinData, setCoinData] = useState({});
 
+  const handleGetCoin = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`https://api.coincap.io/v2/assets/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        setCoinData(data.data);
+      })
+      .catch((error) => {});
+  };
+  useEffect(() => {
+    handleGetCoin();
+  }, []);
   return (
     <>
       <Head>
@@ -32,7 +46,9 @@ const Coin = () => {
             style={{ borderRadius: "100%" }}
           ></div>
           <div className="flex flex-col">
-            <p className="font-semibold text-center sm:text-left ">Bitcoin</p>{" "}
+            <p className="font-semibold text-center sm:text-left ">
+              {coinData.name}
+            </p>{" "}
             <br />
             <div className="flex flex-row -translate-y-5">
               <button onClick={() => setShowModal(true)}>
@@ -52,8 +68,15 @@ const Coin = () => {
             <p className="text-sm mt-4 text-gray-600">Coin Info</p>
           </div>
           <div className="w-full"></div>
-          <CoinInfo name="Current Price" price="100" />
-          <CoinInfoNext name="Current State" state="13.56%" arrow="up" />
+          <CoinInfo
+            name="Current Price"
+            price={Math.round(coinData.priceUsd * 100) / 100}
+          />
+          <CoinInfoNext
+            name="Current State"
+            state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
+            arrow="up"
+          />
         </div>
       </Layout>
     </>

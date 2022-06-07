@@ -17,14 +17,14 @@ CryptoHub is an interactive and social application that allows a user to explore
    </p>
 <h4>Backend</h4>
    <p>
-      <img src="https://img.shields.io/badge/Spring-5CB652?style=for-the-badge&logo=spring&logoColor=white" >
+      <img src="https://img.shields.io/badge/.Net Core-525CB6?style=for-the-badge&logo=spring&logoColor=white" >
    </p>
 <h4>Database:</h4>
-   <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" >
+   <img src="https://img.shields.io/badge/MySQL-316192?style=for-the-badge&logo=mysql&logoColor=white" >
 
 ## Documentation
 
-- [System Requiremnts Specification](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS))
+- [System Requirements Specification](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS))
 
 ## Demo Vidoes
 

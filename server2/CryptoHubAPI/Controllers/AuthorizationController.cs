@@ -64,7 +64,7 @@ namespace CryptoHubAPI.Controllers
             {
                 HasError = false,
                 Message = "registered",
-                Model = registerUser
+                Model = user
             });
         }
     }

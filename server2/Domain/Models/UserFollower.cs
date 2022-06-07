@@ -12,9 +12,9 @@ namespace Domain.Models
         public DateTime FollowDate { get; set; }
 
         [JsonIgnore]
-        public virtual User Follow { get; set; } = null!;
+        public virtual User? Follow { get; set; }
 
         [JsonIgnore]
-        public virtual User User { get; set; } = null!;
+        public virtual User? User { get; set; }
     }
 }

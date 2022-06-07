@@ -5,8 +5,9 @@ import { userContext } from "../../auth/auth";
 const Posts = () => {
   const { feedstate } = useContext(userContext);
   const [posts, setPosts] = useState([]);
-  const [, setError] = useState(false);
-  const [, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { user } = useContext(userContext);
 
   const handleGetAllPosts = () => {
     setLoading(true);
@@ -15,11 +16,15 @@ const Posts = () => {
       method: "GET",
     };
 
-    fetch("http://localhost:8082/api/post/getallposts", options)
+    fetch("http://localhost:7215/api/Post/GetAllPosts", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        setPosts(data.reverse());
+        let posts = data.reverse();
+        let myPosts = posts.filter((post) => {
+          return post.userId != user.id;
+        });
+        setPosts(posts);
       })
       .catch(() => {
         setError(true);
@@ -33,9 +38,26 @@ const Posts = () => {
 
   return (
     <div className="sm:w-5/12">
-      {posts.map((data, index) => {
-        return <Post key={index} name={data.username} content={data.post} />;
-      })}
+      {loading ? (
+        <p>loading...</p>
+      ) : (
+        posts.map((data, index) => {
+          return (
+            <Post
+              key={index}
+              name={data.username}
+              content={data.post1}
+              userId={data.userId}
+              postId={data.postId}
+            />
+          );
+        })
+      )}
+      {error ? (
+        <p className="text-sm text-gray-500 translate-y-16 text-center">
+          Failed to load posts
+        </p>
+      ) : null}
     </div>
   );
 };

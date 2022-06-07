@@ -15,6 +15,6 @@ namespace Domain.Models
         public string Role1 { get; set; } = null!;
 
         [JsonIgnore]
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<UserRole>? UserRoles { get; set; }
     }
 }

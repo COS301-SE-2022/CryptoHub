@@ -1,4 +1,4 @@
-﻿using CryptoHubAPI.Controllers;
+using CryptoHubAPI.Controllers;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
