@@ -6,6 +6,7 @@ const Post = ({ name, content, userId, postId }) => {
   const [user, setUser] = useState({});
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState(0);
+  const [liked, setLiked] = useState(false);
 
   const handleGetUser = () => {
     const options = {
@@ -34,7 +35,7 @@ const Post = ({ name, content, userId, postId }) => {
     fetch("http://localhost:7215/api/Like/AddLike", options)
       .then((response) => response.json())
       .then((data) => {
-        console.warn(data);
+        setLiked(true);
       });
   };
 
@@ -70,7 +71,12 @@ const Post = ({ name, content, userId, postId }) => {
       <p className="text-sm">{content}</p>
       <div className="flex flex-row mt-4">
         <button onClick={handleLikePost} className="text-sm mr-4 flex flex-row">
-          <HeartIcon className="h-5 w-5 text-black " /> {""}
+          {liked ? (
+            <HeartIcon className="h-5 w-5 text-red-500 " />
+          ) : (
+            <HeartIcon className="h-5 w-5 text-black " />
+          )}{" "}
+          {""}
           <p className="ml-1">{likes} likes</p>
         </button>
         <button className="text-sm flex flex-row">
