@@ -182,5 +182,27 @@ namespace UnitTests.ControllerTests
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<User>(actual);
         }
+
+        [Fact]
+        public async Task Delete_User_None()
+        {
+            //arrange
+            var user = new User
+            {
+                UserId = 1,
+                Email = "johndoe@gmail.com",
+                Firstname = "john",
+                Lastname = "doe",
+                Username = "john",
+                Password = "1234"
+            };
+
+            _userRepositoryMock.Setup(u => u.DeleteOne(It.IsAny<Expression<Func<User, bool>>>()));
+
+            var controller = new UserController(_userRepositoryMock.Object);
+
+            //act
+            var result = await controller.Delete(user.UserId);
+        }
     }
 }
