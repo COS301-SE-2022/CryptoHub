@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import { XIcon } from "@heroicons/react/outline";
-
 import Link from "next/link";
+import Comment from "./Comment";
 
 const Post = ({ name, content, userId, postId }) => {
   const [user, setUser] = useState({});
@@ -93,7 +93,7 @@ const Post = ({ name, content, userId, postId }) => {
         {showModal ? (
           <>
             <div className="justify-center items-start mt-16 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-              <div className="relative w-10/12 sm:w-12/12 my-6 mx-auto max-w-5xl">
+              <div className="relative w-10/12 sm:w-10/12 my-6 mx-auto max-w-3xl">
                 <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   <div className="relative flex-auto">
                     <form method="POST">
@@ -122,11 +122,12 @@ const Post = ({ name, content, userId, postId }) => {
                       </div>
                       <div className="flex flex-col p-5">
                         <div>
-                          {comments.length == 0 ? (
+                          {/* {comments.length == 0 ? (
                             <p className="text-sm text-gray-400">
                               This post has no comments
                             </p>
-                          ) : null}
+                          ) : null} */}
+                          <Comment />
                         </div>
                       </div>
                     </form>
