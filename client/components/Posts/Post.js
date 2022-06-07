@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 
-const Post = ({ name, content, userId }) => {
+const Post = ({ name, content, userId, postId }) => {
   const [user, setUser] = useState({});
   const [likes, setLikes] = useState(0); 
   const [comments, setComments] = useState(0); 
@@ -21,7 +21,19 @@ const Post = ({ name, content, userId }) => {
   };
 
   const handleLikePost = () => {
-
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        likeId: 0,
+        userId: 0,
+        postId: 0,
+        commentId: 0,
+        replyId: 0,
+      }),
+    };
   };
 
   useEffect(() => {
