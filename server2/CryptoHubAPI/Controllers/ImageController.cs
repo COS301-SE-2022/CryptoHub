@@ -1,7 +1,13 @@
 ﻿using System;
+using Microsoft.AspNetCore.Mvc;
+
 namespace CryptoHubAPI.Controllers
 {
-	public class ImageController
+
+	[ApiController]
+	[Route("api/[controller]/[action]")]
+
+	public class ImageController : Controller
 	{
 		public ImageController()
 		{
