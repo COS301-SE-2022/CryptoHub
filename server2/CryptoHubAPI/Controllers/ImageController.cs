@@ -35,6 +35,14 @@ namespace CryptoHubAPI.Controllers
 		}
 
 
+		[HttpDelete]
+		public async Task<IActionResult> Delete(int id)
+		{
+			await _imageRepository.DeleteOne(u => u.UserId == id);
+			return Ok();
+		}
+
+
 	}
 }
 
