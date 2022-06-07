@@ -4,6 +4,7 @@ import Link from "next/link";
 
 const Carousel = () => {
   const [data, setData] = useState([]);
+  const [count, setCount] = useState(5);
 
   const getCoinInfo = () => {
     const options = {
@@ -20,6 +21,10 @@ const Carousel = () => {
 
   useEffect(() => {
     getCoinInfo();
+    const interval = setInterval(() => {
+      getCoinInfo();
+    }, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
