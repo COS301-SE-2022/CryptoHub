@@ -74,5 +74,36 @@ namespace UnitTests.ControllerTests
             Assert.IsType<List<Coin>>(actual);
             Assert.Equal(3, (actual as List<Coin>).Count);
         }
+
+        [Fact]
+        public async Task UpdateCoin_Coin_ReturnsCoin()
+        {
+            //arrange
+            var coin = new Coin
+            {
+                CoinId = 1,
+                CoinName = "Coin1",
+                Symbol = "CN1",
+                Rank = 1,
+                TradingPriceUsd = 1,
+                PercentageChange = 1,
+                Supply = 1,
+                MaxSupply = 10,
+                MarketCapUsd = 100
+            };
+
+            _coinRepositoryMock.Setup(u => u.Update(It.IsAny<Expression<Func<Coin, bool>>>(), It.IsAny<Coin>())).ReturnsAsync(coin);
+
+            var controller = new CoinController(_coinRepositoryMock.Object);
+
+            //act
+            var result = await controller.UpdateCoin(coin);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<Coin>(actual);
+        }
     }
 }
