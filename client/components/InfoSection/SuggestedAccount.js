@@ -17,7 +17,10 @@ const SuggestedAccount = ({ name, hidefollow, id }) => {
       }),
     };
 
-    fetch("http://localhost:8082/api/user/follow", options)
+    fetch(
+      `http://localhost:7215/api/UserFollower/FollowUser/${id}/${user.id}`,
+      options
+    )
       .then((response) => {
         setClicked(true);
         response.json();
