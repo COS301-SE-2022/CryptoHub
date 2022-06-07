@@ -67,40 +67,23 @@ namespace UnitTests.ControllerTests
                     PostId = 1,
                     Post1 = "Post 1",
                     UserId = 1
-                },
-                new Post
-                {
-                    PostId = 2,
-                    Post1 = "Post 2",
-                    UserId = 2
-                },
-                new Post
-                {
-                    PostId = 3,
-                    Post1 = "Post 3",
-                    UserId = 3
                 }
             };
 
-            var post = new Post
-            {
-                PostId = 1,
-                Post1 = "Post 1",
-                UserId = 1
-            };
+            _postRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Post, bool>>>())).ReturnsAsync(posts);
+            //_postRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(posts);
 
-            //_postRepositoryMock.Setup(u => u.GetById(It.IsAny<Expression<Func<Post, bool>>>())).ReturnsAsync(post);
+            var controller = new PostController(_postRepositoryMock.Object);
 
-            //var controller = new PostController(_postRepositoryMock.Object);
+            //act
+            var result = await controller.GetPostByUserId(1);
 
-            ////act
-            //var result = await controller.GetPostByUserId(1);
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
 
-            //Assert.NotNull(result);
-            //Assert.IsType<OkObjectResult>(result.Result);
-
-            //var actual = (result.Result as OkObjectResult).Value;
-            //Assert.IsType<User>(actual);
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<List<Post>>(actual);
+            Assert.Equal(1, (actual as List<Post>).Count);
         }
 
         [Fact]
@@ -148,6 +131,24 @@ namespace UnitTests.ControllerTests
 
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<Post>(actual);
+        }
+
+        [Fact]
+        public async Task Delete_Post_None()
+        {
+            var post = new Post
+            {
+                PostId = 1,
+                Post1 = "Post 1",
+                UserId = 1
+            };
+
+            _postRepositoryMock.Setup(u => u.DeleteOne(It.IsAny<Expression<Func<Post, bool>>>()));
+
+            var controller = new PostController(_postRepositoryMock.Object);
+
+            //act
+            var result = await controller.Delete(post.PostId);
         }
     }
 }
