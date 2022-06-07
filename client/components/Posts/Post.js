@@ -4,8 +4,8 @@ import Link from "next/link";
 
 const Post = ({ name, content, userId, postId }) => {
   const [user, setUser] = useState({});
-  const [likes, setLikes] = useState(0); 
-  const [comments, setComments] = useState(0); 
+  const [likes, setLikes] = useState(0);
+  const [comments, setComments] = useState(0);
 
   const handleGetUser = () => {
     const options = {
@@ -21,19 +21,22 @@ const Post = ({ name, content, userId, postId }) => {
   };
 
   const handleLikePost = () => {
+    console.warn("Like post");
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        likeId: 0,
-        userId: 0,
-        postId: 0,
-        commentId: 0,
-        replyId: 0,
+        userId: userId,
+        postId: postId,
       }),
     };
+    fetch("http://localhost:7215/api/Like/AddLike", options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.warn(data);
+      });
   };
 
   useEffect(() => {
@@ -52,7 +55,7 @@ const Post = ({ name, content, userId, postId }) => {
       </div>
       <p className="text-sm">{content}</p>
       <div className="flex flex-row mt-4">
-        <button className="text-sm mr-4 flex flex-row">
+        <button onClick={handleLikePost} className="text-sm mr-4 flex flex-row">
           <HeartIcon className="h-5 w-5 text-black " /> {""}
           <p className="ml-1">{likes} likes</p>
         </button>
