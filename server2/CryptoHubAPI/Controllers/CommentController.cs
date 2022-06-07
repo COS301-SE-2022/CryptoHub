@@ -36,6 +36,36 @@ namespace CryptoHubAPI.Controllers
             return Ok(response);
         }
 
+        /*[HttpGet("{id}")]
+        public async Task<ActionResult<Comment>> GetCommentByPostId(int id)
+        {
+            var response = await _commentRepository.FindRange(p => p.PostId == id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Comment>> GetCommentByPostId(int id)
+        {
+            var response = await _commentRepository.FindRange(p => p.PostId == id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Comment>> GetCommentByPostId(int id)
+        {
+            var response = await _commentRepository.FindRange(p => p.PostId == id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }*/
+
         [HttpPost]
         public async Task<ActionResult<Comment>> AddComment([FromBody] Comment comment)
         {

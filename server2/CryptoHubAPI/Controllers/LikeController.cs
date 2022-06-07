@@ -106,6 +106,15 @@ namespace CryptoHubAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Like>> AddLike([FromBody] Like like)
         {
+            var likes = await _likeRepository.FindOne(l => l.UserId == like.UserId
+            && l.ReplyId == like.ReplyId
+            && l.CommentId == like.CommentId
+            && l.PostId == like.PostId
+            );
+
+            if (likes != null)
+                return BadRequest();
+            
             return Ok(await _likeRepository.Add(like));
         }
 
