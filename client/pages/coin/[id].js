@@ -20,6 +20,7 @@ const Coin = () => {
   const [following, setFollowing] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showFollowingModal, setFollowingShowModal] = useState(false);
+  const [coinData, setCoinData] = useState({});
 
   const handleGetCoin = () => {
     const options = {
@@ -29,10 +30,14 @@ const Coin = () => {
     fetch(`https://api.coincap.io/v2/assets/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
-        setUser(data);
+        console.warn(data);
+        setCoinData(data);
       })
       .catch((error) => {});
   };
+  useEffect(() => {
+    handleGetCoin();
+  }, []);
   return (
     <>
       <Head>
