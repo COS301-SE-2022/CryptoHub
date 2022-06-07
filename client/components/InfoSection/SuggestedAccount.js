@@ -1,10 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../../auth/auth";
 import Link from "next/link";
 
 const SuggestedAccount = ({ name, hidefollow, id }) => {
   const { user } = useContext(userContext);
   const [clicked, setClicked] = useState(false);
+  const [thisUser, setThisUser] = useState({});
 
   const handleFollowUser = () => {
     const options = {
@@ -27,13 +28,30 @@ const SuggestedAccount = ({ name, hidefollow, id }) => {
       .catch(() => {});
   };
 
+  const handleGetUser = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`http://localhost:7215/api/User/GetUserById/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        setThisUser(data);
+      })
+      .catch((error) => {});
+  };
+
+  useEffect(() => {
+    handleGetUser();
+  }, []);
+
   return (
     <div className="flex flex-row p-2 w-full justify-between bg-gray-100 mb-2 rounded-md">
       <div className="flex flex-row">
         <div className="w-6 h-6 bg-black rounded-3xl"></div>
         <Link href={`/user/${id}`} className="cursor-pointer">
           <p className="text-sm font-semibold translate-y-1 ml-2 cursor-pointer">
-            {name}
+            {thisUser.username}
           </p>
         </Link>
       </div>

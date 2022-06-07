@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { mockCoinInfo } from "../../mocks/mockCoinInfo";
+import Link from "next/link";
 
 const Carousel = () => {
   return (
@@ -24,7 +25,9 @@ export default Carousel;
 const CoinInfo = ({ name, price, difference, color }) => {
   return (
     <div className="flex flex-col p-4 m-1 items-center">
-      <p className="text-sm font-semibold">{name}</p>
+      <Link href="/coin">
+        <p className="text-sm font-semibold cursor-pointer">{name}</p>
+      </Link>
       <p className="text-md font-semibold text-indigo-600">{`$${price}`}</p>
       <p className={`${color} text-sm font-semibold`}>{` ${
         color === "text-green-600" ? "+" : ""

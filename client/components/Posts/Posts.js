@@ -24,7 +24,7 @@ const Posts = () => {
         let myPosts = posts.filter((post) => {
           return post.userId != user.id;
         });
-        setPosts(myPosts);
+        setPosts(posts);
       })
       .catch(() => {
         setError(true);
