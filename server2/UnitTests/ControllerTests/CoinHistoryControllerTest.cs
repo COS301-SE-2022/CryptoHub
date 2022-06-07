@@ -9,11 +9,11 @@ namespace UnitTests.ControllerTests
 {
     public class CoinHistoryControllerTest
     {
-        private readonly Mock<ICoinHistoryRepository> __coinHistoryRepositoryMock;
+        private readonly Mock<ICoinHistoryRepository> _coinHistoryRepositoryMock;
 
         public CoinHistoryControllerTest()
         {
-            __coinHistoryRepositoryMock = new Mock<ICoinHistoryRepository>();
+            _coinHistoryRepositoryMock = new Mock<ICoinHistoryRepository>();
         }
 
         [Fact]
@@ -60,9 +60,9 @@ namespace UnitTests.ControllerTests
                 }
             };
 
-            __coinHistoryRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(coinHistories);
+            _coinHistoryRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(coinHistories);
 
-            var controller = new CoinHistoryController(__coinHistoryRepositoryMock.Object);
+            var controller = new CoinHistoryController(_coinHistoryRepositoryMock.Object);
 
             //act
             var result = await controller.GetAllCoinHistory();
@@ -75,8 +75,92 @@ namespace UnitTests.ControllerTests
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<List<CoinHistory>>(actual);
             Assert.Equal(3, (actual as List<CoinHistory>).Count);
+        }
 
+        [Fact]
+        public async Task AddCoinHistory_CoinHistory_ReturnsCoinHistory()
+        {
+            //arrange
+            var coinHistory = new CoinHistory
+            {
+                HistoryId = 3,
+                CoinId = 3,
+                Rank = 3,
+                Timestamp = null,
+                TradingPriceUsd = 3,
+                PercentageChange = 3,
+                Supply = 3,
+                MaxSupply = 3,
+                MarketCapUsd = 3
+            };
+            _coinHistoryRepositoryMock.Setup(u => u.Add(It.IsAny<CoinHistory>())).ReturnsAsync(coinHistory);
 
+            var controller = new CoinHistoryController(_coinHistoryRepositoryMock.Object);
+
+            //act
+            var result = await controller.AddCoinHistory(coinHistory);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<CoinHistory>(actual);
+        }
+
+        [Fact]
+        public async Task UpdateCoinHistory_CoinHistory_ReturnsCoinHistory()
+        {
+            //arrange
+            var coinHistory = new CoinHistory
+            {
+                HistoryId = 3,
+                CoinId = 3,
+                Rank = 3,
+                Timestamp = null,
+                TradingPriceUsd = 3,
+                PercentageChange = 3,
+                Supply = 3,
+                MaxSupply = 3,
+                MarketCapUsd = 3
+            };
+
+            _coinHistoryRepositoryMock.Setup(u => u.Update(It.IsAny<Expression<Func<CoinHistory, bool>>>(), It.IsAny<CoinHistory>())).ReturnsAsync(coinHistory);
+
+            var controller = new CoinHistoryController(_coinHistoryRepositoryMock.Object);
+
+            //act
+            var result = await controller.UpdateCoinHistory(coinHistory);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<CoinHistory>(actual);
+        }
+
+        [Fact]
+        public async Task Delete_CoinHistory_None()
+        {
+            //arrange
+            var coinHistory = new CoinHistory
+            {
+                HistoryId = 3,
+                CoinId = 3,
+                Rank = 3,
+                Timestamp = null,
+                TradingPriceUsd = 3,
+                PercentageChange = 3,
+                Supply = 3,
+                MaxSupply = 3,
+                MarketCapUsd = 3
+            };
+
+            _coinHistoryRepositoryMock.Setup(u => u.DeleteOne(It.IsAny<Expression<Func<CoinHistory, bool>>>()));
+
+            var controller = new CoinHistoryController(_coinHistoryRepositoryMock.Object);
+
+            //act
+            var result = await controller.Delete(coinHistory.HistoryId);
         }
     }
 }
