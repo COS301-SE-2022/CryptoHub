@@ -114,7 +114,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: userId,
+        userId: user.id,
         postId: postId,
         comment1: comment,
       }),
@@ -180,7 +180,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     <div className="bg-white m-4 p-4 rounded-lg">
       <div className="flex flew-row items-center mb-2">
         <div className="w-8 h-8 bg-black rounded-3xl"></div>
-        <Link href={`/thisUser/${userId}`} className="pointer cursor-pointer">
+        <Link href={`/user/${userId}`} className="pointer cursor-pointer">
           <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
             {thisUser.username}
           </p>
