@@ -113,12 +113,14 @@ namespace UnitTests.ControllerTests
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
 
-            //var actual = (result as OkObjectResult).Value;
+            
+
+            var actual = (result as OkObjectResult).Value;
+            var x = (actual as IEnumerable<object>).First();
 
 
-            //var x = actual.GetType().GetProperty("UserId").GetValue(actual, null);
-
-            //Assert.Equal(2, x);
+            var userid = x.GetType().GetProperty("UserId").GetValue(x,null);
+            Assert.Equal(2, userid);
         }
 
         [Fact]
