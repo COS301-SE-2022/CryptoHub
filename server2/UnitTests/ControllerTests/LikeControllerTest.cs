@@ -3,6 +3,7 @@ using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Newtonsoft.Json.Linq;
 using System.Linq.Expressions;
 
 namespace UnitTests.ControllerTests
@@ -115,6 +116,49 @@ namespace UnitTests.ControllerTests
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<List<Like>>(actual);
             Assert.Equal(1, (actual as List<Like>).Count);
+        }
+
+        [Fact]
+        public async Task GetLikeCountByPostId_PostId_ReturnsCountOfLikes()
+        {
+            //arrange
+            List<Like> likes = new List<Like>
+            {
+                new Like
+                {
+                    LikeId = 1,
+                    UserId = 1,
+                    PostId = 1,
+                },
+                new Like
+                {
+                    LikeId = 2,
+                    UserId = 2,
+                    PostId = 1,
+                },
+                new Like
+                {
+                    LikeId = 3,
+                    UserId = 3,
+                    PostId = 1,
+                }
+            };
+
+            _likeRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Like, bool>>>())).ReturnsAsync(likes);
+
+            var controller = new LikeController(_likeRepositoryMock.Object);
+
+            //act
+            var result = await controller.GetLikeCountByPostId(1);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
+
+            var actual = (result as OkObjectResult).Value;
+            var actualConfiguration = JObject.FromObject(actual);
+            Assert.Equal(3, actualConfiguration.Count);
+            //Assert.IsType<IActionResult>(actual);
+            //Assert.Equal(1, (actual as List<Like>).Count);
         }
 
         [Fact]
