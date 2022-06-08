@@ -17,6 +17,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
   const [postImage, setPostImage] = useState(null);
   const [comment, setComment] = useState("");
   const [likeId, setLikeId] = useState(null);
+  const { user } = useContext(userContext);
 
   const handleGetUser = () => {
     const options = {
@@ -52,7 +53,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: userId,
+        userId: user.id,
         postId: postId,
       }),
     };
@@ -61,6 +62,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       .then((data) => {
         setLiked(true);
         getLikeCount();
+        setLikeId(data.likeId);
       });
   };
 
@@ -258,7 +260,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                             return (
                               <Comment
                                 index={index}
-                                userId={userId}
+                                userId={data.userId}
                                 comment={data.comment1}
                               />
                             );
