@@ -5,6 +5,7 @@ import Link from "next/link";
 import Comment from "./Comment";
 import Image from "next/image";
 import { userContext } from "../../auth/auth";
+import { HeartIcon as RedHeartIcon } from "@heroicons/react/solid";
 
 const Post = ({ name, content, userId, postId, imageId }) => {
   const [thisUser, setUser] = useState({});
@@ -15,6 +16,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
   const [showModal, setShowModal] = useState(false);
   const [postImage, setPostImage] = useState(null);
   const [comment, setComment] = useState("");
+  const [likeId, setLikeId] = useState(null);
 
   const handleGetUser = () => {
     const options = {
@@ -69,7 +71,37 @@ const Post = ({ name, content, userId, postId, imageId }) => {
 
     fetch(`http://localhost:7215/api/Like/GetLikeByUserId/${userId}`, options)
       .then((response) => response.json())
-      .then((data) => {});
+      .then((data) => {
+        let post = [];
+        post = data;
+        console.warn(post);
+        post.map((post) => {
+          if (post.postId === postId) {
+            setLikeId(post.likeId);
+            setLiked(true);
+            getLikeCount();
+          }
+        });
+      });
+  };
+
+  const handleUnlikePost = () => {
+    const options = {
+      method: "DELETE",
+    };
+    fetch(`http://localhost:7215/api/Like/Delete?id=${likeId}`, options).then(
+      (response) => {
+        if (response.status === 200) {
+          setLiked(false);
+          getLikeCount();
+        }
+        //response.json();
+      }
+    );
+    // .then((data) => {
+    //   setLiked(false);
+    //   getLikeCount();
+    //});
   };
 
   const handleAddComment = (e) => {
@@ -134,6 +166,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       handleGetPostImage();
     }
     handleGetComments();
+    checkIfLiked();
   }, []);
   {
     /* <Image src={postImage} height="200" width="200" /> */
@@ -164,9 +197,12 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       )}
       <p className="text-sm">{content}</p>
       <div className="flex flex-row mt-4">
-        <button onClick={handleLikePost} className="text-sm mr-4 flex flex-row">
+        <button
+          onClick={liked ? handleUnlikePost : handleLikePost}
+          className="text-sm mr-4 flex flex-row"
+        >
           {liked ? (
-            <HeartIcon className="h-5 w-5 text-red-500 " />
+            <RedHeartIcon className="h-5 w-5 text-red-500 " />
           ) : (
             <HeartIcon className="h-5 w-5 text-black " />
           )}{" "}
