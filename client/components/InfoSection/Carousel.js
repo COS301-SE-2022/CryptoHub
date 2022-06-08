@@ -42,6 +42,7 @@ const Carousel = () => {
               color={
                 data.changePercent24Hr < 0 ? "text-red-600" : "text-green-600"
               }
+              id={data.id}
             />
           );
         })
@@ -52,10 +53,10 @@ const Carousel = () => {
 
 export default Carousel;
 
-const CoinInfo = ({ name, price, difference, color }) => {
+const CoinInfo = ({ name, price, difference, color, id }) => {
   return (
     <div className="flex flex-col p-4 m-1 items-center">
-      <Link href="/coin">
+      <Link href={`/coin/${id}`}>
         <p className="text-sm font-semibold cursor-pointer">{name}</p>
       </Link>
       <p className="text-md font-semibold text-indigo-600">{`$${
