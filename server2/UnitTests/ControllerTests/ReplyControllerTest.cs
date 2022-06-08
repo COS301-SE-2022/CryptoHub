@@ -174,5 +174,54 @@ namespace UnitTests.ControllerTests
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<Reply>(actual);
         }
+
+        [Fact]
+        public async Task UpdateReply_Reply_ReturnsReply()
+        {
+            //arrange
+            var reply = new Reply
+            {
+                ReplyId = 1,
+                UserId = 1,
+                CommentId = 1,
+                Comment = "ReplyText"
+            };
+
+            _replyRepositoryMock.Setup(u => u.Update(It.IsAny<Expression<Func<Reply, bool>>>(), It.IsAny<Reply>())).ReturnsAsync(reply);
+
+            var controller = new ReplyController(_replyRepositoryMock.Object, _commentRepositoryMock.Object, _userRepositoryMock.Object);
+
+            //act
+            var result = await controller.UpdateReply(reply.ReplyId, reply);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
+
+            var actual = (result as OkObjectResult).Value;
+            Assert.IsType<Reply>(actual);
+        }
+
+        [Fact]
+        public async Task Delete_Reply_ReturnsNone()
+        {
+            //arrange
+            var reply = new Reply
+            {
+                ReplyId = 1,
+                UserId = 1,
+                CommentId = 1,
+                Comment = "ReplyText"
+            };
+
+            _replyRepositoryMock.Setup(u => u.DeleteOne(It.IsAny<Expression<Func<Reply, bool>>>()));
+
+            var controller = new ReplyController(_replyRepositoryMock.Object, _commentRepositoryMock.Object, _userRepositoryMock.Object);
+
+            //act
+            var result = await controller.Delete(reply.ReplyId);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkResult>(result);
+        }
     }
 }
