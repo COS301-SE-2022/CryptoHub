@@ -156,10 +156,164 @@ namespace UnitTests.ControllerTests
 
             var actual = (result as OkObjectResult).Value;
 
-            var x = actual.GetType().GetProperty("Count").GetValue(actual,null);
-            
+            var x = actual.GetType().GetProperty("Count").GetValue(actual, null);
+
             Assert.Equal(3, x);
-            
+
+        }
+
+        [Fact]
+        public async Task GetLikeByCommentId_CommentId_ReturnsLikesOfId()
+        {
+            //arrange
+            List<Like> likes = new List<Like>
+            {
+                new Like
+                {
+                    LikeId = 1,
+                    UserId = 1,
+                    PostId = 1,
+                    CommentId = 1,
+                }
+            };
+
+            _likeRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Like, bool>>>())).ReturnsAsync(likes);
+
+            var controller = new LikeController(_likeRepositoryMock.Object);
+
+            //act
+            var result = await controller.GetLikeByCommentId(1);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<List<Like>>(actual);
+            Assert.Equal(1, (actual as List<Like>).Count);
+        }
+
+        [Fact]
+        public async Task GetLikeCountByCommentId_CommentId_ReturnsCountOfLikes()
+        {
+            //arrange
+            List<Like> likes = new List<Like>
+            {
+                new Like
+                {
+                    LikeId = 1,
+                    UserId = 1,
+                    PostId = 1,
+                    CommentId = 1,
+                },
+                new Like
+                {
+                    LikeId = 2,
+                    UserId = 2,
+                    PostId = 1,
+                    CommentId = 1,
+                },
+                new Like
+                {
+                    LikeId = 3,
+                    UserId = 3,
+                    PostId = 1,
+                    CommentId = 1,
+                }
+            };
+
+            _likeRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Like, bool>>>())).ReturnsAsync(likes);
+
+            var controller = new LikeController(_likeRepositoryMock.Object);
+
+            //act
+            var result = await controller.GetLikeCountByCommentId(1);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
+
+            var actual = (result as OkObjectResult).Value;
+
+            var x = actual.GetType().GetProperty("Count").GetValue(actual, null);
+
+            Assert.Equal(3, x);
+
+        }
+
+        [Fact]
+        public async Task GetLikeByReplyId_PostId_ReturnsLikesOfId()
+        {
+            //arrange
+            List<Like> likes = new List<Like>
+            {
+                new Like
+                {
+                    LikeId = 1,
+                    UserId = 1,
+                    PostId = 1,
+                    ReplyId = 1,
+                }
+            };
+
+            _likeRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Like, bool>>>())).ReturnsAsync(likes);
+
+            var controller = new LikeController(_likeRepositoryMock.Object);
+
+            //act
+            var result = await controller.GetLikeByReplyId(1);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<List<Like>>(actual);
+            Assert.Equal(1, (actual as List<Like>).Count);
+        }
+
+        [Fact]
+        public async Task GetLikeCountByReplyId_ReplyId_ReturnsCountOfLikes()
+        {
+            //arrange
+            List<Like> likes = new List<Like>
+            {
+                new Like
+                {
+                    LikeId = 1,
+                    UserId = 1,
+                    PostId = 1,
+                    CommentId = 1,
+                },
+                new Like
+                {
+                    LikeId = 2,
+                    UserId = 2,
+                    PostId = 1,
+                    CommentId = 1,
+                },
+                new Like
+                {
+                    LikeId = 3,
+                    UserId = 3,
+                    PostId = 1,
+                    CommentId = 1,
+                }
+            };
+
+            _likeRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Like, bool>>>())).ReturnsAsync(likes);
+
+            var controller = new LikeController(_likeRepositoryMock.Object);
+
+            //act
+            var result = await controller.GetLikeCountByReplyId(1);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
+
+            var actual = (result as OkObjectResult).Value;
+
+            var x = actual.GetType().GetProperty("Count").GetValue(actual, null);
+
+            Assert.Equal(3, x);
+
         }
 
         [Fact]
