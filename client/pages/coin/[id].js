@@ -34,6 +34,7 @@ const Coin = () => {
   useEffect(() => {
     handleGetCoin();
   }, []);
+
   return (
     <>
       <Head>
@@ -76,7 +77,7 @@ const Coin = () => {
             id={id}
             name="Current State"
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
-            arrow="up"
+            arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
           />
         </div>
       </Layout>

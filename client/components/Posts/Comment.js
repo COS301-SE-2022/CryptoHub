@@ -59,7 +59,7 @@ const Comment = ({ name, hidefollow, id }) => {
           </p>
         </Link>
         <p className="text-sm text-gray-600 translate-y-1 ml-2">
-          this right here is a good comment. bitch.
+          Thank you for the info.
         </p>
       </div>
     </div>
