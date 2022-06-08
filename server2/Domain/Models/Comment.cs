@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Domain.Models
 {
@@ -17,16 +16,9 @@ namespace Domain.Models
         public int PostId { get; set; }
         public string Comment1 { get; set; } = null!;
 
-        [JsonIgnore]
-        public virtual Post? Post { get; set; } = null!;
-
-        [JsonIgnore]
-        public virtual User? User { get; set; } = null!;
-
-        [JsonIgnore]
-        public virtual ICollection<Like>? Likes { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<Reply>? Replies { get; set; }
+        public virtual Post Post { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
+        public virtual ICollection<Like> Likes { get; set; }
+        public virtual ICollection<Reply> Replies { get; set; }
     }
 }
