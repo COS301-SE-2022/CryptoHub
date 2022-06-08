@@ -155,10 +155,11 @@ namespace UnitTests.ControllerTests
             Assert.IsType<OkObjectResult>(result);
 
             var actual = (result as OkObjectResult).Value;
-            var actualConfiguration = JObject.FromObject(actual);
-            Assert.Equal(3, actualConfiguration.Count);
-            //Assert.IsType<IActionResult>(actual);
-            //Assert.Equal(1, (actual as List<Like>).Count);
+
+            var x = actual.GetType().GetProperty("Count").GetValue(actual,null);
+            
+            Assert.Equal(3, x);
+            
         }
 
         [Fact]
