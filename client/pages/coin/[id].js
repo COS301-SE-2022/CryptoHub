@@ -37,7 +37,7 @@ const Coin = () => {
   return (
     <>
       <Head>
-        <title>Coin Account</title>
+        <title>{coinData.name}</title>
       </Head>
       <Layout>
         <div className="flex flex-col sm:flex-row w-full sm:w-6/12 items-center mt-8">
@@ -50,15 +50,15 @@ const Coin = () => {
               {coinData.name}
             </p>{" "}
             <br />
-            {/* <div className="flex flex-row -translate-y-5">
-              <button onClick={() => setShowModal(true)}>
+            <div className="flex flex-row -translate-y-5">
+              {/* <button onClick={() => setShowModal(true)}>
                 {" "}
                 <span className="font-semibold" f>
                   {`${followers.length} `}
                 </span>
                 followers
-              </button>
-            </div> */}
+              </button> */}
+            </div>
           </div>
         </div>
 
@@ -73,6 +73,7 @@ const Coin = () => {
             price={Math.round(coinData.priceUsd * 100) / 100}
           />
           <CoinInfoNext
+            id={id}
             name="Current State"
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
             arrow="up"

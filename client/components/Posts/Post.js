@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
+import { XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
+import Comment from "./Comment";
 
 const Post = ({ name, content, userId, postId }) => {
   const [user, setUser] = useState({});
   const [likes, setLikes] = useState(0);
-  const [comments, setComments] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [commentCount, setCommentCount] = useState(0);
   const [liked, setLiked] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleGetUser = () => {
     const options = {
@@ -79,10 +83,62 @@ const Post = ({ name, content, userId, postId }) => {
           {""}
           <p className="ml-1">{likes} likes</p>
         </button>
-        <button className="text-sm flex flex-row">
+        <button
+          onClick={() => setShowModal(true)}
+          className="text-sm flex flex-row"
+        >
           <ChatIcon className="h-5 w-5 text-black " /> {""}
-          <p className="ml-1">{comments} comments</p>
+          <p className="ml-1">{commentCount} comments</p>
         </button>
+        {showModal ? (
+          <>
+            <div className="justify-center items-start mt-16 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+              <div className="relative w-10/12 sm:w-10/12 my-6 mx-auto max-w-3xl">
+                <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                  <div className="relative flex-auto">
+                    <form method="POST">
+                      <div className="flex items-start justify-between p-5 border-solid border-slate-200 rounded-t">
+                        <input
+                          autoFocus
+                          className="h-9 text-sm border rounded-md w-full px-2 py-1 mr-1 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                          type="text"
+                          placeholder="Type comment here"
+                          // value={}
+                          // onChange={}
+                        />
+                        <button
+                          className="h-9 text-sm text-semibold mx-1 sm:mx-3 justify-center flex w-40 border px-1 p-2 rounded-md bg-indigo-600 text-white"
+                          type="button"
+                        >
+                          Comment
+                        </button>
+                        <button
+                          className="px-1 p-1"
+                          type="button"
+                          onClick={() => setShowModal(false)}
+                        >
+                          <XIcon className="h-6 w-6" aria-hidden="true" />
+                        </button>
+                      </div>
+                      <div className="flex flex-col p-5">
+                        <div>
+                          {/* {comments.length == 0 ? (
+                            <p className="text-sm text-gray-400">
+                              This post has no comments
+                            </p>
+                          ) : null} */}
+                          <Comment />
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div className="flex items-center justify-end p-6 border-solid border-slate-200 rounded-b"></div>
+                </div>
+              </div>
+            </div>
+            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          </>
+        ) : null}
       </div>
     </div>
   );
