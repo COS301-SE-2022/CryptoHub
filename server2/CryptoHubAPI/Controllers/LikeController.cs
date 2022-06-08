@@ -70,7 +70,7 @@ namespace CryptoHubAPI.Controllers
             if (response == null)
                 return NotFound();
 
-            return Ok(new {Coount = response.Count()});
+            return Ok(new { Count = response.Count() });
         }
 
         [HttpGet("{id}")]
@@ -90,7 +90,7 @@ namespace CryptoHubAPI.Controllers
             if (response == null)
                 return NotFound();
 
-            return Ok(new {Count = response.Count()});
+            return Ok(new { Count = response.Count() });
         }
 
         [HttpGet("{id}")]
@@ -114,7 +114,7 @@ namespace CryptoHubAPI.Controllers
 
             if (likes != null)
                 return BadRequest();
-            
+
             return Ok(await _likeRepository.Add(like));
         }
 
