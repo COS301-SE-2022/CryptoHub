@@ -43,6 +43,22 @@ const Post = ({ name, content, userId, postId }) => {
       });
   };
 
+  const handleGetComments = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(
+      `http://localhost:7215/api/Comment/GetCommentsByPostId/${id}`,
+      options
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setThisUser(data);
+      })
+      .catch((error) => {});
+  };
+
   const getLikeCount = () => {
     const options = {
       method: "GET",
@@ -110,7 +126,7 @@ const Post = ({ name, content, userId, postId }) => {
                           className="h-9 text-sm text-semibold mx-1 sm:mx-3 justify-center flex w-40 border px-1 p-2 rounded-md bg-indigo-600 text-white"
                           type="button"
                         >
-                          Comment
+                          Comments
                         </button>
                         <button
                           className="px-1 p-1"
