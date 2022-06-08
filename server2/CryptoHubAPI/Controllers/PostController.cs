@@ -11,10 +11,12 @@ namespace CryptoHubAPI.Controllers
     {
 
         private readonly IPostRepository _postRepository;
+        private readonly IImageRepository _imageRepository;
 
-        public PostController(IPostRepository postRepository)
+        public PostController(IPostRepository postRepository, IImageRepository imageRepository)
         {
-            this._postRepository = postRepository;
+            _postRepository = postRepository;
+            _imageRepository = imageRepository;
         }
 
         [HttpGet]
@@ -36,9 +38,26 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Post>> AddPost([FromBody] Post Post)
+        public async Task<ActionResult<Post>> AddPost([FromBody] CreatePostDTO createPostDTO)
         {
-            return Ok( await _postRepository.Add(Post));
+
+            Post post = new Post();
+            if(createPostDTO.imageDTO != null)
+            {
+                byte[] imageArray = Convert.FromBase64String(createPostDTO.imageDTO.Blob);
+
+                Image image = new Image();
+                image.Image1 = imageArray;
+
+                await _imageRepository.Add(image);
+                post.ImageId = image.ImageId;
+
+            }
+
+            post.Post1 = createPostDTO.Post;
+            post.UserId = createPostDTO.UserId;
+
+            return Ok( await _postRepository.Add(post));
 
         }
 
