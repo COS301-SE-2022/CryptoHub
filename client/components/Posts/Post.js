@@ -59,21 +59,26 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       });
   };
 
+  // =========================================================================================
+
   const handleGetComments = () => {
     const options = {
       method: "GET",
     };
 
     fetch(
-      `http://localhost:7215/api/Comment/GetCommentsByPostId/${id}`,
+      `http://localhost:7215/api/Comment/GetCommentByPostId/${postId}`,
       options
     )
       .then((response) => response.json())
       .then((data) => {
-        setThisUser(data);
+        console.warn(data);
+        setComments(data);
       })
       .catch((error) => {});
   };
+
+  // =========================================================================================
 
   const getLikeCount = () => {
     const options = {
@@ -95,6 +100,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     if (imageId != null) {
       handleGetPostImage();
     }
+    handleGetComments();
   }, []);
   {
     /* <Image src={postImage} height="200" width="200" /> */
@@ -176,7 +182,11 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                               This post has no comments
                             </p>
                           ) : null} */}
-                          <Comment />
+
+                          {comments.map((data) => {
+                            return;
+                            <Comment userId={userId} comment />;
+                          })}
                         </div>
                       </div>
                     </form>
