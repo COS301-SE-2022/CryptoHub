@@ -3,14 +3,16 @@ import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import { XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import Comment from "./Comment";
+import Image from "next/image";
 
-const Post = ({ name, content, userId, postId }) => {
+const Post = ({ name, content, userId, postId, imageId }) => {
   const [user, setUser] = useState({});
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
   const [commentCount, setCommentCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [postImage, setPostImage] = useState(null);
 
   const handleGetUser = () => {
     const options = {
@@ -21,6 +23,20 @@ const Post = ({ name, content, userId, postId }) => {
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
+      })
+      .catch((error) => {});
+  };
+
+  const handleGetPostImage = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`http://localhost:7215/api/Image/GetById/${imageId}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        let image = `data:image/jpeg;base64,${data.image1}`;
+        setPostImage(image);
       })
       .catch((error) => {});
   };
@@ -60,7 +76,13 @@ const Post = ({ name, content, userId, postId }) => {
   useEffect(() => {
     handleGetUser();
     getLikeCount();
+    if (imageId != null) {
+      handleGetPostImage();
+    }
   }, []);
+  {
+    /* <Image src={postImage} height="200" width="200" /> */
+  }
 
   return (
     <div className="bg-white m-4 p-4 rounded-lg">
@@ -72,6 +94,17 @@ const Post = ({ name, content, userId, postId }) => {
           </p>
         </Link>
       </div>
+      {postImage == null ? null : (
+        <div
+          style={{
+            width: "100%",
+            height: "430px",
+            position: "relative",
+          }}
+        >
+          <Image src={postImage} layout="fill" />
+        </div>
+      )}
       <p className="text-sm">{content}</p>
       <div className="flex flex-row mt-4">
         <button onClick={handleLikePost} className="text-sm mr-4 flex flex-row">
