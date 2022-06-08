@@ -203,6 +203,9 @@ namespace UnitTests.ControllerTests
 
             //act
             var result = await controller.Delete(user.UserId);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkResult>(result);
         }
     }
 }

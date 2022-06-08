@@ -411,6 +411,9 @@ namespace UnitTests.ControllerTests
 
             //act
             var result = await controller.Delete(like.LikeId);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkResult>(result);
         }
     }
 }

@@ -145,6 +145,9 @@ namespace UnitTests.ControllerTests
 
             //act
             var result = await controller.Delete(comment.CommentId);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkResult>(result);
         }
     }
 }
