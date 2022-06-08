@@ -58,7 +58,7 @@ namespace UnitTests.ControllerTests
         }
 
         [Fact]
-        public async Task GetUserUserFollower_Id_ReturnsNone()
+        public async Task GetUserUserFollower_Id_ReturnsUserIDAndUserName()
         {
             //arrange
             List<UserFollower> userFollowers = new List<UserFollower>
@@ -113,14 +113,80 @@ namespace UnitTests.ControllerTests
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
 
-            
+
 
             var actual = (result as OkObjectResult).Value;
             var x = (actual as IEnumerable<object>).First();
 
 
-            var userid = x.GetType().GetProperty("UserId").GetValue(x,null);
+            var userid = x.GetType().GetProperty("UserId").GetValue(x, null);
             Assert.Equal(2, userid);
+        }
+
+        [Fact]
+        public async Task GetUserFollowing_Id_ReturnsUserIDAndUserName()
+        {
+            //arrange
+            List<UserFollower> userFollowers = new List<UserFollower>
+            {
+                new UserFollower
+                {
+                    Id = 1,
+                    UserId = 1,
+                    FollowId = 2,
+                    FollowDate = new DateTime(2000, 1, 25)
+                },
+            };
+            List<User> users = new List<User>
+            {
+                new User
+                {
+                    UserId = 1,
+                    Email = "johndoe@gmail.com",
+                    Firstname = "john",
+                    Lastname = "doe",
+                    Username = "john",
+                    Password = "1234"
+                },
+                new User
+                {
+                    UserId = 2,
+                    Email = "elonmusk@gmail.com",
+                    Firstname = "elon",
+                    Lastname = "musk",
+                    Username = "elon",
+                    Password = "1234"
+                },
+                new User
+                {
+                    UserId = 3,
+                    Email = "billgates@gmail.com",
+                    Firstname = "bill",
+                    Lastname = "gates",
+                    Username = "bill",
+                    Password = "windows"
+                }
+            };
+
+            _userFollowerRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<UserFollower, bool>>>())).ReturnsAsync(userFollowers);
+            _userRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(users);
+
+            var controller = new UserFollowerController(_userFollowerRepositoryMock.Object, _userRepositoryMock.Object);
+
+            //act
+            var result = await controller.GetUserFollowing(1);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
+
+
+
+            var actual = (result as OkObjectResult).Value;
+            var x = (actual as IEnumerable<object>).First();
+
+
+            var userid = x.GetType().GetProperty("UserId").GetValue(x, null);
+            Assert.Equal(1, userid);
         }
 
         [Fact]
