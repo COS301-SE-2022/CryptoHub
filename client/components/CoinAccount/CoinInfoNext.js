@@ -30,10 +30,11 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
         fetched.push(data.data);
         let f = [];
         f = fetched[0];
+        f = f.reverse();
         let final = f.slice(0, 10);
         let rawDates = final.map((item) => item.date);
-        let dates = rawDates.map((item) => item.slice(5, 10));
-        let prices = final.map((item) => item.priceUsd);
+        let dates = rawDates.reverse().map((item) => item.slice(5, 10));
+        let prices = final.reverse().map((item) => item.priceUsd);
         setChartData({
           labels: dates,
           datasets: [
