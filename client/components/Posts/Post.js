@@ -43,6 +43,39 @@ const Post = ({ name, content, userId, postId }) => {
       });
   };
 
+  // =========================================================================================
+
+  const handleGetComments = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(
+      `http://localhost:7215/api/Comment/GetCommentsByPostId/${id}`,
+      options
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setThisUser(data);
+      })
+      .catch((error) => {});
+  };
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      commentId: 0,
+      userId: 0,
+      postId: 0,
+      comment1: "string",
+    }),
+  };
+
+  // =========================================================================================
+
   const getLikeCount = () => {
     const options = {
       method: "GET",
