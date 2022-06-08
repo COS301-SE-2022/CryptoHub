@@ -143,7 +143,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
           className="text-sm flex flex-row"
         >
           <ChatIcon className="h-5 w-5 text-black " /> {""}
-          <p className="ml-1">{commentCount} comments</p>
+          <p className="ml-1">{comments.length} comments</p>
         </button>
         {showModal ? (
           <>
@@ -183,9 +183,14 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                             </p>
                           ) : null} */}
 
-                          {comments.map((data) => {
-                            return;
-                            <Comment userId={userId} comment />;
+                          {comments.map((data, index) => {
+                            return (
+                              <Comment
+                                index={index}
+                                userId={userId}
+                                comment={data.comment1}
+                              />
+                            );
                           })}
                         </div>
                       </div>
