@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import { XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import Comment from "./Comment";
 import Image from "next/image";
+import { userContext } from "../../auth/auth";
 
 const Post = ({ name, content, userId, postId, imageId }) => {
-  const [user, setUser] = useState({});
+  const [thisUser, setUser] = useState({});
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
   const [commentCount, setCommentCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [postImage, setPostImage] = useState(null);
+  const [comment, setComment] = useState("");
+  const { refreshfeed } = useContext(userContext);
 
   const handleGetUser = () => {
     const options = {
@@ -56,6 +59,26 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       .then((response) => response.json())
       .then((data) => {
         setLiked(true);
+      });
+  };
+
+  const handleAddComment = (e) => {
+    e.preventDefault();
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        postId: postId,
+        comment1: comment,
+      }),
+    };
+    fetch("http://localhost:7215/api/Comment/AddComment", options)
+      .then((response) => response.json())
+      .then((data) => {
+        refreshfeed();
       });
   };
 
@@ -106,13 +129,15 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     /* <Image src={postImage} height="200" width="200" /> */
   }
 
+  useEffect(() => {}, []);
+
   return (
     <div className="bg-white m-4 p-4 rounded-lg">
       <div className="flex flew-row items-center mb-2">
         <div className="w-8 h-8 bg-black rounded-3xl"></div>
-        <Link href={`/user/${userId}`} className="pointer cursor-pointer">
+        <Link href={`/thisUser/${userId}`} className="pointer cursor-pointer">
           <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-            {user.username}
+            {thisUser.username}
           </p>
         </Link>
       </div>
@@ -151,21 +176,21 @@ const Post = ({ name, content, userId, postId, imageId }) => {
               <div className="relative w-10/12 sm:w-10/12 my-6 mx-auto max-w-3xl">
                 <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   <div className="relative flex-auto">
-                    <form method="POST">
+                    <form method="POST" onSubmit={handleAddComment}>
                       <div className="flex items-start justify-between p-5 border-solid border-slate-200 rounded-t">
                         <input
                           autoFocus
                           className="h-9 text-sm border rounded-md w-full px-2 py-1 mr-1 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                           type="text"
                           placeholder="Type comment here"
-                          // value={}
-                          // onChange={}
+                          defaultValue={""}
+                          onChange={(e) => setComment(e.target.value)}
                         />
                         <button
                           className="h-9 text-sm text-semibold mx-1 sm:mx-3 justify-center flex w-40 border px-1 p-2 rounded-md bg-indigo-600 text-white"
-                          type="button"
+                          type="submit"
                         >
-                          Comments
+                          Comment
                         </button>
                         <button
                           className="px-1 p-1"
