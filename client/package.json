@@ -17,8 +17,10 @@
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.6",
+    "chartjs": "^0.3.24",
     "next": "12.1.5",
     "react": "18.1.0",
+    "react-chartjs-2": "^4.2.0",
     "react-dom": "18.1.0",
     "swiper": "^8.1.4"
   },
