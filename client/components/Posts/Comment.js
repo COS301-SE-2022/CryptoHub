@@ -44,22 +44,6 @@ const Comment = ({ name, hidefollow, id }) => {
       .catch((error) => {});
   };
 
-  const handleGetComments = () => {
-    const options = {
-      method: "GET",
-    };
-
-    fetch(
-      `http://localhost:7215/api/Comment/GetCommentsByPostId/${id}`,
-      options
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setThisUser(data);
-      })
-      .catch((error) => {});
-  };
-
   useEffect(() => {
     // handleGetUser();
   }, []);
