@@ -15,7 +15,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
   const [showModal, setShowModal] = useState(false);
   const [postImage, setPostImage] = useState(null);
   const [comment, setComment] = useState("");
-  const { refreshfeed } = useContext(userContext);
 
   const handleGetUser = () => {
     const options = {
@@ -59,7 +58,18 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       .then((response) => response.json())
       .then((data) => {
         setLiked(true);
+        getLikeCount();
       });
+  };
+
+  const checkIfLiked = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`http://localhost:7215/api/Like/GetLikeByUserId/${userId}`, options)
+      .then((response) => response.json())
+      .then((data) => {});
   };
 
   const handleAddComment = (e) => {
@@ -78,7 +88,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     fetch("http://localhost:7215/api/Comment/AddComment", options)
       .then((response) => response.json())
       .then((data) => {
-        refreshfeed();
+        handleGetComments();
       });
   };
 
