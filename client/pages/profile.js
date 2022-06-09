@@ -131,7 +131,7 @@ const Profile = () => {
           </div>
         </div>
         <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
-        <div className="flex flex-col items-center w-full sm:w-6/12">
+        <div className="flex flex-col items-center w-full sm:w-4/12">
           <div>
             <p className="text-sm mt-4 text-gray-600">Posts</p>
           </div>
@@ -143,6 +143,8 @@ const Profile = () => {
                   name={data.username}
                   content={data.post1}
                   userId={data.userId}
+                  imageId={data.imageId}
+                  postId={data.postId}
                 />
               );
             })}

@@ -10,7 +10,7 @@ const CoinInfo = ({ name, price }) => {
           <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-center">
             {name}
           </p>
-          <div className="flex flex-row justify-between">
+          {/* <div className="flex flex-row justify-between">
             <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition">
               ZAR
             </button>
@@ -20,7 +20,7 @@ const CoinInfo = ({ name, price }) => {
             <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition">
               EUR
             </button>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex flex-row">

@@ -4,7 +4,7 @@ using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Domain.Infrastructure
+namespace Infrastructure.Data
 {
     public partial class CryptoHubDBContext : DbContext
     {
@@ -20,6 +20,7 @@ namespace Domain.Infrastructure
         public virtual DbSet<Coin> Coins { get; set; } = null!;
         public virtual DbSet<CoinHistory> CoinHistories { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
+        public virtual DbSet<Image> Images { get; set; } = null!;
         public virtual DbSet<Like> Likes { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<Reply> Replies { get; set; } = null!;
@@ -59,6 +60,11 @@ namespace Domain.Infrastructure
                     .IsFixedLength();
 
                 entity.Property(e => e.TradingPriceUsd).HasColumnType("decimal(18, 4)");
+
+                entity.HasOne(d => d.Image)
+                    .WithMany(p => p.Coins)
+                    .HasForeignKey(d => d.ImageId)
+                    .HasConstraintName("FK_Coin_Image");
             });
 
             modelBuilder.Entity<CoinHistory>(entity =>
@@ -109,6 +115,13 @@ namespace Domain.Infrastructure
                     .HasConstraintName("FK_Comment_User1");
             });
 
+            modelBuilder.Entity<Image>(entity =>
+            {
+                entity.ToTable("Image");
+
+                entity.Property(e => e.Image1).HasColumnName("Image");
+            });
+
             modelBuilder.Entity<Like>(entity =>
             {
                 entity.ToTable("Like");
@@ -140,6 +153,11 @@ namespace Domain.Infrastructure
                 entity.ToTable("Post");
 
                 entity.Property(e => e.Post1).HasColumnName("Post");
+
+                entity.HasOne(d => d.Image)
+                    .WithMany(p => p.Posts)
+                    .HasForeignKey(d => d.ImageId)
+                    .HasConstraintName("FK_Post_Image");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Posts)
@@ -192,6 +210,11 @@ namespace Domain.Infrastructure
                 entity.Property(e => e.Password).HasMaxLength(50);
 
                 entity.Property(e => e.Username).HasMaxLength(50);
+
+                entity.HasOne(d => d.Image)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.ImageId)
+                    .HasConstraintName("FK_User_Image");
             });
 
             modelBuilder.Entity<UserCoin>(entity =>
