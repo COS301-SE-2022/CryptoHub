@@ -17,7 +17,7 @@ namespace UnitTests.ControllerTests
         }
 
         [Fact]
-        public async Task GetCommentsByCommentId_CommentId_ReturnsCommentsOfId()
+        public async Task GetCommentsByUserId_CommentId_ReturnsCommentsOfId()
         {
             //arrange
             List<Comment> comments = new List<Comment>
@@ -66,7 +66,7 @@ namespace UnitTests.ControllerTests
             var controller = new CommentController(_commentRepositoryMock.Object);
 
             //act
-            var result = await controller.GetCommentByUserId(1);
+            var result = await controller.GetCommentByPostId(1);
 
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result.Result);
@@ -74,6 +74,46 @@ namespace UnitTests.ControllerTests
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<List<Comment>>(actual);
             Assert.Equal(1, (actual as List<Comment>).Count);
+        }
+
+        [Fact]
+        public async Task GetCommentCountByPostId_PostId_ReturnsCountOfComments()
+        {
+            //arrange
+            List<Comment> comments = new List<Comment>
+            {
+                new Comment
+                {
+                    CommentId = 1,
+                    UserId = 1,
+                    PostId = 1,
+                    Comment1 = "CommentText"
+                },
+                new Comment
+                {
+                    CommentId = 2,
+                    UserId = 2,
+                    PostId = 1,
+                    Comment1 = "CommentText2"
+                }
+            };
+
+            _commentRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Comment, bool>>>())).ReturnsAsync(comments);
+
+            var controller = new CommentController(_commentRepositoryMock.Object);
+
+            //act
+            var result = await controller.GetCommentCountByPostId(1);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+
+            var x = actual.GetType().GetProperty("Count").GetValue(actual, null);
+
+            Assert.Equal(2, x);
+
         }
 
         [Fact]
