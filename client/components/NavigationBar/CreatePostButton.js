@@ -10,6 +10,7 @@ const CreatePostButton = () => {
   const [, setError] = useState(false);
   const [, setLoading] = useState(false);
   const [image, setImage] = useState(null);
+  const [clientImage, setClientImage] = useState(undefined);
 
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -26,7 +27,7 @@ const CreatePostButton = () => {
 
   const handleImageUpload = async (e) => {
     let file = e.target.files[0];
-    setImage(URL.createObjectURL(file));
+    setClientImage(URL.createObjectURL(file));
     const base64 = await convertToBase64(file);
     let base64Image = base64.split(",").pop();
     setImage(base64Image);
@@ -113,7 +114,7 @@ const CreatePostButton = () => {
                         </label>
                         <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                           <div className="space-y-1 text-center">
-                            {image == undefined ? (
+                            {clientImage == undefined ? (
                               <svg
                                 className="mx-auto h-12 w-12 text-gray-400"
                                 stroke="currentColor"
@@ -129,7 +130,11 @@ const CreatePostButton = () => {
                                 />
                               </svg>
                             ) : (
-                              <Image src={image} width="200" height="200" />
+                              <Image
+                                src={clientImage}
+                                width="200"
+                                height="200"
+                              />
                             )}
 
                             <div className="flex text-sm text-gray-600 justify-center">
