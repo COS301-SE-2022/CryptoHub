@@ -77,7 +77,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.warn("Check ", data);
         let post = [];
         post = data;
         post.map((data) => {
@@ -85,7 +84,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
             setLiked(true);
           }
         });
-        console.warn(post);
       });
   };
 
@@ -101,12 +99,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         setLiked(false);
         getLikeCount();
       }
-      //response.json();
     });
-    // .then((data) => {
-    //   setLiked(false);
-    //   getLikeCount();
-    //});
   };
 
   const handleAddComment = (e) => {
@@ -142,7 +135,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.warn(data);
         setComments(data);
       })
       .catch((error) => {});

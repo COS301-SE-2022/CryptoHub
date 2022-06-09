@@ -21,7 +21,6 @@ const Posts = () => {
       .then((data) => {
         setLoading(false);
         let posts = data.reverse();
-        console.warn("Posts", posts);
         let myPosts = posts.filter((post) => {
           return post.userId != user.id;
         });

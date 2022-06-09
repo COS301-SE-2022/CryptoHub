@@ -45,7 +45,6 @@ const Suggestions = () => {
       });
 
       setSuggestedAccounts(final.slice(0, 4));
-      console.warn(suggestedAccounts);
     } catch {}
   }, [refresh]);
 
