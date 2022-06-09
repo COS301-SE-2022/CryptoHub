@@ -24,7 +24,10 @@ CryptoHub is an interactive and social application that allows a user to explore
 
 ## Documentation
 
-- [System Requirements Specification](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS))
+- [System Requirements Specification demo 1](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS)-Demo-1)
+- [System Requirements Specification demo 1](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS)-Demo-2)
+- [Coding Standards]([https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS)-Demo-2](https://github.com/COS301-SE-2022/CryptoHub/wiki/Coding-Standards))
+- [User Manual](https://github.com/COS301-SE-2022/CryptoHub/wiki/User-Manual)
 
 ## Demo Vidoes
 
