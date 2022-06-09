@@ -52,11 +52,19 @@ const SuggestedAccount = ({ name, hidefollow, id }) => {
     <div className="flex flex-row p-2 w-full justify-between bg-gray-100 mb-2 rounded-md">
       <div className="flex flex-row">
         <div className="w-6 h-6 bg-black rounded-3xl"></div>
-        <Link href={`/user/${id}`} className="cursor-pointer">
-          <p className="text-sm font-semibold translate-y-1 ml-2 cursor-pointer">
-            {thisUser.username}
-          </p>
-        </Link>
+        {user.id == thisUser.userId ? (
+          <Link href={`/profile`} className="pointer cursor-pointer">
+            <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+              {thisUser.username}
+            </p>
+          </Link>
+        ) : (
+          <Link href={`/user/${id}`} className="pointer cursor-pointer">
+            <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+              {thisUser.username}
+            </p>
+          </Link>
+        )}
       </div>
       {hidefollow ? null : (
         <button onClick={handleFollowUser}>
