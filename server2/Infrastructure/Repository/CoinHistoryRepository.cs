@@ -1,7 +1,8 @@
 ﻿using System;
-using Domain.Infrastructure;
+
 using Domain.IRepository;
 using Domain.Models;
+using Infrastructure.Data;
 
 namespace Infrastructure.Repository
 {

@@ -1,6 +1,7 @@
-using Domain.Infrastructure;
+
 using Domain.IRepository;
 using Domain.Models;
+using Infrastructure.Data;
 using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ builder.Services.AddTransient<ICoinHistoryRepository, CoinHistoryRepository>();
 builder.Services.AddTransient<ILikeRepository, LikeRepository>();
 builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
+builder.Services.AddTransient<IImageRepository, ImageRepository>();
 
 
 builder.Services.AddCors();
@@ -57,3 +59,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

@@ -18,10 +18,10 @@ namespace Domain.Models
         public string Comment1 { get; set; } = null!;
 
         [JsonIgnore]
-        public virtual Post? Post { get; set; } = null!;
+        public virtual Post? Post { get; set; }
 
         [JsonIgnore]
-        public virtual User? User { get; set; } = null!;
+        public virtual User? User { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<Like>? Likes { get; set; }

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../../auth/auth";
 import Link from "next/link";
 
-const SuggestedAccount = ({ name, hidefollow, id }) => {
+const Comment = ({ name, hidefollow, id, userId, comment }) => {
   const { user } = useContext(userContext);
   const [clicked, setClicked] = useState(false);
   const [thisUser, setThisUser] = useState({});
@@ -36,7 +36,7 @@ const SuggestedAccount = ({ name, hidefollow, id }) => {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/User/GetUserById/${id}`, options)
+    fetch(`http://localhost:7215/api/User/GetUserById/${userId}`, options)
       .then((response) => response.json())
       .then((data) => {
         setThisUser(data);
@@ -49,26 +49,18 @@ const SuggestedAccount = ({ name, hidefollow, id }) => {
   }, []);
 
   return (
-    <div className="flex flex-row p-2 w-full justify-between bg-gray-100 mb-2 rounded-md">
+    <div className="flex flex-row p-2 w-full justify-between mb-2 rounded-md">
       <div className="flex flex-row">
-        <div className="w-6 h-6 bg-black rounded-3xl"></div>
-        <Link href={`/user/${id}`} className="cursor-pointer">
+        <div className="w-6 h-6 bg-black rounded-3xl translate-y-1"></div>
+        <Link href={`/user/${thisUser.userId}`} className="cursor-pointer">
           <p className="text-sm font-semibold translate-y-1 ml-2 cursor-pointer">
             {thisUser.username}
           </p>
         </Link>
+        <p className="text-sm text-gray-600 translate-y-1 ml-2">{comment}</p>
       </div>
-      {hidefollow ? null : (
-        <button onClick={handleFollowUser}>
-          {clicked ? (
-            <p className="text-sm font-bold text-gray-400 mr-2">Following</p>
-          ) : (
-            <p className="text-sm font-bold text-indigo-600 mr-2">Follow</p>
-          )}
-        </button>
-      )}
     </div>
   );
 };
 
-export default SuggestedAccount;
+export default Comment;

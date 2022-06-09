@@ -22,6 +22,6 @@ namespace Domain.Models
         public virtual Reply? Reply { get; set; }
 
         [JsonIgnore]
-        public virtual User User { get; set; } = null!;
+        public virtual User? User { get; set; }
     }
 }
