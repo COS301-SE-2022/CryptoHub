@@ -161,6 +161,9 @@ namespace UnitTests.ControllerTests
 
             //act
             var result = await controller.Delete(coinHistory.HistoryId);
+
+            Assert.NotNull(result);
+            Assert.IsType<OkResult>(result);
         }
     }
 }

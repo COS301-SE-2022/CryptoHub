@@ -64,13 +64,13 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Like>>> GetLikeCountByCommentId(int id)
+        public async Task<IActionResult> GetLikeCountByCommentId(int id)
         {
             var response = await _likeRepository.FindRange(l => l.CommentId == id);
             if (response == null)
                 return NotFound();
 
-            return Ok(new {Coount = response.Count()});
+            return Ok(new { Count = response.Count() });
         }
 
         [HttpGet("{id}")]
@@ -84,13 +84,13 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Like>>> GetLikeCountByReplyId(int id)
+        public async Task<IActionResult> GetLikeCountByReplyId(int id)
         {
             var response = await _likeRepository.FindRange(l => l.ReplyId == id);
             if (response == null)
                 return NotFound();
 
-            return Ok(new {Count = response.Count()});
+            return Ok(new { Count = response.Count() });
         }
 
         [HttpGet("{userId}/{postId}")]
@@ -114,7 +114,7 @@ namespace CryptoHubAPI.Controllers
 
             if (likes != null)
                 return BadRequest();
-            
+
             return Ok(await _likeRepository.Add(like));
         }
 
