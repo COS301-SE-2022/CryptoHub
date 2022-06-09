@@ -3,14 +3,15 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Domain.Infrastructure;
+//using Domain.Infrastructure;
+using Infrastructure.Data;
 
 namespace UnitTests.IntegrationTests
 {
     public class UserControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _httpClient;
-        private CryptoHubDBContext _context;
+        //private CryptoHubDBContext _context;
 
 
         public UserControllerTests()
