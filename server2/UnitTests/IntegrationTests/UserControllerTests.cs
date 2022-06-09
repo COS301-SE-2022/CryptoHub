@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Domain.Infrastructure;
 
 namespace UnitTests.IntegrationTests
-{ 
-    public class UserControllerTests :IClassFixture<WebApplicationFactory<Program>>
+{
+    public class UserControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _httpClient;
         private CryptoHubDBContext _context;
@@ -37,58 +37,12 @@ namespace UnitTests.IntegrationTests
                                      });
                              });
 
-
             _httpClient = appFactory.CreateClient();
-        
         }
 
-        
-
-        /*[TestInitialize]
-        public void Setup()
-        {
-            
-
-            var optionsBuilder = new DbContextOptionsBuilder<CryptoHubDBContext>();
-            optionsBuilder.UseInMemoryDatabase("TestDb");
-
-            _context = new CryptoHubDBContext(optionsBuilder.Options);
-            
- 
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            _context.Database.EnsureDeleted();
-        }
-*/
         [Fact]
         public async Task GetAllUsers_NoUsers()
         {
-           /* var appFactory = new WebApplicationFactory<Program>()
-                             .WithWebHostBuilder(builder =>
-                             {
-                                 builder.ConfigureServices(
-                                     services =>
-                                     {
-                                         var descriptor = services.SingleOrDefault(
-                                             d => d.ServiceType == typeof(DbContextOptions<CryptoHubDBContext>));
-
-                                         if (descriptor != null)
-                                         {
-                                             services.Remove(descriptor);
-                                         }
-                                         services.AddDbContext<CryptoHubDBContext>(
-                                             options =>
-                                             {
-                                                 options.UseInMemoryDatabase(Guid.NewGuid().ToString());
-                                             });
-                                     });
-                             });
-            _httpClient = appFactory.CreateClient();
-*/
-
             //Act
             var response = await _httpClient.GetAsync("http://localhost:7215/api/User/GetAllUsers");
 
@@ -98,18 +52,16 @@ namespace UnitTests.IntegrationTests
 
             var users = await response.Content.ReadAsAsync<List<User>>();
 
-            Assert.Equal(0,users.Count());
-            
-
+            Assert.Equal(0, users.Count());
         }
 
         [Fact]
         public async Task GetAllUsers_Users()
         {
-           //Arrange
+            //Arrange
             var testUser = new User()
             {
-                
+
                 Firstname = "test",
                 Lastname = "user",
                 Username = "test user",
@@ -119,7 +71,7 @@ namespace UnitTests.IntegrationTests
             };
             var testUser2 = new User()
             {
-                
+
                 Firstname = "test",
                 Lastname = "user",
                 Username = "test user",
@@ -129,7 +81,7 @@ namespace UnitTests.IntegrationTests
             };
             var testUser3 = new User()
             {
-                
+
                 Firstname = "test",
                 Lastname = "user",
                 Username = "test user",
@@ -138,14 +90,11 @@ namespace UnitTests.IntegrationTests
 
             };
 
-            var x =  await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
-             var y = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser2);
-             var z = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser3);
-           
+            var x = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            var y = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser2);
+            var z = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser3);
+
             //Act
-           
-
-
             var response = await _httpClient.GetAsync("http://localhost:7215/api/User/GetAllUsers");
 
             //Assert
@@ -155,36 +104,120 @@ namespace UnitTests.IntegrationTests
             var users = await response.Content.ReadAsAsync<List<User>>();
 
             Assert.Equal(3, users.Count());
-
-
         }
 
+        [Fact]
+        public async Task GetUserById_NoUsers()
+        {
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/User/GetUserById/1");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(404, (double)response.StatusCode);
+        }
+
+        [Fact]
+        public async Task GetUserById_UserFound()
+        {
+            //Arrange
+            var testUser = new User()
+            {
+                UserId = 1,
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test@gmail.com",
+                Password = "1234"
+            };
+            var testUser2 = new User()
+            {
+                UserId = 2,
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test2@gmail.com",
+                Password = "1234"
+            };
+            var testUser3 = new User()
+            {
+                UserId = 3,
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test3@gmail.com",
+                Password = "1234"
+            };
+
+            var x = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            var y = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser2);
+            var z = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser3);
+
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/User/GetUserById/1");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var user = await response.Content.ReadAsAsync<User>();
+
+            Assert.NotNull(user);
+            Assert.Equal(testUser.UserId, user.UserId);
+            Assert.Equal(testUser.Firstname, user.Firstname);
+            Assert.Equal(testUser.Lastname, user.Lastname);
+            Assert.Equal(testUser.Username, user.Username);
+            Assert.Equal(testUser.Password, user.Password);
+            Assert.Equal(testUser.Email, user.Email);
+        }
+
+        [Fact]
+        public async Task GetUserById_UserNotFound()
+        {
+            //Arrange
+            var testUser = new User()
+            {
+                UserId = 1,
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test@gmail.com",
+                Password = "1234"
+            };
+            var testUser2 = new User()
+            {
+                UserId = 2,
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test2@gmail.com",
+                Password = "1234"
+            };
+            var testUser3 = new User()
+            {
+                UserId = 3,
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test3@gmail.com",
+                Password = "1234"
+            };
+
+            var x = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            var y = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser2);
+            var z = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser3);
+
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/User/GetUserById/4");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(404, (double)response.StatusCode);
+        }
 
         [Fact]
         public async Task AddUser()
         {
-            /*var appFactory = new WebApplicationFactory<Program>()
-                             .WithWebHostBuilder(builder =>
-                             {
-                                 builder.ConfigureServices(
-                                     services =>
-                                     {
-                                         var descriptor = services.SingleOrDefault(
-                                             d => d.ServiceType == typeof(DbContextOptions<CryptoHubDBContext>));
-
-                                         if (descriptor != null)
-                                         {
-                                             services.Remove(descriptor);
-                                         }
-                                         services.AddDbContext<CryptoHubDBContext>(
-                                             options =>
-                                             {
-                                                 options.UseInMemoryDatabase(Guid.NewGuid().ToString());
-                                             });
-                                     });
-                             });
-            _httpClient = appFactory.CreateClient();
-*/
             var testUser = new User()
             {
                 UserId = 1,
@@ -195,7 +228,6 @@ namespace UnitTests.IntegrationTests
                 Password = "1234"
 
             };
-
 
             //Act
             await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
@@ -209,13 +241,11 @@ namespace UnitTests.IntegrationTests
 
             Assert.NotNull(user);
             Assert.Equal(testUser.UserId, user.UserId);
-            Assert.Equal(testUser.Firstname,user.Firstname);
+            Assert.Equal(testUser.Firstname, user.Firstname);
             Assert.Equal(testUser.Lastname, user.Lastname);
             Assert.Equal(testUser.Username, user.Username);
             Assert.Equal(testUser.Password, user.Password);
             Assert.Equal(testUser.Email, user.Email);
-
-
         }
     }
 }
