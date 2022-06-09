@@ -131,11 +131,22 @@ namespace UnitTests.ControllerTests
             //act
             var result = await controller.UpdateCoinHistory(coinHistory);
 
+            //assert
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result.Result);
 
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<CoinHistory>(actual);
+
+            //arrange
+            _coinHistoryRepositoryMock.Setup(u => u.Update(It.IsAny<Expression<Func<CoinHistory, bool>>>(), It.IsAny<CoinHistory>())).ReturnsAsync((CoinHistory)null);
+
+            //act
+            var result2 = await controller.UpdateCoinHistory(coinHistory);
+
+            //assert
+            Assert.Null(result2);
+
         }
 
         [Fact]

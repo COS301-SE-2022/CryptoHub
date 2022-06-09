@@ -99,11 +99,21 @@ namespace UnitTests.ControllerTests
             //act
             var result = await controller.UpdateCoin(coin);
 
+            //assert
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result.Result);
 
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<Coin>(actual);
+
+            //arrange
+            _coinRepositoryMock.Setup(u => u.Update(It.IsAny<Expression<Func<Coin, bool>>>(), It.IsAny<Coin>())).ReturnsAsync((Coin)null);
+
+            //act
+            var result2 = await controller.UpdateCoin(coin);
+
+            //assert
+            Assert.Null(result2);
         }
     }
 }

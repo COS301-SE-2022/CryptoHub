@@ -38,12 +38,14 @@ namespace UnitTests.ControllerTests
             //act
             var result = await controller.GetCommentByUserId(1);
 
+            //assert
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result.Result);
 
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<List<Comment>>(actual);
             Assert.Equal(1, (actual as List<Comment>).Count);
+
         }
 
         [Fact]
