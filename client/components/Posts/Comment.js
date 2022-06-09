@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../../auth/auth";
 import Link from "next/link";
 
-const Comment = ({ name, hidefollow, id }) => {
+const Comment = ({ name, hidefollow, id, userId, comment }) => {
   const { user } = useContext(userContext);
   const [clicked, setClicked] = useState(false);
   const [thisUser, setThisUser] = useState({});
@@ -36,7 +36,7 @@ const Comment = ({ name, hidefollow, id }) => {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/User/GetUserById/${id}`, options)
+    fetch(`http://localhost:7215/api/User/GetUserById/${userId}`, options)
       .then((response) => response.json())
       .then((data) => {
         setThisUser(data);
@@ -45,7 +45,7 @@ const Comment = ({ name, hidefollow, id }) => {
   };
 
   useEffect(() => {
-    // handleGetUser();
+    handleGetUser();
   }, []);
 
   return (
@@ -54,13 +54,10 @@ const Comment = ({ name, hidefollow, id }) => {
         <div className="w-6 h-6 bg-black rounded-3xl translate-y-1"></div>
         <Link href={`/user/${id}`} className="cursor-pointer">
           <p className="text-sm font-semibold translate-y-1 ml-2 cursor-pointer">
-            {/* {thisUser.username} */}
-            username
+            {thisUser.username}
           </p>
         </Link>
-        <p className="text-sm text-gray-600 translate-y-1 ml-2">
-          Thank you for the info.
-        </p>
+        <p className="text-sm text-gray-600 translate-y-1 ml-2">{comment}</p>
       </div>
     </div>
   );

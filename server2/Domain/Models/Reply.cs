@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Domain.Models
 {
@@ -15,8 +16,13 @@ namespace Domain.Models
         public int CommentId { get; set; }
         public string Comment { get; set; } = null!;
 
-        public virtual Comment CommentNavigation { get; set; } = null!;
-        public virtual User User { get; set; } = null!;
-        public virtual ICollection<Like> Likes { get; set; }
+        [JsonIgnore]
+        public virtual Comment? CommentNavigation { get; set; }
+
+        [JsonIgnore]
+        public virtual User? User { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<Like>? Likes { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Domain.Models
 {
@@ -22,8 +23,13 @@ namespace Domain.Models
         public decimal? MarketCapUsd { get; set; }
         public int? ImageId { get; set; }
 
+        [JsonIgnore]
         public virtual Image? Image { get; set; }
-        public virtual ICollection<CoinHistory> CoinHistories { get; set; }
-        public virtual ICollection<UserCoin> UserCoins { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<CoinHistory>? CoinHistories { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<UserCoin>? UserCoins { get; set; }
     }
 }

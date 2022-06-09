@@ -139,6 +139,7 @@ const User = () => {
                   content={data.post1}
                   userId={data.userId}
                   imageId={data.imageId}
+                  postId={data.postId}
                 />
               );
             })}
