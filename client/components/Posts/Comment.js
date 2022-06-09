@@ -52,7 +52,7 @@ const Comment = ({ name, hidefollow, id, userId, comment }) => {
     <div className="flex flex-row p-2 w-full justify-between mb-2 rounded-md">
       <div className="flex flex-row">
         <div className="w-6 h-6 bg-black rounded-3xl translate-y-1"></div>
-        <Link href={`/user/${id}`} className="cursor-pointer">
+        <Link href={`/user/${thisUser.userId}`} className="cursor-pointer">
           <p className="text-sm font-semibold translate-y-1 ml-2 cursor-pointer">
             {thisUser.username}
           </p>
