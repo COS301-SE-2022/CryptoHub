@@ -183,11 +183,20 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     <div className="bg-white m-4 p-4 rounded-lg">
       <div className="flex flew-row items-center mb-2">
         <div className="w-8 h-8 bg-black rounded-3xl"></div>
-        <Link href={`/user/${userId}`} className="pointer cursor-pointer">
-          <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-            {thisUser.username}
-          </p>
-        </Link>
+
+        {user.id == thisUser.userId ? (
+          <Link href={`/profile`} className="pointer cursor-pointer">
+            <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+              {thisUser.username}
+            </p>
+          </Link>
+        ) : (
+          <Link href={`/user/${userId}`} className="pointer cursor-pointer">
+            <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+              {thisUser.username}
+            </p>
+          </Link>
+        )}
       </div>
       {postImage == null ? null : (
         <div
