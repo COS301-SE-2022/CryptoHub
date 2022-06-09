@@ -87,6 +87,16 @@ namespace UnitTests.ControllerTests
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<List<Like>>(actual);
             Assert.Equal(1, (actual as List<Like>).Count);
+
+            //arrange 2
+            _likeRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Like, bool>>>())).ReturnsAsync((List<Like>)null);
+
+            //act
+            var result2 = await controller.GetLikeByUserId(1);
+
+            Assert.NotNull(result2);
+            Assert.IsType<NotFoundResult>(result2.Result);
+
         }
 
         [Fact]
@@ -116,6 +126,15 @@ namespace UnitTests.ControllerTests
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<List<Like>>(actual);
             Assert.Equal(1, (actual as List<Like>).Count);
+
+            //arrange 2
+            _likeRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Like, bool>>>())).ReturnsAsync((List<Like>)null);
+
+            //act
+            var result2 = await controller.GetLikeByPostId(1);
+
+            Assert.NotNull(result2);
+            Assert.IsType<NotFoundResult>(result2.Result);
         }
 
         [Fact]
@@ -160,6 +179,14 @@ namespace UnitTests.ControllerTests
 
             Assert.Equal(3, x);
 
+            //arrange 2
+            _likeRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Like, bool>>>())).ReturnsAsync((List<Like>)null);
+
+            //act
+            var result2 = await controller.GetLikeCountByPostId(1);
+
+            Assert.NotNull(result2);
+            Assert.IsType<NotFoundResult>(result2);
         }
 
         [Fact]
@@ -335,7 +362,7 @@ namespace UnitTests.ControllerTests
             var controller = new LikeController(_likeRepositoryMock.Object);
 
             //act
-            var result = await controller.GetLikeByPostId(1);
+            var result = await controller.GetLikeByLikeId(1);
 
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result.Result);

@@ -66,7 +66,7 @@ namespace UnitTests.ControllerTests
             var controller = new CommentController(_commentRepositoryMock.Object);
 
             //act
-            var result = await controller.GetCommentByUserId(1);
+            var result = await controller.GetCommentByPostId(1);
 
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result.Result);
