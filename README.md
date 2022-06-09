@@ -29,6 +29,7 @@ CryptoHub is an interactive and social application that allows a user to explore
 ## Demo Vidoes
 
 - [Demo 1](https://drive.google.com/file/d/1YnMPmuTIb7v5p-PBGcOAJ29ZvJOSp_Mq/view?usp=sharing "Demo 1")
+- [Demo 2](https://drive.google.com/file/d/1YnMPmuTIb7v5p-PBGcOAJ29ZvJOSp_Mq/view?usp=sharing "Demo 2")
 
 
 ## Code Force
