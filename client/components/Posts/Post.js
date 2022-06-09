@@ -71,19 +71,20 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/Like/GetLikeByUserId/${userId}`, options)
+    fetch(
+      `http://localhost:7215/api/Like/GetLikeBy/${user.id}/${postId}`,
+      options
+    )
       .then((response) => response.json())
       .then((data) => {
+        console.warn("Check ", data);
         let post = [];
         post = data;
+        if ((post.length = 1)) {
+          setLiked(true);
+          //setLikeId(post[0].likeId);
+        }
         console.warn(post);
-        post.map((post) => {
-          if (post.postId === postId) {
-            setLikeId(post.likeId);
-            setLiked(true);
-            getLikeCount();
-          }
-        });
       });
   };
 
@@ -91,15 +92,16 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     const options = {
       method: "DELETE",
     };
-    fetch(`http://localhost:7215/api/Like/Delete?id=${likeId}`, options).then(
-      (response) => {
-        if (response.status === 200) {
-          setLiked(false);
-          getLikeCount();
-        }
-        //response.json();
+    fetch(
+      `http://localhost:7215/api/Like/Delete/${user.id}/${postId}`,
+      options
+    ).then((response) => {
+      if (response.status === 200) {
+        setLiked(false);
+        getLikeCount();
       }
-    );
+      //response.json();
+    });
     // .then((data) => {
     //   setLiked(false);
     //   getLikeCount();
