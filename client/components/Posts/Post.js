@@ -80,10 +80,11 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         console.warn("Check ", data);
         let post = [];
         post = data;
-        if ((post.length = 1)) {
-          setLiked(true);
-          //setLikeId(post[0].likeId);
-        }
+        post.map((data) => {
+          if (data.userId == user.id) {
+            setLiked(true);
+          }
+        });
         console.warn(post);
       });
   };
