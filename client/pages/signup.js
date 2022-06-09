@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
 import { userContext } from "../auth/auth";
+import { useRouter } from "next/router";
 
-export default function Signup() {
+const Signup = () => {
   const { authorise } = useContext(userContext);
-
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -20,27 +21,26 @@ export default function Signup() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        userName: username,
-        firstName: firstname,
-        lastName: lastname,
+        userId: 0,
+        firstname: firstname,
+        lastname: lastname,
+        username: username,
         email: email,
         password: password,
       }),
     };
 
-    fetch("http://localhost:8082/api/authorization/register", options)
+    fetch("http://localhost:7215/api/Authorization/Register", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.warn(data);
-        if (data.authorized) {
-          authorise(data.username, data.userId);
+        if (!data.hasError) {
+          authorise(data.model.username, data.model.userId);
         } else {
           setError(true);
         }
       })
       .catch((error) => {
-        console.warn("Error", error);
         setError(true);
         setLoading(false);
       });
@@ -157,6 +157,18 @@ export default function Signup() {
                   <p>Create account</p>
                 )}
               </button>
+              <div className="text-gray-400 text-center font-sm mt-5">
+                Already signed up ?{" "}
+                <span className="text-indigo-700 focus:underline">
+                  <button
+                    onClick={() => {
+                      router.push("/login");
+                    }}
+                  >
+                    Log in here
+                  </button>
+                </span>
+              </div>
             </div>
           </form>
           {error ? (
@@ -168,4 +180,6 @@ export default function Signup() {
       </div>
     </>
   );
-}
+};
+
+export default Signup;

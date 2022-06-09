@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import Layout from "../components/Layout";
 import Head from "next/head";
 import { userContext } from "../auth/auth";
-import Posts from "../components/Posts/Posts";
 import Post from "../components/Posts/Post";
 import { useRouter } from "next/router";
 import { XIcon } from "@heroicons/react/outline";
@@ -11,8 +10,8 @@ import SuggestedAccount from "../components/InfoSection/SuggestedAccount";
 const Profile = () => {
   const { user } = useContext(userContext);
   const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [, setError] = useState(false);
+  const [, setLoading] = useState(false);
   const router = useRouter();
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
@@ -24,15 +23,16 @@ const Profile = () => {
       method: "GET",
     };
 
-    fetch(`http://localhost:8082/api/user/getfollowing/${user.id}`, options)
+    fetch(
+      `http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`,
+      options
+    )
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.warn("Followers", data);
         setFollowing(data);
       })
       .catch((error) => {
-        console.warn("Error", error);
         setError(true);
         setLoading(false);
       });
@@ -43,15 +43,16 @@ const Profile = () => {
       method: "GET",
     };
 
-    fetch(`http://localhost:8082/api/user/getfollowers/${user.id}`, options)
+    fetch(
+      `http://localhost:7215/api/UserFollower/GetUserUserFollower/${user.id}`,
+      options
+    )
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.warn("Followers", data);
         setFollowers(data);
       })
       .catch((error) => {
-        console.warn("Error", error);
         setError(true);
         setLoading(false);
       });
@@ -64,15 +65,17 @@ const Profile = () => {
       method: "GET",
     };
 
-    fetch("http://localhost:8082/api/post/getallposts", options)
+    fetch("http://localhost:7215/api/Post/GetAllPosts", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.warn(data);
-        setPosts(data.reverse());
+        let posts = data.reverse();
+        let myPosts = posts.filter((post) => {
+          return post.userId == user.id;
+        });
+        setPosts(myPosts);
       })
       .catch((error) => {
-        console.warn("Error", error);
         setError(true);
         setLoading(false);
       });
@@ -128,15 +131,22 @@ const Profile = () => {
           </div>
         </div>
         <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
-        <div className="flex flex-col items-center w-full sm:w-6/12">
+        <div className="flex flex-col items-center w-full sm:w-4/12">
           <div>
             <p className="text-sm mt-4 text-gray-600">Posts</p>
           </div>
           <div className="w-full">
             {posts.map((data, index) => {
-              return data.username == user.username ? (
-                <Post key={index} name={data.username} content={data.post} />
-              ) : null;
+              return (
+                <Post
+                  key={index}
+                  name={data.username}
+                  content={data.post1}
+                  userId={data.userId}
+                  imageId={data.imageId}
+                  postId={data.postId}
+                />
+              );
             })}
           </div>
         </div>
@@ -165,8 +175,9 @@ const Profile = () => {
                             return (
                               <SuggestedAccount
                                 key={index}
-                                name={data.userName}
+                                name={data.username}
                                 hidefollow={true}
+                                id={data.userId}
                               />
                             );
                           })}
@@ -206,8 +217,9 @@ const Profile = () => {
                             return (
                               <SuggestedAccount
                                 key={index}
-                                name={data.userName}
+                                name={data.username}
                                 hidefollow={true}
+                                id={data.userId}
                               />
                             );
                           })}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import SuggestedAccount from "./SuggestedAccount";
-import { mockSuggestedAccounts } from "../../mocks/mockSuggestedAccounts";
 import { userContext } from "../../auth/auth";
 
 const Suggestions = () => {
@@ -15,40 +14,39 @@ const Suggestions = () => {
       method: "GET",
     };
 
-    fetch("http://localhost:8082/api/user/getallusers", options)
+    // fetch("http://localhost:7215/api/UserFollower/GetAllUserFollowers", options)
+    fetch("http://localhost:7215/api/User/GetAllUsers", options)
       .then((response) => response.json())
       .then((data) => {
-        console.warn("all users", data);
         setAccounts(data);
-        fetch(`http://localhost:8082/api/user/getfollowing/${user.id}`, options)
+        fetch(
+          `http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`,
+          options
+        )
           .then((response) => response.json())
           .then((data) => {
-            console.warn("following", data);
             setFollowers(data);
             setRefresh(true);
           })
-          .catch((error) => {
-            console.warn("Error", error);
-          });
+          .catch(() => {});
       })
-      .catch((error) => {
-        console.warn("Error", error);
-      });
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
-    let suggested = accounts.filter((account) => {
-      return !followers.find((acc) => {
-        console.warn(account);
-        return acc.userId == account.userId;
+    try {
+      let suggested = accounts.filter((account) => {
+        return !followers.find((acc) => {
+          return acc.userId == account.userId;
+        });
       });
-    });
 
-    let final = suggested.filter((acc) => {
-      return acc.userId != user.id;
-    });
+      let final = suggested.filter((acc) => {
+        return acc.userId != user.id;
+      });
 
-    setSuggestedAccounts(final.slice(0, 4));
+      setSuggestedAccounts(final.slice(0, 4));
+    } catch {}
   }, [refresh]);
 
   return (
@@ -63,7 +61,7 @@ const Suggestions = () => {
           return (
             <SuggestedAccount
               key={index}
-              name={data.userName}
+              name={data.username}
               id={data.userId}
             />
           );
