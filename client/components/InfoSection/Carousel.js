@@ -55,16 +55,16 @@ export default Carousel;
 
 const CoinInfo = ({ name, price, difference, color, id }) => {
   return (
-    <div className="flex flex-col p-4 m-1 items-center">
-      <Link href={`/coin/${id}`}>
+    <Link href={`/coin/${id}`}>
+      <div className="flex flex-col p-4 m-1 items-center cursor-pointer hover:opacity-70 transition">
         <p className="text-sm font-semibold cursor-pointer">{name}</p>
-      </Link>
-      <p className="text-md font-semibold text-indigo-600">{`$${
-        Math.round(price * 10) / 10
-      }`}</p>
-      <p className={`${color} text-sm font-semibold`}>{` ${
-        color === "text-green-600" ? "+" : ""
-      }${Math.round(difference * 100) / 100}%`}</p>
-    </div>
+        <p className="text-md font-semibold text-indigo-600">{`$${
+          Math.round(price * 10) / 10
+        }`}</p>
+        <p className={`${color} text-sm font-semibold`}>{` ${
+          color === "text-green-600" ? "+" : ""
+        }${Math.round(difference * 100) / 100}%`}</p>
+      </div>
+    </Link>
   );
 };
