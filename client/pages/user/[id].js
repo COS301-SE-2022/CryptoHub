@@ -92,6 +92,7 @@ const User = () => {
     handleGetUser();
     handleGetAllPosts();
     checkFollowing();
+    id == undefined && router.push("/");
   }, []);
 
   return (

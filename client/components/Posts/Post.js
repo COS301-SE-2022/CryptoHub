@@ -77,7 +77,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.warn("Check ", data);
         let post = [];
         post = data;
         post.map((data) => {
@@ -85,7 +84,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
             setLiked(true);
           }
         });
-        console.warn(post);
       });
   };
 
@@ -101,12 +99,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         setLiked(false);
         getLikeCount();
       }
-      //response.json();
     });
-    // .then((data) => {
-    //   setLiked(false);
-    //   getLikeCount();
-    //});
   };
 
   const handleAddComment = (e) => {
@@ -142,7 +135,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.warn(data);
         setComments(data);
       })
       .catch((error) => {});
@@ -183,11 +175,20 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     <div className="bg-white m-4 p-4 rounded-lg">
       <div className="flex flew-row items-center mb-2">
         <div className="w-8 h-8 bg-black rounded-3xl"></div>
-        <Link href={`/user/${userId}`} className="pointer cursor-pointer">
-          <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-            {thisUser.username}
-          </p>
-        </Link>
+
+        {user.id == thisUser.userId ? (
+          <Link href={`/profile`} className="pointer cursor-pointer">
+            <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+              {thisUser.username}
+            </p>
+          </Link>
+        ) : (
+          <Link href={`/user/${userId}`} className="pointer cursor-pointer">
+            <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+              {thisUser.username}
+            </p>
+          </Link>
+        )}
       </div>
       {postImage == null ? null : (
         <div
@@ -228,29 +229,51 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                 <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   <div className="relative flex-auto">
                     <form method="POST" onSubmit={handleAddComment}>
-                      <div className="flex items-start justify-between p-5 border-solid border-slate-200 rounded-t">
-                        <input
-                          autoFocus
-                          className="h-9 text-sm border rounded-md w-full px-2 py-1 mr-1 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                          type="text"
-                          placeholder="Type comment here"
-                          defaultValue={""}
-                          onChange={(e) => setComment(e.target.value)}
-                        />
-                        <button
-                          className="h-9 text-sm text-semibold mx-1 sm:mx-3 justify-center flex w-40 border px-1 p-2 rounded-md bg-indigo-600 text-white"
-                          type="submit"
-                        >
-                          Comment
-                        </button>
-                        <button
-                          className="px-1 p-1"
-                          type="button"
-                          onClick={() => setShowModal(false)}
-                        >
-                          <XIcon className="h-6 w-6" aria-hidden="true" />
-                        </button>
-                      </div>
+                      {user.auth == true ? (
+                        <div className="flex items-start justify-between p-5 border-solid border-slate-200 rounded-t">
+                          <input
+                            autoFocus
+                            className="h-9 text-sm border rounded-md w-full px-2 py-1 mr-1 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                            type="text"
+                            placeholder="Type comment here"
+                            defaultValue={""}
+                            onChange={(e) => setComment(e.target.value)}
+                          />
+                          <button
+                            className="h-9 text-sm text-semibold mx-1 sm:mx-3 justify-center flex w-40 border px-1 p-2 rounded-md bg-indigo-600 text-white"
+                            type="submit"
+                          >
+                            Comment
+                          </button>
+                          <button
+                            className="px-1 p-1"
+                            type="button"
+                            onClick={() => setShowModal(false)}
+                          >
+                            <XIcon className="h-6 w-6" aria-hidden="true" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="w-full p-4 flex justify-between">
+                            <div className="inline-flex rounded-md shadow">
+                              <a
+                                href="/signup"
+                                className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+                              >
+                                Sign up now to interact
+                              </a>
+                            </div>
+                            <button
+                              className="px-1 p-1"
+                              type="button"
+                              onClick={() => setShowModal(false)}
+                            >
+                              <XIcon className="h-6 w-6" aria-hidden="true" />
+                            </button>
+                          </div>
+                        </div>
+                      )}
                       <div className="flex flex-col p-5">
                         <div>
                           {/* {comments.length == 0 ? (
@@ -258,11 +281,14 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                               This post has no comments
                             </p>
                           ) : null} */}
+                          <p className="text-semibold text-gray-600 px-1">
+                            Comments
+                          </p>
 
                           {comments.map((data, index) => {
                             return (
                               <Comment
-                                index={index}
+                                key={index}
                                 userId={data.userId}
                                 comment={data.comment1}
                               />

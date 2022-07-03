@@ -31,8 +31,18 @@ const Coin = () => {
       })
       .catch((error) => {});
   };
+
   useEffect(() => {
     handleGetCoin();
+    id == undefined && router.push("/");
+  }, []);
+
+  useEffect(() => {
+    handleGetCoin();
+    const interval = setInterval(() => {
+      handleGetCoin();
+    }, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -51,31 +61,23 @@ const Coin = () => {
               {coinData.name}
             </p>{" "}
             <br />
-            <div className="flex flex-row -translate-y-5">
-              {/* <button onClick={() => setShowModal(true)}>
-                {" "}
-                <span className="font-semibold" f>
-                  {`${followers.length} `}
-                </span>
-                followers
-              </button> */}
-            </div>
+            <div className="flex flex-row -translate-y-5"></div>
           </div>
         </div>
 
         <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
-        <div className="flex flex-col items-center w-full sm:w-6/12">
+        <div className="flex flex-col items-center w-10/12 sm:w-6/12">
           <div>
             <p className="text-sm mt-4 text-gray-600">Coin Info</p>
           </div>
           <div className="w-full"></div>
           <CoinInfo
-            name="Current Price"
+            name="Price"
             price={Math.round(coinData.priceUsd * 100) / 100}
           />
           <CoinInfoNext
             id={id}
-            name="Current State"
+            name="State"
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
             arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
           />

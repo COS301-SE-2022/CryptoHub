@@ -1,4 +1,5 @@
-﻿using CryptoHubAPI.Controllers;
+﻿using CryptoHubAPI;
+using CryptoHubAPI.Controllers;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace UnitTests.ControllerTests
     public class PostControllerTest
     {
         private readonly Mock<IPostRepository> _postRepositoryMock;
+        private readonly Mock<IImageRepository> _imageRepositoryMock;
 
         public PostControllerTest()
         {
             _postRepositoryMock = new Mock<IPostRepository>();
+            _imageRepositoryMock = new Mock<IImageRepository>();
         }
         [Fact]
         public async Task GetAllPosts_ListOfPosts_ReturnsListOfPosts()
@@ -43,7 +46,7 @@ namespace UnitTests.ControllerTests
 
             _postRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(posts);
 
-            var controller = new PostController(_postRepositoryMock.Object);
+            var controller = new PostController(_postRepositoryMock.Object, _imageRepositoryMock.Object);
 
             //act
             var result = await controller.GetAllPosts();
@@ -73,7 +76,8 @@ namespace UnitTests.ControllerTests
             _postRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Post, bool>>>())).ReturnsAsync(posts);
             //_postRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(posts);
 
-            var controller = new PostController(_postRepositoryMock.Object);
+            var controller = new PostController(_postRepositoryMock.Object, _imageRepositoryMock.Object);
+
 
             //act
             var result = await controller.GetPostByUserId(1);
@@ -95,12 +99,18 @@ namespace UnitTests.ControllerTests
                 Post1 = "Post 1",
                 UserId = 1
             };
+            var dto = new CreatePostDTO
+            {
+                Post = "Post 1",
+                UserId = 1
+            };
             _postRepositoryMock.Setup(u => u.Add(It.IsAny<Post>())).ReturnsAsync(post);
 
-            var controller = new PostController(_postRepositoryMock.Object);
+            var controller = new PostController(_postRepositoryMock.Object, _imageRepositoryMock.Object);
+
 
             //act
-            var result = await controller.AddPost(post);
+            var result = await controller.AddPost(dto);
 
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result.Result);
@@ -121,7 +131,7 @@ namespace UnitTests.ControllerTests
 
             _postRepositoryMock.Setup(u => u.Update(It.IsAny<Expression<Func<Post, bool>>>(), It.IsAny<Post>())).ReturnsAsync(post);
 
-            var controller = new PostController(_postRepositoryMock.Object);
+            var controller = new PostController(_postRepositoryMock.Object, _imageRepositoryMock.Object);
 
             //act
             var result = await controller.UpdatePost(post);
@@ -145,7 +155,7 @@ namespace UnitTests.ControllerTests
 
             _postRepositoryMock.Setup(u => u.DeleteOne(It.IsAny<Expression<Func<Post, bool>>>()));
 
-            var controller = new PostController(_postRepositoryMock.Object);
+            var controller = new PostController(_postRepositoryMock.Object, _imageRepositoryMock.Object);
 
             //act
             var result = await controller.Delete(post.PostId);

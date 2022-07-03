@@ -344,35 +344,6 @@ namespace UnitTests.ControllerTests
         }
 
         [Fact]
-        public async Task GetLikesByLikeId_LikeId_ReturnsLikesOfId()
-        {
-            //arrange
-            List<Like> likes = new List<Like>
-            {
-                new Like
-                {
-                    LikeId = 1,
-                    UserId = 1,
-                    PostId = 1,
-                }
-            };
-
-            _likeRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Like, bool>>>())).ReturnsAsync(likes);
-
-            var controller = new LikeController(_likeRepositoryMock.Object);
-
-            //act
-            var result = await controller.GetLikeByLikeId(1);
-
-            Assert.NotNull(result);
-            Assert.IsType<OkObjectResult>(result.Result);
-
-            var actual = (result.Result as OkObjectResult).Value;
-            Assert.IsType<List<Like>>(actual);
-            Assert.Equal(1, (actual as List<Like>).Count);
-        }
-
-        [Fact]
         public async Task AddLike_Like_ReturnsLike()
         {
             //arrange
@@ -437,7 +408,7 @@ namespace UnitTests.ControllerTests
             var controller = new LikeController(_likeRepositoryMock.Object);
 
             //act
-            var result = await controller.Delete(like.LikeId);
+            var result = await controller.Delete(like.UserId, like.PostId!.Value);
 
             Assert.NotNull(result);
             Assert.IsType<OkResult>(result);
