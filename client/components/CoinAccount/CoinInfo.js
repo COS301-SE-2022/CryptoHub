@@ -1,6 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const CoinInfo = ({ name, price }) => {
+  const handleCurrencyConversion = (have, want, amount) => {
+    const options = {
+      method: "GET",
+      headers: new Headers({
+        "X-Api-Key": "3Fii6K+evhLZN2zl7lh8Lg==WxuC4gFF5eX27Ekz",
+      }),
+    };
+
+    fetch(`https://api.api-ninjas.com/v1/convertcurrency?have=${have}&want=${want}&amount=${amount}`, options)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    })
+  };
+  
+  useEffect(() => {
+    handleCurrencyConversion("ZAR","USD","1000");
+  }, []);
+
   return (
     <div className="bg-white m-4 p-4 rounded-lg w-full">
       <div className="flex flex-col mb-2">
