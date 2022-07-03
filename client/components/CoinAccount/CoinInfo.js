@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 const CoinInfo = ({ name, price }) => {
+  const [amount, setAmount] = useState(0)
+
   const handleCurrencyConversion = (have, want, amount) => {
     const options = {
       method: "GET",
@@ -12,8 +14,10 @@ const CoinInfo = ({ name, price }) => {
     fetch(`https://api.api-ninjas.com/v1/convertcurrency?have=${have}&want=${want}&amount=${amount}`, options)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      setAmount(data.new_amount)
+      console.warn(data);
     })
+    .catch(() => {})
   };
   
   useEffect(() => {
