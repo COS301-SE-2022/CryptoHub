@@ -82,7 +82,7 @@ function forgotPassword() {
                     {loading ? (
                       <p className="text-indigo-200">Loading...</p>
                     ) : (
-                      <p className = "justify-center">Create Account</p>
+                      <a href="/signup" className = "justify-center">Create Account</a>
                     )}
                   </button>
                 </div>
