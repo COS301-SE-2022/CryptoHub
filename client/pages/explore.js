@@ -1,11 +1,14 @@
 import Layout from "../components/Layout";
 import Feed from "../components/Feed/Feed";
 import Head from "next/head";
-import Posts from "../components/Posts/Posts";
+import ExplorePosts from "../components/Posts/ExplorePosts";
 import { useRouter } from "next/router";
+import { userContext } from "../auth/auth";
+import { useContext } from "react";
 
 const Explore = () => {
   const router = useRouter();
+  const { user } = useContext(userContext);
 
   return (
     <>
@@ -13,7 +16,7 @@ const Explore = () => {
         <title>CryptoHub</title>
       </Head>
       <Layout>
-        <Posts />
+        <ExplorePosts />
       </Layout>
     </>
   );

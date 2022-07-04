@@ -2,12 +2,37 @@ import React, { useState, useEffect, useContext } from "react";
 import Post from "./Post";
 import { userContext } from "../../auth/auth";
 
-const Posts = () => {
+const ExplorePosts = () => {
   const { feedstate } = useContext(userContext);
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(userContext);
+
+  const handleGetAllFollowers = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(
+      `http://localhost:7215/api/UserFollower/GetUserUserFollower/${user.id}`,
+      options
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+        let posts = data.reverse();
+        let myPosts = posts.filter((post) => {
+          return post.userId != user.id;
+        });
+        // setPosts(posts);
+        setPosts(myPosts);
+      })
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
+  };
 
   const handleGetAllPosts = () => {
     setLoading(true);
@@ -64,4 +89,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default ExplorePosts;
