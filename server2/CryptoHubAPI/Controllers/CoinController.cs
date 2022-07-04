@@ -12,6 +12,7 @@ namespace CryptoHubAPI.Controllers
 	{
 
 		private readonly ICoinRepository _coinRepository;
+		private readonly IUserRepository _userRepository;
 		public CoinController(ICoinRepository coinRepository)
 		{
 			_coinRepository = coinRepository;
