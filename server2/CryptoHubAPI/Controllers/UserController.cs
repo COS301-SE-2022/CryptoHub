@@ -10,10 +10,12 @@ namespace CryptoHubAPI.Controllers
     public class UserController : Controller
     {
 
+        private readonly IUserFollowerRepository _userFollowerRepository;
         private readonly IUserRepository _userRepository;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, IUserFollowerRepository userFollowerRepository)
         {
+            _userFollowerRepository = userFollowerRepository;
             _userRepository = userRepository;
         }
 
@@ -41,8 +43,29 @@ namespace CryptoHubAPI.Controllers
             var response = await _userRepository.FindRange(u => u.Username.ToLower().StartsWith(name.ToLower()) || u.Firstname.ToLower().StartsWith(name.ToLower()) || u.Lastname.ToLower().StartsWith(name.ToLower()));
             if (response == null)
                 return NotFound();
-            var user = await _userRepository.FindOne(u => u.UserId == id);
-            return Ok(response);
+
+            var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
+            var users = await _userRepository.GetAll();
+
+            var userfollowers = from f in followers
+                                join u in users
+                                on f.UserId equals u.UserId
+                                select new
+                                {
+                                    UserId = u.UserId,
+                                    Username = u.Username
+                                };
+
+            var flist = from r in response
+                        join f in userfollowers
+                        on r.UserId equals f.UserId
+                        select new
+                        {
+                            UserId = r.UserId,
+                            Username = r.Username
+                        };
+
+            return Ok(flist);
 
         }
 
