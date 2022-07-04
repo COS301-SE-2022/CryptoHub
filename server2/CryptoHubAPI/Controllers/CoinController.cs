@@ -24,6 +24,18 @@ namespace CryptoHubAPI.Controllers
 		}
 
 
+		[HttpGet("{name}")]
+		public async Task<ActionResult<List<User>>> GetCoinByName(string name)
+		{
+			var response = await _coinRepository.FindRange(u => u.CoinName.ToLower().StartsWith(name.ToLower()) || u.Symbol.ToLower().StartsWith(name.ToLower()));
+			if (response == null)
+				return NotFound();
+
+			return Ok(response);
+
+		}
+
+
 		[HttpPut]
 		public async Task<ActionResult<Post>> UpdateCoin([FromBody] Coin _coin)
 		{
