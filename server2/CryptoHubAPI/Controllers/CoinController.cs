@@ -12,6 +12,7 @@ namespace CryptoHubAPI.Controllers
 	{
 
 		private readonly ICoinRepository _coinRepository;
+		private readonly IUserRepository _userRepository;
 		public CoinController(ICoinRepository coinRepository)
 		{
 			_coinRepository = coinRepository;
@@ -25,12 +26,13 @@ namespace CryptoHubAPI.Controllers
 
 
 		[HttpGet("{name}")]
-		public async Task<ActionResult<List<User>>> GetCoinByName(string name)
+		public async Task<ActionResult<List<User>>> GetCoinByName(string name, int id)
 		{
 			var response = await _coinRepository.FindRange(u => u.CoinName.ToLower().StartsWith(name.ToLower()) || u.Symbol.ToLower().StartsWith(name.ToLower()));
 			if (response == null)
 				return NotFound();
 
+			var user = await _userRepository.FindOne(u => u.UserId == id);
 			return Ok(response);
 
 		}
