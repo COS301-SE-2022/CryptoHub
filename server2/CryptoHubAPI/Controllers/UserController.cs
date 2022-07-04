@@ -35,6 +35,17 @@ namespace CryptoHubAPI.Controllers
 
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUserByUsername(string name)
+        {
+            var response = await _userRepository.GetById(u => u.Username == name);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+
+        }
+
         [HttpGet("{email}")]
         public async Task<ActionResult<User>> GetUserByEmail(string email)
         {
@@ -72,7 +83,7 @@ namespace CryptoHubAPI.Controllers
             return Ok();
         }
 
-        
+
 
 
 
