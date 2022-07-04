@@ -69,9 +69,30 @@ namespace CryptoHubAPI.Controllers
                             Username = r.Username,
                         };
 
-            var together = flist.Concat(response);
+            var final = from r in response
+                        join f in flist on r.UserId equals f.UserId into gj
+                        from sublist in gj.DefaultIfEmpty()
+                        select new User
+                        {
+                            UserId = r.UserId,
+                            Firstname = r.Firstname,
+                            Lastname = r.Lastname,
+                            Username = r.Username,
+                        };
 
-            return Ok(together);
+            var together = flist.Concat(final);
+
+            //List<User> together = flist.Concat(response);
+            //List<User> list = flist.ToList();
+            //foreach (var r in response)
+            //{
+            //    if (!list.Contains(r))
+            //    {
+            //        list.Add(r);
+            //    }
+            //}
+
+            return Ok(final);
 
         }
 
