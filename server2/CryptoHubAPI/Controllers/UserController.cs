@@ -50,22 +50,28 @@ namespace CryptoHubAPI.Controllers
             var userfollowers = from f in followers
                                 join u in users
                                 on f.UserId equals u.UserId
-                                select new
+                                select new User
                                 {
                                     UserId = u.UserId,
-                                    Username = u.Username
+                                    Firstname = u.Firstname,
+                                    Lastname = u.Lastname,
+                                    Username = u.Username,
                                 };
 
             var flist = from r in response
                         join f in userfollowers
                         on r.UserId equals f.UserId
-                        select new
+                        select new User
                         {
                             UserId = r.UserId,
-                            Username = r.Username
+                            Firstname = r.Firstname,
+                            Lastname = r.Lastname,
+                            Username = r.Username,
                         };
 
-            return Ok(flist);
+            var together = flist.Concat(response);
+
+            return Ok(together);
 
         }
 
