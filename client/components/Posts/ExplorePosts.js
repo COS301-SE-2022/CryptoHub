@@ -1,73 +1,79 @@
 import React, { useState, useEffect, useContext } from "react";
 import Post from "./Post";
 import { userContext } from "../../auth/auth";
+import { useRouter } from "next/router";
 
 const ExplorePosts = () => {
   const { feedstate } = useContext(userContext);
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(false);
+  const [following, setFollowing] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(userContext);
-
-  const handleGetAllFollowers = () => {
-    const options = {
-      method: "GET",
-    };
-
-    fetch(
-      `http://localhost:7215/api/UserFollower/GetUserUserFollower/${user.id}`,
-      options
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setLoading(false);
-        let posts = data.reverse();
-        let myPosts = posts.filter((post) => {
-          return post.userId != user.id;
-        });
-        // setPosts(posts);
-        setPosts(myPosts);
-      })
-      .catch(() => {
-        setError(true);
-        setLoading(false);
-      });
-  };
-
-  const handleGetAllPosts = () => {
-    setLoading(true);
-
-    const options = {
-      method: "GET",
-    };
-
-    fetch("http://localhost:7215/api/Post/GetAllPosts", options)
-      .then((response) => response.json())
-      .then((data) => {
-        setLoading(false);
-        let posts = data.reverse();
-        let myPosts = posts.filter((post) => {
-          return post.userId != user.id;
-        });
-        // setPosts(posts);
-        setPosts(myPosts);
-      })
-      .catch(() => {
-        setError(true);
-        setLoading(false);
-      });
-  };
+  const router = useRouter();
+  const [refresh, setRefresh] = useState(false);
+  const [explorePosts, setExplorePosts] = useState([]);
 
   useEffect(() => {
-    handleGetAllPosts();
-  }, [feedstate]);
+    if (user.auth) {
+      const options = {
+        method: "GET",
+      };
+
+      fetch("http://localhost:7215/api/Post/GetAllPosts", options)
+        .then((response) => response.json())
+        .then((data) => {
+          let posts = data.reverse();
+          console.warn("Posts", posts);
+          let myPosts = posts.filter((post) => {
+            return post.userId != user.id;
+          });
+          setPosts(myPosts);
+          fetch(
+            `http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`,
+            options
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              console.warn("Following: ", data);
+              setFollowing(data);
+              setRefresh(true);
+            })
+            .catch(() => {
+              console.warn("Fail");
+            });
+        })
+        .catch(() => {
+          console.warn("Fail 2");
+        });
+    } else {
+      router.push("/");
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      let suggested = posts.filter((post) => {
+        return !following.find((p) => {
+          return p.userId == post.userId;
+        });
+      });
+
+      let final = suggested.filter((acc) => {
+        return acc.userId != user.id;
+      });
+
+      console.warn("Final", final);
+      setExplorePosts(final);
+    } catch {}
+  }, [refresh]);
 
   return (
-    <div className="sm:w-5/12">
+    <div className=" w-full sm:w-5/12">
       {loading ? (
         <p>loading...</p>
       ) : (
-        posts.map((data, index) => {
+        explorePosts.map((data, index) => {
           return (
             <Post
               key={index}

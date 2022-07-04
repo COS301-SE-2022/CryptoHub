@@ -5,6 +5,7 @@ import ExplorePosts from "../components/Posts/ExplorePosts";
 import { useRouter } from "next/router";
 import { userContext } from "../auth/auth";
 import { useContext } from "react";
+import Suggestions from "../components/InfoSection/Suggestions";
 
 const Explore = () => {
   const router = useRouter();
