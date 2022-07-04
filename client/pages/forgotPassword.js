@@ -41,23 +41,6 @@ function forgotPassword() {
                       }}
                     />
                   </div>
-                  <div>
-                    <label htmlFor="password" className="sr-only">
-                      Password
-                    </label>
-                    <input
-                      id="password"
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      required
-                      className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                      placeholder="Password"
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                      }}
-                    />
-                  </div>
                 </div>
     
                 <div>
@@ -71,19 +54,19 @@ function forgotPassword() {
                         aria-hidden="true"
                       />
                     </span>
-                    {loading ? (
+                    {/* {loading ? (
                       <p className="text-indigo-200">Loading...</p>
                     ) : (
                       <p>Log in</p>
-                    )}
+                    )} */}
                   </button>
                 </div>
               </form>
-              {error ? (
+              {/* {error ? (
                 <h2 className="text-center text-sm font-semibold text-red-500">
                   invalid login credentials
                 </h2>
-              ) : null}
+              ) : null} */}
             </div>
           </div>
         </>
