@@ -12,19 +12,17 @@ function forgotPassword() {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
-    const handleForgotPassword = () => {
+      const handleForgotPassword = () => {
         const options = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: user.id,
-          }),
+          method: "GET",
         };
+    
         fetch(`http://localhost:7215/api/User/GetUserByEmail/${email}`, options)
           .then((response) => response.json())
-          .then((data) => {console.log(data)});
+          .then((data) => {
+            console.log(data)
+          })
+          .catch((error) => {});
       };
 
     return (
