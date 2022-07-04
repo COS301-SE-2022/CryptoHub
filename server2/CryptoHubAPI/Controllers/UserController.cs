@@ -36,9 +36,9 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserByUsername(string name)
+        public async Task<ActionResult<List<User>>> GetUserByUsername(string name)
         {
-            var response = await _userRepository.GetById(u => u.Username == name);
+            var response = await _userRepository.FindRange(u => u.Username == name);
             if (response == null)
                 return NotFound();
 
