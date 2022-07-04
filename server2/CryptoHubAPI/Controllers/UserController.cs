@@ -58,7 +58,7 @@ namespace CryptoHubAPI.Controllers
                                     Username = u.Username,
                                 };
 
-            var flist = from r in response
+            var mutuals = from r in response
                         join f in userfollowers
                         on r.UserId equals f.UserId
                         select new User
@@ -68,32 +68,25 @@ namespace CryptoHubAPI.Controllers
                             Lastname = r.Lastname,
                             Username = r.Username,
                         };
+            var muts = mutuals.ToList();
+            var final = muts;
 
-            var final = from r in response
-                        join f in flist on r.UserId equals f.UserId into gj
-                        from sublist in gj.DefaultIfEmpty()
-                        select new User
-                        {
-                            UserId = r.UserId,
-                            Firstname = r.Firstname,
-                            Lastname = r.Lastname,
-                            Username = r.Username,
-                        };
-
-            var together = flist.Concat(final);
-
-            //List<User> together = flist.Concat(response);
-            //List<User> list = flist.ToList();
-            //foreach (var r in response)
-            //{
-            //    if (!list.Contains(r))
-            //    {
-            //        list.Add(r);
-            //    }
-            //}
+            foreach (var r in response.ToList())
+            {
+                foreach (var m in muts.ToList())
+                {
+                    if (m.UserId == r.UserId)
+                    {
+                        response.Remove(r);
+                    }
+                }
+            }
+            foreach(var r in response)
+            {
+                final.Add(r);
+            }
 
             return Ok(final);
-
         }
 
         [HttpGet("{email}")]
