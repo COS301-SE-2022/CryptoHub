@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { userContext } from "../auth/auth";
 import { useContext } from "react";
+import { useRouter } from "next/router"
 
 const Login = () => {
   const { authorise } = useContext(userContext);
@@ -9,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleLogin = (e) => {
     setLoading(true);
@@ -96,7 +98,7 @@ const Login = () => {
             <div className="flex items-center justify-center">
               <div className="text-sm">
                 <a
-                  href="#"
+                  href="/forgotPassword"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Forgot your password?
