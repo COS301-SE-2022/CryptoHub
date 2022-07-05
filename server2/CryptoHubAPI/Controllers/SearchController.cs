@@ -29,8 +29,6 @@ namespace CryptoHubAPI.Controllers
             var results = await _userRepository.FindRange(u => u.Username.ToLower().StartsWith(name.ToLower()) || u.Firstname.ToLower().StartsWith(name.ToLower()) || u.Lastname.ToLower().StartsWith(name.ToLower()));
             if (results == null)
                 return NotFound();
-
-            //fetch current users followers
             var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
             var users = await _userRepository.GetAll();
 
@@ -62,8 +60,8 @@ namespace CryptoHubAPI.Controllers
             var final = sf;
 
             //find all mutual followers
-            var mutuals = new List<List<User>>();
-            foreach (var usf in userfollowers)
+            var mutuals = new List<User>();
+            foreach (var usf in userfollowers.ToList())
             {
                 var mutFollowers = await _userFollowerRepository.FindRange(uf => uf.FollowId == usf.UserId);
                 var mutUsers = await _userRepository.GetAll();
@@ -78,8 +76,19 @@ namespace CryptoHubAPI.Controllers
                                            Lastname = u.Lastname,
                                            Username = u.Username,
                                        };
-                mutuals.Add(mutUserfollowers.ToList());
+
+                foreach(var r in results.ToList())
+                {
+                    foreach(var m in mutUserfollowers.ToList())
+                    {
+                            if (m.UserId == r.UserId)
+                            {
+                                mutuals.Add(m);
+                            }
+                    }
+                }
             }
+            mutuals = mutuals.GroupBy(x => x.UserId).Select(x => x.First()).ToList();
 
             //add mutual followers to the results
             foreach (var r in results.ToList())
@@ -91,8 +100,23 @@ namespace CryptoHubAPI.Controllers
                         results.Remove(r);
                     }
                 }
+                foreach (var m in mutuals.ToList())
+                {
+                    if (m.UserId == r.UserId)
+                    {
+                        results.Remove(r);
+                    }
+                }
             }
-            foreach (var r in results)
+
+            //add mutuals to result
+            foreach(var m in mutuals.ToList())
+            {
+                final.Add(m);
+            }
+
+            //add rest of the result
+            foreach (var r in results.ToList())
             {
                 final.Add(r);
             }
