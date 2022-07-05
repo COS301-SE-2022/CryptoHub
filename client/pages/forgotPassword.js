@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router"
+import Router from "next/router";
 
 function forgotPassword() {
+    const router = useRouter();
     const [email, setEmail] = useState("");
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
-    const router = useRouter();
 
-      const handleGetForgotPassword = () => {
+      const handleGetForgotPassword = (e) => {
+        setLoading(true);
+        e.preventDefault();
+
         const options = {
           method: "GET",
         };
@@ -15,29 +19,19 @@ function forgotPassword() {
         fetch(`http://localhost:7215/api/User/GetUserByEmail/${email}`, options)
           .then((response) => response.json())
           .then((data) => {
-            setEmail(data.email)
+            setLoading(false);
+            setEmail(data.email);
+            {
+              if(data.email == email){
+                router.push("/forgotPasswordConfirmation");
+              } else{
+                setError(true);
+              }
+            }
+            
           })
           .catch((error) => {});
-      };
-
-      const handleForgetPasswordPost = () => {
-        const options = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: user.id,
-            postId: postId,
-          }),
-        };
-        fetch(`http://localhost:7215/api/User/GetUserByEmail/${email}`, options)
-          .then((response) => response.json())
-          .then((data) => {
-            setLiked(true);
-            getLikeCount();
-            setLikeId(data.likeId);
-          });
+          
       };
 
     return (
@@ -49,7 +43,7 @@ function forgotPassword() {
                   Trouble Logging in?
                 </h2>
               </div>
-              <form className="mt-8 space-y-6" >
+              <form className="mt-8 space-y-6" onSubmit={handleGetForgotPassword} >
                 <input type="hidden" name="remember" defaultValue="true" />
                 <div className="rounded-md shadow-sm -space-y-px">
                   <div>
@@ -76,7 +70,7 @@ function forgotPassword() {
                     {loading ? (
                       <p className="text-indigo-200">Loading...</p>
                     ) : (
-                      <a href="/forgotPasswordConfirmation">Reset Password</a>
+                      <p >Reset Password</p>
                     )}
                   </button>
                 </div>
