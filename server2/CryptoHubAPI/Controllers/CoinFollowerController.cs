@@ -9,7 +9,7 @@ namespace CryptoHubAPI.Controllers
 
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class CoinFollowerController
+    public class CoinFollowerController : Controller
     {
         private readonly ICoinFollowerRepository _coinFollowerRepository;
         private readonly ICoinRepository _coinRepository;
@@ -18,6 +18,14 @@ namespace CryptoHubAPI.Controllers
         {
             _coinFollowerRepository = coinFollowerRepository;
             _coinRepository = coinRepository;
+        }
+
+
+        [HttpGet]
+        // GET: UserFollowerController
+        public async Task<ActionResult<List<CoinFollower>>> GetAllCoinFollowers()
+        {
+            return Ok(await _coinFollowerRepository.GetAll());
         }
     }
 }
