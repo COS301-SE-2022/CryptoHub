@@ -9,13 +9,10 @@ namespace CryptoHubAPI.Controllers
     [Route("api/[controller]/[action]")]
     public class UserController : Controller
     {
-
-        private readonly IUserFollowerRepository _userFollowerRepository;
         private readonly IUserRepository _userRepository;
 
-        public UserController(IUserRepository userRepository, IUserFollowerRepository userFollowerRepository)
+        public UserController(IUserRepository userRepository)
         {
-            _userFollowerRepository = userFollowerRepository;
             _userRepository = userRepository;
         }
 
@@ -35,61 +32,6 @@ namespace CryptoHubAPI.Controllers
 
             return Ok(response);
 
-        }
-
-        [HttpGet("{name}")]
-        public async Task<ActionResult<List<User>>> GetUserByName(string name, int id)
-        {
-            var response = await _userRepository.FindRange(u => u.Username.ToLower().StartsWith(name.ToLower()) || u.Firstname.ToLower().StartsWith(name.ToLower()) || u.Lastname.ToLower().StartsWith(name.ToLower()));
-            if (response == null)
-                return NotFound();
-
-            var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
-            var users = await _userRepository.GetAll();
-
-            var userfollowers = from f in followers
-                                join u in users
-                                on f.UserId equals u.UserId
-                                select new User
-                                {
-                                    UserId = u.UserId,
-                                    Firstname = u.Firstname,
-                                    Lastname = u.Lastname,
-                                    Username = u.Username,
-                                };
-
-            var mutuals = from r in response
-                          join f in userfollowers
-                          on r.UserId equals f.UserId
-                          select new User
-                          {
-                              UserId = r.UserId,
-                              Firstname = r.Firstname,
-                              Lastname = r.Lastname,
-                              Username = r.Username,
-                          };
-            var muts = mutuals.ToList();
-            var final = muts;
-
-            foreach (var r in response.ToList())
-            {
-                foreach (var m in muts.ToList())
-                {
-                    if (m.UserId == r.UserId)
-                    {
-                        response.Remove(r);
-                    }
-                }
-            }
-            foreach (var r in response)
-            {
-                final.Add(r);
-            }
-
-
-
-
-            return Ok(final);
         }
 
         [HttpGet("{email}")]
