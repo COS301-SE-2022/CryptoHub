@@ -13,8 +13,11 @@ namespace CryptoHubAPI.Controllers
 
         private readonly IUserFollowerRepository _userFollowerRepository;
         private readonly IUserRepository _userRepository;
-        public SearchController()
+
+        public SearchController(IUserRepository userRepository, IUserFollowerRepository userFollowerRepository)
         {
+            _userFollowerRepository = userFollowerRepository;
+            _userRepository = userRepository;
         }
     }
 }
