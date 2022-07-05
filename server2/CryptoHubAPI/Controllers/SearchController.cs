@@ -61,21 +61,6 @@ namespace CryptoHubAPI.Controllers
             var sf = searchFollowers.ToList();
             var final = sf;
 
-            foreach (var r in results.ToList())
-            {
-                foreach (var m in sf.ToList())
-                {
-                    if (m.UserId == r.UserId)
-                    {
-                        results.Remove(r);
-                    }
-                }
-            }
-            foreach (var r in results)
-            {
-                final.Add(r);
-            }
-
             //find all mutual followers
             var mutuals = new List<List<User>>();
             foreach (var usf in userfollowers)
@@ -94,6 +79,22 @@ namespace CryptoHubAPI.Controllers
                                            Username = u.Username,
                                        };
                 mutuals.Add(mutUserfollowers.ToList());
+            }
+
+            //add mutual followers to the results
+            foreach (var r in results.ToList())
+            {
+                foreach (var m in sf.ToList())
+                {
+                    if (m.UserId == r.UserId)
+                    {
+                        results.Remove(r);
+                    }
+                }
+            }
+            foreach (var r in results)
+            {
+                final.Add(r);
             }
 
             return Ok(final);
