@@ -5,9 +5,12 @@ import { userContext } from "../../auth/auth";
 const Posts = () => {
   const { feedstate } = useContext(userContext);
   const [posts, setPosts] = useState([]);
+  const [following, setFollowing] = useState([]);
+
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(userContext);
+  const [mainPosts, setMainPosts] = useState([]);
 
   const handleGetAllPosts = () => {
     setLoading(true);
