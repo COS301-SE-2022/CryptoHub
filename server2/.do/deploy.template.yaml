@@ -1,8 +1,0 @@
-spec:
-  name: CryptoHub
-    - name: web
-      dockerfile_path: CryptoHub/server2/Dockerfile
-      http_port: 8080
-      git:
-        branch: feature-server-host-server
-        repo_clone_url: https://github.com/COS301-SE-2022/CryptoHub
