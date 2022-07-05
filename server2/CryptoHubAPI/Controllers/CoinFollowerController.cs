@@ -14,8 +14,10 @@ namespace CryptoHubAPI.Controllers
         private readonly ICoinFollowerRepository _coinFollowerRepository;
         private readonly ICoinRepository _coinRepository;
 
-        public CoinFollowerController()
+        public CoinFollowerController(ICoinFollowerRepository coinFollowerRepository, ICoinRepository coinRepository)
         {
+            _coinFollowerRepository = coinFollowerRepository;
+            _coinRepository = coinRepository;
         }
     }
 }
