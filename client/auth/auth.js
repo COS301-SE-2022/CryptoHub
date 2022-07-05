@@ -13,7 +13,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
 export const userContext = createContext({ username: "", auth: false, id: 0 });
 
@@ -21,6 +20,8 @@ const UserProvider = ({ children }) => {
   const router = useRouter();
   const [user, setUser] = useState({ username: "", auth: false, id: 0 });
   const [feedstate, setFeedstate] = useState(false);
+
+  const app = initializeApp(firebaseConfig);
 
   const logout = () => {
     setUser({
@@ -42,7 +43,7 @@ const UserProvider = ({ children }) => {
 
   return (
     <userContext.Provider
-      value={{ user, logout, authorise, feedstate, refreshfeed }}
+      value={{ user, logout, authorise, feedstate, refreshfeed, app }}
     >
       {children}
     </userContext.Provider>

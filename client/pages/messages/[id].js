@@ -3,14 +3,25 @@ import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { userContext } from "../../auth/auth";
+import { getFirestore } from "@firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 
 const Messages = () => {
   const router = useRouter();
-  const { user } = useContext(userContext);
+  const { user, app } = useContext(userContext);
   const { id } = router.query;
   const [thisUser, setUser] = useState({});
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+
+  const db = getFirestore(app);
+  const messagesRef = collection(db, "messages");
+
+  const getMessages = async () => {
+    const data = await getDocs(messagesRef);
+    setMessages(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  };
 
   const handleGetUser = () => {
     const options = {
@@ -26,8 +37,21 @@ const Messages = () => {
       .catch((error) => {});
   };
 
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+
+    await addDoc(messagesRef, {
+      sender: user.id,
+      receiver: id.toString(),
+      message: message,
+    });
+
+    getMessages();
+  };
+
   useEffect(() => {
     handleGetUser();
+    getMessages();
   }, []);
 
   return (
@@ -42,20 +66,17 @@ const Messages = () => {
         </div>
 
         <div>
-          <p>bubbles here</p>
+          {messages.map((message) => {
+            if (message.sender == user.id) {
+              return <SenderMessage message={message.message} />;
+            } else {
+              return <ReceiverMessage message={message.message} />;
+            }
+          })}
         </div>
 
         <div>
-          <form
-            onClick={(e) => {
-              e.preventDefault();
-              console.log({
-                message: message,
-                sender: user.id,
-                receiver: id.toString(),
-              });
-            }}
-          >
+          <form onSubmit={handleSendMessage}>
             <div className="flex flex-row">
               <input
                 id="message"
@@ -79,3 +100,15 @@ const Messages = () => {
 };
 
 export default Messages;
+
+const SenderMessage = ({ message }) => {
+  return <div className="bg-red-100 rounded-md p-1 px-3 my-4">{message}</div>;
+};
+
+const ReceiverMessage = ({ message }) => {
+  return (
+    <div className="bg-blue-100 rounded-md p-1 px-3 my-4 text-right">
+      {message}
+    </div>
+  );
+};
