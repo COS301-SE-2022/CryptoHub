@@ -59,15 +59,15 @@ namespace CryptoHubAPI.Controllers
                                 };
 
             var mutuals = from r in response
-                        join f in userfollowers
-                        on r.UserId equals f.UserId
-                        select new User
-                        {
-                            UserId = r.UserId,
-                            Firstname = r.Firstname,
-                            Lastname = r.Lastname,
-                            Username = r.Username,
-                        };
+                          join f in userfollowers
+                          on r.UserId equals f.UserId
+                          select new User
+                          {
+                              UserId = r.UserId,
+                              Firstname = r.Firstname,
+                              Lastname = r.Lastname,
+                              Username = r.Username,
+                          };
             var muts = mutuals.ToList();
             var final = muts;
 
@@ -81,7 +81,7 @@ namespace CryptoHubAPI.Controllers
                     }
                 }
             }
-            foreach(var r in response)
+            foreach (var r in response)
             {
                 final.Add(r);
             }
