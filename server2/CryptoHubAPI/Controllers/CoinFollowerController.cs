@@ -13,6 +13,7 @@ namespace CryptoHubAPI.Controllers
     {
         private readonly ICoinFollowerRepository _coinFollowerRepository;
         private readonly ICoinRepository _coinRepository;
+        private readonly IUserRepository _userRepository;
 
         public CoinFollowerController(ICoinFollowerRepository coinFollowerRepository, ICoinRepository coinRepository)
         {
@@ -32,11 +33,11 @@ namespace CryptoHubAPI.Controllers
         public async Task<IActionResult> GetCoinUserFollower(int id)
         {
             var followers = await _coinFollowerRepository.FindRange(uf => uf.UserId == id);
-            var users = await _coinRepository.GetAll();
+            var users = await _userRepository.GetAll();
 
 
 
-            var userfollowers = from f in followers
+            var Coinfollowers = from f in followers
                                 join u in users
                                 on f.FollowId equals u.UserId
                                 select new
@@ -45,7 +46,7 @@ namespace CryptoHubAPI.Controllers
                                     Username = u.Username
                                 };
 
-            return Ok(userfollowers);
+            return Ok(Coinfollowers);
         }
 
 
