@@ -1,18 +1,13 @@
 import React, { useState } from "react";
-import { LockClosedIcon } from "@heroicons/react/solid";
-import { userContext } from "../auth/auth";
-import { useContext } from "react";
 import { useRouter } from "next/router"
 
 function forgotPassword() {
-    const { authorise } = useContext(userContext);
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
-      const handleForgotPassword = () => {
+      const handleGetForgotPassword = () => {
         const options = {
           method: "GET",
         };
@@ -20,9 +15,29 @@ function forgotPassword() {
         fetch(`http://localhost:7215/api/User/GetUserByEmail/${email}`, options)
           .then((response) => response.json())
           .then((data) => {
-            console.log(data)
+            setEmail(data.email)
           })
           .catch((error) => {});
+      };
+
+      const handleForgetPasswordPost = () => {
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: user.id,
+            postId: postId,
+          }),
+        };
+        fetch(`http://localhost:7215/api/User/GetUserByEmail/${email}`, options)
+          .then((response) => response.json())
+          .then((data) => {
+            setLiked(true);
+            getLikeCount();
+            setLikeId(data.likeId);
+          });
       };
 
     return (
