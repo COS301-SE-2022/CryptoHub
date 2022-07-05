@@ -1,5 +1,19 @@
 import { createContext, useState } from "react";
 import { useRouter } from "next/router";
+import { initializeApp } from "firebase/app";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAs6bxiM71e6LE4E8-pGzUNL3OGeyE8iTA",
+  authDomain: "cryptohub-12abc.firebaseapp.com",
+  projectId: "cryptohub-12abc",
+  storageBucket: "cryptohub-12abc.appspot.com",
+  messagingSenderId: "727091318041",
+  appId: "1:727091318041:web:9d918df3015cc4ffb30988",
+  measurementId: "G-49KJ5M594Q",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 export const userContext = createContext({ username: "", auth: false, id: 0 });
 

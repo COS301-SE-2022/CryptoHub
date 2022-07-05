@@ -79,7 +79,6 @@ const User = () => {
     fetch(`http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`)
       .then((response) => response.json())
       .then((data) => {
-        // setFollowing(data);
         data.map((d) => {
           if (d.userId == id) {
             setIsFollowing(true);
@@ -112,15 +111,37 @@ const User = () => {
             </p>{" "}
             {user.auth ? (
               isFollowing ? (
-                <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
-                  Following
-                </p>
-              ) : (
-                <button onClick={handleFollowUser}>
-                  <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
-                    Follow
+                <>
+                  <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
+                    Following
                   </p>
-                </button>
+                  <button
+                    onClick={() => {
+                      router.push(`/messages/${id}`);
+                    }}
+                  >
+                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                      Message
+                    </p>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button onClick={handleFollowUser}>
+                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                      Follow
+                    </p>
+                  </button>
+                  <button
+                    onClick={() => {
+                      router.push(`/messages/${id}`);
+                    }}
+                  >
+                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                      Message
+                    </p>
+                  </button>
+                </>
               )
             ) : null}
             <br />
