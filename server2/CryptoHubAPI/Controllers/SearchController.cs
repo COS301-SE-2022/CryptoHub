@@ -30,6 +30,7 @@ namespace CryptoHubAPI.Controllers
             if (results == null)
                 return NotFound();
 
+            //fetch current users followers
             var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
             var users = await _userRepository.GetAll();
 
@@ -44,16 +45,19 @@ namespace CryptoHubAPI.Controllers
                                     Username = u.Username,
                                 };
 
+            //join current users followers and search results
             var searchFollowers = from r in results
-                          join f in userfollowers
-                          on r.UserId equals f.UserId
-                          select new User
-                          {
-                              UserId = r.UserId,
-                              Firstname = r.Firstname,
-                              Lastname = r.Lastname,
-                              Username = r.Username,
-                          };
+                                  join f in userfollowers
+                                  on r.UserId equals f.UserId
+                                  select new User
+                                  {
+                                      UserId = r.UserId,
+                                      Firstname = r.Firstname,
+                                      Lastname = r.Lastname,
+                                      Username = r.Username,
+                                  };
+
+            //rearange results to show followed users first
             var sf = searchFollowers.ToList();
             var final = sf;
 
@@ -72,8 +76,25 @@ namespace CryptoHubAPI.Controllers
                 final.Add(r);
             }
 
+            //find all mutual followers
+            var mutuals = new List<List<User>>();
+            foreach (var usf in userfollowers)
+            {
+                var mutFollowers = await _userFollowerRepository.FindRange(uf => uf.FollowId == usf.UserId);
+                var mutUsers = await _userRepository.GetAll();
 
-
+                var mutUserfollowers = from f in mutFollowers
+                                       join u in mutUsers
+                                    on f.UserId equals u.UserId
+                                       select new User
+                                       {
+                                           UserId = u.UserId,
+                                           Firstname = u.Firstname,
+                                           Lastname = u.Lastname,
+                                           Username = u.Username,
+                                       };
+                mutuals.Add(mutUserfollowers.ToList());
+            }
 
             return Ok(final);
         }
