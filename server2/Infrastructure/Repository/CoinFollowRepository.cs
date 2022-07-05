@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 namespace Infrastructure.Repository
 {
-    public class CoinFollowRepository
+    public class CoinFollowRepository : BaseRepository<CoinFollower>, ICoinFollowerRepository
     {
-        public CoinFollowRepository()
+        public CoinFollowRepository (CryptoHubDBContext dBContext) : base(dBContext)
         {
         }
     }
