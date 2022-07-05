@@ -27,6 +27,29 @@ namespace CryptoHubAPI.Controllers
         {
             return Ok(await _coinFollowerRepository.GetAll());
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCoinUserFollower(int id)
+        {
+            var followers = await _coinFollowerRepository.FindRange(uf => uf.UserId == id);
+            var users = await _coinRepository.GetAll();
+
+
+
+            var userfollowers = from f in followers
+                                join u in users
+                                on f.FollowId equals u.UserId
+                                select new
+                                {
+                                    UserId = u.UserId,
+                                    Username = u.Username
+                                };
+
+            return Ok(userfollowers);
+        }
+
+
+
     }
 }
 
