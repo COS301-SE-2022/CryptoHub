@@ -86,6 +86,9 @@ namespace CryptoHubAPI.Controllers
                 final.Add(r);
             }
 
+
+
+
             return Ok(final);
         }
 
