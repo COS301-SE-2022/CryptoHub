@@ -29,6 +29,7 @@ namespace CryptoHubAPI.Controllers
             var results = await _userRepository.FindRange(u => u.Username.ToLower().StartsWith(name.ToLower()) || u.Firstname.ToLower().StartsWith(name.ToLower()) || u.Lastname.ToLower().StartsWith(name.ToLower()));
             if (results == null)
                 return NotFound();
+
             var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
             var users = await _userRepository.GetAll();
 
@@ -81,13 +82,14 @@ namespace CryptoHubAPI.Controllers
                 {
                     foreach(var m in mutUserfollowers.ToList())
                     {
-                            if (m.UserId == r.UserId)
-                            {
-                                mutuals.Add(m);
-                            }
+                        if (m.UserId == r.UserId)
+                        {
+                            mutuals.Add(m);
+                        }
                     }
                 }
             }
+            //remove deplicates from mutuals
             mutuals = mutuals.GroupBy(x => x.UserId).Select(x => x.First()).ToList();
 
             //add mutual followers to the results
