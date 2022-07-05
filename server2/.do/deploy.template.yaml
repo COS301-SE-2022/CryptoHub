@@ -1,0 +1,9 @@
+spec:
+  name: cryptohubapi
+  services:
+    - name: web
+      dockerfile_path: server2/Dockerfile
+      http_port: 8080
+      git:
+        branch: feature-server-host-server
+        #repo_clone_url: https://github.com/creativefisher/aspnetcoresample.git
