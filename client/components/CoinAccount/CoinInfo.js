@@ -9,13 +9,14 @@ const CoinInfo = ({ name, price }) => {
             {name}
           </p>
           <div className="flex flex-row justify-between">
-            <button onClick={handleCurrencyConversion("USD","ZAR",amount)} className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition">
+          {/* onClick={handleCurrencyConversion("USD","ZAR",amount)} */}
+            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition">
               ZAR
             </button>
-            <button onClick={handleCurrencyConversion("USD","USD",amount)} className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition">
+            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition">
               USD
             </button>
-            <button onClick={handleCurrencyConversion("USD","EUR",amount)} className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition">
+            <button  className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition">
               EUR
             </button>
           </div>
