@@ -11,8 +11,9 @@ namespace CryptoHubAPI.Controllers
     [Route("api/[controller]/[action]")]
     public class CoinFollowerController
     {
+        private readonly ICoinFollowerRepository _coinFollowerRepository;
+        private readonly ICoinRepository _coinRepository;
 
-        
         public CoinFollowerController()
         {
         }
