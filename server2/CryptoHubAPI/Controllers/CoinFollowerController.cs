@@ -15,10 +15,12 @@ namespace CryptoHubAPI.Controllers
         private readonly ICoinRepository _coinRepository;
         private readonly IUserRepository _userRepository;
 
-        public CoinFollowerController(ICoinFollowerRepository coinFollowerRepository, ICoinRepository coinRepository)
+        public CoinFollowerController(ICoinFollowerRepository coinFollowerRepository, ICoinRepository coinRepository, IUserRepository userRepository)
         {
             _coinFollowerRepository = coinFollowerRepository;
             _coinRepository = coinRepository;
+            _userRepository = userRepository;
+
         }
 
 
@@ -47,6 +49,28 @@ namespace CryptoHubAPI.Controllers
                                 };
 
             return Ok(Coinfollowers);
+        }
+
+
+        [HttpPost("{userid}/{targetid}")]
+        public async Task<IActionResult> FollowUser(int userid, int targetid)
+        {
+            var response = await _coinFollowerRepository.FindOne(uf => uf.UserId == userid && uf.FollowId == targetid);
+
+            if (response != null)
+                return BadRequest("Already following this account");
+
+            CoinFollower coinFollower = new CoinFollower
+            {
+                UserId = userid,
+                FollowId = targetid,
+                FollowDate = DateTime.Now
+            };
+
+            await _coinFollowerRepository.Add(coinFollower);
+            return Ok("user followed");
+
+
         }
 
 
