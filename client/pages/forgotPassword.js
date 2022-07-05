@@ -115,7 +115,7 @@ function forgotPassword() {
               </form>
               {error ? (
                 <h2 className="text-center text-sm font-semibold text-red-500">
-                  invalid login credentials
+                  invalid email address
                 </h2>
               ) : null}
             </div>
