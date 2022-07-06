@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { userContext } from "../../auth/auth";
-import { getFirestore } from "@firebase/firestore";
+import { getFirestore, serverTimestamp } from "@firebase/firestore";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 
 const Messages = () => {
@@ -20,7 +20,12 @@ const Messages = () => {
 
   const getMessages = async () => {
     const data = await getDocs(messagesRef);
-    setMessages(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+
+    let msg = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    let finalmsg = msg.sort((a, b) => {
+      return a.timestamp - b.timestamp;
+    });
+    setMessages(finalmsg);
   };
 
   const handleGetUser = () => {
@@ -44,6 +49,7 @@ const Messages = () => {
       sender: user.id.toString(),
       receiver: id.toString(),
       message: message,
+      timestamp: serverTimestamp(),
     });
     getMessages();
   };
@@ -66,7 +72,7 @@ const Messages = () => {
           <p className="font-semibold">messages</p>
         </div>
 
-        <div className="flex flex-col  bg-red-200">
+        <div className="flex flex-col">
           {messages.map((message) => {
             if (
               message.sender == user.id.toString() &&
@@ -92,7 +98,6 @@ const Messages = () => {
               );
             }
           })}
-          {console.warn("Messages: ", messages)}
         </div>
 
         <div>
@@ -127,7 +132,7 @@ const SenderMessage = ({ message, sender, receiver }) => {
   const { id } = router.query;
 
   return (
-    <div className="bg-gray-200 text-right m-3 rounded-xl px-3 py-1 w-4/12 flex-end">
+    <div className="bg-indigo-300 text-right m-3 rounded-xl px-3 py-1 min:w-4/12 self-end">
       {message}
     </div>
   );
@@ -138,7 +143,7 @@ const ReceiverMessage = ({ message, sender, receiver }) => {
   const { user } = useContext(userContext);
   const { id } = router.query;
   return (
-    <div className="bg-blue-200 text-left  m-3 rounded-xl px-3 py-1 w-4/12">
+    <div className="bg-gray-200 m-3 rounded-xl px-3 py-1 min:w-4/12 self-start">
       {message}
     </div>
   );
