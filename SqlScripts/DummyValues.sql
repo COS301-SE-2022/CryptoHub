@@ -14,7 +14,7 @@ VALUES
 ('Neo','One','TheOne','neo@gmail.com','matrix'),
 ('Tony','Stark','Mr3000','ironman@gmail.com','avenger');
 
-INSERT INTO [dbo].[Post] ([UserId],[Post],[ImageId])
+INSERT INTO [dbo].[Post] ([UserId],[Content],[ImageId])
 VALUES 
 (1,'This Coin is Cool',null),
 (2,'Lets make Money',null),
@@ -25,7 +25,7 @@ VALUES
 (5,'the market is looking bad',2),
 (1,'THIS IS IT PEOPLE',1);
 
-INSERT INTO [dbo].[Comment]([UserId],[PostId],[Comment])
+INSERT INTO [dbo].[Comment]([UserId],[PostId],[Content])
 VALUES
 (1,1,'I wanto buy even more'),
 (2,3,'this site is the future'),
@@ -34,7 +34,7 @@ VALUES
 (2,4,'Luna plunged to $0 Friday, according to data from CoinGecko, marking a stunning collapse for a cryptocurrency that at one point was worth more than $100.  The demise of controversial stablecoin venture Terra has resulted in a meltdown in the crypto market, which erased billions of dollars in value in a single day.'),
 (1,4,'But the industry is only in its infancy and constantly evolving. That’s a big part of why every new Bitcoin high can be easily followed by big drops. It’s difficult to predict where things are headed long-term');
 
-INSERT INTO [dbo].[Reply]([UserId],[CommentId],[Comment])
+INSERT INTO [dbo].[Reply]([UserId],[CommentId],[Content])
 VALUES
 (3,1,'i agree honestly'),
 (1,2,'Definitly recommend it');
@@ -75,13 +75,13 @@ VALUES
 (2,'Admin'),
 (3,'User');
 
-INSERT INTO [dbo].[Coin]([Rank],[Symbol],[CoinName])
+INSERT INTO [dbo].[Coin]([CoinName])
 Values
-(1,'BTC','bitcoin'),
-(2,'ETH','ethereum'),
-(3,'XRP','ripple'),
-(4,'XLM','stellar'),
-(5,'LTC','litecoin'),
-(6,'BTG','bitcoin-gold');
+('bitcoin'),
+('ethereum'),
+('ripple'),
+('stellar'),
+('litecoin'),
+('bitcoin-gold');
 
 
