@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using Domain.Models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CryptoHubAPI.Authentication
 {
@@ -21,6 +22,8 @@ namespace CryptoHubAPI.Authentication
                 new Claim(ClaimTypes.Surname, user.Lastname),
                 new Claim(ClaimTypes.Email, user.Email)
             };
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes( ))
             return string.Empty;
         }
     }
