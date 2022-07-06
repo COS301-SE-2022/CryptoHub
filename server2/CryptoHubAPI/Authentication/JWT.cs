@@ -3,7 +3,7 @@ namespace CryptoHubAPI.Authentication
 {
     public class JWT
     {
-        public string Token { get; set; }
+        private string Token { get; set; }
             
         public JWT(string token)
         {
