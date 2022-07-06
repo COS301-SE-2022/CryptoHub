@@ -29,7 +29,7 @@ namespace CryptoHubAPI.Controllers
                     Message = "incorrect username or password",
                     Model = null
                 });
-            if(!(loginUser.Password == user.Password))
+            if (!(loginUser.Password == user.Password))
             {
                 return BadRequest(new Response<User>
                 {
@@ -67,8 +67,51 @@ namespace CryptoHubAPI.Controllers
                 Model = user
             });
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Response<User>>> UpdatePassword(int userId, string password)
+        {
+            var user = await _userRepository.GetById(u => u.UserId == userId);
+            if (user == null)
+            {
+                return BadRequest(new Response<User>
+                {
+                    HasError = true,
+                    Message = "user does not exist",
+                    Model = null
+                });
+            }
+            if (user.Password == password)
+            {
+                return BadRequest(new Response<User>
+                {
+                    HasError = true,
+                    Message = "new password same as old password",
+                    Model = null
+                });
+            }
+            user.Password = password;
+            var response = await _userRepository.Update(u => u.UserId == userId, user);
+            if (response == null)
+            {
+
+                return BadRequest(new Response<User>
+                {
+                    HasError = true,
+                    Message = "user update failed",
+                    Model = null
+                });
+            }
+
+            return Ok(new Response<User>
+            {
+                HasError = false,
+                Message = "password updated",
+                Model = user
+            });
+        }
     }
-    public class Response <T>
+    public class Response<T>
     {
         public string Message { get; set; }
         public Boolean HasError { get; set; }
