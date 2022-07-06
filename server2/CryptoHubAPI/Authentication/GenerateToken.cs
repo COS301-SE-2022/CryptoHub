@@ -5,10 +5,15 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CryptoHubAPI.Authentication
 {
-    public class GenerateToken
+    public class GenerateToken 
     {
-        public GenerateToken()
+        private readonly IConfiguration _configuration;
+
+
+
+        public GenerateToken(IConfiguration configuration)
         {
+            _configuration = configuration;
         }
 
         public string CreateToken(User user)
@@ -23,7 +28,7 @@ namespace CryptoHubAPI.Authentication
                 new Claim(ClaimTypes.Email, user.Email)
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes( ))
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
             return string.Empty;
         }
     }
