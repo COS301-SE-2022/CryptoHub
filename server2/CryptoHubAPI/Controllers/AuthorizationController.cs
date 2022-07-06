@@ -89,9 +89,6 @@ namespace CryptoHubAPI.Controllers
        
     }
 
-    private string CreateToken(User user)
-    {
-        return string.Empty;
-    }
+ 
 
 }
