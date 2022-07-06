@@ -3,10 +3,52 @@ import { useRouter } from "next/router"
 import Router from "next/router";
 
 function changePassword() {
-  const router = useRouter();
     const [email, setEmail] = useState("");
     const [error, setError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [newPassward, setNewPassword] = useState("");
+    const [confirmNewPassward, setConfirmNewPassword] = useState("");
+
+    const handleCheckPassword = (e) => {
+      setLoading(true);
+      e.preventDefault();
+
+      if(setNewPassword != setConfirmNewPassword)
+        {
+          setError(true);
+          setLoading(false);
+        } else{
+          const options = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: userId,
+              password: newPassward,
+            }),
+          };
+
+          fetch("http://localhost:7215/api/Authorization/UpdatePassword", options)
+            .then((response) => response.json())
+            .then((data) => {
+              setLoading(false);
+              if (response == "password updated") {
+                Router.push("/login");
+              } else if(response == "new password same as old password"){
+                console.log(response)
+                setPasswordError(true);
+                
+              }
+            })
+            .catch(() => {
+              setError(true);
+              setLoading(false);
+            })
+        }
+    };
+
   return (
     <>
     <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -16,11 +58,11 @@ function changePassword() {
             Change Password
           </h2>
         </div>
-        <form className="mt-8 space-y-6" >
+        <form className="mt-8 space-y-6" onSubmit={handleCheckPassword} >
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email-address" className="sr-only">
+              <label htmlFor="newPassword" className="sr-only">
                 New Password
               </label>
               <input
@@ -31,13 +73,13 @@ function changePassword() {
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="New Password"
-                onChange={(e) => {
-                  setEmail(e.target.value);
+                onSubmit={(e) => {
+                  setNewPassword(e.target.value);
                 }}
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label htmlFor="confirmPassword" className="sr-only">
                 Confirm New Password
               </label>
               <input
@@ -48,6 +90,9 @@ function changePassword() {
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Confirm New Password"
+                onSubmit={(e) => {
+                  setConfirmNewPassword(e.target.value);
+                }}
               />
             </div>
           </div>
@@ -76,6 +121,13 @@ function changePassword() {
             </button>
           </div>
         </form>
+        
+        {passwordError ? (
+          <h2 className="text-center text-sm font-semibold text-red-500">
+          Password Updated
+          </h2>
+        ) :null}
+
         {error ? (
           <h2 className="text-center text-sm font-semibold text-red-500">
             Passwords do not match!
