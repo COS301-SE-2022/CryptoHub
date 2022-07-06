@@ -41,15 +41,16 @@ const Messages = () => {
     e.preventDefault();
 
     await addDoc(messagesRef, {
-      sender: user.id,
+      sender: user.id.toString(),
       receiver: id.toString(),
       message: message,
     });
-
     getMessages();
   };
 
   useEffect(() => {
+    console.warn("Sender", user.id);
+    console.warn("Receiver", id.toString());
     handleGetUser();
     getMessages();
   }, []);
@@ -65,19 +66,38 @@ const Messages = () => {
           <p className="font-semibold">messages</p>
         </div>
 
-        <div>
+        <div className="flex flex-col  bg-red-200">
           {messages.map((message) => {
-            if (message.sender == user.id) {
-              return <SenderMessage message={message.message} />;
-            } else {
-              return <ReceiverMessage message={message.message} />;
+            if (
+              message.sender == user.id.toString() &&
+              message.receiver == id.toString()
+            ) {
+              return (
+                <SenderMessage
+                  message={message.message}
+                  sender={message.sender}
+                  receiver={message.receiver}
+                />
+              );
+            } else if (
+              message.sender == id.toString() &&
+              message.receiver == user.id.toString()
+            ) {
+              return (
+                <ReceiverMessage
+                  message={message.message}
+                  sender={message.sender}
+                  receiver={message.receiver}
+                />
+              );
             }
           })}
+          {console.warn("Messages: ", messages)}
         </div>
 
         <div>
           <form onSubmit={handleSendMessage}>
-            <div className="flex flex-row">
+            <div className="flex flex-row w-full">
               <input
                 id="message"
                 name="message"
@@ -101,13 +121,24 @@ const Messages = () => {
 
 export default Messages;
 
-const SenderMessage = ({ message }) => {
-  return <div className="bg-red-100 rounded-md p-1 px-3 my-4">{message}</div>;
+const SenderMessage = ({ message, sender, receiver }) => {
+  const router = useRouter();
+  const { user } = useContext(userContext);
+  const { id } = router.query;
+
+  return (
+    <div className="bg-gray-200 text-right m-3 rounded-xl px-3 py-1 w-4/12 flex-end">
+      {message}
+    </div>
+  );
 };
 
-const ReceiverMessage = ({ message }) => {
+const ReceiverMessage = ({ message, sender, receiver }) => {
+  const router = useRouter();
+  const { user } = useContext(userContext);
+  const { id } = router.query;
   return (
-    <div className="bg-blue-100 rounded-md p-1 px-3 my-4 text-right">
+    <div className="bg-blue-200 text-left  m-3 rounded-xl px-3 py-1 w-4/12">
       {message}
     </div>
   );
