@@ -35,9 +35,11 @@ namespace CryptoHubAPI.Authentication
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddHours(1)
-                );
-            return string.Empty;
+                expires: DateTime.Now.AddHours(1),
+                signingCredentials: cred);
+
+            var JwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+            return JwtToken;
         }
     }
 }

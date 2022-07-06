@@ -13,22 +13,24 @@ namespace CryptoHubAPI.Controllers
 
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
+        private readonly GenerateToken _token;
 
         public AuthorizationController(IUserRepository userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _token = new GenerateToken(configuration);
         }
 
         [HttpPost]
         public async Task<ActionResult<Response<User>>> Login([FromBody] User user)
         {
 
-            string token = CreateToken(user);
+            string token = _token.CreateToken(user);
             var loginUser = await _userRepository.FindOne(u => u.Email == user.Email);
 
             if (loginUser == null)
-                return BadRequest(new Response<User>
+                return BadRequest(new Response<JWT>
                 {
                     HasError = true,
                     Message = "incorrect username or password",
@@ -36,11 +38,11 @@ namespace CryptoHubAPI.Controllers
                 });
             if(!(loginUser.Password == user.Password))
             {
-                return BadRequest(new Response<User>
+                return BadRequest(new Response<JWT>
                 {
                     HasError = true,
                     Message = "incorrect username or password",
-                    Model = null
+                    Model = new JWT(token)
                 });
             }
             return Ok(new Response<JWT>
