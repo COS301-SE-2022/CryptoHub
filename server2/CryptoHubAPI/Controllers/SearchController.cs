@@ -30,6 +30,24 @@ namespace CryptoHubAPI.Controllers
             if (results == null)
                 return NotFound();
 
+            foreach (var r in results)
+            {
+                var fol = await _userFollowerRepository.FindRange(uf => uf.UserId == r.UserId);
+                var allUsers = await _userRepository.GetAll();
+
+
+
+                var userFol = from f in fol
+                              join u in allUsers
+                              on f.FollowId equals u.UserId
+                              select new
+                              {
+                                  UserId = u.UserId,
+                                  Username = u.Username
+                              };
+                r.ImageId = userFol.Count();
+            }
+
             var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
             var users = await _userRepository.GetAll();
 
@@ -78,9 +96,9 @@ namespace CryptoHubAPI.Controllers
                                            Username = u.Username,
                                        };
 
-                foreach(var r in results.ToList())
+                foreach (var r in results.ToList())
                 {
-                    foreach(var m in mutUserfollowers.ToList())
+                    foreach (var m in mutUserfollowers.ToList())
                     {
                         if (m.UserId == r.UserId)
                         {
@@ -112,7 +130,7 @@ namespace CryptoHubAPI.Controllers
             }
 
             //add mutuals to result
-            foreach(var m in mutuals.ToList())
+            foreach (var m in mutuals.ToList())
             {
                 final.Add(m);
             }
@@ -123,7 +141,7 @@ namespace CryptoHubAPI.Controllers
                 final.Add(r);
             }
 
-            return Ok(final);
+            return Ok(results);
         }
     }
 }
