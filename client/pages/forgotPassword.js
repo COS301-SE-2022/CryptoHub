@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router"
-import Router from "next/router";
 
 function forgotPassword() {
     const router = useRouter();
@@ -79,11 +78,7 @@ function forgotPassword() {
                   <div
                     className="group relative w-full flex justify-center py-2 px-4 text-lg font-medium rounded-md text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
-                    {loading ? (
-                      <p className="text-indigo-200">Loading...</p>
-                    ) : (
                       <><div className="bg-gray-400 sm:w-6/12 translate-y-3" style={{ height: "1px" }}></div><p>OR</p><div className="bg-gray-400 sm:w-6/12 translate-y-3" style={{ height: "1px" }}></div></>
-                    )}
                   </div>
                 </div>
 
