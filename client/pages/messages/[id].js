@@ -20,12 +20,7 @@ const Messages = () => {
 
   const getMessages = async () => {
     const data = await getDocs(messagesRef);
-
-    let msg = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    let finalmsg = msg.sort((a, b) => {
-      return a.timestamp - b.timestamp;
-    });
-    setMessages(finalmsg);
+    setMessages(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
   const handleGetUser = () => {
@@ -59,6 +54,11 @@ const Messages = () => {
     console.warn("Receiver", id.toString());
     handleGetUser();
     getMessages();
+
+    const interval = setInterval(() => {
+      getMessages();
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -143,7 +143,7 @@ const ReceiverMessage = ({ message, sender, receiver }) => {
   const { user } = useContext(userContext);
   const { id } = router.query;
   return (
-    <div className="bg-gray-200 m-3 rounded-xl px-3 py-1 min:w-4/12 self-start">
+    <div className="bg-gray-200  m-3 rounded-xl px-3 py-1 min:w-4/12 self-start">
       {message}
     </div>
   );
