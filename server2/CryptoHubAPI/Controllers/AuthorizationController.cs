@@ -22,7 +22,7 @@ namespace CryptoHubAPI.Controllers
         public async Task<ActionResult<Response<User>>> Login([FromBody] User user)
         {
 
-            string token = createToken(user);
+            string token = CreateToken(user);
             var loginUser = await _userRepository.FindOne(u => u.Email == user.Email);
 
             if (loginUser == null)
@@ -89,9 +89,9 @@ namespace CryptoHubAPI.Controllers
        
     }
 
-    private string createToken()
+    private string CreateToken(User user)
     {
-
+        return string.Empty;
     }
 
 }
