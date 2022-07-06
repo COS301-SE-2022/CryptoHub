@@ -1,4 +1,5 @@
-﻿using Domain.IRepository;
+﻿using CryptoHubAPI.Authentication;
+using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,8 @@ namespace CryptoHubAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Response<User>>> Login([FromBody] User user)
         {
+           
+
             var loginUser = await _userRepository.FindOne(u => u.Email == user.Email);
 
             if (loginUser == null)
@@ -38,12 +41,16 @@ namespace CryptoHubAPI.Controllers
                     Model = null
                 });
             }
-            return Ok(new Response<User>
+            return Ok(new Response<JWT>
             {
+
                 HasError = false,
                 Message = "logged in",
-                Model = loginUser
+                Model = new JWT(token)
+                
             });
+
+            
         }
 
         [HttpPost]
