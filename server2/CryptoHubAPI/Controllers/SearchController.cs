@@ -46,7 +46,11 @@ namespace CryptoHubAPI.Controllers
                                   Username = u.Username
                               };
                 r.ImageId = userFol.Count();
+                r.Email = null;
+                r.Password = null;
             }
+
+            results = results.OrderByDescending(r => r.ImageId).ToList();
 
             var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
             var users = await _userRepository.GetAll();
@@ -141,7 +145,7 @@ namespace CryptoHubAPI.Controllers
                 final.Add(r);
             }
 
-            return Ok(results);
+            return Ok(final);
         }
     }
 }
