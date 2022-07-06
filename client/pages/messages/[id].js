@@ -20,7 +20,13 @@ const Messages = () => {
 
   const getMessages = async () => {
     const data = await getDocs(messagesRef);
-    setMessages(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    setMessages(
+      data.docs
+        .map((doc) => ({ ...doc.data(), id: doc.id }))
+        .sort((a, b) => {
+          return a.timestamp - b.timestamp;
+        })
+    );
   };
 
   const handleGetUser = () => {
