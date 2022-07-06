@@ -12,10 +12,12 @@ namespace CryptoHubAPI.Controllers
     {
 
         private readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
 
-        public AuthorizationController(IUserRepository userRepository)
+        public AuthorizationController(IUserRepository userRepository, IConfiguration configuration)
         {
-            this._userRepository = userRepository;
+            _userRepository = userRepository;
+            _configuration = configuration;
         }
 
         [HttpPost]
