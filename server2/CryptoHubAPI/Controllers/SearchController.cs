@@ -22,8 +22,8 @@ namespace CryptoHubAPI.Controllers
             _coinRepository = coinRepository;
         }
 
-        [HttpGet("{name}")]
-        public async Task<ActionResult<List<User>>> SearchUser(string searchterm, int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<User>>> SearchUser(int id, string searchterm)
         {
             //fetch all search results
             var results = await _userRepository.FindRange(u => u.Username.ToLower().StartsWith(searchterm.ToLower()) || u.Firstname.ToLower().StartsWith(searchterm.ToLower()) || u.Lastname.ToLower().StartsWith(searchterm.ToLower()));
@@ -149,7 +149,7 @@ namespace CryptoHubAPI.Controllers
         }
 
         //[HttpGet("{name}")]
-        //public async Task<ActionResult<List<User>>> SearchCoin(string searchterm, int id)
+        //public async Task<ActionResult<List<User>>> SearchCoin(string name, int id)
         //{
 
 
