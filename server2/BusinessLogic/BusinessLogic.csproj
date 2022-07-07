@@ -11,4 +11,10 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Services\LikeService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\LikeService\" />
+  </ItemGroup>
 </Project>
