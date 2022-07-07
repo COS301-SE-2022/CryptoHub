@@ -3,6 +3,7 @@ using BusinessLogic.Services.UserService;
 using Domain.Infrastructure;
 using Domain.IRepository;
 using Domain.Models;
+using Infrastructure.Data;
 using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -19,6 +20,7 @@ builder.Services.AddTransient<ICoinHistoryRepository, CoinHistoryRepository>();
 builder.Services.AddTransient<ILikeRepository, LikeRepository>();
 builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
+builder.Services.AddTransient<IImageRepository, ImageRepository>();
 
 //Services Dependency Injection.
 builder.Services.AddTransient<IUserService, UserService>();
@@ -77,3 +79,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

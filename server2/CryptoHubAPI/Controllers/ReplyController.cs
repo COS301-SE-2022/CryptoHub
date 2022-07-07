@@ -32,7 +32,7 @@ namespace CryptoHubAPI.Controllers
 
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("{commentId}")]
         public async Task<ActionResult<List<Reply>>> GetRepliesByCommentId(int commentId)
         {
             
@@ -42,6 +42,20 @@ namespace CryptoHubAPI.Controllers
 
             var reply = await _replyRepository.FindRange(r => r.CommentId == commentId);
             return Ok(reply);
+
+        }
+
+        [HttpGet("{commentId}")]
+        public async Task<IActionResult> GetRepliesCountByCommentId(int commentId)
+        {
+
+            var comment = await _commentRepository.FindOne(u => u.CommentId == commentId);
+            if (comment == null)
+                return BadRequest("comment by specified id not found");
+
+            var reply = await _replyRepository.FindRange(r => r.CommentId == commentId);
+            
+            return Ok(new {Count = reply.Count()} );
 
         }
 

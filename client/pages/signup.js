@@ -21,27 +21,26 @@ const Signup = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        userName: username,
-        firstName: firstname,
-        lastName: lastname,
+        userId: 0,
+        firstname: firstname,
+        lastname: lastname,
+        username: username,
         email: email,
         password: password,
       }),
     };
 
-    fetch("http://localhost:8082/api/authorization/register", options)
+    fetch("http://localhost:7215/api/Authorization/Register", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.warn(data);
-        if (data.authorized) {
-          authorise(data.username, data.userId);
+        if (!data.hasError) {
+          authorise(data.model.username, data.model.userId);
         } else {
           setError(true);
         }
       })
       .catch((error) => {
-        console.warn("Error", error);
         setError(true);
         setLoading(false);
       });

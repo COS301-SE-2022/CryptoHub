@@ -17,18 +17,22 @@ CryptoHub is an interactive and social application that allows a user to explore
    </p>
 <h4>Backend</h4>
    <p>
-      <img src="https://img.shields.io/badge/Spring-5CB652?style=for-the-badge&logo=spring&logoColor=white" >
+      <img src="https://img.shields.io/badge/.Net Core-525CB6?style=for-the-badge&logo=spring&logoColor=white" >
    </p>
 <h4>Database:</h4>
-   <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" >
+   <img src="https://img.shields.io/badge/MySQL-316192?style=for-the-badge&logo=mysql&logoColor=white" >
 
 ## Documentation
 
-- [System Requiremnts Specification](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS))
+- [System Requirements Specification demo 1](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS)-Demo-1)
+- [System Requirements Specification demo 2](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS)-Demo-2)
+- [Coding Standards](https://github.com/COS301-SE-2022/CryptoHub/wiki/Coding-Standards)
+- [User Manual](https://github.com/COS301-SE-2022/CryptoHub/wiki/User-Manual)
 
 ## Demo Vidoes
 
 - [Demo 1](https://drive.google.com/file/d/1YnMPmuTIb7v5p-PBGcOAJ29ZvJOSp_Mq/view?usp=sharing "Demo 1")
+- [Demo 2](https://drive.google.com/file/d/1Yi5ccYFGuM5NjST5syfAyzXmI7BbJv6z/view "Demo 2")
 
 
 ## Code Force
