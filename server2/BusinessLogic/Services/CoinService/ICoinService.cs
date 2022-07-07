@@ -10,6 +10,7 @@ namespace BusinessLogic.Services.CoinService
 {
     public interface ICoinService
     {
-        Task<List<CoinDTO>> GetAllUsers();
+        Task<List<CoinDTO>> GetAllCoins();
+        Task<CoinDTO> UpdateCoin(CoinDTO coin);
     }
 }

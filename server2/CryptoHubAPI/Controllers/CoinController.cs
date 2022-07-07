@@ -1,40 +1,41 @@
-﻿using System;
-using Domain.IRepository;
+﻿using BusinessLogic.Services.CoinService;
 using Domain.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Infrastructure.DTO.CoinDTOs;
+
 
 namespace CryptoHubAPI.Controllers
 {
 
-	[ApiController]
-	[Route("api/[controller]/[action]")]
-	public class CoinController : Controller
-	{
+    [ApiController]
+    [Route("api/[controller]/[action]")]
+    public class CoinController : Controller
+    {
 
-		private readonly ICoinRepository _coinRepository;
-		public CoinController(ICoinRepository coinRepository)
-		{
-			_coinRepository = coinRepository;
-		}
+        private readonly ICoinService _coinService;
 
-		[HttpGet]
-		public async Task<ActionResult<List<Coin>>> GetAllCoins()
-		{
-			return Ok(await _coinRepository.GetAll());
-		}
+        public CoinController(ICoinService coinService)
+        {
+            _coinService = coinService;
+        }
 
-
-		[HttpPut]
-		public async Task<ActionResult<Post>> UpdateCoin([FromBody] Coin _coin)
-		{
-			var response = await _coinRepository.Update(u => u.CoinId == _coin.CoinId, _coin);
-			if (response == null)
-				return null;
-
-			return Ok(response);
-		}
+        [HttpGet]
+        public async Task<ActionResult<List<Coin>>> GetAllCoins()
+        {
+            return Ok(await _coinService.GetAllCoins());
+        }
 
 
-	}
+        [HttpPut]
+        public async Task<ActionResult<Coin>> UpdateCoin([FromBody] CoinDTO coin)
+        {
+            var response = await _coinService.UpdateCoin(coin);
+            if (response == null)
+                return null;
+
+            return Ok(response);
+        }
+    }
 }
 

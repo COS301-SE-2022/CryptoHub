@@ -1,6 +1,7 @@
 using BusinessLogic.Services.AuthorizationService;
 using BusinessLogic.Services.RoleServices;
 using BusinessLogic.Services.UserService;
+using BusinessLogic.Services.CoinService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.Data;
@@ -26,6 +27,7 @@ builder.Services.AddTransient<IRoleRepository, RoleRepository>();
 //Services Dependency Injection.
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IAuthorizationService, AuthorizationService>();
+builder.Services.AddTransient<ICoinService, CoinService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
 
 
