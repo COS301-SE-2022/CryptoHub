@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Models;
+using Infrastructure.DTO.LikeDTOs;
 using Infrastructure.DTO.UserDTOs;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace Infrastructure.AutoMapper
         {
             #region Model to DTO
             CreateMap<User, UserDTO>();
+            CreateMap<Like, LikeDTO>();
             #endregion
 
             #region DTO to Model
             CreateMap<RegisterDTO, User>();
+            CreateMap<LikeDTO, Like>();
             #endregion
 
         }

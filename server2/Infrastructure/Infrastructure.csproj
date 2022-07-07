@@ -18,5 +18,9 @@
 
   <ItemGroup>
     <None Remove="Data\" />
+    <None Remove="DTO\LikeDTOs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DTO\LikeDTOs\" />
   </ItemGroup>
 </Project>
