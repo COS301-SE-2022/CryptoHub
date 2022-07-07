@@ -54,7 +54,7 @@ namespace CryptoHubAPI.Controllers
 
             }
 
-            post.Post1 = createPostDTO.Post;
+            post.Content = createPostDTO.Post;
             post.UserId = createPostDTO.UserId;
 
             return Ok( await _postRepository.Add(post));

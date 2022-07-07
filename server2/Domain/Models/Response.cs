@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    public class Response<T> where T : class
+    public class Response<T>
     {
-        public bool HasError { get; set; }
-        public string Message { get; set; }
         public T Model { get; set; }
+
+        public bool HasError { get; set; }
+
+        public string Message { get; set; }
 
         public Response(T model, bool hasError, string message)
         {

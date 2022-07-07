@@ -1,6 +1,5 @@
 using BusinessLogic.Services.AuthorizationService;
 using BusinessLogic.Services.UserService;
-using Domain.Infrastructure;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.Data;
@@ -16,7 +15,6 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserFollowerRepository, UserFollowerRepository>();
 builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<ICoinRepository, CoinRepository>();
-builder.Services.AddTransient<ICoinHistoryRepository, CoinHistoryRepository>();
 builder.Services.AddTransient<ILikeRepository, LikeRepository>();
 builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
