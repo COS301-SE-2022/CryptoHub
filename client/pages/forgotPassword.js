@@ -22,7 +22,7 @@ function forgotPassword() {
             setEmail(data.email);
             {
               if(data.email == email){
-                router.push("/forgotPasswordConfirmation");
+                router.push("/forgotPasswordConfirmation?email="+email);
               } else{
                 setError(true);
               }

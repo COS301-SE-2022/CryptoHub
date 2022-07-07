@@ -3,18 +3,20 @@ import { useRouter } from "next/router"
 import Router from "next/router";
 
 function changePassword() {
-    const [email, setEmail] = useState("");
     const [error, setError] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);
+    const [passwordUpdated, setPasswordUpdated] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [newPassward, setNewPassword] = useState("");
-    const [confirmNewPassward, setConfirmNewPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
     const handleCheckPassword = (e) => {
       setLoading(true);
       e.preventDefault();
 
-      if(setNewPassword != setConfirmNewPassword)
+      console.log(newPassword);
+      console.log(confirmNewPassword);
+
+      if(newPassword != confirmNewPassword)
         {
           setError(true);
           setLoading(false);
@@ -25,8 +27,8 @@ function changePassword() {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              userId: userId,
-              password: newPassward,
+              
+              password: newPassword,
             }),
           };
 
@@ -36,9 +38,10 @@ function changePassword() {
               setLoading(false);
               if (response == "password updated") {
                 Router.push("/login");
+
               } else if(response == "new password same as old password"){
                 console.log(response)
-                setPasswordError(true);
+                setError(true);
                 
               }
             })
@@ -73,8 +76,9 @@ function changePassword() {
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="New Password"
-                onSubmit={(e) => {
+                onChange={(e) => {
                   setNewPassword(e.target.value);
+                  
                 }}
               />
             </div>
@@ -90,7 +94,7 @@ function changePassword() {
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Confirm New Password"
-                onSubmit={(e) => {
+                onChange={(e) => {
                   setConfirmNewPassword(e.target.value);
                 }}
               />
@@ -122,8 +126,8 @@ function changePassword() {
           </div>
         </form>
         
-        {passwordError ? (
-          <h2 className="text-center text-sm font-semibold text-red-500">
+        {passwordUpdated ? (
+          <h2 className="text-center text-sm font-semibold text-green-500">
           Password Updated
           </h2>
         ) :null}
