@@ -32,6 +32,16 @@ namespace BusinessLogic.Services.LikeService
 
         }
 
+        public async Task<List<LikeDTO>> GetLikeByPostId(int id)
+        {
+            var response = await _likeRepository.FindRange(l => l.PostId == id);
+            if (response == null)
+                return null;
+
+            return _mapper.Map<List<LikeDTO>>(response);
+
+        }
+
         public async Task<LikeDTO> GetLikeCountByPostId(int id) {
         }
 

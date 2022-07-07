@@ -10,6 +10,8 @@ namespace BusinessLogic.Services.LikeService
 
         Task<List<LikeDTO>> GetLikeByUserId(int id);
 
+        Task<List<LikeDTO>> GetLikeByPostId(int id);
+
         Task<LikeDTO> GetLikeCountByPostId(int id);
 
         Task<List<LikeDTO>> GetLikeByCommentId(int id);
