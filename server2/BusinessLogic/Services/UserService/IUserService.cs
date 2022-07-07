@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Infrastructure.DTO.UserDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +10,18 @@ namespace BusinessLogic.Services.UserService
 {
     public interface IUserService
     {
-        Task<List<User>> GetAllUsers();
+        Task<List<UserDTO>> GetAllUsers();
 
-        Task<User?> GetById(int id);
-
-
-        Task<User?> GetUserByEmail(string email);
+        Task<UserDTO> GetById(int id);
 
 
-        Task<User?> AddUser(User user);
+        Task<UserDTO> GetUserByEmail(string email);
 
 
-        Task<User?> UpateUser(User user);
+        Task<UserDTO> AddUser(User user);
+
+
+        Task<UserDTO> UpateUser(User user);
 
 
         Task Delete(int id);
