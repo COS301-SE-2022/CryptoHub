@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Models;
-using Infrastructure.DTO.LikeDTOs;
+using Infrastructure.DTO.RoleDTOs;
 using Infrastructure.DTO.UserDTOs;
 using Infrastructure.DTO.CoinDTOs;
 using Infrastructure.DTO.CommentDTOs;
@@ -21,6 +21,8 @@ namespace Infrastructure.AutoMapper
             CreateMap<Like, LikeDTO>();
             CreateMap<Coin, CoinDTO>();
             CreateMap<Comment, CommentDTO>();
+            CreateMap<Role, RoleDTO>();
+            CreateMap<Tag, TagDTO>();
             #endregion
 
             #region DTO to Model

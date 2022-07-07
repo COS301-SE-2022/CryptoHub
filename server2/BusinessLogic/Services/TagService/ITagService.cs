@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogic.Services.RoleServices
+namespace BusinessLogic.Services.TagService
 {
-    public interface IRoleService
+    public interface ITagService
     {
     }
 }

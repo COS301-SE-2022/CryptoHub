@@ -23,7 +23,7 @@ namespace Infrastructure.Data
         public virtual DbSet<Like> Likes { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<Reply> Replies { get; set; } = null!;
-        public virtual DbSet<RoleDTO> Roles { get; set; } = null!;
+        public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Tag> Tags { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserCoin> UserCoins { get; set; } = null!;
@@ -140,7 +140,7 @@ namespace Infrastructure.Data
                     .HasConstraintName("FK_Reply_UserId");
             });
 
-            modelBuilder.Entity<RoleDTO>(entity =>
+            modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("Role");
 
