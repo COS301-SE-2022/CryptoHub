@@ -1,9 +1,11 @@
+using BusinessLogic.Services.AuthorizationService;
 using BusinessLogic.Services.UserService;
 using Domain.Infrastructure;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,11 @@ builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
 
 //Services Dependency Injection.
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IAuthorizationService, AuthorizationService>();
+
+
+//AutoMapper
+builder.Services.AddAutoMapper(Assembly.Load("Infrastructure"));
 
 
 
@@ -48,7 +55,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(config =>
+    {
+        config.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+        config.DisplayRequestDuration();
+    });
 }
 
 app.UseCors(

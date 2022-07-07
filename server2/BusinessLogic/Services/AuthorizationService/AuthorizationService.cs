@@ -41,13 +41,14 @@ namespace BusinessLogic.Services.AuthorizationService
 
             if (registerUser != null)
                 return new Response<UserDTO>(null, true, "user already exists");
-                
+
             var user = _mapper.Map<User>(registerDTO);
             await _userRepository.Add(user);
 
             var response = _mapper.Map<UserDTO>(user);
 
             return new Response<UserDTO>(response, false, "registered");
+        }
 
 
 
