@@ -118,7 +118,7 @@ namespace BusinessLogic.Services.LikeService
             return _mapper.Map<LikeDTO>(response);
         }
 
-        public async Task<LikeDTO> Delete(int userId, int postId) {
+        public async Task Delete(int userId, int postId) {
 
           await _likeRepository.DeleteOne(u => u.UserId == userId && u.PostId == postId);
 

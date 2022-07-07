@@ -29,7 +29,7 @@ namespace BusinessLogic.Services.LikeService
 
         Task<LikeDTO> UpdateLike(Like like);
 
-        Task<LikeDTO> Delete(int userId, int postId);
+        Task Delete(int userId, int postId);
 
 
 
