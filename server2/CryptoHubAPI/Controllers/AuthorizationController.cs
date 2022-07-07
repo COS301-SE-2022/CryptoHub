@@ -69,10 +69,10 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Response<User>>> UpdateForgotPassword(string email, string password)
+        public async Task<ActionResult<Response<User>>> UpdateForgotPassword([FromBody] User user)
         {
-            var user = await _userRepository.FindOne(u => u.Email == email);
-            if (user == null)
+            var userResponse = await _userRepository.FindOne(u => u.Email == user.Email);
+            if (userResponse == null)
             {
                 return BadRequest(new Response<User>
                 {
@@ -90,8 +90,8 @@ namespace CryptoHubAPI.Controllers
             //        Model = null
             //    });
             //}
-            user.Password = password;
-            var response = await _userRepository.Update(u => u.UserId == user.UserId, user);
+            userResponse.Password = user.Password;
+            var response = await _userRepository.Update(u => u.UserId == userResponse.UserId, userResponse);
             if (response == null)
             {
 
