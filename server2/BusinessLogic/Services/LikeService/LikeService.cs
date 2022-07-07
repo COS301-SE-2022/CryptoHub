@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using Domain.IRepository;
+using Domain.Models;
 using Infrastructure.DTO.LikeDTOs;
 
 namespace BusinessLogic.Services.LikeService
@@ -42,24 +43,87 @@ namespace BusinessLogic.Services.LikeService
 
         }
 
-        public async Task<LikeDTO> GetLikeCountByPostId(int id) {
+        public async Task<Response<object>> GetLikeCountByPostId(int id) {
+            var response = await _likeRepository.FindRange(l => l.PostId == id);
+            if (response == null)
+                return new Response<object>( null, true, "No likes for this post");
+
+            return new Response<object> (new { Count = response.Count() },false,string.Empty);
         }
 
-        public async Task<List<LikeDTO>> GetLikeByCommentId(int id) { }
+        public async Task<List<LikeDTO>> GetLikeByCommentId(int id) {
+            var response = await _likeRepository.FindRange(l => l.CommentId == id);
+            if (response == null)
+                return null;
 
-        public async Task<LikeDTO> GetLikeCountByCommentId(int id) { }
 
-        public async Task<List<LikeDTO>> GetLikeByReplyId(int id) { }
+            return _mapper.Map<List<LikeDTO>>(response);
 
-        public async Task<LikeDTO> GetLikeCountByReplyId(int id) { }
 
-        public async Task<LikeDTO> GetLikeBy(int userId, int postId) { }
+        }
 
-        public async Task<LikeDTO> AddLike(Like like) { }
+        public async Task<LikeDTO> GetLikeCountByCommentId(int id) { 
+            var response = await _likeRepository.FindRange(l => l.CommentId == id);
+            if (response == null)
+                return null;
 
-        public async Task<LikeDTO> UpdateLike(Like like) { }
+            return _mapper.Map<LikeDTO>(response);
 
-        public async Task<LikeDTO> Delete(int id) { }
+    }
+
+        public async Task<List<LikeDTO>> GetLikeByReplyId(int id) {
+            var response = await _likeRepository.FindRange(l => l.ReplyId == id);
+            if (response == null)
+                return null;
+
+            return _mapper.Map<List<LikeDTO>>(response);
+
+        }
+
+        public async Task<LikeDTO> GetLikeCountByReplyId(int id) {
+
+            var response = await _likeRepository.FindRange(l => l.ReplyId == id);
+            if (response == null)
+                return null;
+
+            return _mapper.Map<LikeDTO>(response);
+        }
+
+        public async Task<LikeDTO> GetLikeBy(int userId, int postId) {
+            var response = await _likeRepository.FindRange(p => p.UserId == userId && p.PostId == postId);
+            if (response == null)
+                return null;
+
+            return _mapper.Map<LikeDTO>(response);
+
+        }
+
+        public async Task<LikeDTO> AddLike(Like like) {
+            var likes = await _likeRepository.FindOne(l => l.UserId == like.UserId
+              && l.ReplyId == like.ReplyId
+              && l.CommentId == like.CommentId
+              && l.PostId == like.PostId
+              );
+
+            if (likes != null)
+                return null;
+
+            return _mapper.Map<LikeDTO>(like);
+        }
+
+        public async Task<LikeDTO> UpdateLike(Like like) {
+            var response = await _likeRepository.Update(u => u.LikeId == like.LikeId, like);
+            if (response == null)
+                return null;
+            return _mapper.Map<LikeDTO>(response);
+        }
+
+        public async Task<LikeDTO> Delete(int userId, int postId) {
+
+          await _likeRepository.DeleteOne(u => u.UserId == userId && u.PostId == postId);
+
+            
+        }
     }
 }
 
