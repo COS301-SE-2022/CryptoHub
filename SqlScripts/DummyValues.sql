@@ -25,6 +25,12 @@ VALUES
 (5,'the market is looking bad',2),
 (1,'THIS IS IT PEOPLE',1);
 
+INSERT INTO [dbo].[Tag] ([PostId],[Content])
+VALUES
+(1,'#BTC'),
+(1,'#CRYPTO'),
+(1,'#ETC')
+ 
 INSERT INTO [dbo].[Comment]([UserId],[PostId],[Content])
 VALUES
 (1,1,'I wanto buy even more'),
