@@ -88,10 +88,10 @@ namespace CryptoHubAPI.Controllers
         public async Task<IActionResult> GetLikeCountByReplyId(int id)
         {
             var response = await _likeService.GetLikeCountByReplyId(id);
-            if (response == null)
-                return NotFound();
+            if (response.HasError)
+                return NotFound(response.Message);
 
-            return Ok(new { Count = response.Count() });
+            return Ok(response.Model);
         }
 
         [HttpGet("{userId}/{postId}")]
@@ -107,16 +107,12 @@ namespace CryptoHubAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Like>> AddLike([FromBody] Like like)
         {
-            var likes = await _likeService.FindOne(l => l.UserId == like.UserId
-            && l.ReplyId == like.ReplyId
-            && l.CommentId == like.CommentId
-            && l.PostId == like.PostId
-            );
+            var likes = await _likeService.AddLike(like);
 
             if (likes == null)
                 return BadRequest();
 
-            return Ok(await _likeService.Add(like));
+            return Ok(await _likeService.AddLike(like));
         }
 
         [HttpPut]

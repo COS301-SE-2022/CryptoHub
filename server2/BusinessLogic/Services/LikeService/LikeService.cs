@@ -80,13 +80,13 @@ namespace BusinessLogic.Services.LikeService
 
         }
 
-        public async Task<LikeDTO> GetLikeCountByReplyId(int id) {
+        public async Task<Response<object>> GetLikeCountByReplyId(int id) {
 
             var response = await _likeRepository.FindRange(l => l.ReplyId == id);
             if (response == null)
-                return null;
+                return new Response<object>(null, true, "No likes for this post");
 
-            return _mapper.Map<LikeDTO>(response);
+            return new Response<object>(new { Count = response.Count() }, false, string.Empty);
         }
 
         public async Task<LikeDTO> GetLikeBy(int userId, int postId) {

@@ -21,7 +21,7 @@ namespace BusinessLogic.Services.LikeService
 
         Task<List<LikeDTO>> GetLikeByReplyId(int id);
 
-        Task<LikeDTO> GetLikeCountByReplyId(int id);
+        Task<Response<object>> GetLikeCountByReplyId(int id);
 
         Task<LikeDTO> GetLikeBy(int userId, int postId);
 
