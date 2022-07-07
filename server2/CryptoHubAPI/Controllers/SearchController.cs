@@ -23,10 +23,10 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{name}")]
-        public async Task<ActionResult<List<User>>> SearchUser(string name, int id)
+        public async Task<ActionResult<List<User>>> SearchUser(string searchterm, int id)
         {
             //fetch all search results
-            var results = await _userRepository.FindRange(u => u.Username.ToLower().StartsWith(name.ToLower()) || u.Firstname.ToLower().StartsWith(name.ToLower()) || u.Lastname.ToLower().StartsWith(name.ToLower()));
+            var results = await _userRepository.FindRange(u => u.Username.ToLower().StartsWith(searchterm.ToLower()) || u.Firstname.ToLower().StartsWith(searchterm.ToLower()) || u.Lastname.ToLower().StartsWith(searchterm.ToLower()));
             if (results == null)
                 return NotFound();
 
@@ -147,6 +147,14 @@ namespace CryptoHubAPI.Controllers
 
             return Ok(final);
         }
+
+        [HttpGet("{name}")]
+        public async Task<ActionResult<List<User>>> SearchCoin(string searchterm, int id)
+        {
+
+
+        }
+
     }
 }
 
