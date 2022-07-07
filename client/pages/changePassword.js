@@ -8,47 +8,52 @@ function changePassword() {
     const [loading, setLoading] = useState(false);
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
+    const router = useRouter();
 
     const handleCheckPassword = (e) => {
       setLoading(true);
       e.preventDefault();
 
-      console.log(newPassword);
-      console.log(confirmNewPassword);
+      // console.log(newPassword);
+      // console.log(confirmNewPassword);
 
       if(newPassword != confirmNewPassword)
         {
           setError(true);
           setLoading(false);
         } else{
+          
           const options = {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              
+              firstname: "",
+              lastname: "",
+              username: "",
+              email: router.query.email,
               password: newPassword,
             }),
           };
 
-          fetch("http://localhost:7215/api/Authorization/UpdatePassword", options)
+          // console.log(router.query.email);
+          // console.log(newPassword);
+
+          fetch("http://localhost:7215/api/Authorization/UpdateForgotPassword", options)
             .then((response) => response.json())
             .then((data) => {
               setLoading(false);
               if (response == "password updated") {
                 Router.push("/login");
 
-              } else if(response == "new password same as old password"){
-                console.log(response)
-                setError(true);
-                
               }
             })
             .catch(() => {
-              setError(true);
+              // setError(true);
               setLoading(false);
             })
+            setPasswordUpdated(true);
         }
     };
 
