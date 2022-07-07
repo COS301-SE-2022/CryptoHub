@@ -87,7 +87,7 @@ namespace CryptoHubAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetLikeCountByReplyId(int id)
         {
-            var response = await _likeService.FindRange(l => l.ReplyId == id);
+            var response = await _likeService.GetLikeCountByReplyId(id);
             if (response == null)
                 return NotFound();
 
