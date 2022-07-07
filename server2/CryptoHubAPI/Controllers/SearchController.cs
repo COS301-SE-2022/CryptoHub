@@ -148,13 +148,16 @@ namespace CryptoHubAPI.Controllers
             return Ok(final);
         }
 
-        //[HttpGet("{name}")]
-        //public async Task<ActionResult<List<User>>> SearchCoin(string name, int id)
-        //{
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<User>>> SearchCoin(int id, string searchterm)
+        {
+            //fetch all search results
+            var results = await _coinRepository.FindRange(u => u.CoinName.ToLower().StartsWith(searchterm.ToLower()) || u.Symbol.ToLower().StartsWith(searchterm.ToLower()));
+            if (results == null)
+                return NotFound();
 
-
-        //}
-
+            return Ok(results);
+        }
     }
 }
 
