@@ -12,7 +12,8 @@ namespace BusinessLogic.Services.LikeService
 
         Task<List<LikeDTO>> GetLikeByPostId(int id);
 
-        Task<LikeDTO> GetLikeCountByPostId(int id);
+
+       Task<Response<object>> GetLikeCountByPostId(int id);
 
         Task<List<LikeDTO>> GetLikeByCommentId(int id);
 
@@ -28,7 +29,7 @@ namespace BusinessLogic.Services.LikeService
 
         Task<LikeDTO> UpdateLike(Like like);
 
-        Task<LikeDTO> Delete(int id);
+        Task<LikeDTO> Delete(int userId, int postId);
 
 
 
