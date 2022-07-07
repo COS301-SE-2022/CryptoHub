@@ -11,7 +11,7 @@ namespace Domain.Models
         }
 
         public int RoleId { get; set; }
-        public string Role1 { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
         public virtual ICollection<UserRole> UserRoles { get; set; }
     }
