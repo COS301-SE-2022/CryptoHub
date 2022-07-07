@@ -17,6 +17,7 @@ namespace Infrastructure.AutoMapper
             #region Model to DTO
             CreateMap<User, UserDTO>();
             CreateMap<Role, RoleDTO>();
+            CreateMap<Tag, TagDTO>();
             #endregion
 
             #region DTO to Model
