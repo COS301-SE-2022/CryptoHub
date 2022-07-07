@@ -20,13 +20,12 @@ const Messages = () => {
 
   const getMessages = async () => {
     const data = await getDocs(messagesRef);
-    setMessages(
-      data.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }))
-        .sort((a, b) => {
-          return a.timestamp - b.timestamp;
-        })
-    );
+    let final = data.docs
+      .map((doc) => ({ ...doc.data(), id: doc.id }))
+      .sort((a, b) => {
+        return a.timestamp - b.timestamp;
+      });
+    setMessages(final);
   };
 
   const handleGetUser = () => {
@@ -56,20 +55,18 @@ const Messages = () => {
   };
 
   useEffect(() => {
-    console.warn("Sender", user.id);
-    console.warn("Receiver", id.toString());
     handleGetUser();
     getMessages();
 
     const interval = setInterval(() => {
       getMessages();
-    }, 1000);
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <Layout>
-      <div className="w-11/12 sm:w-7/12 bg-white p-4 rounded-md">
+      <div className="fixed w-11/12 sm:w-7/12 bg-white p-4 rounded-md h-5/6 overflow-scroll scroll">
         <div>
           <h1>{username}</h1>
         </div>
@@ -78,7 +75,7 @@ const Messages = () => {
           <p className="font-semibold">messages</p>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col pb-10">
           {messages.map((message) => {
             if (
               message.sender == user.id.toString() &&
@@ -106,7 +103,7 @@ const Messages = () => {
           })}
         </div>
 
-        <div>
+        <div className="fixed bottom-16 w-3/6 bg-white">
           <form onSubmit={handleSendMessage}>
             <div className="flex flex-row w-full">
               <input
@@ -115,13 +112,13 @@ const Messages = () => {
                 type="text"
                 required
                 autoFocus
-                className="appearance-none rounded-xl relative block w-11/12 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-xl relative block w-10/12 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Type message here..."
                 onChange={(e) => {
                   setMessage(e.target.value);
                 }}
               />
-              <button className="px-5">Send</button>
+              <button className="translate-x-10">Send</button>
             </div>
           </form>
         </div>
