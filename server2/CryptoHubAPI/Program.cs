@@ -19,6 +19,8 @@ builder.Services.AddTransient<ILikeRepository, LikeRepository>();
 builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
 builder.Services.AddTransient<IImageRepository, ImageRepository>();
+builder.Services.AddTransient<ITagRepository, TagRepository>();
+builder.Services.AddTransient<IRoleRepository, RoleRepository>();
 
 //Services Dependency Injection.
 builder.Services.AddTransient<IUserService, UserService>();

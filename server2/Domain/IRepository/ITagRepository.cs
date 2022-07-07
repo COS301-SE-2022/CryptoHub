@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.IRepository
 {
-    public interface IRoleRepository : IAsyncRepository<Role>
+    public interface ITagRepository : IAsyncRepository<Tag>
     {
     }
 }
