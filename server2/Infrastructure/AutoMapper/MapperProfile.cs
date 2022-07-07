@@ -4,6 +4,8 @@ using Infrastructure.DTO.RoleDTOs;
 using Infrastructure.DTO.UserDTOs;
 using Infrastructure.DTO.CoinDTOs;
 using Infrastructure.DTO.CommentDTOs;
+using Infrastructure.DTO.LikeDTOs;
+using Infrastructure.DTO.TagDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
