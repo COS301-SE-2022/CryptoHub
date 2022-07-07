@@ -13,19 +13,17 @@ namespace BusinessLogic.Services.TagService
     {
         private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
-
-        public TagServices(ITagRepository tagRepository, IMapper mapper)
+        public TagServices(ITagRepository tagRepository, IMapper mapper )
         {
             _tagRepository = tagRepository;
             _mapper = mapper;
+
         }
 
-        public async Task<TagDTO> GetTagByPost(int id)
+        public async Task<TagDTO> GetTagsByPost(int id)
         {
-            var response = await _tagRepository.FindRange(t => t.PostId == id);
-            return _mapper.Map<TagDTO>(response);
+            var tag = await _tagRepository.FindRange(t => t.PostId == id);
+            return _mapper.Map<TagDTO>(tag);
         }
-
-
     }
 }

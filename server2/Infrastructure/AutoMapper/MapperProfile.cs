@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Models;
 using Infrastructure.DTO.RoleDTOs;
+using Infrastructure.DTO.TagDTOs;
 using Infrastructure.DTO.UserDTOs;
 using System;
 using System.Collections.Generic;
