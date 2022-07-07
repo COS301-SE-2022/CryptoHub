@@ -67,11 +67,11 @@ namespace CryptoHubAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetLikeCountByCommentId(int id)
         {
-            var response = await _likeService.FindRange(l => l.CommentId == id);
-            if (response == null)
-                return NotFound();
+            var response = await _likeService.GetLikeCountByCommentId(id);
+            if (response.HasError)
+                return NotFound(response.Message);
 
-            return Ok(new { Count = response.Count() });
+            return Ok(response.Model);
         }
 
         [HttpGet("{id}")]
