@@ -97,7 +97,7 @@ namespace CryptoHubAPI.Controllers
         [HttpGet("{userId}/{postId}")]
         public async Task<ActionResult<Like>> GetLikeBy(int userId, int postId)
         {
-            var response = await _likeService.FindRange(p => p.UserId == userId && p.PostId == postId);
+            var response = await _likeService.GetLikeBy(userId, postId);
             if (response == null)
                 return NotFound(null);
 
@@ -118,7 +118,7 @@ namespace CryptoHubAPI.Controllers
         [HttpPut]
         public async Task<ActionResult<Like>> UpdateLike([FromBody] Like like)
         {
-            var response = await _likeService.Update(u => u.LikeId == like.LikeId, like);
+            var response = await _likeService.UpdateLike(like);
             if (response == null)
                 return null;
 
@@ -128,9 +128,9 @@ namespace CryptoHubAPI.Controllers
         [HttpDelete("{userId}/{postId}")]
         public async Task<IActionResult> Delete(int userId,int postId)
         {
-            
-            
-            await _likeService.DeleteOne(u => u.UserId == userId && u.PostId == postId);
+
+
+            await _likeService.Delete(userId, postId);
             return Ok();
         }
     }
