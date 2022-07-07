@@ -148,7 +148,7 @@ namespace CryptoHubAPI.Controllers
             return Ok(final);
         }
 
-        [HttpGet("{name}")]
+        //[HttpGet("{name}")]
         //public async Task<ActionResult<List<User>>> SearchCoin(string searchterm, int id)
         //{
 
