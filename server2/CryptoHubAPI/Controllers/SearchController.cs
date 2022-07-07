@@ -149,11 +149,11 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{name}")]
-        public async Task<ActionResult<List<User>>> SearchCoin(string searchterm, int id)
-        {
+        //public async Task<ActionResult<List<User>>> SearchCoin(string searchterm, int id)
+        //{
 
 
-        }
+        //}
 
     }
 }
