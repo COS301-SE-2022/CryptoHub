@@ -9,6 +9,7 @@ using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using BusinessLogic.Services.LikeService;
+using BusinessLogic.Services.PostService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,7 @@ builder.Services.AddTransient<IAuthorizationService, AuthorizationService>();
 builder.Services.AddTransient<ICoinService, CoinService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<ILikeService, LikeService>();
+builder.Services.AddTransient<IPostService, PostService>();
 
 //AutoMapper
 builder.Services.AddAutoMapper(Assembly.Load("Infrastructure"));

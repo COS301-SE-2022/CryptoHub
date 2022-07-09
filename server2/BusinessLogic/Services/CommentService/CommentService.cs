@@ -2,12 +2,6 @@
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.CommentDTOs;
-using Infrastructure.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.Services.CommentService
 {

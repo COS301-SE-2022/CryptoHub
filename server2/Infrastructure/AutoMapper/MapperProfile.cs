@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.DTO.PostDTO;
 using Infrastructure.DTO.UserRoleDTOs;
+using Infrastructure.DTO.ReplyDTOs;
 
 namespace Infrastructure.AutoMapper
 {
@@ -40,6 +41,7 @@ namespace Infrastructure.AutoMapper
             CreateMap<CommentDTO, Comment>();
             CreateMap<PostDTO, Post>();
             CreateMap<UserCoinDTO, UserCoin>();
+            CreateMap<ReplyDTO, Reply>();
             #endregion
 
         }
