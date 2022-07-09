@@ -1,4 +1,5 @@
-﻿namespace CryptoHubAPI
+﻿using System;
+namespace Infrastructure.DTO.PostDTO
 {
     public class CreatePostDTO
     {
