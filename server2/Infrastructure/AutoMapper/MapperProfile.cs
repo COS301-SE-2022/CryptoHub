@@ -7,6 +7,7 @@ using Infrastructure.DTO.CoinDTOs;
 using Infrastructure.DTO.CommentDTOs;
 using Infrastructure.DTO.LikeDTOs;
 using Infrastructure.DTO.TagDTOs;
+using Infrastructure.DTO.UserCoinDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace Infrastructure.AutoMapper
             CreateMap<Role, RoleDTO>();
             CreateMap<Tag, TagDTO>();
             CreateMap<UserRole, UserRoleDTO>();
+            CreateMap<UserCoin, UserCoinDTO>();
             #endregion
 
             #region DTO to Model
@@ -37,6 +39,7 @@ namespace Infrastructure.AutoMapper
             CreateMap<CoinDTO, Coin>();
             CreateMap<CommentDTO, Comment>();
             CreateMap<PostDTO, Post>();
+            CreateMap<UserCoinDTO, UserCoin>();
             #endregion
 
         }
