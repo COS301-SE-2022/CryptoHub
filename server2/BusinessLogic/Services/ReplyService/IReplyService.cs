@@ -11,7 +11,7 @@ namespace BusinessLogic.Services.ReplyService
       Task<ReplyDTO> GetRepliesCountByCommentId(int commentId);
       Task<ReplyDTO> AddReply(Reply reply);
       Task<ReplyDTO> UpdateReply(int replyId, Reply reply);
-      Task<ReplyDTO> Delete(int replyId);
+      Task Delete(int replyId);
 
 
     }
