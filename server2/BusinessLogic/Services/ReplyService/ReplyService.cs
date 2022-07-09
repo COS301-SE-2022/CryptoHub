@@ -10,11 +10,13 @@ namespace BusinessLogic.Services.ReplyService
     {
         private readonly IReplyRepository _replyRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ICommentRepository _commentRepository;
         private readonly IMapper _mapper;
 
-        public ReplyService(IReplyRepository replyRepository,IUserRepository userRepository, IMapper mapper)
+        public ReplyService(IReplyRepository replyRepository, ICommentRepository commentRepository, IUserRepository userRepository, IMapper mapper)
         {
             _replyRepository = replyRepository;
+            _commentRepository = commentRepository;
             _userRepository = userRepository;
             _mapper = mapper;
         }
@@ -29,32 +31,53 @@ namespace BusinessLogic.Services.ReplyService
                 return _mapper.Map<List<ReplyDTO>>(reply);
         }
 
-        public Task<ReplyDTO> AddReply(Reply reply)
+        public async Task<List<ReplyDTO>> GetRepliesByCommentId(int commentId)
         {
-            throw new NotImplementedException();
+            var comment = await _commentRepository.FindOne(u => u.CommentId == commentId);
+            if (comment == null)
+                return null;
+
+            var reply = await _replyRepository.FindRange(r => r.CommentId == commentId);
+            return _mapper.Map<List<ReplyDTO>>(reply);
         }
 
-        public Task<ReplyDTO> Delete(int replyId)
+        public async Task<ReplyDTO> GetRepliesCountByCommentId(int commentId)
         {
-            throw new NotImplementedException();
+            var comment = await _commentRepository.FindOne(u => u.CommentId == commentId);
+            if (comment == null)
+                return null;
+
+            var reply = await _replyRepository.FindRange(r => r.CommentId == commentId);
+            return _mapper.Map<ReplyDTO>(reply);
         }
 
-        public Task<List<ReplyDTO>> GetRepliesByCommentId(int commentId)
+        public async Task<ReplyDTO> AddReply(Reply reply)
         {
-            throw new NotImplementedException();
+            var response = await _replyRepository.Add(reply);
+            return _mapper.Map<ReplyDTO>(response);
+        }
+        public async Task<ReplyDTO> UpdateReply(int replyId, Reply reply)
+        {
+            var resposne = await _replyRepository.Update(r => r.ReplyId == replyId, reply);
+            if (resposne == null)
+                return null;
+
+            return _mapper.Map<ReplyDTO>(resposne);
+        }
+
+        public async Task<ReplyDTO> Delete(int replyId)
+        {
+            await _replyRepository.DeleteOne(r => r.ReplyId == replyId);
+            
         }
 
         
 
-        public Task<ReplyDTO> GetRepliesCountByCommentId(int commentId)
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        public Task<ReplyDTO> UpdateReply(int replyId, Reply reply)
-        {
-            throw new NotImplementedException();
-        }
+        
+
+        
     }
 }
 
