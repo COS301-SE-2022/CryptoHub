@@ -41,14 +41,15 @@ namespace BusinessLogic.Services.ReplyService
             return _mapper.Map<List<ReplyDTO>>(reply);
         }
 
-        public async Task<ReplyDTO> GetRepliesCountByCommentId(int commentId)
+        public async Task<Response<object>> GetRepliesCountByCommentId(int commentId)
         {
             var comment = await _commentRepository.FindOne(u => u.CommentId == commentId);
             if (comment == null)
-                return null;
-
+                return new Response<object>(null, true, "comment by specified id not found");
+           
             var reply = await _replyRepository.FindRange(r => r.CommentId == commentId);
-            return _mapper.Map<ReplyDTO>(reply);
+
+            return new Response<object>(new { Count = reply.Count() }, false, string.Empty);
         }
 
         public async Task<ReplyDTO> AddReply(Reply reply)
