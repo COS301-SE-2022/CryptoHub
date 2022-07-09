@@ -1,5 +1,6 @@
 ﻿using Domain.IRepository;
 using Domain.Models;
+using Infrastructure.DTO.PostDTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,9 +43,9 @@ namespace CryptoHubAPI.Controllers
         {
 
             Post post = new Post();
-            if(createPostDTO.imageDTO != null)
+            if(createPostDTO.ImageDTO != null)
             {
-                byte[] imageArray = Convert.FromBase64String(createPostDTO.imageDTO.Blob);
+                byte[] imageArray = Convert.FromBase64String(createPostDTO.ImageDTO.Blob);
 
                 Image image = new Image();
                 image.Image1 = imageArray;
