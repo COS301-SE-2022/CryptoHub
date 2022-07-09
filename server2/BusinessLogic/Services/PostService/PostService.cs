@@ -26,6 +26,11 @@ namespace BusinessLogic.Services.PostService
         }
         public async Task<PostDTO> GetPostByUserId(int id)
         {
+            var response = await _postRepository.FindRange(p => p.UserId == id);
+            if (response == null)
+                return null;
+
+            return _mapper.Map<PostDTO>(response);
 
         }
 
