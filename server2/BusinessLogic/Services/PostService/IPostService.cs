@@ -9,7 +9,7 @@ namespace BusinessLogic.Services.PostService
     {
         Task<List<PostDTO>> GetAllPosts();
         Task<PostDTO> GetPostByUserId(int id);
-        Task<PostDTO> AddPost(CreatePostDTO createPostDTO); //Ask khotso
+        Task<PostDTO> AddPost(CreatePostDTO createPostDTO); 
         Task<PostDTO> UpdatePost(Post Post);
         Task<PostDTO> Delete(int id);
 
