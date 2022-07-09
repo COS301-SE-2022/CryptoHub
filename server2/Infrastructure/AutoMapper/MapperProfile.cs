@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Infrastructure.DTO.PostDTO;
 
 namespace Infrastructure.AutoMapper
 {
@@ -32,6 +33,7 @@ namespace Infrastructure.AutoMapper
             CreateMap<LikeDTO, Like>();
             CreateMap<CoinDTO, Coin>();
             CreateMap<CommentDTO, Comment>();
+            CreateMap<PostDTO, Post>();
             #endregion
 
         }
