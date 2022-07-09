@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.PostDTO;
@@ -9,36 +10,48 @@ namespace BusinessLogic.Services.PostService
     {
         private readonly IPostRepository _postRepository;
         private readonly IImageRepository _imageRepository;
-        public PostService(IPostRepository postRepository, IImageRepository imageRepository)
+        private readonly IMapper _mapper;
+        public PostService(IPostRepository postRepository, IImageRepository imageRepository, IMapper mapper)
         {
             _postRepository = postRepository;
             _imageRepository = imageRepository;
+            _mapper = mapper;
         }
 
-        public Task<PostDTO> AddPost(CreatePostDTO createPostDTO)
+        public async Task<List<PostDTO>> GetAllPosts()
+        {
+            var Post = await _postRepository.GetAll();
+            return _mapper.Map<List<PostDTO>>(Post);
+
+        }
+        public async Task<PostDTO> GetPostByUserId(int id)
+        {
+            var response = await _postRepository.FindRange(p => p.UserId == id);
+            if (response == null)
+                return null;
+
+            return _mapper.Map<PostDTO>(response);
+
+        }
+
+        public async Task<PostDTO> AddPost(CreatePostDTO createPostDTO)
         {
           
         }
-
-        public Task<PostDTO> Delete(int id)
+        public async Task<PostDTO> UpdatePost(Post Post)
         {
-            throw new NotImplementedException();
+
+        }
+        public async Task<PostDTO> Delete(int id)
+        {
+            
         }
 
-        public Task<List<PostDTO>> GetAllPosts()
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        public Task<PostDTO> GetPostByUserId(int id)
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        public Task<PostDTO> UpdatePost(Post Post)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
 
