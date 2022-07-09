@@ -11,7 +11,7 @@ namespace BusinessLogic.Services.PostService
         Task<PostDTO> GetPostByUserId(int id);
         Task<PostDTO> AddPost(CreatePostDTO createPostDTO); 
         Task<PostDTO> UpdatePost(Post Post);
-        Task<PostDTO> Delete(int id);
+        Task Delete(int id);
 
     }
 }
