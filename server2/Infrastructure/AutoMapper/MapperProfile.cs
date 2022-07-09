@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Infrastructure.DTO.UserRoleDTOs;
 
 namespace Infrastructure.AutoMapper
 {
@@ -26,6 +27,7 @@ namespace Infrastructure.AutoMapper
             CreateMap<Comment, CommentDTO>();
             CreateMap<Role, RoleDTO>();
             CreateMap<Tag, TagDTO>();
+            CreateMap<UserRole, UserRoleDTO>();
             #endregion
 
             #region DTO to Model

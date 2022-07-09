@@ -20,10 +20,10 @@ namespace BusinessLogic.Services.TagService
 
         }
 
-        public async Task<TagDTO> GetTagsByPost(int id)
+        public async Task<ICollection<TagDTO>> GetTagsByPost(int id)
         {
             var tag = await _tagRepository.FindRange(t => t.PostId == id);
-            return _mapper.Map<TagDTO>(tag);
+            return _mapper.Map<ICollection<TagDTO>>(tag);
         }
     }
 }
