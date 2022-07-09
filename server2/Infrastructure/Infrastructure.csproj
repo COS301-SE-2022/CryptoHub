@@ -20,9 +20,11 @@
     <None Remove="Data\" />
     <None Remove="DTO\LikeDTOs\" />
     <None Remove="DTO\PostDTO\" />
+    <None Remove="DTO\imageDTOs\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTO\LikeDTOs\" />
     <Folder Include="DTO\PostDTO\" />
+    <Folder Include="DTO\imageDTOs\" />
   </ItemGroup>
 </Project>
