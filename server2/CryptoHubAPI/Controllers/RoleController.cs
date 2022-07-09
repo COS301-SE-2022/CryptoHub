@@ -17,9 +17,10 @@ namespace CryptoHubAPI.Controllers
             _roleService = roleService;
         }
 
-        public async Task<ICollection<RoleDTO>> GetRoles()
+        [HttpGet]
+        public async Task<ActionResult<ICollection<RoleDTO>>> GetRoles()
         {
-            return await _roleService.
+            return Ok(await _roleService.GetRoles());
         }
     }
 }
