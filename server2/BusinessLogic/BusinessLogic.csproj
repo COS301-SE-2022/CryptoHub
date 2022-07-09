@@ -14,9 +14,11 @@
   <ItemGroup>
     <None Remove="Services\LikeService\" />
     <None Remove="Services\PostService\" />
+    <None Remove="Services\ReplyService\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\LikeService\" />
     <Folder Include="Services\PostService\" />
+    <Folder Include="Services\ReplyService\" />
   </ItemGroup>
 </Project>
