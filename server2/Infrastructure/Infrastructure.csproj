@@ -24,7 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTO\LikeDTOs\" />
-    <Folder Include="DTO\PostDTO\" />
+    <Folder Include="DTO\PostDTOs\" />
     <Folder Include="DTO\imageDTOs\" />
   </ItemGroup>
 </Project>
