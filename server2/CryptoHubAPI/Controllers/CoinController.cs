@@ -49,5 +49,6 @@ namespace CryptoHubAPI.Controllers
             return Ok(response.Message);
 
         }
+    }
 }
 
