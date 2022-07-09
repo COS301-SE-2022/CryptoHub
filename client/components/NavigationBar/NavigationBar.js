@@ -21,7 +21,19 @@ const NavigationBar = () => {
       </button>
       <div className="flex flex-row justify-between w-full sm:w-6/12 items-center">
         <NavigationSearchBar />
-        {user.auth ? <CreatePostButton /> : null}
+        {user.auth ? (
+          <>
+            <CreatePostButton />
+            <button
+              onClick={() => {
+                router.push("/explore");
+              }}
+              className="text-indigo-600 px-4 p-1 rounded-md font-semibold"
+            >
+              Explore
+            </button>
+          </>
+        ) : null}
       </div>
       {user.auth ? (
         <NavigationProfile />
