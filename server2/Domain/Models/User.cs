@@ -15,6 +15,7 @@ namespace Domain.Models
             UserFollowerFollows = new HashSet<UserFollower>();
             UserFollowerUsers = new HashSet<UserFollower>();
             UserRoles = new HashSet<UserRole>();
+            CoinRatings = new HashSet<CoinRating>();
         }
 
         public int UserId { get; set; }
@@ -34,5 +35,7 @@ namespace Domain.Models
         public virtual ICollection<UserFollower> UserFollowerFollows { get; set; }
         public virtual ICollection<UserFollower> UserFollowerUsers { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
+
+        public virtual ICollection<CoinRating> CoinRatings { get; set; }
     }
 }

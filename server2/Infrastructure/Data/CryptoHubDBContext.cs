@@ -30,6 +30,8 @@ namespace Infrastructure.Data
         public virtual DbSet<UserFollower> UserFollowers { get; set; } = null!;
         public virtual DbSet<UserRole> UserRoles { get; set; } = null!;
 
+        public virtual DbSet<CoinRating> CoinRatings { get; set; } = null!;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -238,6 +240,23 @@ namespace Infrastructure.Data
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserRole_UserId");
+            });
+
+            modelBuilder.Entity<CoinRating>(entity =>
+            {
+                entity.ToTable("CoinRating");
+
+                entity.HasOne(d => d.Coin)
+                    .WithMany(p => p.CoinRatings)
+                    .HasForeignKey(d => d.CoinId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CoinRating_RoleId");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.CoinRatings)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CoinRating_UserId");
             });
 
             OnModelCreatingPartial(modelBuilder);

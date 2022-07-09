@@ -8,6 +8,7 @@ namespace Domain.Models
         public Coin()
         {
             UserCoins = new HashSet<UserCoin>();
+            CoinRatings = new HashSet<CoinRating>();
         }
 
         public int CoinId { get; set; }
@@ -16,5 +17,7 @@ namespace Domain.Models
 
         public virtual Image? Image { get; set; }
         public virtual ICollection<UserCoin> UserCoins { get; set; }
+
+        public virtual ICollection<CoinRating> CoinRatings { get; set; }
     }
 }
