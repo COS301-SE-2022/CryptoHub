@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Domain.Models
 {
@@ -12,9 +11,8 @@ namespace Domain.Models
         }
 
         public int RoleId { get; set; }
-        public string Role1 { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
-        [JsonIgnore]
-        public virtual ICollection<UserRole>? UserRoles { get; set; }
+        public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }

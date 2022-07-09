@@ -7,9 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Authentication\" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Services\LikeService\" />
+    <None Remove="Services\PostService\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Authentication\" />
+    <Folder Include="Services\LikeService\" />
+    <Folder Include="Services\PostService\" />
   </ItemGroup>
 </Project>

@@ -1,23 +1,46 @@
-
+using BusinessLogic.Services.AuthorizationService;
+using BusinessLogic.Services.RoleServices;
+using BusinessLogic.Services.UserService;
+using BusinessLogic.Services.CoinService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.Data;
 using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using BusinessLogic.Services.LikeService;
+using BusinessLogic.Services.PostService;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Repository Dependency Injection.
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserFollowerRepository, UserFollowerRepository>();
 builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<ICoinRepository, CoinRepository>();
-builder.Services.AddTransient<ICoinHistoryRepository, CoinHistoryRepository>();
 builder.Services.AddTransient<ILikeRepository, LikeRepository>();
 builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
 builder.Services.AddTransient<IImageRepository, ImageRepository>();
+builder.Services.AddTransient<ITagRepository, TagRepository>();
+builder.Services.AddTransient<IRoleRepository, RoleRepository>();
+
+//Services Dependency Injection.
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IAuthorizationService, AuthorizationService>();
+builder.Services.AddTransient<ICoinService, CoinService>();
+builder.Services.AddTransient<IRoleService, RoleService>();
+builder.Services.AddTransient<ILikeService, LikeService>();
+builder.Services.AddTransient<IPostService, PostService>();
+
+//AutoMapper
+builder.Services.AddAutoMapper(Assembly.Load("Infrastructure"));
+
+
+
+
+//
 
 
 builder.Services.AddCors();
@@ -41,7 +64,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(config =>
+    {
+        config.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+        config.DisplayRequestDuration();
+    });
 }
 
 app.UseCors(
