@@ -55,6 +55,7 @@ namespace BusinessLogic.Services.PostService
             return _mapper.Map<PostDTO>(post);
 
         }
+
         public async Task<PostDTO> UpdatePost(Post Post)
         {
             var response = await _postRepository.Update(u => u.PostId == Post.PostId, Post);
