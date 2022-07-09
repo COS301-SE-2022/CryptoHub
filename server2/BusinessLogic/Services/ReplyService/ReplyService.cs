@@ -65,7 +65,7 @@ namespace BusinessLogic.Services.ReplyService
             return _mapper.Map<ReplyDTO>(resposne);
         }
 
-        public async Task<ReplyDTO> Delete(int replyId)
+        public async Task Delete(int replyId)
         {
             await _replyRepository.DeleteOne(r => r.ReplyId == replyId);
             
