@@ -19,10 +19,10 @@ namespace BusinessLogic.Services.RoleServices
             _roleRepository = roleRepository;
             _mapper = mapper;
         }
-        public async Task<RoleDTO> GetRoles()
+        public async Task<ICollection<RoleDTO>> GetRoles()
         {
             var roles = await _roleRepository.GetAll();
-            return _mapper.Map<RoleDTO>(roles);
+            return _mapper.Map<ICollection<RoleDTO>>(roles);
         }
 
         public async Task<RoleDTO> GetRoleById(int id)

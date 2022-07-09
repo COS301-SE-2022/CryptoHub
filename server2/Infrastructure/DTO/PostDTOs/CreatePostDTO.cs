@@ -1,5 +1,5 @@
 ﻿using System;
-using Infrastructure.DTO.imageDTO;
+using Infrastructure.DTO.ImageDTOs;
 namespace Infrastructure.DTO.PostDTO
 {
     public class CreatePostDTO
@@ -7,6 +7,6 @@ namespace Infrastructure.DTO.PostDTO
         public string Post { get; set; } = null!;
         public int UserId { get; set; }
 
-        public imageDTO? imageDTO { get; set; }
+        public ImageDTO? ImageDTO { get; set; }
     }
 }

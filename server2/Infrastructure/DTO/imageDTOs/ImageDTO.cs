@@ -1,7 +1,7 @@
 ﻿using System;
-namespace Infrastructure.DTO.imageDTO
+namespace Infrastructure.DTO.ImageDTOs
 {
-    public class imageDTO
+    public class ImageDTO
     {
         public string Blob { get; set; }
     }
