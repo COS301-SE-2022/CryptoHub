@@ -20,23 +20,23 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Login([FromBody] LoginDTO loginDTO)
+        public async Task<ActionResult<JWT>> Login([FromBody] LoginDTO loginDTO)
         {
             var response = await _authorizationService.Login(loginDTO);
             if (response.HasError)
                 return BadRequest(response.Message);
 
-            return Ok(response.Message);
+            return Ok(response.Model);
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Register([FromBody] RegisterDTO registerDTO)
+        public async Task<ActionResult<JWT>> Register([FromBody] RegisterDTO registerDTO)
         {
             var response = await _authorizationService.Register(registerDTO);
             if (response.HasError)
                 return BadRequest(response.Message);
 
-            return Ok(response.Message);
+            return Ok(response.Model);
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Services.UserService;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace CryptoHubAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize(Roles = "Admin,Super")]
     public class UserController : Controller
     {
 

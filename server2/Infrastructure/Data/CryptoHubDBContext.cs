@@ -28,8 +28,6 @@ namespace Infrastructure.Data
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserCoin> UserCoins { get; set; } = null!;
         public virtual DbSet<UserFollower> UserFollowers { get; set; } = null!;
-        public virtual DbSet<UserRole> UserRoles { get; set; } = null!;
-
         public virtual DbSet<CoinRating> CoinRatings { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -185,6 +183,11 @@ namespace Infrastructure.Data
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.ImageId)
                     .HasConstraintName("FK_User_ImageId");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("FK_User_RoleId");
             });
 
             modelBuilder.Entity<UserCoin>(entity =>
@@ -223,23 +226,6 @@ namespace Infrastructure.Data
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserFollower_UserId");
-            });
-
-            modelBuilder.Entity<UserRole>(entity =>
-            {
-                entity.ToTable("UserRole");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.UserRoles)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserRole_RoleId");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserRoles)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserRole_UserId");
             });
 
             modelBuilder.Entity<CoinRating>(entity =>

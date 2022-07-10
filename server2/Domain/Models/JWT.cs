@@ -1,9 +1,9 @@
 ﻿using System;
-namespace CryptoHubAPI.Authentication
+namespace Domain.Models
 {
     public class JWT
     {
-        private string Token { get; set; }
+        public string Token { get; set; }
             
         public JWT(string token)
         {

@@ -25,8 +25,11 @@ namespace Domain.Models
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
         public int? ImageId { get; set; }
+        public int RoleId { get; set; }
 
         public virtual Image? Image { get; set; }
+
+        public virtual Role Role { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Like> Likes { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

@@ -10,8 +10,8 @@ namespace BusinessLogic.Services.AuthorizationService
 {
     public interface IAuthorizationService
     {
-        Task<Response<UserDTO>> Login(LoginDTO loginDTO);
+        Task<Response<JWT>> Login(LoginDTO loginDTO);
 
-        Task<Response<UserDTO>> Register(RegisterDTO registerDTO);
+        Task<Response<JWT>> Register(RegisterDTO registerDTO);
     }
 }
