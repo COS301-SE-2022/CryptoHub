@@ -3,13 +3,13 @@ import { useRouter } from "next/router";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAs6bxiM71e6LE4E8-pGzUNL3OGeyE8iTA",
-  authDomain: "cryptohub-12abc.firebaseapp.com",
-  projectId: "cryptohub-12abc",
-  storageBucket: "cryptohub-12abc.appspot.com",
-  messagingSenderId: "727091318041",
-  appId: "1:727091318041:web:9d918df3015cc4ffb30988",
-  measurementId: "G-49KJ5M594Q",
+  apiKey: `${process.env.FIREBASE_APIKEY}`,
+  authDomain: `${process.env.FIREBASE_AUTHDOMAIN}`,
+  projectId: `${process.env.FIREBASE_PROJECTID}`,
+  storageBucket: `${process.env.FIREBASE_STORAGEBUCKET}`,
+  messagingSenderId: `${process.env.FIREBASE_MESSAGINGSENDERID}`,
+  appId: `${process.env.FIREBASE_APPID}`,
+  measurementId: `${process.env.FIREBASE_MEASUREMENTID}`,
 };
 
 // Initialize Firebase

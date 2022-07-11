@@ -3,3 +3,4 @@ server/src/main/resources/application.properties
 server2/.vs
 server2/*/bin/
 server2/*/obj/
+client/.env
