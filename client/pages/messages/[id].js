@@ -55,6 +55,7 @@ const Messages = () => {
   };
 
   useEffect(() => {
+    id == undefined && router.push("/");
     handleGetUser();
     getMessages();
 
