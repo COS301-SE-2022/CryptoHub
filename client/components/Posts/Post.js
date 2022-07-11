@@ -177,19 +177,52 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         <div className="w-8 h-8 bg-black rounded-3xl"></div>
 
         {user.id == thisUser.userId ? (
-          <Link href={`/profile`} className="pointer cursor-pointer">
-            <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-              {thisUser.username}
-            </p>
+          
+            <div class="flex-container">
+
+            <div className="flex-row items-center ">
+            <Link href={`/profile`} className="pointer cursor-pointer">
+              <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                {thisUser.username}
+              </p>
           </Link>
+          </div>
+
+          <div>
+          <button 
+            onClick={() => setShowModal(true)}
+            className="text-sm flex flex-row"
+          >
+              <ChatIcon className="h-5 w-5 text-black " /> {""}
+              <p className="ml-1"> ... </p>
+            </button>
+            </div>
+          </div>
+          
         ) : (
+          <div class="flex-container">
+          <div className="flex-row items-center ">
           <Link href={`/user/${userId}`} className="pointer cursor-pointer">
             <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
               {thisUser.username}
             </p>
           </Link>
+          </div>
+
+          <div>
+          <button 
+            onClick={() => setShowModal(true)}
+            className="text-sm flex flex-row"
+          >
+              <ChatIcon className="h-5 w-5 text-black " /> {""}
+              <p className="ml-1"> ... </p>
+            </button>
+            </div>
+          </div>
         )}
       </div>
+
+
       {postImage == null ? null : (
         <div
           style={{
@@ -222,6 +255,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
           <ChatIcon className="h-5 w-5 text-black " /> {""}
           <p className="ml-1">{comments.length} comments</p>
         </button>
+
         {showModal ? (
           <>
             <div className="justify-center items-start mt-16 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
