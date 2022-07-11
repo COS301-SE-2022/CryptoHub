@@ -6,7 +6,7 @@ const CoinInfo = ({ name, price }) => {
   const [USD, setUSD] = useState(0)
   const [EUR, setEUR] = useState(0)
 
-  console.log(price);
+  //console.log(price);
   //setAmount(price);
 
   // const handleCurrencyConversion = (have, want, amount) => {
@@ -31,7 +31,6 @@ const CoinInfo = ({ name, price }) => {
   //     .catch(err => console.error('error:' + err));
   // };
 
-
   const handleCurrencyConversion = (have, want, amount) => {
     const options = {
       method: "GET",
@@ -40,15 +39,10 @@ const CoinInfo = ({ name, price }) => {
       }),
     };
 
-    console.log(have);
-    console.log(want);
-    console.log(amount);
-
     fetch(`https://api.api-ninjas.com/v1/convertcurrency?have=${have}&want=${want}&amount=${amount}`, options)
     .then((response) => response.json())
     .then((data) => {
       setAmount(data.new_amount)
-      //console.log(data);
     })
     .catch(() => {})
   };
@@ -62,13 +56,13 @@ const CoinInfo = ({ name, price }) => {
           </p>
           <div className="flex flex-row justify-between">
           {/* onClick={handleCurrencyConversion("USD","ZAR",amount)} */}
-            <button  className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition">
+            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition" onClick={handleCurrencyConversion("USD","ZAR",price)}>
               ZAR
             </button>
-            <button  className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition">
+            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition" /*onClick={handleCurrencyConversion("USD","USD",price)}*/>
               USD
             </button>
-            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition" onClick={handleCurrencyConversion("USD","EUR",price)}>
+            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition" /*onClick={handleCurrencyConversion("USD","EUR",price)}*/>
               EUR
             </button>
           </div>
