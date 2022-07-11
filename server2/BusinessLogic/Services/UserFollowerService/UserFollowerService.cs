@@ -77,7 +77,7 @@ namespace BusinessLogic.Services.UserFollowerService
             };
 
             await _userFollowerRepository.Add(userFollower);
-            return _mapper.Map<UserFollowerDTO>(userFollower);
+            
         }
 
         
