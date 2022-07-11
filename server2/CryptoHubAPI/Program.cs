@@ -14,6 +14,10 @@ using System.Reflection;
 using BusinessLogic.Services.LikeService;
 using BusinessLogic.Services.PostService;
 using BusinessLogic.Services.ReplyService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
