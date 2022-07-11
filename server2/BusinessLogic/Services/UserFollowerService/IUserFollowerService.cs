@@ -1,4 +1,5 @@
 ﻿using System;
+using Domain.Models;
 using Infrastructure.DTO.UserFollowerDTOs;
 
 namespace BusinessLogic.Services.UserFollowerService
@@ -9,7 +10,7 @@ namespace BusinessLogic.Services.UserFollowerService
         Task<List<UserFollowerDTO>> GetAllUserFollowers();
         Task<UserFollowerDTO> GetUserUserFollower(int id);
         Task<UserFollowerDTO> GetUserFollowing(int id);
-        Task<UserFollowerDTO> FollowUser(int userid, int targetid);
+        Task<Response<string>> FollowUser(int userid, int targetid);
 
 
     }

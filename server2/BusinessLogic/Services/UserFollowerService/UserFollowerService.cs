@@ -62,7 +62,7 @@ namespace BusinessLogic.Services.UserFollowerService
             return _mapper.Map<UserFollowerDTO>(userfollowers);
         }
 
-        public async Task<UserFollowerDTO> FollowUser(int userid, int targetid)
+        public async Task<Response<string>> FollowUser(int userid, int targetid)
         {
             var response = await _userFollowerRepository.FindOne(uf => uf.UserId == userid && uf.FollowId == targetid);
 
@@ -77,14 +77,17 @@ namespace BusinessLogic.Services.UserFollowerService
             };
 
             await _userFollowerRepository.Add(userFollower);
-            
+
+            return new Response<string>(null, true, "User already followed by that user");
+
+
         }
 
-        
 
-        
 
-        
+
+
+
     }
 }
 
