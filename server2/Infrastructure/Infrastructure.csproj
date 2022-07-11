@@ -22,11 +22,13 @@
     <None Remove="DTO\PostDTO\" />
     <None Remove="DTO\imageDTOs\" />
     <None Remove="DTO\ReplyDTOs\" />
+    <None Remove="DTO\UserFollowerDTOs\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTO\LikeDTOs\" />
     <Folder Include="DTO\PostDTOs\" />
     <Folder Include="DTO\ImageDTOs\" />
     <Folder Include="DTO\ReplyDTOs\" />
+    <Folder Include="DTO\UserFollowerDTOs\" />
   </ItemGroup>
 </Project>
