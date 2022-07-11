@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using Domain.IRepository;
+using Domain.Models;
 using Infrastructure.DTO.UserFollowerDTOs;
 
 namespace BusinessLogic.Services.UserFollowerService
@@ -18,25 +19,72 @@ namespace BusinessLogic.Services.UserFollowerService
             _mapper = mapper;
         }
 
-        public Task<UserFollowerDTO> FollowUser(int userid, int targetid)
+        public async Task<List<UserFollowerDTO>> GetAllUserFollowers()
         {
-            throw new NotImplementedException();
+            var user = await _userFollowerRepository.GetAll();
+            return _mapper.Map<List<UserFollowerDTO>>(user);
         }
 
-        public Task<List<UserFollowerDTO>> GetAllUserFollowers()
+        public async Task<UserFollowerDTO> GetUserUserFollower(int id)
         {
-            throw new NotImplementedException();
+            var followers = await _userFollowerRepository.FindRange(uf => uf.UserId == id);
+            var users = await _userRepository.GetAll();
+
+
+
+            var userfollowers = from f in followers
+                                join u in users
+                                on f.FollowId equals u.UserId
+                                select new
+                                {
+                                    UserId = u.UserId,
+                                    Username = u.Username
+                                };
+
+            return _mapper.Map<UserFollowerDTO>(userfollowers);
+        }
+        public async Task<UserFollowerDTO> GetUserFollowing(int id)
+        {
+            var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
+            var users = await _userRepository.GetAll();
+
+
+
+            var userfollowers = from f in followers
+                                join u in users
+                                on f.UserId equals u.UserId
+                                select new
+                                {
+                                    UserId = u.UserId,
+                                    Username = u.Username
+                                };
+
+            return _mapper.Map<UserFollowerDTO>(userfollowers);
         }
 
-        public Task<UserFollowerDTO> GetUserFollowing(int id)
+        public async Task<UserFollowerDTO> FollowUser(int userid, int targetid)
         {
-            throw new NotImplementedException();
+            var response = await _userFollowerRepository.FindOne(uf => uf.UserId == userid && uf.FollowId == targetid);
+
+            if (response != null)
+                return null;
+
+            UserFollower userFollower = new UserFollower
+            {
+                UserId = userid,
+                FollowId = targetid,
+                FollowDate = DateTime.Now
+            };
+
+            await _userFollowerRepository.Add(userFollower);
+            
         }
 
-        public Task<UserFollowerDTO> GetUserUserFollower(int id)
-        {
-            throw new NotImplementedException();
-        }
+        
+
+        
+
+        
     }
 }
 
