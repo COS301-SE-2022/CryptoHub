@@ -178,46 +178,44 @@ const Post = ({ name, content, userId, postId, imageId }) => {
 
         {user.id == thisUser.userId ? (
           
-            <div class="flex-container">
+            <div class="flex flex-container">
 
-            <div className="flex-row items-center ">
-            <Link href={`/profile`} className="pointer cursor-pointer">
-              <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-                {thisUser.username}
-              </p>
-          </Link>
-          </div>
+              <div className="flex-row items-center ">
+              <Link href={`/profile`} className="pointer cursor-pointer">
+                <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                  {thisUser.username}
+                </p>
+              </Link>
+              </div>
 
-          <div>
-          <button 
-            onClick={() => setShowModal(true)}
-            className="text-sm flex flex-row"
-          >
-              <ChatIcon className="h-5 w-5 text-black " /> {""}
-              <p className="ml-1"> ... </p>
-            </button>
+            <div>
+              <button 
+                onClick={() => setShowModal(true)}
+                className="translate-x-10 text-sm flex flex-row"
+              >
+                  <p className="ml-1"> ... </p>
+              </button>
             </div>
           </div>
           
         ) : (
-          <div class="flex-container">
-          <div className="flex-row items-center ">
-          <Link href={`/user/${userId}`} className="pointer cursor-pointer">
-            <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-              {thisUser.username}
-            </p>
-          </Link>
-          </div>
-
-          <div>
-          <button 
-            onClick={() => setShowModal(true)}
-            className="text-sm flex flex-row"
-          >
-              <ChatIcon className="h-5 w-5 text-black " /> {""}
-              <p className="ml-1"> ... </p>
-            </button>
+          <div class="flex flex-container">
+            <div className="flex-row items-center ">
+            <Link href={`/user/${userId}`} className="pointer cursor-pointer">
+              <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                {thisUser.username}
+              </p>
+            </Link>
             </div>
+
+            <div>
+              <button 
+                onClick={() => setShowModal(true)}
+                className="text-sm flex flex-row"
+              >
+                  <p className="ml-1"> ... </p>
+              </button>
+              </div>
           </div>
         )}
       </div>
