@@ -45,7 +45,7 @@ namespace BusinessLogic.Services.UserFollowerService
 
             return _mapper.Map<IEnumerable<UserFollowerDTO>>(userfollowers);
         }
-        public async Task<UserFollowerDTO> GetUserFollowing(int id)
+        public async Task<IEnumerable<UserFollowerDTO>> GetUserFollowing(int id)
         {
             var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
             var users = await _userRepository.GetAll();
@@ -55,13 +55,15 @@ namespace BusinessLogic.Services.UserFollowerService
             var userfollowers = from f in followers
                                 join u in users
                                 on f.UserId equals u.UserId
-                                select new
+                                select new UserFollowerDTO
                                 {
+                                    Id = f.Id,
                                     UserId = u.UserId,
-                                    Username = u.Username
+                                    FollowId = f.FollowId,
+                                    FollowDate = f.FollowDate
                                 };
 
-            return _mapper.Map<UserFollowerDTO>(userfollowers);
+            return _mapper.Map<IEnumerable<UserFollowerDTO>>(userfollowers);
         }
 
         public async Task<Response<string>> FollowUser(int userid, int targetid)
