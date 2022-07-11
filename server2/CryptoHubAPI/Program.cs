@@ -2,6 +2,9 @@ using BusinessLogic.Services.AuthorizationService;
 using BusinessLogic.Services.RoleServices;
 using BusinessLogic.Services.UserService;
 using BusinessLogic.Services.CoinService;
+using BusinessLogic.Services.CoinRatingService;
+using BusinessLogic.Services.UserCoinService;
+using BusinessLogic.Services.UserFollowerService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.Data;
@@ -10,10 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using BusinessLogic.Services.LikeService;
 using BusinessLogic.Services.PostService;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.OpenApi.Models;
+using BusinessLogic.Services.ReplyService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +29,10 @@ builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
 builder.Services.AddTransient<IImageRepository, ImageRepository>();
 builder.Services.AddTransient<ITagRepository, TagRepository>();
 builder.Services.AddTransient<IRoleRepository, RoleRepository>();
+builder.Services.AddTransient<ICoinRatingRepository, CoinRatingRepository>();
+builder.Services.AddTransient<IUserCoinRepository, UserCoinRepository>();
+
+
 
 //Services Dependency Injection.
 builder.Services.AddTransient<IUserService, UserService>();
@@ -37,6 +41,12 @@ builder.Services.AddTransient<ICoinService, CoinService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<ILikeService, LikeService>();
 builder.Services.AddTransient<IPostService, PostService>();
+builder.Services.AddTransient<IReplyService, ReplyService>();
+builder.Services.AddTransient<ICoinRatingService, CoinRatingService>();
+builder.Services.AddTransient<IUserCoinService, UserCoinService>();
+builder.Services.AddTransient<IUserFollowerService, UserFollowerService>();
+
+
 
 //AutoMapper
 builder.Services.AddAutoMapper(Assembly.Load("Infrastructure"));

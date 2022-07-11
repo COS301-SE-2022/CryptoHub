@@ -17,11 +17,11 @@ namespace CryptoHubAPI.Controllers
         public PostController(IPostService postService)
         {
             _postService = postService;
-        }    
+        }
 
         [HttpGet]
-            // GET: PostController
-            public async Task<ActionResult<List<Post>>> GetAllPosts()
+        // GET: PostController
+        public async Task<ActionResult<List<Post>>> GetAllPosts()
         {
             return Ok(await _postService.GetAllPosts());
         }
@@ -30,7 +30,7 @@ namespace CryptoHubAPI.Controllers
         public async Task<ActionResult<Post>> GetPostByUserId(int id)
         {
             var response = await _postService.GetPostByUserId(id);
-            if(response == null)
+            if (response == null)
                 return NotFound();
 
             return Ok(response);
@@ -47,13 +47,12 @@ namespace CryptoHubAPI.Controllers
 
         }
 
-        [HttpPut]       
+        [HttpPut]
         public async Task<ActionResult<Post>> UpdatePost([FromBody] Post Post)
         {
             var response = await _postService.UpdatePost(Post);
             if (response == null)
                 return null;
-            
             return Ok(response);
         }
 
@@ -66,6 +65,5 @@ namespace CryptoHubAPI.Controllers
             return Ok();
         }
 
-        
     }
 }

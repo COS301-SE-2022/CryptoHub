@@ -8,7 +8,6 @@ namespace Infrastructure.DTO.UserCoinDTOs
 {
     public class UserCoinDTO
     {
-        public int Id { get; set; }
         public int UserId { get; set; }
         public int CoinId { get; set; }
     }

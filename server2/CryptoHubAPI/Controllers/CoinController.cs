@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.DTO.CoinDTOs;
 using BusinessLogic.Services.CoinRatingService;
+using Infrastructure.DTO.UserCoinDTOs;
+using BusinessLogic.Services.UserCoinService;
 
 namespace CryptoHubAPI.Controllers
 {
@@ -15,11 +17,13 @@ namespace CryptoHubAPI.Controllers
 
         private readonly ICoinService _coinService;
         private readonly ICoinRatingService _coinRatingService;
+        private readonly IUserCoinService _userCoinService;
 
-        public CoinController(ICoinService coinService, ICoinRatingService coinRatingService)
+        public CoinController(ICoinService coinService, ICoinRatingService coinRatingService, IUserCoinService userCoinService)
         {
             _coinService = coinService;
             _coinRatingService = coinRatingService;
+            _userCoinService = userCoinService;
         }
 
         [HttpGet]
@@ -48,6 +52,26 @@ namespace CryptoHubAPI.Controllers
 
             return Ok(response.Message);
 
+        }
+
+        [HttpPost("{userId}/{coinId}")]
+        public async Task<IActionResult> FollowCoin(int userId, int coinId)
+        {
+            var response = await _userCoinService.FollowCoin(userId, coinId);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Message);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<UserCoinDTO>>> GetAllCoinsUserFollows(int id)
+        {
+            var response = await _userCoinService.GetAllCoinsUserFollows(id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
         }
     }
 }
