@@ -2,6 +2,8 @@
 using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Infrastructure.DTO.UserCoinDTOs;
+using BusinessLogic.Services.UserCoinService;
 
 namespace CryptoHubAPI.Controllers
 {
@@ -11,10 +13,12 @@ namespace CryptoHubAPI.Controllers
     {
 
         private readonly IUserService _userService;
-        
-        public UserController(IUserService userService)
+        private readonly IUserCoinService _userCoinService;
+
+        public UserController(IUserService userService, IUserCoinService userCoinService)
         {
             _userService = userService;
+            _userCoinService = userCoinService;
         }
 
         [HttpGet]
@@ -68,7 +72,6 @@ namespace CryptoHubAPI.Controllers
         }
 
 
-
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
@@ -76,12 +79,20 @@ namespace CryptoHubAPI.Controllers
             return Ok();
         }
 
-        
+        [HttpGet]
+        public async Task<ActionResult<List<UserCoinDTO>>> GetAllUserCoins()
+        {
+            return Ok(await _userCoinService.GetAllUserCoins());
+        }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<UserCoinDTO>>> GetAllUsersFollowingCoin(int id)
+        {
+            var response = await _userCoinService.GetAllUsersFollowingCoin(id);
+            if (response == null)
+                return NotFound();
 
-
-
-
-
+            return Ok(response);
+        }
     }
 }

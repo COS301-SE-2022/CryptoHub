@@ -2,6 +2,8 @@ using BusinessLogic.Services.AuthorizationService;
 using BusinessLogic.Services.RoleServices;
 using BusinessLogic.Services.UserService;
 using BusinessLogic.Services.CoinService;
+using BusinessLogic.Services.CoinRatingService;
+using BusinessLogic.Services.UserCoinService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.Data;
@@ -26,6 +28,10 @@ builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
 builder.Services.AddTransient<IImageRepository, ImageRepository>();
 builder.Services.AddTransient<ITagRepository, TagRepository>();
 builder.Services.AddTransient<IRoleRepository, RoleRepository>();
+builder.Services.AddTransient<ICoinRatingRepository, CoinRatingRepository>();
+builder.Services.AddTransient<IUserCoinRepository, UserCoinRepository>();
+
+
 
 //Services Dependency Injection.
 builder.Services.AddTransient<IUserService, UserService>();
@@ -35,6 +41,10 @@ builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<ILikeService, LikeService>();
 builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<IReplyService, ReplyService>();
+builder.Services.AddTransient<ICoinRatingService, CoinRatingService>();
+builder.Services.AddTransient<IUserCoinService, UserCoinService>();
+
+
 
 //AutoMapper
 builder.Services.AddAutoMapper(Assembly.Load("Infrastructure"));
