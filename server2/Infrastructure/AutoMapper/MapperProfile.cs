@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Infrastructure.DTO.PostDTO;
 using Infrastructure.DTO.UserRoleDTOs;
 using Infrastructure.DTO.ReplyDTOs;
+using Infrastructure.DTO.UserFollowerDTOs;
 
 namespace Infrastructure.AutoMapper
 {
@@ -32,6 +33,9 @@ namespace Infrastructure.AutoMapper
             CreateMap<Tag, TagDTO>();
             CreateMap<UserRole, UserRoleDTO>();
             CreateMap<UserCoin, UserCoinDTO>();
+            CreateMap<Post, PostDTO>();
+            CreateMap<Reply, ReplyDTO>();
+            CreateMap<UserFollower, UserFollowerDTO>();
             #endregion
 
             #region DTO to Model
@@ -42,6 +46,8 @@ namespace Infrastructure.AutoMapper
             CreateMap<PostDTO, Post>();
             CreateMap<UserCoinDTO, UserCoin>();
             CreateMap<ReplyDTO, Reply>();
+            CreateMap<UserFollowerDTO, UserFollower>();
+
             #endregion
 
         }
