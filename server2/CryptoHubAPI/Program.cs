@@ -4,6 +4,7 @@ using BusinessLogic.Services.UserService;
 using BusinessLogic.Services.CoinService;
 using BusinessLogic.Services.CoinRatingService;
 using BusinessLogic.Services.UserCoinService;
+using BusinessLogic.Services.UserFollowerService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.Data;
@@ -43,6 +44,7 @@ builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<IReplyService, ReplyService>();
 builder.Services.AddTransient<ICoinRatingService, CoinRatingService>();
 builder.Services.AddTransient<IUserCoinService, UserCoinService>();
+builder.Services.AddTransient<IUserFollowerService, UserFollowerService>();
 
 
 

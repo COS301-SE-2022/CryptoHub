@@ -27,7 +27,7 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserUserFollower(int id)
+        public async Task<IActionResult> GetUserFollower(int id)
         {
 
             var userfollowers = await _userFollowerService.GetUserUserFollower(id);
@@ -38,7 +38,7 @@ namespace CryptoHubAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserFollowing(int id)
         {
-            var userfollowers = await _userFollowerService.GetUserUserFollower(id);
+            var userfollowers = await _userFollowerService.GetUserFollowing(id);
 
             return Ok(userfollowers);
         }
@@ -46,9 +46,9 @@ namespace CryptoHubAPI.Controllers
         [HttpPost("{userid}/{targetid}")]
         public async Task<IActionResult> FollowUser(int userid, int targetid)
         {
-            var response = await _userFollowerService.FollowUser(userid,targetid);
-            
-   
+            var response = await _userFollowerService.FollowUser(userid, targetid);
+
+
             return Ok("user followed");
 
 

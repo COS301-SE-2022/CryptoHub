@@ -8,7 +8,7 @@ namespace BusinessLogic.Services.UserFollowerService
     {
 
         Task<List<UserFollowerDTO>> GetAllUserFollowers();
-        Task<UserFollowerDTO> GetUserUserFollower(int id);
+        Task<IEnumerable<UserFollowerDTO>> GetUserUserFollower(int id);
         Task<UserFollowerDTO> GetUserFollowing(int id);
         Task<Response<string>> FollowUser(int userid, int targetid);
 
