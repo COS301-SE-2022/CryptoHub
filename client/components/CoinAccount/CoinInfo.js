@@ -5,31 +5,7 @@ const CoinInfo = ({ name, price }) => {
   const [Zar, setZAR] = useState(0)
   const [USD, setUSD] = useState(0)
   const [EUR, setEUR] = useState(0)
-
-  //console.log(price);
-  //setAmount(price);
-
-  // const handleCurrencyConversion = (have, want, amount) => {
-    
-  //   //const fetch = require('node-fetch');
-    
-  //   console.log(have);
-  //   console.log(want);
-  //   console.log(amount);
-
-  //   const options = {
-  //     method: 'GET',
-  //     headers: {
-  //       'X-RapidAPI-Key': '868708df78msh7a1b3f4f5ca9141p1299f7jsn2becbe04be53',
-  //       'X-RapidAPI-Host': 'currency-converter18.p.rapidapi.com'
-  //     }
-  //   };
-    
-  //   fetch(`https://currency-converter18.p.rapidapi.com/api/v1/convert?from=${have}&to=${want}&amount=${amount}`, options)
-  //     .then(res => res.json())
-  //     .then(json => console.log(json))
-  //     .catch(err => console.error('error:' + err));
-  // };
+  const [currauncyLabel, setCurrencyLabel] = useState("USD")
 
   const handleCurrencyConversion = (have, want, amount) => {
     const options = {
@@ -42,6 +18,7 @@ const CoinInfo = ({ name, price }) => {
     fetch(`https://api.api-ninjas.com/v1/convertcurrency?have=${have}&want=${want}&amount=${amount}`, options)
     .then((response) => response.json())
     .then((data) => {
+      setCurrencyLabel(want);
       setAmount(data.new_amount)
     })
     .catch(() => {})
@@ -56,13 +33,13 @@ const CoinInfo = ({ name, price }) => {
           </p>
           <div className="flex flex-row justify-between">
           {/* onClick={handleCurrencyConversion("USD","ZAR",amount)} */}
-            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition" onClick={handleCurrencyConversion("USD","ZAR",price)}>
+            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition" onClick={()=>{handleCurrencyConversion("USD","ZAR",price)}}>
               ZAR
             </button>
-            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition" /*onClick={handleCurrencyConversion("USD","USD",price)}*/>
+            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition" onClick={()=>{handleCurrencyConversion("USD","USD",price)}}>
               USD
             </button>
-            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition" /*onClick={handleCurrencyConversion("USD","EUR",price)}*/>
+            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right p-1 px-3 rounded-md bg-gray-100 hover:bg-indigo-300 transition" onClick={()=>{handleCurrencyConversion("USD","EUR",price)}}>
               EUR
             </button>
           </div>
@@ -70,10 +47,10 @@ const CoinInfo = ({ name, price }) => {
 
         <div className="flex flex-row">
           <p className="text-6xl font-bold mb-2 translate-y-1 ml-2 justify-between">
-            {amount}
+            {amount == 0 ? price : amount}
           </p>
           <p className="text-sm font-semibold ml-1 translate-y-3 text-gray-400 text-left items-center">
-            USD
+            {currauncyLabel}
           </p>
         </div>
       </div>
