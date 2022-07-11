@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const CoinInfo = ({ name, price }) => {
   const [amount, setAmount] = useState(0)
-  const [Zar, setZAR] = useState(0)
-  const [USD, setUSD] = useState(0)
-  const [EUR, setEUR] = useState(0)
   const [currauncyLabel, setCurrencyLabel] = useState("USD")
 
   const handleCurrencyConversion = (have, want, amount) => {

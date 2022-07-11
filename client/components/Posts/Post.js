@@ -122,8 +122,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       });
   };
 
-  // =========================================================================================
-
   const handleGetComments = () => {
     const options = {
       method: "GET",
@@ -139,8 +137,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       })
       .catch((error) => {});
   };
-
-  // =========================================================================================
 
   const getLikeCount = () => {
     const options = {
@@ -178,20 +174,20 @@ const Post = ({ name, content, userId, postId, imageId }) => {
 
         {user.id == thisUser.userId ? (
           
-            <div class="flex flex-container">
+            <div class="flex justify-between flex-container">
 
               <div className="flex-row items-center ">
-              <Link href={`/profile`} className="pointer cursor-pointer">
-                <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-                  {thisUser.username}
-                </p>
-              </Link>
+                <Link href={`/profile`} className="pointer cursor-pointer">
+                  <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                    {thisUser.username}
+                  </p>
+                </Link>
               </div>
 
-            <div>
+            <div className= "translate-x-50 text-right">
               <button 
                 onClick={() => setShowModal(true)}
-                className="translate-x-10 text-sm flex flex-row"
+                className="text-sm flex flex-row"
               >
                   <p className="ml-1"> ... </p>
               </button>
@@ -201,21 +197,21 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         ) : (
           <div class="flex flex-container">
             <div className="flex-row items-center ">
-            <Link href={`/user/${userId}`} className="pointer cursor-pointer">
-              <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-                {thisUser.username}
-              </p>
-            </Link>
+              <Link href={`/user/${userId}`} className="pointer cursor-pointer">
+                <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                  {thisUser.username}
+                </p>
+              </Link>
             </div>
 
             <div>
-              <button 
+              <button
                 onClick={() => setShowModal(true)}
                 className="text-sm flex flex-row"
               >
                   <p className="ml-1"> ... </p>
               </button>
-              </div>
+            </div>
           </div>
         )}
       </div>
