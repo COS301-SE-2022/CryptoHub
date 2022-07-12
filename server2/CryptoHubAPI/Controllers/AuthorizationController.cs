@@ -38,6 +38,60 @@ namespace CryptoHubAPI.Controllers
 
             return Ok(response.Model);
         }
+    
+        [HttpPost]
+        public async Task<ActionResult<Response<User>>> UpdateForgotPassword([FromBody] User user)
+        {
+            var userResponse = await _userRepository.FindOne(u => u.Email == user.Email);
+            if (userResponse == null)
+            {
+                return BadRequest(new Response<User>
+                {
+                    HasError = true,
+                    Message = "user does not exist",
+                    Model = null
+                });
+            }
+            //if (user.Password == password)
+            //{
+            //    return BadRequest(new Response<User>
+            //    {
+            //        HasError = true,
+            //        Message = "new password same as old password",
+            //        Model = null
+            //    });
+            //}
+            userResponse.Password = user.Password;
+            var response = await _userRepository.Update(u => u.UserId == userResponse.UserId, userResponse);
+            if (response == null)
+            {
+
+                return BadRequest(new Response<User>
+                {
+                    HasError = true,
+                    Message = "user update failed",
+                    Model = null
+                });
+            }
+
+            return Ok(new Response<User>
+            {
+                HasError = false,
+                Message = "password updated",
+                Model = user
+            });
+        }
+    }
+    public class Response<T>
+    {
+        public string Message { get; set; }
+        public Boolean HasError { get; set; }
+        public T Model { get; set; }
+
+        public Response()
+        {
+
+        }
     }
 
 }
