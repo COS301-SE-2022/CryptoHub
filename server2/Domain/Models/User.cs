@@ -24,6 +24,10 @@ namespace Domain.Models
         public string Username { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
+        public int OTP { get; set; }
+        public DateTime OTPExpirationTime { get; set; }
+        public bool HasForgottenPassword { get; set; }
+
         public int? ImageId { get; set; }
         public int RoleId { get; set; }
 
