@@ -18,17 +18,17 @@ namespace Infrastructure.Data
         }
 
         public virtual DbSet<Coin> Coins { get; set; } = null!;
-        public virtual DbSet<CoinHistory> CoinHistories { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<Image> Images { get; set; } = null!;
         public virtual DbSet<Like> Likes { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<Reply> Replies { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
+        public virtual DbSet<Tag> Tags { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserCoin> UserCoins { get; set; } = null!;
         public virtual DbSet<UserFollower> UserFollowers { get; set; } = null!;
-        public virtual DbSet<UserRole> UserRoles { get; set; } = null!;
+        public virtual DbSet<CoinRating> CoinRatings { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -47,72 +47,29 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.CoinName).HasMaxLength(50);
 
-                entity.Property(e => e.MarketCapUsd).HasColumnType("decimal(18, 4)");
-
-                entity.Property(e => e.MaxSupply).HasColumnType("decimal(18, 4)");
-
-                entity.Property(e => e.PercentageChange).HasColumnType("decimal(18, 4)");
-
-                entity.Property(e => e.Supply).HasColumnType("decimal(18, 4)");
-
-                entity.Property(e => e.Symbol)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
-
-                entity.Property(e => e.TradingPriceUsd).HasColumnType("decimal(18, 4)");
-
                 entity.HasOne(d => d.Image)
                     .WithMany(p => p.Coins)
                     .HasForeignKey(d => d.ImageId)
-                    .HasConstraintName("FK_Coin_Image");
-            });
-
-            modelBuilder.Entity<CoinHistory>(entity =>
-            {
-                entity.HasKey(e => e.HistoryId);
-
-                entity.ToTable("CoinHistory");
-
-                entity.Property(e => e.MarketCapUsd).HasColumnType("decimal(18, 4)");
-
-                entity.Property(e => e.MaxSupply).HasColumnType("decimal(18, 4)");
-
-                entity.Property(e => e.PercentageChange).HasColumnType("decimal(18, 4)");
-
-                entity.Property(e => e.Supply).HasColumnType("decimal(18, 4)");
-
-                entity.Property(e => e.Timestamp)
-                    .IsRowVersion()
-                    .IsConcurrencyToken();
-
-                entity.Property(e => e.TradingPriceUsd).HasColumnType("decimal(18, 4)");
-
-                entity.HasOne(d => d.Coin)
-                    .WithMany(p => p.CoinHistories)
-                    .HasForeignKey(d => d.CoinId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CoinHistory_Coin1");
+                    .HasConstraintName("FK_Coin_ImageId");
             });
 
             modelBuilder.Entity<Comment>(entity =>
             {
                 entity.ToTable("Comment");
 
-                entity.Property(e => e.Comment1)
-                    .HasMaxLength(4000)
-                    .HasColumnName("Comment");
+                entity.Property(e => e.Content).HasMaxLength(4000);
 
                 entity.HasOne(d => d.Post)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Comment_Post");
+                    .HasConstraintName("FK_Comment_PostId");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Comment_User1");
+                    .HasConstraintName("FK_Comment_UserId");
             });
 
             modelBuilder.Entity<Image>(entity =>
@@ -129,60 +86,58 @@ namespace Infrastructure.Data
                 entity.HasOne(d => d.Comment)
                     .WithMany(p => p.Likes)
                     .HasForeignKey(d => d.CommentId)
-                    .HasConstraintName("FK_Like_Comment");
+                    .HasConstraintName("FK_Like_CommentId");
 
                 entity.HasOne(d => d.Post)
                     .WithMany(p => p.Likes)
                     .HasForeignKey(d => d.PostId)
-                    .HasConstraintName("FK_Like_Post1");
+                    .HasConstraintName("FK_Like_PostId");
 
                 entity.HasOne(d => d.Reply)
                     .WithMany(p => p.Likes)
                     .HasForeignKey(d => d.ReplyId)
-                    .HasConstraintName("FK_Like_Reply");
+                    .HasConstraintName("FK_Like_ReplyId");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Likes)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Like_User1");
+                    .HasConstraintName("FK_Like_UserId");
             });
 
             modelBuilder.Entity<Post>(entity =>
             {
                 entity.ToTable("Post");
 
-                entity.Property(e => e.Post1).HasColumnName("Post");
-
                 entity.HasOne(d => d.Image)
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.ImageId)
-                    .HasConstraintName("FK_Post_Image");
+                    .HasConstraintName("FK_Post_ImageId");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Post_User");
+                    .HasConstraintName("FK_Post_UserId");
             });
 
             modelBuilder.Entity<Reply>(entity =>
             {
                 entity.ToTable("Reply");
 
-                entity.Property(e => e.Comment).HasMaxLength(4000);
+                entity.Property(e => e.Content).HasMaxLength(4000);
 
-                entity.HasOne(d => d.CommentNavigation)
+                entity.HasOne(d => d.Comment)
                     .WithMany(p => p.Replies)
                     .HasForeignKey(d => d.CommentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Reply_Comment");
+                    .HasConstraintName("FK_Reply_CommentId");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Replies)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Reply_User");
+                    .HasConstraintName("FK_Reply_UserId");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -191,10 +146,23 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.RoleId).ValueGeneratedNever();
 
-                entity.Property(e => e.Role1)
+                entity.Property(e => e.Name)
                     .HasMaxLength(10)
-                    .HasColumnName("Role")
+                    .HasColumnName("Name")
                     .IsFixedLength();
+            });
+
+            modelBuilder.Entity<Tag>(entity =>
+            {
+                entity.ToTable("Tag");
+
+                entity.Property(e => e.Content).HasMaxLength(50);
+
+                entity.HasOne(d => d.Post)
+                    .WithMany(p => p.Tags)
+                    .HasForeignKey(d => d.PostId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Tag_PostId");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -214,7 +182,12 @@ namespace Infrastructure.Data
                 entity.HasOne(d => d.Image)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.ImageId)
-                    .HasConstraintName("FK_User_Image");
+                    .HasConstraintName("FK_User_ImageId");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("FK_User_RoleId");
             });
 
             modelBuilder.Entity<UserCoin>(entity =>
@@ -225,13 +198,13 @@ namespace Infrastructure.Data
                     .WithMany(p => p.UserCoins)
                     .HasForeignKey(d => d.CoinId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserCoin_Coin");
+                    .HasConstraintName("FK_UserCoin_CoinId");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserCoins)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserCoin_User");
+                    .HasConstraintName("FK_UserCoin_UserId");
             });
 
             modelBuilder.Entity<UserFollower>(entity =>
@@ -246,7 +219,7 @@ namespace Infrastructure.Data
                     .WithMany(p => p.UserFollowerFollows)
                     .HasForeignKey(d => d.FollowId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserFollower_FollowerId");
+                    .HasConstraintName("FK_UserFollower_FollowId");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserFollowerUsers)
@@ -255,21 +228,21 @@ namespace Infrastructure.Data
                     .HasConstraintName("FK_UserFollower_UserId");
             });
 
-            modelBuilder.Entity<UserRole>(entity =>
+            modelBuilder.Entity<CoinRating>(entity =>
             {
-                entity.ToTable("UserRole");
+                entity.ToTable("CoinRating");
 
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.UserRoles)
-                    .HasForeignKey(d => d.RoleId)
+                entity.HasOne(d => d.Coin)
+                    .WithMany(p => p.CoinRatings)
+                    .HasForeignKey(d => d.CoinId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserRole_Role1");
+                    .HasConstraintName("FK_CoinRating_RoleId");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserRoles)
+                    .WithMany(p => p.CoinRatings)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserRole_User1");
+                    .HasConstraintName("FK_CoinRating_UserId");
             });
 
             OnModelCreatingPartial(modelBuilder);
