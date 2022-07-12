@@ -64,6 +64,16 @@ namespace CryptoHubAPI.Controllers
             return Ok(response.Message);
         }
 
+        [HttpPost("{userId}/{coinId}")]
+        public async Task<IActionResult> UnfollowCoin(int userId, int coinId)
+        {
+            var response = await _userCoinService.UnfollowCoin(userId, coinId);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Message);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<List<UserCoinDTO>>> GetAllCoinsUserFollows(int id)
         {

@@ -3,6 +3,8 @@ using AutoMapper;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.UserFollowerDTOs;
+using BusinessLogic.Services.UserService;
+
 
 namespace BusinessLogic.Services.UserFollowerService
 {
@@ -10,13 +12,15 @@ namespace BusinessLogic.Services.UserFollowerService
     {
         private readonly IUserFollowerRepository _userFollowerRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public UserFollowerService(IUserFollowerRepository userFollowerRepository, IUserRepository userRepository,  IMapper mapper )
+        public UserFollowerService(IUserFollowerRepository userFollowerRepository, IUserRepository userRepository, IMapper mapper, IUserService userService)
         {
             _userFollowerRepository = userFollowerRepository;
             _userRepository = userRepository;
             _mapper = mapper;
+            _userService = userService;
         }
 
         public async Task<List<UserFollowerDTO>> GetAllUserFollowers()
@@ -87,11 +91,22 @@ namespace BusinessLogic.Services.UserFollowerService
 
         }
 
+        public async Task<Response<string>> UnfollowUser(int userId, int followId)
+        {
+            var user = await _userService.GetById(userId);
 
+            if (user == null)
+                return new Response<string>(null, true, "User does not exist");
 
+            var response = await _userFollowerRepository.GetByExpression(uf => uf.UserId == userId && uf.FollowId == followId);
 
+            if (response == null)
+                return new Response<string>(null, true, "User not followed by that user");
 
+            await _userFollowerRepository.DeleteOne(u => u.UserId == userId && u.FollowId == followId);
+            return new Response<string>(null, false, "User has been unfollowed");
 
+        }
     }
 }
 
