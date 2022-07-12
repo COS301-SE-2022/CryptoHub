@@ -3,6 +3,7 @@ using BusinessLogic.Services.RoleServices;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.UserDTOs;
+using Intergration.SendGridEmailService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -20,6 +21,7 @@ namespace BusinessLogic.Services.AuthorizationService
         private readonly IUserRepository _userRepository;
         private readonly IRoleService _roleService;
         private readonly IConfiguration _configuration;
+        private readonly ISendGridEmailService _sendGridEmailService;
         private readonly IMapper _mapper;
 
         public AuthorizationService(
