@@ -1,10 +1,7 @@
-﻿using BusinessLogic.Services.ImageService;
-using System;
+﻿using System;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using Infrastructure.DTO.ImageDTOs;
-
 
 namespace CryptoHubAPI.Controllers
 {
@@ -14,31 +11,32 @@ namespace CryptoHubAPI.Controllers
 
     public class ImageController : Controller
     {
-        private readonly IImageService _imageService;
-
-        public ImageController(IImageService imageService)
+        private readonly IImageRepository _imageRepository;
+        public ImageController(IImageRepository imageRepository)
         {
-            _imageService = imageService;
+            _imageRepository = imageRepository;
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var response = await _imageService.GetById(id);
+            var response = await _imageRepository.GetById(u => u.ImageId == id);
             if (response == null)
                 return NotFound();
 
             return Ok(response);
+
         }
 
         [HttpPost]
-        public async Task<ActionResult<Image>> AddImage(ImageDTO imageDTO)
+        public async Task<ActionResult<Image>> AddImage(imageDTO imageDTO)
         {
-            var response = await _imageService.AddImage(imageDTO);
-            if (response == null)
-                return BadRequest();
+            byte[] imageArray = Convert.FromBase64String(imageDTO.Blob);
 
-            return Ok(response);
+            Image image = new Image();
+            image.Image1 = imageArray;
+            
+            return Ok(await _imageRepository.Add(image));
 
         }
 
@@ -46,7 +44,7 @@ namespace CryptoHubAPI.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            await _imageService.Delete(id);
+            await _imageRepository.DeleteOne(u => u.ImageId == id);
             return Ok();
         }
 

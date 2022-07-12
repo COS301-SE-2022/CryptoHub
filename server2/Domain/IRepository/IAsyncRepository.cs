@@ -19,27 +19,11 @@ namespace Domain.IRepository
 
         Task<TEntity> Update(Expression<Func<TEntity, bool>> expression, TEntity entity);
 
-
         Task DeleteOne(Expression<Func<TEntity, bool>> expression);
 
         Task DeleteRange(Expression<Func<TEntity, bool>> expression);
 
-
-        //NEW stuff
-
         Task<TEntity> Add(TEntity entity);
-
-        Task Update(TEntity entity);
-
-        Task<TEntity> GetByExpression(Expression<Func<TEntity, bool>> expression);
-
-        Task<List<TEntity>> ListByExpression(Expression<Func<TEntity, bool>> expression);
-
-        Task Delete(TEntity entity);
-
-
-
-
 
 
 

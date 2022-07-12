@@ -1,5 +1,4 @@
-﻿using BusinessLogic.Services.UserFollowerService;
-using Domain.IRepository;
+﻿using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,25 +11,38 @@ namespace CryptoHubAPI.Controllers
     public class UserFollowerController : Controller
     {
 
-        private readonly IUserFollowerService _userFollowerService;
+        private readonly IUserFollowerRepository _userFollowerRepository;
+        private readonly IUserRepository _userRepository;
 
-        public UserFollowerController(IUserFollowerService userFollowerService)
+        public UserFollowerController(IUserFollowerRepository userFollowerRepository, IUserRepository userRepository)
         {
-            _userFollowerService = userFollowerService;
+        _userFollowerRepository = userFollowerRepository;
+        _userRepository = userRepository;
         }
 
         [HttpGet]
         // GET: UserFollowerController
         public async Task<ActionResult<List<UserFollower>>> GetAllUserFollowers()
         {
-            return Ok(await _userFollowerService.GetAllUserFollowers());
+            return Ok(await _userFollowerRepository.GetAll());
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserFollower(int id)
+        public async Task<IActionResult> GetUserUserFollower(int id)
         {
+            var followers = await _userFollowerRepository.FindRange(uf => uf.UserId == id);
+            var users = await _userRepository.GetAll();
 
-            var userfollowers = await _userFollowerService.GetUserUserFollower(id);
+
+
+            var userfollowers = from f in followers
+                                join u in users
+                                on f.FollowId equals u.UserId 
+                                select new
+                                {
+                                    UserId = u.UserId,
+                                    Username = u.Username
+                                };
 
             return Ok(userfollowers);
         }
@@ -38,7 +50,19 @@ namespace CryptoHubAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserFollowing(int id)
         {
-            var userfollowers = await _userFollowerService.GetUserFollowing(id);
+            var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
+            var users = await _userRepository.GetAll();
+
+
+
+            var userfollowers = from f in followers
+                                join u in users
+                                on f.UserId equals u.UserId
+                                select new
+                                {
+                                    UserId = u.UserId,
+                                    Username = u.Username
+                                };
 
             return Ok(userfollowers);
         }
@@ -46,22 +70,30 @@ namespace CryptoHubAPI.Controllers
         [HttpPost("{userid}/{targetid}")]
         public async Task<IActionResult> FollowUser(int userid, int targetid)
         {
-            var response = await _userFollowerService.FollowUser(userid, targetid);
+            var response = await _userFollowerRepository.FindOne(uf => uf.UserId==userid && uf.FollowId==targetid);
+            
+            if(response != null)
+                return BadRequest("Already following this account");
 
+            UserFollower userFollower = new UserFollower
+            {
+                UserId = userid,
+                FollowId = targetid,
+                FollowDate = DateTime.Now
+            };
 
+            await _userFollowerRepository.Add(userFollower);
             return Ok("user followed");
 
 
         }
 
-        [HttpPost("{userId}/{followId}")]
-        public async Task<IActionResult> UnfollowUser(int userId, int followId)
-        {
-            var response = await _userFollowerService.UnfollowUser(userId, followId);
-            if (response.HasError)
-                return BadRequest(response.Message);
 
-            return Ok(response.Message);
-        }
+
+
+
+
+
+
     }
 }
