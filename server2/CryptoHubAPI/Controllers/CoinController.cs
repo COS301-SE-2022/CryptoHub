@@ -57,10 +57,26 @@ namespace CryptoHubAPI.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<UserCoinDTO>>> GetAllUserCoins()
+        {
+            return Ok(await _userCoinService.GetAllUserCoins());
+        }
+
         [HttpPost("{userId}/{coinId}")]
         public async Task<IActionResult> FollowCoin(int userId, int coinId)
         {
             var response = await _userCoinService.FollowCoin(userId, coinId);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Message);
+        }
+
+        [HttpPost("{userId}/{coinId}")]
+        public async Task<IActionResult> UnfollowCoin(int userId, int coinId)
+        {
+            var response = await _userCoinService.UnfollowCoin(userId, coinId);
             if (response.HasError)
                 return BadRequest(response.Message);
 
@@ -78,7 +94,7 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{id}/{searchterm}")]
-        public async Task<ActionResult<List<User>>> SearchUser(int id, string searchterm)
+        public async Task<ActionResult<List<User>>> SearchCoin(int id, string searchterm)
         {
             var response = await _searchService.SearchCoin(id, searchterm);
             if (response == null)

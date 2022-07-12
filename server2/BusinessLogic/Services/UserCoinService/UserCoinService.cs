@@ -115,5 +115,22 @@ namespace BusinessLogic.Services.UserCoinService
             return new Response<string>(null, false, "Coin has been followed");
 
         }
+
+        public async Task<Response<string>> UnfollowCoin(int userId, int coinId)
+        {
+            var coin = await _coinService.GetCoin(coinId);
+
+            if (coin == null)
+                return new Response<string>(null, true, "Coin does not exist");
+
+            var response = await _userCoinRepository.GetByExpression(uf => uf.UserId == userId && uf.CoinId == coinId);
+
+            if (response == null)
+                return new Response<string>(null, true, "Coin not followed by that user");
+
+            await _userCoinRepository.DeleteOne(u => u.UserId == userId && u.CoinId == coinId);
+            return new Response<string>(null, false, "Coin has been unfollowed");
+
+        }
     }
 }

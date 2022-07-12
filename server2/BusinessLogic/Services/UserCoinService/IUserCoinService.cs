@@ -15,5 +15,6 @@ namespace BusinessLogic.Services.UserCoinService
         Task<List<UserCoinDTO>> GetAllUsersFollowingCoin(int id);
         Task<object> GetCoinFollowCount(int id);
         Task<Response<string>> FollowCoin(int userId, int coinId);
+        Task<Response<string>> UnfollowCoin(int userId, int coinId);
     }
 }
