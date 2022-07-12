@@ -10,5 +10,6 @@ namespace BusinessLogic.Services.SearchService
 {
     public interface ISearchService
     {
+        Task<List<SearchDTO>> SearchUser(int id, string searchterm);
     }
 }
