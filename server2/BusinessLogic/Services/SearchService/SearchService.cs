@@ -2,6 +2,8 @@
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.UserDTOs;
+using Infrastructure.DTO.CoinDTOs;
+
 
 namespace BusinessLogic.Services.SearchService
 {
@@ -10,13 +12,16 @@ namespace BusinessLogic.Services.SearchService
         private readonly IUserRepository _userRepository;
         private readonly IUserFollowerRepository _userFollowerRepository;
         private readonly ICoinRepository _coinRepository;
+        private readonly IUserCoinRepository _userCoinRepository;
         private readonly IMapper _mapper;
 
-        public SearchService(IUserRepository userRepository, IUserFollowerRepository userFollowerRepository, ICoinRepository coinRepository, IMapper mapper)
+        public SearchService(IUserRepository userRepository, IUserFollowerRepository userFollowerRepository,
+            ICoinRepository coinRepository, IUserCoinRepository userCoinRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _userFollowerRepository = userFollowerRepository;
             _coinRepository = coinRepository;
+            _userCoinRepository = userCoinRepository;
             _mapper = mapper;
         }
 
@@ -142,6 +147,143 @@ namespace BusinessLogic.Services.SearchService
             }
 
             return _mapper.Map<List<SearchDTO>>(final);
+        }
+
+        //************************************************************************************************************************************//
+        //************************************************************************************************************************************//
+
+        public async Task<List<CoinSearchDTO>> SearchCoin(int id, string searchterm)
+        {
+            //fetch all search results
+            var results = await _coinRepository.FindRange(c => c.CoinName.ToLower().StartsWith(searchterm.ToLower()));
+
+            //Finds and rearanges result based on follow count
+            foreach (var r in results)
+            {
+                var userCoins = await _userCoinRepository.FindRange(uc => uc.CoinId == r.CoinId);
+                var allCoins = await _coinRepository.GetAll();
+
+
+                var userFol = from uc in userCoins
+                              join c in allCoins
+                              on uc.CoinId equals c.CoinId
+                              select new CoinSearchDTO
+                              {
+                                  CoinId = c.CoinId,
+                                  CoinName = c.CoinName
+                              };
+                r.ImageId = userFol.Count();
+            }
+
+            results = results.OrderByDescending(r => r.ImageId).ToList();
+
+            //Find directly followed coins
+            var followedCoins = await _userCoinRepository.FindRange(uc => uc.UserId == id);
+            var coins = await _coinRepository.GetAll();
+
+            var usercoins = from fc in followedCoins
+                            join c in coins
+                            on fc.CoinId equals c.CoinId
+                            select new CoinSearchDTO
+                            {
+                                CoinId = c.CoinId,
+                                CoinName = c.CoinName
+                            };
+
+            //join current users followers and search results
+            var searchFollowers = from r in results
+                                  join uc in usercoins
+                                  on r.CoinId equals uc.CoinId
+                                  select new CoinSearchDTO
+                                  {
+                                      CoinId = uc.CoinId,
+                                      CoinName = uc.CoinName
+                                  };
+
+            //rearange results to show followed coins first
+            var sf = searchFollowers.ToList();
+            var final = sf;
+
+            //find all mutual followers
+            var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
+            var users = await _userRepository.GetAll();
+
+            var userfollowers = from f in followers
+                                join u in users
+                                on f.UserId equals u.UserId
+                                select new User
+                                {
+                                    UserId = u.UserId,
+                                    Firstname = u.Firstname,
+                                    Lastname = u.Lastname,
+                                    Username = u.Username,
+                                };
+
+            var mutuals = new List<CoinSearchDTO>();
+            foreach (var usf in userfollowers.ToList())
+            {
+                var mutFollowers = await _userCoinRepository.FindRange(uc => uc.UserId == usf.UserId);
+                var mutCoins = await _coinRepository.GetAll();
+
+                var mutCoinfollowers = from f in mutFollowers
+                                       join c in mutCoins
+                                       on f.CoinId equals c.CoinId
+                                       select new CoinSearchDTO
+                                       {
+                                           CoinId = c.CoinId,
+                                           CoinName = c.CoinName
+                                       };
+
+                foreach (var r in results.ToList())
+                {
+                    foreach (var m in mutCoinfollowers.ToList())
+                    {
+                        if (m.CoinId == r.CoinId)
+                        {
+                            mutuals.Add(m);
+                        }
+                    }
+                }
+            }
+            //remove deplicates from mutuals
+            mutuals = mutuals.GroupBy(x => x.CoinId).Select(x => x.First()).ToList();
+
+            //add mutual followers to the results
+            foreach (var r in results.ToList())
+            {
+                foreach (var m in sf.ToList())
+                {
+                    if (m.CoinId == r.CoinId)
+                    {
+                        results.Remove(r);
+                    }
+                }
+                foreach (var m in mutuals.ToList())
+                {
+                    if (m.CoinId == r.CoinId)
+                    {
+                        results.Remove(r);
+                    }
+                }
+            }
+
+            //add mutuals to result
+            foreach (var m in mutuals.ToList())
+            {
+                final.Add(m);
+            }
+
+            //add rest of the result
+            foreach (var r in results.ToList())
+            {
+                final.Add(new CoinSearchDTO
+                {
+                    CoinId = r.CoinId,
+                    CoinName = r.CoinName
+                });
+            }
+
+            return _mapper.Map<List<CoinSearchDTO>>(final);
         }
     }
 }
