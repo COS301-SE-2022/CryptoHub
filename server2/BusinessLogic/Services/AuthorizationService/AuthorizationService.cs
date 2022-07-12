@@ -134,11 +134,6 @@ namespace BusinessLogic.Services.AuthorizationService
             var userDTO = _mapper.Map<UserDTO>(user);
             return new Response<UserDTO>(userDTO, false, "password reset");
 
-
-
-
-
-
         }
 
 
