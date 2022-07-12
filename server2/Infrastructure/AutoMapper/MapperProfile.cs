@@ -37,6 +37,7 @@ namespace Infrastructure.AutoMapper
             CreateMap<Reply, ReplyDTO>();
             CreateMap<UserFollower, UserFollowerDTO>();
             CreateMap<User, SearchDTO>();
+            CreateMap<Coin, CoinSearchDTO>();
             #endregion
 
             #region DTO to Model
@@ -49,6 +50,7 @@ namespace Infrastructure.AutoMapper
             CreateMap<ReplyDTO, Reply>();
             CreateMap<UserFollowerDTO, UserFollower>();
             CreateMap<SearchDTO, User>();
+            CreateMap<CoinSearchDTO, Coin>();
             #endregion
 
         }
