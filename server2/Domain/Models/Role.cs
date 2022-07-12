@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Domain.Models
 {
@@ -7,12 +8,13 @@ namespace Domain.Models
     {
         public Role()
         {
-            Users = new HashSet<User>();
+            UserRoles = new HashSet<UserRole>();
         }
 
         public int RoleId { get; set; }
-        public string Name { get; set; } = null!;
+        public string Role1 { get; set; } = null!;
 
-        public virtual ICollection<User> Users { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<UserRole>? UserRoles { get; set; }
     }
 }

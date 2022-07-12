@@ -1,7 +1,5 @@
-﻿using BusinessLogic.Services.AuthorizationService;
-using Domain.IRepository;
+﻿using Domain.IRepository;
 using Domain.Models;
-using Infrastructure.DTO.UserDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,31 +10,73 @@ namespace CryptoHubAPI.Controllers
     public class AuthorizationController : Controller
     {
 
-        private readonly IAuthorizationService _authorizationService;
+        private readonly IUserRepository _userRepository;
 
-        public AuthorizationController(IAuthorizationService authorizationService)
+        public AuthorizationController(IUserRepository userRepository)
         {
-            _authorizationService = authorizationService;
+            this._userRepository = userRepository;
         }
 
         [HttpPost]
-        public async Task<ActionResult<JWT>> Login([FromBody] LoginDTO loginDTO)
+        public async Task<ActionResult<Response<User>>> Login([FromBody] User user)
         {
-            var response = await _authorizationService.Login(loginDTO);
-            if (response.HasError)
-                return BadRequest(response.Message);
+            var loginUser = await _userRepository.FindOne(u => u.Email == user.Email);
 
-            return Ok(response.Model);
+            if (loginUser == null)
+                return BadRequest(new Response<User>
+                {
+                    HasError = true,
+                    Message = "incorrect username or password",
+                    Model = null
+                });
+            if(!(loginUser.Password == user.Password))
+            {
+                return BadRequest(new Response<User>
+                {
+                    HasError = true,
+                    Message = "incorrect username or password",
+                    Model = null
+                });
+            }
+            return Ok(new Response<User>
+            {
+                HasError = false,
+                Message = "logged in",
+                Model = loginUser
+            });
         }
 
         [HttpPost]
-        public async Task<ActionResult<JWT>> Register([FromBody] RegisterDTO registerDTO)
+        public async Task<ActionResult<Response<User>>> Register([FromBody] User user)
         {
-            var response = await _authorizationService.Register(registerDTO);
-            if (response.HasError)
-                return BadRequest(response.Message);
+            var registerUser = await _userRepository.FindOne(u => u.Email == user.Email);
 
-            return Ok(response.Model);
+            if (registerUser != null)
+                return BadRequest(new Response<User>
+                {
+                    HasError = true,
+                    Message = "user already exists",
+                    Model = null
+                });
+            await _userRepository.Add(user);
+
+            return Ok(new Response<User>
+            {
+                HasError = false,
+                Message = "registered",
+                Model = user
+            });
+        }
+    }
+    public class Response <T>
+    {
+        public string Message { get; set; }
+        public Boolean HasError { get; set; }
+        public T Model { get; set; }
+
+        public Response()
+        {
+
         }
     }
 
