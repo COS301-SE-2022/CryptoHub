@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Domain.Models
 {
@@ -10,23 +9,18 @@ namespace Domain.Models
         {
             Comments = new HashSet<Comment>();
             Likes = new HashSet<Like>();
+            Tags = new HashSet<Tag>();
         }
 
         public int PostId { get; set; }
-        public string Post1 { get; set; } = null!;
+        public string Content { get; set; } = null!;
         public int UserId { get; set; }
         public int? ImageId { get; set; }
 
-        [JsonIgnore]
         public virtual Image? Image { get; set; }
-
-        [JsonIgnore]
-        public virtual User? User { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<Comment>? Comments { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<Like>? Likes { get; set; }
+        public virtual User User { get; set; } = null!;
+        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
     }
 }
