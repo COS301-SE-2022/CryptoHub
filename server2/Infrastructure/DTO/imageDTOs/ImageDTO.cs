@@ -4,5 +4,7 @@ namespace Infrastructure.DTO.ImageDTOs
     public class ImageDTO
     {
         public string Blob { get; set; }
+
+        public string Name { get; set; }
     }
 }
