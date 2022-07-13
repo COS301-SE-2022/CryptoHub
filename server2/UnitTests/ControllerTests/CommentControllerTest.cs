@@ -26,8 +26,7 @@ namespace UnitTests.ControllerTests
                 {
                     CommentId = 1,
                     UserId = 1,
-                    PostId = 1,
-                    Comment1 = "CommentText"
+                    PostId = 1
                 }
             };
 

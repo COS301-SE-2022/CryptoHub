@@ -1,4 +1,6 @@
 using BusinessLogic.Services.CoinService;
+using BusinessLogic.Services.CoinRatingService;
+using BusinessLogic.Services.UserCoinService;
 using CryptoHubAPI.Controllers;
 using Domain.IRepository;
 using Domain.Models;
@@ -13,12 +15,16 @@ namespace UnitTests.ControllerTests
     public class CoinControllerTest
     {
         private readonly Mock<ICoinRepository> _coinRepositoryMock;
+        private readonly Mock<ICoinRatingService> _coinRatingServiceMock;
+        private readonly Mock<IUserCoinService> _userCoinServiceMock;
         private readonly Mock<ICoinService> _coinServiceMock;
 
 
         public CoinControllerTest()
         {
             _coinServiceMock = new Mock<ICoinService>();
+            _userCoinServiceMock = new Mock<IUserCoinService>();
+            _coinRatingServiceMock = new Mock<ICoinRatingService>();
             _coinRepositoryMock = new Mock<ICoinRepository>();
         }
 
@@ -47,7 +53,7 @@ namespace UnitTests.ControllerTests
 
             _coinServiceMock.Setup(u => u.GetAllCoins()).ReturnsAsync(coins);
 
-            var controller = new CoinController(_coinServiceMock.Object);
+            var controller = new CoinController(_coinServiceMock.Object, _coinRatingServiceMock.Object, _userCoinServiceMock.Object);
 
             //act
             var result = await controller.GetAllCoins();
