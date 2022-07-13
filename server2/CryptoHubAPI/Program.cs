@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Intergration.SendGridEmailService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +50,7 @@ builder.Services.AddTransient<IReplyService, ReplyService>();
 builder.Services.AddTransient<ICoinRatingService, CoinRatingService>();
 builder.Services.AddTransient<IUserCoinService, UserCoinService>();
 builder.Services.AddTransient<IUserFollowerService, UserFollowerService>();
+builder.Services.AddTransient<ISendGridEmailService, SendGridEmailService>();
 
 
 

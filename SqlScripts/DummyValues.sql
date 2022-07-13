@@ -149,7 +149,7 @@ VALUES
 (5,'the market is looking bad',2),
 (1,'THIS IS IT PEOPLE',1);
 
-INSERT INTO [dbo].[Comment]([UserId],[PostId],[Comment])
+INSERT INTO [dbo].[Comment]([UserId],[PostId],[Content])
 VALUES
 (1,1,'I wanto buy even more'),
 (2,3,'this site is the future'),
@@ -158,7 +158,7 @@ VALUES
 (2,4,'Luna plunged to $0 Friday, according to data from CoinGecko, marking a stunning collapse for a cryptocurrency that at one point was worth more than $100.  The demise of controversial stablecoin venture Terra has resulted in a meltdown in the crypto market, which erased billions of dollars in value in a single day.'),
 (1,4,'But the industry is only in its infancy and constantly evolving. That’s a big part of why every new Bitcoin high can be easily followed by big drops. It’s difficult to predict where things are headed long-term');
 
-INSERT INTO [dbo].[Reply]([UserId],[CommentId],[Comment])
+INSERT INTO [dbo].[Reply]([UserId],[CommentId],[Content])
 VALUES
 (3,1,'i agree honestly'),
 (1,2,'Definitly recommend it');
