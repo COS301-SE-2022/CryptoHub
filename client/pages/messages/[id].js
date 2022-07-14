@@ -61,7 +61,7 @@ const Messages = () => {
 
     const interval = setInterval(() => {
       getMessages();
-    }, 10000);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 
