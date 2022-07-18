@@ -1,9 +1,13 @@
 ﻿using System;
+using Domain.IRepository;
+using Domain.Models;
+using Infrastructure.Data;
+
 namespace Infrastructure.Repository
 {
-    public class PostReportRepository
+    public class PostReportRepository :  BaseRepository<PostReport>, IPostReportRepository
     {
-        public PostReportRepository()
+        public PostReportRepository(CryptoHubDBContext dBContext) : base(dBContext)
         {
         }
     }
