@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using BusinessLogic.Services.RoleServices;
+using BusinessLogic.Services.UserService;
 using Domain.IRepository;
 using Domain.Models;
+using Infrastructure.DTO.EmailDTOs;
 using Infrastructure.DTO.UserDTOs;
+using Intergration.SendGridEmailService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -20,21 +23,25 @@ namespace BusinessLogic.Services.AuthorizationService
         private readonly IUserRepository _userRepository;
         private readonly IRoleService _roleService;
         private readonly IConfiguration _configuration;
+        private readonly ISendGridEmailService _sendGridEmailService;
         private readonly IMapper _mapper;
 
         public AuthorizationService(
             IUserRepository userRepository, IRoleService roleService
-            , IConfiguration configuration, IMapper mapper)
+            , IConfiguration configuration, ISendGridEmailService sendGridEmailService
+            , IMapper mapper)
         {
             _userRepository = userRepository;
             _roleService = roleService;
             _configuration = configuration;
+            _sendGridEmailService = sendGridEmailService;
             _mapper = mapper;
         }
 
         public async Task<Response<JWT>> Login(LoginDTO loginDTO)
         {
-            var loginUser = await _userRepository.FindOne(u => u.Email == loginDTO.Email);
+
+            var loginUser = await _userRepository.GetByExpression(u => u.Email.ToLower() == loginDTO.Email.ToLower());
 
             if (loginUser == null)
                 return new Response<JWT>(null, true, "incorrect username or password");
@@ -51,7 +58,7 @@ namespace BusinessLogic.Services.AuthorizationService
 
         public async Task<Response<JWT>> Register(RegisterDTO registerDTO)
         {
-            var registerUser = await _userRepository.FindOne(u => u.Email == registerDTO.Email);
+            var registerUser = await _userRepository.GetByExpression(u => u.Email.ToLower() == registerDTO.Email.ToLower());
 
             if (registerUser != null)
                 return new Response<JWT>(null, true, "user already exists");
@@ -65,8 +72,87 @@ namespace BusinessLogic.Services.AuthorizationService
 
             var token = CreateToken(user,role.Name);
 
+            var outGoingEmail = new EmailDTO
+            {
+                RecieverEmail = user.Email,
+                RecieverName = user.Firstname,
+                Subject = "Welcome to CryptoHub",
+                plainTextContent = "Enjoy, using our website",
+                htmlContent = string.Empty,
+            };
+
+            await _sendGridEmailService.SendEmail(outGoingEmail);
+
             return new Response<JWT>(token, false, "registered");
         }
+
+        public async Task<UserDTO> ForgotPassword(string email)
+        {
+            var user = await _userRepository.GetByExpression(u => u.Email.ToLower() == email.ToLower());
+            if (user == null)
+                return null;
+
+            user.OTP = new Random().Next(1000, 9999);
+            user.OTPExpirationTime = DateTime.UtcNow.AddMinutes(30);
+            user.HasForgottenPassword = true;
+
+            var outGoingEmail = new EmailDTO
+            {
+                RecieverEmail = user.Email,
+                RecieverName = user.Firstname,
+                Subject = "One Time Pin",
+                plainTextContent = "Your OTP is " + user.OTP,
+                htmlContent = string.Empty,
+            };
+
+            await _userRepository.Update(user);
+
+            await _sendGridEmailService.SendEmail(outGoingEmail);
+
+            return _mapper.Map<UserDTO>(user);   
+        }
+
+        public async Task<Response<UserDTO>> ValidateOTP(string email, int OTP)
+        {
+            var user =  await _userRepository.GetByExpression(u => u.Email.ToLower() == email.ToLower());
+            if (user == null)
+                return new Response<UserDTO>(null, true, "user not found");
+
+            if(!user.HasForgottenPassword.Value)
+                return new Response<UserDTO>(null, true, "forgot password not requested");
+
+            if (user.OTPExpirationTime < DateTime.UtcNow)
+                return new Response<UserDTO>(null, true, "OTP expired");
+
+            if (user.OTP != OTP)
+                return new Response<UserDTO>(null, true, "OTP invalid");
+
+            var userDTO = _mapper.Map<UserDTO>(user);
+
+            return new Response<UserDTO>(userDTO, false, "otp confirmed");
+
+        }
+
+        public async Task<Response<UserDTO>> UpdateForgotPassword(string email, string password)
+        {
+            var user = await _userRepository.GetByExpression(u => u.Email.ToLower() == email.ToLower());
+            if (user == null)
+                return new Response<UserDTO>(null, true, "user not found");
+
+            if (!user.HasForgottenPassword.Value)
+                return new Response<UserDTO>(null, true, "forgot password not requested");
+
+            user.Password = password;
+            user.HasForgottenPassword = false;
+
+            await _userRepository.Update(user);
+
+            var userDTO = _mapper.Map<UserDTO>(user);
+            return new Response<UserDTO>(userDTO, false, "password reset");
+
+        }
+
+
 
         private JWT CreateToken(User user, string userRole)
         {
