@@ -21,29 +21,61 @@ namespace Intergration.FireStoreService
 
             var auth = new FirebaseAuthProvider(
                 new FirebaseConfig(
-                    configuration["FireStore:apiKey"]
+                    apiKey
                     ));
 
-            var _authLink = auth.SignInWithEmailAndPasswordAsync(email,password).Result;
+            var authLink = auth.SignInWithEmailAndPasswordAsync(email, password).Result;
 
             _firebaseStorage = new FirebaseStorage(
                 bucket,
                 new FirebaseStorageOptions
                 {
-                    AuthTokenAsyncFactory = () => Task.FromResult(_authLink.FirebaseToken),
+                    AuthTokenAsyncFactory = () => Task.FromResult(authLink.FirebaseToken),
+                    ThrowOnCancel = true,
+                });
+        }
+
+        private FireStorageService(FirebaseStorage firebaseStorage)
+        {
+            _firebaseStorage = firebaseStorage;
+        }
+
+        public static async Task<FireStorageService> Initialize(IConfiguration configuration)
+        {
+
+            string apiKey = configuration["FireStore:apiKey"];
+            string email = configuration["FireStore:email"];
+            string password = configuration["FireStore:password"];
+            string bucket = configuration["FireStore:storageBucket"];
+
+            var auth = new FirebaseAuthProvider(
+                new FirebaseConfig(
+                    apiKey
+                    ));
+
+            var authLink = await auth.SignInWithEmailAndPasswordAsync(email, password);
+
+            var firebaseStorageObject = new FirebaseStorage(
+                bucket,
+                new FirebaseStorageOptions
+                {
+                    AuthTokenAsyncFactory = () => Task.FromResult(authLink.FirebaseToken),
                     ThrowOnCancel = true,
                 });
 
+            return new FireStorageService(firebaseStorageObject);
+
+
         }
 
-        public async Task<Response<string>> UploadImage(ImageDTO imageDTO)
+        public async Task<Response<Image>> UploadImage(CreateImageDTO imageDTO)
         {
 
             byte[] bytes = Convert.FromBase64String(imageDTO.Blob);
 
             // 1mb = 1 000 000 bytes
             if(bytes.Length > 5000000)
-                return new Response<string>(null, true, "image cannot exceed 5MBs");
+                return new Response<Image>(null, true, "image cannot exceed 5MBs");
 
 
             var stream = new MemoryStream(bytes);
@@ -53,22 +85,27 @@ namespace Intergration.FireStoreService
             string? type = MimeType(format.Name);
 
             if(type==null)
-                return new Response<string>(null, true, "Image may only be jpg,png or gif");
+                return new Response<Image>(null, true, "Image may only be jpg,png or gif");
 
-
+            string name = $"{imageDTO.Name}.{type}";
 
             var response = await _firebaseStorage
-                                .Child(imageDTO.Name)
+                                .Child(name)
                                 .PutAsync(stream);
 
+            var image = new Image
+            {
+                Url = response,
+                Name = name
+            };
 
             // await the task to wait until upload completes and get the download url
-            return new Response<string>(response, false, "complete");
+            return new Response<Image>(image, false, "complete");
         }
 
         private string? MimeType(string format)
         {
-            if (format == "JPG")
+            if (format == "JPEG")
                 return "jpg";
 
             if (format == "PNG")
@@ -80,5 +117,8 @@ namespace Intergration.FireStoreService
             return null;
 
         }
+
+
+
     }
 }

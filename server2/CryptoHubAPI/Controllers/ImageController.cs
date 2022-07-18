@@ -4,7 +4,7 @@ using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.DTO.ImageDTOs;
-
+using AutoMapper;
 
 namespace CryptoHubAPI.Controllers
 {
@@ -15,10 +15,12 @@ namespace CryptoHubAPI.Controllers
     public class ImageController : Controller
     {
         private readonly IImageService _imageService;
+        private readonly IMapper _mapper;
 
-        public ImageController(IImageService imageService)
+        public ImageController(IImageService imageService, IMapper mapper)
         {
             _imageService = imageService;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -32,13 +34,14 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Image>> AddImage(ImageDTO imageDTO)
+        public async Task<ActionResult<ImageDTO>> AddImage(CreateImageDTO imageDTO)
         {
             var response = await _imageService.AddImage(imageDTO);
-            if (response == null)
-                return BadRequest();
+            if (response.HasError)
+                return BadRequest(response.Message);
 
-            return Ok(response);
+            var image = _mapper.Map<ImageDTO>(response.Model);
+            return Ok(image);
 
         }
 

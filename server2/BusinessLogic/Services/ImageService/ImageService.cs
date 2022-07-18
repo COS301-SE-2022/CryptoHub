@@ -3,6 +3,7 @@ using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.ImageDTOs;
 using Infrastructure.Repository;
+using Intergration.FireStoreService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,12 @@ namespace BusinessLogic.Services.ImageService
     {
         private readonly IImageRepository _imageRepository;
         private readonly IMapper _mapper;
-        public ImageService(IImageRepository imageRepository, IMapper mapper)
+        private readonly IFireStorageService _fireStorageService;
+        public ImageService(IImageRepository imageRepository, IMapper mapper, IFireStorageService fireStorageService)
         {
             _imageRepository = imageRepository;
             _mapper = mapper;
+            _fireStorageService = fireStorageService;
         }
 
         public async Task<Image> GetById(int id)
@@ -29,15 +32,19 @@ namespace BusinessLogic.Services.ImageService
 
         }
 
-        public async Task<Image> AddImage(ImageDTO imageDTO)
+        public async Task<Response<Image>> AddImage(CreateImageDTO imageDTO)
         {
-            byte[] imageArray = Convert.FromBase64String(imageDTO.Blob);
+           var response =  await _fireStorageService.UploadImage(imageDTO);
 
-            Image image = new Image();
-            image.Image1 = imageArray;
+            if (response.HasError)
+                return response;
 
-            return _mapper.Map<Image>(await _imageRepository.Add(image));
+            var image = await _imageRepository.Add(response.Model);
+            return new Response<Image>(image, false, "");
 
+
+
+            
         }
 
         public async Task Delete(int id)

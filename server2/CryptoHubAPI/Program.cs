@@ -19,6 +19,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Intergration.SendGridEmailService;
+using BusinessLogic.Services.ImageService;
+using BusinessLogic.Services.CommentService;
+using BusinessLogic.Services.TagService;
+using Intergration.FireStoreService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +55,10 @@ builder.Services.AddTransient<ICoinRatingService, CoinRatingService>();
 builder.Services.AddTransient<IUserCoinService, UserCoinService>();
 builder.Services.AddTransient<IUserFollowerService, UserFollowerService>();
 builder.Services.AddTransient<ISendGridEmailService, SendGridEmailService>();
+builder.Services.AddTransient<IImageService, ImageService>();
+builder.Services.AddTransient<ICommentService, CommentService>();
+builder.Services.AddTransient<ITagService, TagServices>();
+builder.Services.AddTransient<IFireStorageService, FireStorageService>();
 
 
 

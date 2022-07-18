@@ -29,7 +29,7 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Images(ImageDTO imageDTO)
+        public async Task<IActionResult> Images(CreateImageDTO imageDTO)
         {
 
             byte[] bytes = Convert.FromBase64String(imageDTO.Blob) ;
