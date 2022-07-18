@@ -1,11 +1,11 @@
 ﻿using System;
+using Domain.Models;
+
 namespace Domain.IRepository
 {
-    public class IPostReportRepository
+    public interface IPostReportRepository : IAsyncRepository<PostReport>
     {
-        public IPostReportRepository()
-        {
-        }
+        
     }
 }
 
