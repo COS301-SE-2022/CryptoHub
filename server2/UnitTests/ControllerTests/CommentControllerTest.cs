@@ -1,36 +1,44 @@
-﻿using CryptoHubAPI.Controllers;
+﻿using BusinessLogic.Services.CommentService;
+using CryptoHubAPI.Controllers;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Linq.Expressions;
+using Infrastructure.DTO.CommentDTOs;
 
 namespace UnitTests.ControllerTests
 {
     public class CommentControllerTest
     {
-        private readonly Mock<ICommentRepository> _commentRepositoryMock;
+        private readonly Mock<ICommentService> _commentServiceMock;
 
         public CommentControllerTest()
         {
-            _commentRepositoryMock = new Mock<ICommentRepository>();
+            _commentServiceMock = new Mock<ICommentService>();
         }
 
         [Fact]
         public async Task GetCommentsByUserId_CommentId_ReturnsCommentsOfId()
         {
             //arrange
-            List<Comment> comments = new List<Comment>
+            List<CommentDTO> comments = new List<CommentDTO>
             {
-                new Comment
+                new CommentDTO
                 {
                     CommentId = 1,
                     UserId = 1,
                     PostId = 1
+                },
+                new CommentDTO
+                {
+                    CommentId = 2,
+                    UserId = 2,
+                    PostId = 2
                 }
             };
 
-            _commentRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Comment, bool>>>())).ReturnsAsync(comments);
+            _commentServiceMock.Setup(u => u.GetCommentByUserId(1)).ReturnsAsync(comments);
 
             var controller = new CommentController(_commentRepositoryMock.Object);
 
