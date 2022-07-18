@@ -5,6 +5,9 @@ using BusinessLogic.Services.CoinService;
 using BusinessLogic.Services.CoinRatingService;
 using BusinessLogic.Services.UserCoinService;
 using BusinessLogic.Services.UserFollowerService;
+using BusinessLogic.Services.CommentService;
+using BusinessLogic.Services.ImageService;
+using BusinessLogic.Services.TagService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.Data;
@@ -51,7 +54,9 @@ builder.Services.AddTransient<ICoinRatingService, CoinRatingService>();
 builder.Services.AddTransient<IUserCoinService, UserCoinService>();
 builder.Services.AddTransient<IUserFollowerService, UserFollowerService>();
 builder.Services.AddTransient<ISendGridEmailService, SendGridEmailService>();
-
+builder.Services.AddTransient<ICommentService, CommentService>();
+builder.Services.AddTransient<IImageService, ImageService>();
+builder.Services.AddTransient<ITagService, TagServices>();
 
 
 //AutoMapper
