@@ -17,7 +17,7 @@ namespace CryptoHubAPI.Controllers
             _replyService = replyService;
         }
 
-        [HttpGet("{userid}")]
+        [HttpGet("{userId}")]
         public async Task<ActionResult<List<Reply>>> GetRepliesByUserId(int userId)
         {
             var user = await _replyService.GetRepliesByUserId(userId);
