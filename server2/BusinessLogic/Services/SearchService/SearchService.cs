@@ -133,6 +133,16 @@ namespace BusinessLogic.Services.SearchService
                     }
                 }
             }
+            foreach(var s in sf.ToList())
+            {
+                foreach(var m in mutuals.ToList())
+                {
+                    if(m.UserId == s.UserId)
+                    {
+                        mutuals.Remove(m);
+                    }
+                }
+            }
 
             //add mutuals to result
             foreach (var m in mutuals.ToList())
@@ -263,6 +273,16 @@ namespace BusinessLogic.Services.SearchService
                     if (m.CoinId == r.CoinId)
                     {
                         results.Remove(r);
+                    }
+                }
+            }
+            foreach (var s in sf.ToList())
+            {
+                foreach (var m in mutuals.ToList())
+                {
+                    if (m.CoinId == s.CoinId)
+                    {
+                        mutuals.Remove(m);
                     }
                 }
             }
