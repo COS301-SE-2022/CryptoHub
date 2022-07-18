@@ -34,7 +34,7 @@ namespace BusinessLogic.Services.ImageService
             byte[] imageArray = Convert.FromBase64String(imageDTO.Blob);
 
             Image image = new Image();
-            image.Image1 = imageArray;
+            image.Blob = imageArray;
 
             return _mapper.Map<Image>(await _imageRepository.Add(image));
 

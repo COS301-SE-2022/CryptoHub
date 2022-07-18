@@ -10,7 +10,7 @@ namespace CryptoHubAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    [Authorize(Roles = "Admin,Super")]
+    //[Authorize(Roles = "Admin,Super")]
     public class UserController : Controller
     {
 

@@ -42,7 +42,7 @@ namespace BusinessLogic.Services.PostService
                 byte[] imageArray = Convert.FromBase64String(createPostDTO.ImageDTO.Blob);
 
                 Image image = new Image();
-                image.Image1 = imageArray;
+                image.Blob = imageArray;
 
                 await _imageRepository.Add(image);
                 post.ImageId = image.ImageId;

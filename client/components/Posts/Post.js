@@ -40,7 +40,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     fetch(`http://localhost:7215/api/Image/GetById/${imageId}`, options)
       .then((response) => response.json())
       .then((data) => {
-        let image = `data:image/jpeg;base64,${data.image1}`;
+        let image = `data:image/jpeg;base64,${data.blob}`;
         setPostImage(image);
       })
       .catch((error) => {});
@@ -173,27 +173,24 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         <div className="w-8 h-8 bg-black rounded-3xl"></div>
 
         {user.id == thisUser.userId ? (
-          
-            <div class="flex justify-between flex-container">
+          <div class="flex justify-between flex-container">
+            <div className="flex-row items-center ">
+              <Link href={`/profile`} className="pointer cursor-pointer">
+                <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                  {thisUser.username}
+                </p>
+              </Link>
+            </div>
 
-              <div className="flex-row items-center ">
-                <Link href={`/profile`} className="pointer cursor-pointer">
-                  <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-                    {thisUser.username}
-                  </p>
-                </Link>
-              </div>
-
-            <div className= "translate-x-50 text-right">
-              <button 
+            <div className="translate-x-50 text-right">
+              <button
                 onClick={() => setShowModal(true)}
                 className="text-sm flex flex-row"
               >
-                  <p className="ml-1"> ... </p>
+                <p className="ml-1"> ... </p>
               </button>
             </div>
           </div>
-          
         ) : (
           <div class="flex flex-container">
             <div className="flex-row items-center ">
@@ -209,13 +206,12 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                 onClick={() => setShowModal(true)}
                 className="text-sm flex flex-row"
               >
-                  <p className="ml-1"> ... </p>
+                <p className="ml-1"> ... </p>
               </button>
             </div>
           </div>
         )}
       </div>
-
 
       {postImage == null ? null : (
         <div

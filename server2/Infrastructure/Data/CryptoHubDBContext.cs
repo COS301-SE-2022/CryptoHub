@@ -76,7 +76,7 @@ namespace Infrastructure.Data
             {
                 entity.ToTable("Image");
 
-                entity.Property(e => e.Image1).HasColumnName("Image");
+                entity.Property(e => e.Blob).HasColumnName("Blob");
             });
 
             modelBuilder.Entity<Like>(entity =>
