@@ -31,8 +31,8 @@ const Login = () => {
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        if (!data.hasError) {
-          authorise(data.model.username, data.model.userId);
+        if (data.token) {
+          authorise(data.token);
         } else {
           setError(true);
         }
