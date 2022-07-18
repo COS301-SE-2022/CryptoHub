@@ -1,11 +1,21 @@
 import { createContext, useState } from "react";
 import { useRouter } from "next/router";
 
-export const userContext = createContext({ username: "", auth: false, id: 0 });
+export const userContext = createContext({
+  username: "",
+  auth: false,
+  id: 0,
+  token: "",
+});
 
 const UserProvider = ({ children }) => {
   const router = useRouter();
-  const [user, setUser] = useState({ username: "", auth: false, id: 0 });
+  const [user, setUser] = useState({
+    username: "",
+    auth: false,
+    id: 0,
+    token: "",
+  });
   const [feedstate, setFeedstate] = useState(false);
 
   const logout = () => {
@@ -13,12 +23,13 @@ const UserProvider = ({ children }) => {
       username: "",
       auth: false,
       id: 0,
+      token: "",
     });
     router.push("/");
   };
 
-  const authorise = (username, id) => {
-    setUser({ username: username, auth: true, id: id });
+  const authorise = (username, id, token) => {
+    setUser({ username: username, auth: true, id: id, token: token });
     router.push("/");
   };
 
