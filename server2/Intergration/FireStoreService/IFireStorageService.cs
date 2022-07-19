@@ -12,5 +12,7 @@ namespace Intergration.FireStoreService
     public interface IFireStorageService
     {
         Task<Response<Image>> UploadImage(CreateImageDTO imageDTO);
+
+        Task DeleteImage(string name);
     }
 }

@@ -34,18 +34,31 @@ namespace BusinessLogic.Services.ImageService
 
         public async Task<Response<Image>> AddImage(CreateImageDTO imageDTO)
         {
-           var response =  await _fireStorageService.UploadImage(imageDTO);
+
+            var image = await _imageRepository.GetByExpression(image => image.Name.Contains(imageDTO.Name));
+
+            if (image != null)
+            {
+                await _fireStorageService.DeleteImage(image.Name);
+            }
+            else
+            {
+                image = new Image();
+            }
+
+            var response =  await _fireStorageService.UploadImage(imageDTO);
 
             if (response.HasError)
                 return response;
 
-            var image = await _imageRepository.Add(response.Model);
+            image.Url = response.Model.Url;
+            image.Name = response.Model.Name;
+
+            await _imageRepository.Update(image);
             return new Response<Image>(image, false, "");
-
-
-
-            
         }
+
+   
 
         public async Task Delete(int id)
         {

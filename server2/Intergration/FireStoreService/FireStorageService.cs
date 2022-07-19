@@ -103,6 +103,11 @@ namespace Intergration.FireStoreService
             return new Response<Image>(image, false, "complete");
         }
 
+        public async Task DeleteImage(string name)
+        {
+            await _firebaseStorage.Child(name).DeleteAsync();
+        }
+
         private string? MimeType(string format)
         {
             if (format == "JPEG")
