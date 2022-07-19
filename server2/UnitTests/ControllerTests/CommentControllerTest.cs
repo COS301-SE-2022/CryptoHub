@@ -1,39 +1,48 @@
-﻿using CryptoHubAPI.Controllers;
+﻿using BusinessLogic.Services.CommentService;
+using CryptoHubAPI.Controllers;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Linq.Expressions;
+using Infrastructure.DTO.CommentDTOs;
 
 namespace UnitTests.ControllerTests
 {
     public class CommentControllerTest
     {
-        private readonly Mock<ICommentRepository> _commentRepositoryMock;
+        private readonly Mock<ICommentService> _commentServiceMock;
 
         public CommentControllerTest()
         {
-            _commentRepositoryMock = new Mock<ICommentRepository>();
+            _commentServiceMock = new Mock<ICommentService>();
         }
 
         [Fact]
         public async Task GetCommentsByUserId_CommentId_ReturnsCommentsOfId()
         {
             //arrange
-            List<Comment> comments = new List<Comment>
+            List<CommentDTO> comments = new List<CommentDTO>
             {
-                new Comment
+                new CommentDTO
                 {
                     CommentId = 1,
                     UserId = 1,
                     PostId = 1,
-                    Comment1 = "CommentText"
+                    Content = "sample comment"
+                },
+                new CommentDTO
+                {
+                    CommentId = 2,
+                    UserId = 2,
+                    PostId = 2,
+                    Content = "sample comment"
                 }
             };
 
-            _commentRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Comment, bool>>>())).ReturnsAsync(comments);
+            _commentServiceMock.Setup(u => u.GetCommentByUserId(1));
 
-            var controller = new CommentController(_commentRepositoryMock.Object);
+            var controller = new CommentController(_commentServiceMock.Object);
 
             //act
             var result = await controller.GetCommentByUserId(1);
@@ -52,20 +61,27 @@ namespace UnitTests.ControllerTests
         public async Task GetCommentsByPostId_PostId_ReturnsCommentsOfId()
         {
             //arrange
-            List<Comment> comments = new List<Comment>
+            List<CommentDTO> comments = new List<CommentDTO>
             {
-                new Comment
+                new CommentDTO
                 {
                     CommentId = 1,
                     UserId = 1,
                     PostId = 1,
-                    Comment1 = "CommentText"
+                    Content = "sample comment"
+                },
+                new CommentDTO
+                {
+                    CommentId = 2,
+                    UserId = 2,
+                    PostId = 2,
+                    Content = "sample comment"
                 }
             };
 
-            _commentRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Comment, bool>>>())).ReturnsAsync(comments);
+            _commentServiceMock.Setup(u => u.GetCommentByPostId(1));
 
-            var controller = new CommentController(_commentRepositoryMock.Object);
+            var controller = new CommentController(_commentServiceMock.Object);
 
             //act
             var result = await controller.GetCommentByPostId(1);
@@ -82,27 +98,27 @@ namespace UnitTests.ControllerTests
         public async Task GetCommentCountByPostId_PostId_ReturnsCountOfComments()
         {
             //arrange
-            List<Comment> comments = new List<Comment>
+            List<CommentDTO> comments = new List<CommentDTO>
             {
-                new Comment
+                new CommentDTO
                 {
                     CommentId = 1,
                     UserId = 1,
                     PostId = 1,
-                    Comment1 = "CommentText"
+                    Content = "sample comment"
                 },
-                new Comment
+                new CommentDTO
                 {
                     CommentId = 2,
                     UserId = 2,
-                    PostId = 1,
-                    Comment1 = "CommentText2"
+                    PostId = 2,
+                    Content = "sample comment"
                 }
             };
 
-            _commentRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Comment, bool>>>())).ReturnsAsync(comments);
+            _commentServiceMock.Setup(u => u.GetCommentCountByPostId(1));
 
-            var controller = new CommentController(_commentRepositoryMock.Object);
+            var controller = new CommentController(_commentServiceMock.Object);
 
             //act
             var result = await controller.GetCommentCountByPostId(1);
@@ -127,11 +143,11 @@ namespace UnitTests.ControllerTests
                 CommentId = 1,
                 UserId = 1,
                 PostId = 1,
-                Comment1 = "CommentText"
+                Content = "sample comment"
             };
-            _commentRepositoryMock.Setup(u => u.Add(It.IsAny<Comment>())).ReturnsAsync(comment);
+            _commentServiceMock.Setup(u => u.AddComment(comment));
 
-            var controller = new CommentController(_commentRepositoryMock.Object);
+            var controller = new CommentController(_commentServiceMock.Object);
 
             //act
             var result = await controller.AddComment(comment);
@@ -152,12 +168,12 @@ namespace UnitTests.ControllerTests
                 CommentId = 1,
                 UserId = 1,
                 PostId = 1,
-                Comment1 = "CommentText"
+                Content = "sample comment"
             };
 
-            _commentRepositoryMock.Setup(u => u.Update(It.IsAny<Expression<Func<Comment, bool>>>(), It.IsAny<Comment>())).ReturnsAsync(comment);
+            _commentServiceMock.Setup(u => u.UpdateComment(comment));
 
-            var controller = new CommentController(_commentRepositoryMock.Object);
+            var controller = new CommentController(_commentServiceMock.Object);
 
             //act
             var result = await controller.UpdateComment(comment);
@@ -178,12 +194,12 @@ namespace UnitTests.ControllerTests
                 CommentId = 1,
                 UserId = 1,
                 PostId = 1,
-                Comment1 = "CommentText"
+                Content = "sample comment"
             };
 
-            _commentRepositoryMock.Setup(u => u.DeleteOne(It.IsAny<Expression<Func<Comment, bool>>>()));
+            _commentServiceMock.Setup(u => u.Delete(comment.CommentId));
 
-            var controller = new CommentController(_commentRepositoryMock.Object);
+            var controller = new CommentController(_commentServiceMock.Object);
 
             //act
             var result = await controller.Delete(comment.CommentId);
