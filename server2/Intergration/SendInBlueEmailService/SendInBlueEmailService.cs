@@ -20,8 +20,8 @@ namespace Intergration.SendInBlueEmailService
             string apiKey = string.Empty;
             var apikey = Configuration.Default.ApiKey.TryGetValue("api-key",out apiKey);
 
-            if(string.EmptyOr)
-                Configuration.Default.ApiKey.Add("api-key", configuration["SendInBlue:Key"]);
+            //if(string.EmptyOr)
+            Configuration.Default.ApiKey.Add("api-key", configuration["SendInBlue:Key"]);
 
             _apiInstance = new TransactionalEmailsApi();
             _sender = new SendSmtpEmailSender(configuration["SendInBlue:Name"],configuration["SendInBlue:Email"]);
