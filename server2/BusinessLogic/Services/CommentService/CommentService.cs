@@ -24,13 +24,13 @@ namespace BusinessLogic.Services.CommentService
             return _mapper.Map<CommentDTO>(response);
         }
 
-        public async Task<CommentDTO> GetCommentByPostId(int id)
+        public async Task<List<CommentDTO>> GetCommentByPostId(int id)
         {
-            var response = await _commentRepository.GetById(c => c.PostId == id);
+            var response = await _commentRepository.ListByExpression(c => c.PostId == id);
             if (response == null)
                 return null;
 
-            return _mapper.Map<CommentDTO>(response);
+            return _mapper.Map<List<CommentDTO>>(response);
         }
 
         public async Task<Response<object>> GetCommentCountByPostId(int id)
@@ -43,11 +43,18 @@ namespace BusinessLogic.Services.CommentService
 
         }
 
-        public async Task<CommentDTO> AddComment(Comment comment)
+        public async Task<CommentDTO> AddComment(CommentDTO comment)
         {
-            await _commentRepository.Add(comment);
+            var newComment = new Comment
+            {
+                Content = comment.Content,
+                UserId = comment.UserId,
+                PostId = comment.PostId
+            };
 
-            return _mapper.Map<CommentDTO>(comment);
+            await _commentRepository.Add(newComment);
+
+            return _mapper.Map<CommentDTO>(newComment);
         }
 
         public async Task<CommentDTO> UpdateComment(Comment comment)

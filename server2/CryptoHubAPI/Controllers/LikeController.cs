@@ -106,8 +106,9 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<LikeDTO>> AddLike([FromBody] Like like)
+        public async Task<ActionResult<LikeDTO>> AddLike([FromBody] LikeDTO like)
         {
+            
             var likes = await _likeService.AddLike(like);
 
             if (likes == null)

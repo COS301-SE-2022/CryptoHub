@@ -35,17 +35,12 @@ const ExplorePosts = () => {
           )
             .then((response) => response.json())
             .then((data) => {
-              console.warn("Following: ", data);
               setFollowing(data);
               setRefresh(true);
             })
-            .catch(() => {
-              console.warn("Fail");
-            });
+            .catch(() => {});
         })
-        .catch(() => {
-          console.warn("Fail 2");
-        });
+        .catch(() => {});
     } else {
       router.push("/");
     }
@@ -78,7 +73,7 @@ const ExplorePosts = () => {
             <Post
               key={index}
               name={data.username}
-              content={data.post1}
+              content={data.content}
               userId={data.userId}
               postId={data.postId}
               imageId={data.imageId}

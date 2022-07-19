@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Services.CommentService;
 using Domain.Models;
+using Infrastructure.DTO.CommentDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +28,7 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Comment>> GetCommentByPostId(int id)
+        public async Task<ActionResult<List<CommentDTO>>> GetCommentByPostId(int id)
         {
             var response = await _commentService.GetCommentByPostId(id);
             if (response == null)
@@ -49,7 +50,7 @@ namespace CryptoHubAPI.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<Comment>> AddComment([FromBody] Comment comment)
+        public async Task<ActionResult<Comment>> AddComment([FromBody] CommentDTO comment)
         {
             var response = await _commentService.AddComment(comment);
             if (response == null)

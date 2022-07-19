@@ -25,7 +25,7 @@ namespace BusinessLogic.Services.LikeService
 
         Task<LikeDTO> GetLikeBy(int userId, int postId);
 
-        Task<LikeDTO> AddLike(Like like);
+        Task<LikeDTO> AddLike(LikeDTO like);
 
         Task<LikeDTO> UpdateLike(Like like);
 

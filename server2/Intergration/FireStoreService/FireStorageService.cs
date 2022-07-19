@@ -24,7 +24,8 @@ namespace Intergration.FireStoreService
                     apiKey
                     ));
 
-            var authLink = auth.SignInWithEmailAndPasswordAsync(email, password).Result;
+            //var authLink = auth.SignInWithEmailAndPasswordAsync(email, password).Result;
+            FirebaseAuthLink authLink = null;
 
             _firebaseStorage = new FirebaseStorage(
                 bucket,
@@ -74,7 +75,7 @@ namespace Intergration.FireStoreService
             byte[] bytes = Convert.FromBase64String(imageDTO.Blob);
 
             // 1mb = 1 000 000 bytes
-            if(bytes.Length > 5000000)
+            if (bytes.Length > 5000000)
                 return new Response<Image>(null, true, "image cannot exceed 5MBs");
 
 
@@ -84,7 +85,7 @@ namespace Intergration.FireStoreService
 
             string? type = MimeType(format.Name);
 
-            if(type==null)
+            if (type == null)
                 return new Response<Image>(null, true, "Image may only be jpg,png or gif");
 
             string name = $"{imageDTO.Name}.{type}";
