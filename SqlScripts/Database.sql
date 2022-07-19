@@ -1,0 +1,6 @@
+DROP DATABASE CryptoHubDB;
+
+USE [master]
+GO
+
+CREATE DATABASE [CryptoHubDB]

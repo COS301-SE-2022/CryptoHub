@@ -1,52 +1,58 @@
-﻿using CryptoHubAPI;
+﻿using BusinessLogic.Services.PostService;
+using BusinessLogic.Services.ImageService;
 using CryptoHubAPI.Controllers;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Linq.Expressions;
+using Infrastructure.DTO.PostDTO;
+using Infrastructure.DTO.ImageDTOs;
 
 namespace UnitTests.ControllerTests
 {
     public class PostControllerTest
     {
-        private readonly Mock<IPostRepository> _postRepositoryMock;
-        private readonly Mock<IImageRepository> _imageRepositoryMock;
+        private readonly Mock<IPostService> _postServiceMock;
+        private readonly Mock<IImageService> _imageServiceMock;
 
         public PostControllerTest()
         {
-            _postRepositoryMock = new Mock<IPostRepository>();
-            _imageRepositoryMock = new Mock<IImageRepository>();
+            _postServiceMock = new Mock<IPostService>();
+            _imageServiceMock = new Mock<IImageService>();
         }
         [Fact]
         public async Task GetAllPosts_ListOfPosts_ReturnsListOfPosts()
         {
             //arrange
-            List<Post> posts = new List<Post>
+            List<PostDTO> posts = new List<PostDTO>
             {
-                new Post
+                new PostDTO
                 {
                     PostId = 1,
-                    Post1 = "Post 1",
-                    UserId = 1
+                    Content = "Post 1",
+                    UserId = 1,
+                    ImageId = 1
                 },
-                new Post
+                new PostDTO
                 {
                     PostId = 2,
-                    Post1 = "Post 2",
-                    UserId = 2
+                    Content = "Post 2",
+                    UserId = 2,
+                    ImageId = 2
                 },
-                new Post
+                new PostDTO
                 {
                     PostId = 3,
-                    Post1 = "Post 3",
-                    UserId = 3
+                    Content = "Post 3",
+                    UserId = 3,
+                    ImageId = 3
                 }
             };
 
-            _postRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(posts);
+            _postServiceMock.Setup(u => u.GetAllPosts()).ReturnsAsync(posts);
 
-            var controller = new PostController(_postRepositoryMock.Object, _imageRepositoryMock.Object);
+            var controller = new PostController(_postServiceMock.Object);
 
             //act
             var result = await controller.GetAllPosts();
@@ -63,20 +69,34 @@ namespace UnitTests.ControllerTests
         public async Task GetPostsByUserId_UserId_ReturnsPostsOfId()
         {
             //arrange
-            List<Post> posts = new List<Post>
+            List<PostDTO> posts = new List<PostDTO>
             {
-                new Post
+                new PostDTO
                 {
                     PostId = 1,
-                    Post1 = "Post 1",
-                    UserId = 1
+                    Content = "Post 1",
+                    UserId = 1,
+                    ImageId = 1
+                },
+                new PostDTO
+                {
+                    PostId = 2,
+                    Content = "Post 2",
+                    UserId = 2,
+                    ImageId = 2
+                },
+                new PostDTO
+                {
+                    PostId = 3,
+                    Content = "Post 3",
+                    UserId = 3,
+                    ImageId = 3
                 }
             };
 
-            _postRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<Post, bool>>>())).ReturnsAsync(posts);
-            //_postRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(posts);
+            _postServiceMock.Setup(u => u.GetPostByUserId(1));
 
-            var controller = new PostController(_postRepositoryMock.Object, _imageRepositoryMock.Object);
+            var controller = new PostController(_postServiceMock.Object);
 
 
             //act
@@ -93,21 +113,21 @@ namespace UnitTests.ControllerTests
         [Fact]
         public async Task AddPost_Post_ReturnsPost()
         {
-            var post = new Post
+            var post = new PostDTO
             {
                 PostId = 1,
-                Post1 = "Post 1",
-                UserId = 1
+                Content = "Post 1",
+                UserId = 1,
+                ImageId = 1
             };
             var dto = new CreatePostDTO
             {
                 Post = "Post 1",
                 UserId = 1
             };
-            _postRepositoryMock.Setup(u => u.Add(It.IsAny<Post>())).ReturnsAsync(post);
+            _postServiceMock.Setup(u => u.AddPost(dto));
 
-            var controller = new PostController(_postRepositoryMock.Object, _imageRepositoryMock.Object);
-
+            var controller = new PostController(_postServiceMock.Object);
 
             //act
             var result = await controller.AddPost(dto);
@@ -125,13 +145,19 @@ namespace UnitTests.ControllerTests
             var post = new Post
             {
                 PostId = 1,
-                Post1 = "Post 1",
+                Content = "Post 1",
+                UserId = 1,
+                ImageId = 1
+            };
+            var dto = new CreatePostDTO
+            {
+                Post = "Post 1",
                 UserId = 1
             };
 
-            _postRepositoryMock.Setup(u => u.Update(It.IsAny<Expression<Func<Post, bool>>>(), It.IsAny<Post>())).ReturnsAsync(post);
+            _postServiceMock.Setup(u => u.UpdatePost(post));
 
-            var controller = new PostController(_postRepositoryMock.Object, _imageRepositoryMock.Object);
+            var controller = new PostController(_postServiceMock.Object);
 
             //act
             var result = await controller.UpdatePost(post);
@@ -149,13 +175,14 @@ namespace UnitTests.ControllerTests
             var post = new Post
             {
                 PostId = 1,
-                Post1 = "Post 1",
-                UserId = 1
+                Content = "Post 1",
+                UserId = 1,
+                ImageId = 1
             };
 
-            _postRepositoryMock.Setup(u => u.DeleteOne(It.IsAny<Expression<Func<Post, bool>>>()));
+            _postServiceMock.Setup(u => u.Delete(post.PostId));
 
-            var controller = new PostController(_postRepositoryMock.Object, _imageRepositoryMock.Object);
+            var controller = new PostController(_postServiceMock.Object);
 
             //act
             var result = await controller.Delete(post.PostId);
