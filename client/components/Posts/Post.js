@@ -108,9 +108,10 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        commentId: 0,
         userId: user.id,
         postId: postId,
-        comment1: comment,
+        content: comment,
       }),
     };
     fetch("http://localhost:7215/api/Comment/AddComment", options)

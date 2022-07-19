@@ -43,11 +43,18 @@ namespace BusinessLogic.Services.CommentService
 
         }
 
-        public async Task<CommentDTO> AddComment(Comment comment)
+        public async Task<CommentDTO> AddComment(CommentDTO comment)
         {
-            await _commentRepository.Add(comment);
+            var newComment = new Comment
+            {
+                Content = comment.Content,
+                UserId = comment.UserId,
+                PostId = comment.PostId
+            };
 
-            return _mapper.Map<CommentDTO>(comment);
+            await _commentRepository.Add(newComment);
+
+            return _mapper.Map<CommentDTO>(newComment);
         }
 
         public async Task<CommentDTO> UpdateComment(Comment comment)

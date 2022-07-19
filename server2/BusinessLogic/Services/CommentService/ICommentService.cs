@@ -13,7 +13,7 @@ namespace BusinessLogic.Services.CommentService
         Task<CommentDTO> GetCommentByUserId(int id);
         Task<List<CommentDTO>> GetCommentByPostId(int id);
         Task<Response<object>> GetCommentCountByPostId(int id);
-        Task<CommentDTO> AddComment(Comment comment);
+        Task<CommentDTO> AddComment(CommentDTO comment);
         Task<CommentDTO> UpdateComment(Comment comment);
         Task Delete(int id);
     }
