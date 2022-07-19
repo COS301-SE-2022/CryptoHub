@@ -65,8 +65,19 @@ namespace CryptoHubAPI.Controllers
             return Ok();
         }
 
-       //[HttpPost]
-       //public async Task<IActionResult> Report ()
+        [HttpPost]
+        public async Task<ActionResult<PostReport>> Report(int postid, int userid)
+        {
+            var response = await _postService.Report(postid, userid);
+
+            if(response == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(response);
+
+        }
 
     }
 }

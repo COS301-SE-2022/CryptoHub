@@ -67,12 +67,18 @@ namespace BusinessLogic.Services.PostService
 
         }
 
-        public async Task<PostReport> Report(int Postid, int userId)
+        public async Task<PostReport> Report(int postid, int userid)
         {
+            var CheckpostReport = await _postRepository.GetByExpression(p => p.PostId == postid && p.UserId == userid);
+            if(CheckpostReport != null)
+            {
+                return null;
+            }
+
             var newReport = new PostReport
             {
-                PostId = Postid,
-                Userid = userId
+                PostId = postid,
+                Userid = userid
             };
 
             await _postReportRepository.Add(newReport);
