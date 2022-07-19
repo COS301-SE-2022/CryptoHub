@@ -1,36 +1,36 @@
-﻿/*using CryptoHubAPI.Controllers;
+﻿using BusinessLogic.Services.AuthorizationService;
+using CryptoHubAPI.Controllers;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Linq.Expressions;
+using Infrastructure.DTO.UserDTOs;
 
 namespace UnitTests.ControllerTests
 {
     public class AuthorizationControllerTest
     {
-        private readonly Mock<IUserRepository> _userRepositoryMock;
+        private readonly Mock<IAuthorizationService> _authorizationServiceMock;
 
         public AuthorizationControllerTest()
         {
-            _userRepositoryMock = new Mock<IUserRepository>();
+            _authorizationServiceMock = new Mock<IAuthorizationService>();
         }
 
         [Fact]
         public async Task Login_User_ReturnsUser()
         {
             //arrange
-            var user = new User
+            var login = new LoginDTO
             {
-                UserId = 1,
                 Email = "johndoe@gmail.com",
-                Firstname = "john",
-                Lastname = "doe",
-                Username = "john",
                 Password = "1234"
             };
 
-            _userRepositoryMock.Setup(u => u.FindOne(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(user);
+            var jwt = new JWT("abc");
+
+            _authorizationServiceMock.Setup(u => u.Login(login)).ReturnsAsync(jwt);
 
             var controllerAuth = new AuthorizationController(_userRepositoryMock.Object);
 
@@ -124,4 +124,3 @@ namespace UnitTests.ControllerTests
         }
     }
 }
-*/
