@@ -6,6 +6,7 @@ using Domain.Models;
 using Infrastructure.DTO.EmailDTOs;
 using Infrastructure.DTO.UserDTOs;
 using Intergration.SendGridEmailService;
+using Intergration.SendInBlueEmailService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -23,18 +24,18 @@ namespace BusinessLogic.Services.AuthorizationService
         private readonly IUserRepository _userRepository;
         private readonly IRoleService _roleService;
         private readonly IConfiguration _configuration;
-        private readonly ISendGridEmailService _sendGridEmailService;
+        private readonly ISendInBlueEmailService _sendInBlueEmailService;
         private readonly IMapper _mapper;
 
         public AuthorizationService(
             IUserRepository userRepository, IRoleService roleService
-            , IConfiguration configuration, ISendGridEmailService sendGridEmailService
+            , IConfiguration configuration, ISendInBlueEmailService sendInBlueEmailService
             , IMapper mapper)
         {
             _userRepository = userRepository;
             _roleService = roleService;
             _configuration = configuration;
-            _sendGridEmailService = sendGridEmailService;
+            _sendInBlueEmailService = sendInBlueEmailService;
             _mapper = mapper;
         }
 
@@ -78,10 +79,9 @@ namespace BusinessLogic.Services.AuthorizationService
                 RecieverName = user.Firstname,
                 Subject = "Welcome to CryptoHub",
                 plainTextContent = "Enjoy, using our website",
-                htmlContent = string.Empty,
             };
 
-            await _sendGridEmailService.SendEmail(outGoingEmail);
+            _sendInBlueEmailService.Sendemail(outGoingEmail);
 
             return new Response<JWT>(token, false, "registered");
         }
@@ -107,7 +107,7 @@ namespace BusinessLogic.Services.AuthorizationService
 
             await _userRepository.Update(user);
 
-            await _sendGridEmailService.SendEmail(outGoingEmail);
+            _sendInBlueEmailService.Sendemail(outGoingEmail);
 
             return _mapper.Map<UserDTO>(user);   
         }

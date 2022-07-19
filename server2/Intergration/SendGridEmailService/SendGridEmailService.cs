@@ -17,10 +17,10 @@ namespace Intergration.SendGridEmailService
 
         public SendGridEmailService(IConfiguration configuration)
         {
-            var apikey = configuration["SendGrid:Key"];
+            var apikey = configuration["SendInBlue:Key"];
             _sendGridClient = new SendGridClient(apikey);
 
-            _sourceEmailAddress = new EmailAddress(configuration["SendGrid:Sender"], configuration["SendGrid:Name"]);
+            _sourceEmailAddress = new EmailAddress(configuration["SendInBlue:Sender"], configuration["SendInBlue:Name"]);
 
         }
 
