@@ -11,11 +11,13 @@ namespace BusinessLogic.Services.PostService
     {
         private readonly IPostRepository _postRepository;
         private readonly IImageService _imageService;
+        private readonly IPostReportRepository _postReportRepository;
         private readonly IMapper _mapper;
-        public PostService(IPostRepository postRepository, IImageService imageService, IMapper mapper)
+        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository , IMapper mapper)
         {
             _postRepository = postRepository;
             _imageService = imageService;
+            _postReportRepository = postReportRepository;
             _mapper = mapper;
         }
 
@@ -65,6 +67,10 @@ namespace BusinessLogic.Services.PostService
 
         }
 
+        public async Task Report(int id, int UserId)
+        {
+          
+        }
 
 
 
