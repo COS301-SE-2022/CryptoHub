@@ -1,4 +1,5 @@
-﻿using Domain.IRepository;
+﻿/*using BusinessLogic.Services.ReplyService;
+using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,25 +10,21 @@ namespace CryptoHubAPI.Controllers
     public class ReplyController : Controller
     {
 
-        private readonly IReplyRepository _replyRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly ICommentRepository _commentRepository;
+        private readonly IReplyService _replyService;
 
-        public ReplyController(IReplyRepository replyRepository, ICommentRepository commentRepository, IUserRepository userRepository)
+        public ReplyController(IReplyService replyService)
         {
-            _replyRepository = replyRepository;
-            _commentRepository = commentRepository;
-            _userRepository = userRepository;
+            _replyService = replyService;
         }
 
-        [HttpGet("{userid}")]
+        [HttpGet("{userId}")]
         public async Task<ActionResult<List<Reply>>> GetRepliesByUserId(int userId)
         {
-            var user = await _userRepository.FindOne(u => u.UserId == userId);
+            var user = await _replyService.GetRepliesByUserId(userId);
             if (user == null)
                 return BadRequest("user by specified id not found");
 
-            var reply = await _replyRepository.FindRange(r => r.UserId == userId);
+            var reply = await _replyService.GetRepliesByUserId(userId);
             return Ok(reply);
 
         }
@@ -35,12 +32,12 @@ namespace CryptoHubAPI.Controllers
         [HttpGet("{commentId}")]
         public async Task<ActionResult<List<Reply>>> GetRepliesByCommentId(int commentId)
         {
-            
-            var comment = await _commentRepository.FindOne(u => u.CommentId == commentId);
+
+            var comment = await _replyService.GetRepliesByCommentId(commentId);
             if (comment == null)
                 return BadRequest("comment by specified id not found");
 
-            var reply = await _replyRepository.FindRange(r => r.CommentId == commentId);
+            var reply = await _replyService.GetRepliesByCommentId(commentId);
             return Ok(reply);
 
         }
@@ -49,27 +46,27 @@ namespace CryptoHubAPI.Controllers
         public async Task<IActionResult> GetRepliesCountByCommentId(int commentId)
         {
 
-            var comment = await _commentRepository.FindOne(u => u.CommentId == commentId);
-            if (comment == null)
-                return BadRequest("comment by specified id not found");
+            var comment = await _replyService.GetRepliesCountByCommentId(commentId);
+            if (comment.HasError)
+                return NotFound(comment.Message);
 
-            var reply = await _replyRepository.FindRange(r => r.CommentId == commentId);
+            var reply = await _replyService.GetRepliesCountByCommentId(commentId);
             
-            return Ok(new {Count = reply.Count()} );
+            return Ok(reply.Model);
 
         }
 
         [HttpPost]
         public async Task<ActionResult<Reply>> AddReply(Reply reply)
         {
-            var response = await _replyRepository.Add(reply);
+            var response = await _replyService.AddReply(reply);
             return Ok(response);
         }
 
         [HttpPut("{replyId}")]
         public async Task<IActionResult> UpdateReply(int replyId,Reply reply)
         {
-            var resposne = await _replyRepository.Update(r => r.ReplyId == replyId, reply);
+            var resposne = await _replyService.UpdateReply(replyId, reply);
             if(resposne == null)
                 return BadRequest("reply by specified id not found");
 
@@ -79,8 +76,9 @@ namespace CryptoHubAPI.Controllers
         [HttpDelete("{userId}")]
         public async Task<IActionResult> Delete(int replyId)
         {
-            await _replyRepository.DeleteOne(r => r.ReplyId == replyId);
+            await _replyService.Delete(replyId);
             return Ok();
         }
     }
 }
+*/

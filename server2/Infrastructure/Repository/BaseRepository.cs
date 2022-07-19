@@ -83,12 +83,44 @@ namespace Infrastructure.Repository
 
         }
 
+
+        //NEW STUFF
         public async Task<TEntity> Add(TEntity entity)
         {
             var response = await dbSet.AddAsync(entity);
             dBContext.SaveChanges();
             return entity;
 
+        }
+
+        public Task Update(TEntity entity)
+        {
+            dbSet.Update(entity);
+            dBContext.SaveChanges();
+
+            return Task.CompletedTask;
+        }
+
+        public async Task<TEntity> GetByExpression(Expression<Func<TEntity, bool>> expression)
+        {
+            var response = await dbSet.FirstOrDefaultAsync(expression);
+            if (response == null)
+                return null;
+
+            return response;
+        }
+
+        public async Task<List<TEntity>> ListByExpression(Expression<Func<TEntity, bool>> expression)
+        {
+            return await dbSet.Where(expression).ToListAsync();
+        }
+
+        public Task Delete(TEntity entity)
+        {
+            dbSet.Remove(entity);
+            dBContext.SaveChanges();
+
+            return Task.CompletedTask;
         }
     }
 }

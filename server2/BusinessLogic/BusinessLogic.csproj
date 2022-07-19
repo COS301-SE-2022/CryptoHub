@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,4 +6,22 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\Intergration\Intergration.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Services\LikeService\" />
+    <None Remove="Services\PostService\" />
+    <None Remove="Services\ReplyService\" />
+    <None Remove="Services\UserFollowerService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\LikeService\" />
+    <Folder Include="Services\PostService\" />
+    <Folder Include="Services\ReplyService\" />
+    <Folder Include="Services\UserFollowerService\" />
+  </ItemGroup>
 </Project>

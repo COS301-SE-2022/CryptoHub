@@ -6,10 +6,11 @@ import { useRouter } from "next/router"
 
 function forgotPasswordConfirmation() {
     const { authorise } = useContext(userContext);
-    const [email, setEmail] = useState("");
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+
+    console.log(router.query.email);
 
   return (
     <>
@@ -59,7 +60,7 @@ function forgotPasswordConfirmation() {
                     {loading ? (
                       <p className="text-indigo-200">Loading...</p>
                     ) : (
-                      <a href="/changePassword">Confirm</a>
+                      <a href={`/changePassword?email=${router.query.email}`}>Confirm</a>
                     )}
                   </button>
                 </div>
@@ -74,7 +75,6 @@ function forgotPasswordConfirmation() {
                 </a>
               </div>
             </div>
-
 
               </form>
               {error ? (
