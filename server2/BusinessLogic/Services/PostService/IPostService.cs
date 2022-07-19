@@ -12,7 +12,7 @@ namespace BusinessLogic.Services.PostService
         Task<PostDTO> AddPost(CreatePostDTO createPostDTO); 
         Task<PostDTO> UpdatePost(Post Post);
         Task Delete(int id);
-        Task Report(int id, int UserId);
+        Task<PostReport> Report(int Postid, int UserId);
     }
 }
 

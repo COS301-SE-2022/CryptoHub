@@ -65,5 +65,8 @@ namespace CryptoHubAPI.Controllers
             return Ok();
         }
 
+       //[HttpPost]
+       //public async Task<IActionResult> Report ()
+
     }
 }

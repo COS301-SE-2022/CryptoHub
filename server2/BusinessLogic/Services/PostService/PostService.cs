@@ -67,9 +67,17 @@ namespace BusinessLogic.Services.PostService
 
         }
 
-        public async Task Report(int id, int UserId)
+        public async Task<PostReport> Report(int Postid, int userId)
         {
-          
+            var newReport = new PostReport
+            {
+                PostId = Postid,
+                Userid = userId
+            };
+
+            await _postReportRepository.Add(newReport);
+
+            return newReport;
         }
 
 
