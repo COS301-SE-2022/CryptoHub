@@ -47,6 +47,8 @@ namespace BusinessLogic.Services.UserService
             if (response == null)
                 return null;
 
+            user.RoleId = 3;
+
             await _userRepository.Add(user);
 
             return _mapper.Map<UserDTO>(user);
