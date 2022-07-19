@@ -23,7 +23,6 @@ namespace BusinessLogic.Services.PostService
         {
             var Post = await _postRepository.GetAll();
             return _mapper.Map<List<PostDTO>>(Post);
-
         }
         public async Task<PostDTO> GetPostByUserId(int id)
         {
@@ -64,11 +63,11 @@ namespace BusinessLogic.Services.PostService
 
         }
 
-        
 
-        
 
-        
+
+
+
     }
 }
 
