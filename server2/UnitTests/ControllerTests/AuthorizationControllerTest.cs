@@ -30,12 +30,12 @@ namespace UnitTests.ControllerTests
 
             var jwt = new JWT("abc");
 
-            _authorizationServiceMock.Setup(u => u.Login(login)).ReturnsAsync(jwt);
+            _authorizationServiceMock.Setup(u => u.Login(login));
 
-            var controllerAuth = new AuthorizationController(_userRepositoryMock.Object);
+            var controllerAuth = new AuthorizationController(_authorizationServiceMock.Object);
 
             //act
-            var result = await controllerAuth.Login(user);
+            var result = await controllerAuth.Login(login);
 
             //Assert
             Assert.NotNull(result);
@@ -45,10 +45,12 @@ namespace UnitTests.ControllerTests
             Assert.IsType<Response<User>>(actual);
 
             //arrange 2 Tests for null return (no user found)
-            _userRepositoryMock.Setup(u => u.FindOne(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync((User)null);
+            //_userRepositoryMock.Setup(u => u.FindOne(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync((User)null);
+            _authorizationServiceMock.Setup(u => u.Login(login)).Returns((Task<Response<JWT>>)null);
+
 
             //act2
-            var result2 = await controllerAuth.Login(user);
+            var result2 = await controllerAuth.Login(login);
 
             //Assert 2
             Assert.NotNull(result2);
@@ -58,17 +60,13 @@ namespace UnitTests.ControllerTests
             Assert.IsType<Response<User>>(actual2);
 
             //arrange 3 Tests for when passwords dont match
-            var user2 = new User
+            var user2 = new LoginDTO
             {
-                UserId = 1,
                 Email = "johndoe@gmail.com",
-                Firstname = "john",
-                Lastname = "doe",
-                Username = "john",
                 Password = "4321"
             };
-            _userRepositoryMock.Setup(u => u.FindOne(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(user);
 
+            _authorizationServiceMock.Setup(u => u.Login(login));
 
             //act 3
             var result3 = await controllerAuth.Login(user2);
@@ -85,9 +83,8 @@ namespace UnitTests.ControllerTests
         public async Task Register_User_ReturnsUser()
         {
             //Base arrange
-            var user = new User
+            var register = new RegisterDTO
             {
-                UserId = 1,
                 Email = "johndoe@gmail.com",
                 Firstname = "john",
                 Lastname = "doe",
@@ -96,11 +93,11 @@ namespace UnitTests.ControllerTests
             };
 
             //Arrange Tests for not null return (user already registered)
-            _userRepositoryMock.Setup(u => u.FindOne(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(user);
-            var controllerAuth = new AuthorizationController(_userRepositoryMock.Object);
+            _authorizationServiceMock.Setup(u => u.Register(register));
+            var controllerAuth = new AuthorizationController(_authorizationServiceMock.Object);
 
             //Act
-            var result2 = await controllerAuth.Register(user);
+            var result2 = await controllerAuth.Register(register);
 
             //Assert
             Assert.NotNull(result2);
@@ -110,10 +107,10 @@ namespace UnitTests.ControllerTests
             Assert.IsType<Response<User>>(actual2);
 
             //Arrange Tests for null return (user not yet registered)
-            _userRepositoryMock.Setup(u => u.FindOne(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync((User)null);
+            _authorizationServiceMock.Setup(u => u.Register(register)).Returns((Task<Response<JWT>>)null);
 
             //Act
-            var result = await controllerAuth.Register(user);
+            var result = await controllerAuth.Register(register);
 
             //Assert
             Assert.NotNull(result);
