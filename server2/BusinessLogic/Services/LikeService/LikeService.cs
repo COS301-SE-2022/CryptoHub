@@ -98,9 +98,8 @@ namespace BusinessLogic.Services.LikeService
 
         }
 
-        public async Task<LikeDTO> AddLike(Like like) {
+        public async Task<LikeDTO> AddLike(LikeDTO like) {
             var likes = await _likeRepository.FindOne(l => l.UserId == like.UserId
-              && l.ReplyId == like.ReplyId
               && l.CommentId == like.CommentId
               && l.PostId == like.PostId
               );
@@ -108,7 +107,17 @@ namespace BusinessLogic.Services.LikeService
             if (likes != null)
                 return null;
 
-            return _mapper.Map<LikeDTO>(like);
+            var newLike = new Like
+            {
+                UserId = like.UserId,
+                PostId = like.PostId,
+                CommentId = like.CommentId,
+
+            };
+
+            await _likeRepository.Add(newLike);
+
+            return _mapper.Map<LikeDTO>(newLike);
         }
 
         public async Task<LikeDTO> UpdateLike(Like like) {

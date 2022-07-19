@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.DTO.UserCoinDTOs;
 using BusinessLogic.Services.UserCoinService;
+using Infrastructure.DTO.UserDTOs;
 
 namespace CryptoHubAPI.Controllers
 {
@@ -25,13 +26,13 @@ namespace CryptoHubAPI.Controllers
 
         [HttpGet]
         // GET: UserController
-        public async Task<ActionResult<List<User>>> GetAllUsers()
+        public async Task<ActionResult<List<UserDTO>>> GetAllUsers()
         {
             return Ok(await _userService.GetAllUsers());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserById(int id)
+        public async Task<ActionResult<UserDTO>> GetUserById(int id)
         {
             var response = await _userService.GetById(id);
             if (response == null)
@@ -42,7 +43,7 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{email}")]
-        public async Task<ActionResult<User>> GetUserByEmail(string email)
+        public async Task<ActionResult<UserDTO>> GetUserByEmail(string email)
         {
             var response = await _userService.GetUserByEmail(email);
             if (response == null)
@@ -53,7 +54,7 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> AddUser([FromBody] User user)
+        public async Task<ActionResult<UserDTO>> AddUser([FromBody] User user)
         {
            var response = await _userService.AddUser(user);
            if (response == null)
@@ -64,7 +65,7 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<User>> UpdateUser([FromBody] User user)
+        public async Task<ActionResult<UserDTO>> UpdateUser([FromBody] User user)
         {
             var response = await _userService.UpateUser(user);
             if (response == null)

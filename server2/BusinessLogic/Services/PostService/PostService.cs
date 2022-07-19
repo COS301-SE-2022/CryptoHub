@@ -24,13 +24,13 @@ namespace BusinessLogic.Services.PostService
             var Post = await _postRepository.GetAll();
             return _mapper.Map<List<PostDTO>>(Post);
         }
-        public async Task<PostDTO> GetPostByUserId(int id)
+        public async Task<List<PostDTO>> GetPostByUserId(int id)
         {
             var response = await _postRepository.FindRange(p => p.UserId == id);
             if (response == null)
                 return null;
 
-            return _mapper.Map<PostDTO>(response);
+            return _mapper.Map<List<PostDTO>>(response);
 
         }
 
@@ -44,6 +44,8 @@ namespace BusinessLogic.Services.PostService
 
             post.Content = createPostDTO.Post;
             post.UserId = createPostDTO.UserId;
+
+            await _postRepository.Add(post);
 
             return _mapper.Map<PostDTO>(post);
 
