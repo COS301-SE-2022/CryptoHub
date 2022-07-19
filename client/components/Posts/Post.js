@@ -132,7 +132,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       .then((response) => response.json())
       .then((data) => {
         setComments(data);
-        console.warn("Comments: ", data);
       })
       .catch((error) => {});
   };
@@ -307,13 +306,13 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                           <p className="text-semibold text-gray-600 px-1">
                             Comments
                           </p>
-
+                          {console.warn("COMMMENTS: ", comments)}
                           {comments.map((data, index) => {
                             return (
                               <Comment
                                 key={index}
                                 userId={data.userId}
-                                comment={data.comment1}
+                                comment={data.content}
                               />
                             );
                           })}

@@ -46,6 +46,8 @@ namespace BusinessLogic.Services.PostService
             post.Content = createPostDTO.Post;
             post.UserId = createPostDTO.UserId;
 
+            await _postRepository.Add(post);
+
             return _mapper.Map<PostDTO>(post);
 
         }

@@ -11,7 +11,7 @@ namespace BusinessLogic.Services.CommentService
     public interface ICommentService
     {
         Task<CommentDTO> GetCommentByUserId(int id);
-        Task<CommentDTO> GetCommentByPostId(int id);
+        Task<List<CommentDTO>> GetCommentByPostId(int id);
         Task<Response<object>> GetCommentCountByPostId(int id);
         Task<CommentDTO> AddComment(Comment comment);
         Task<CommentDTO> UpdateComment(Comment comment);
