@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Domain.IRepository;
+using Domain.Models;
 using Infrastructure.DTO.TagDTOs;
+using Infrastructure.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace BusinessLogic.Services.TagService
     {
         private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
-        public TagServices(ITagRepository tagRepository, IMapper mapper )
+        public TagServices(ITagRepository tagRepository, IMapper mapper)
         {
             _tagRepository = tagRepository;
             _mapper = mapper;

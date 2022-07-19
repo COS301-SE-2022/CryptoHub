@@ -10,9 +10,14 @@ namespace BusinessLogic.Services.UserCoinService
 {
     public interface IUserCoinService
     {
-        Task<List<UserCoinDTO>> GetAllUserCoins();
-        Task<List<UserCoinDTO>> GetAllCoinsUserFollows(int id);
-        Task<List<UserCoinDTO>> GetAllUsersFollowingCoin(int id);
+        //ask<List<UserCoinDTO>> GetAllUserCoins();
+        //Task<List<UserCoinDTO>> GetAllCoinsUserFollows(int id);
+        //Task<List<UserCoinDTO>> GetAllUsersFollowingCoin(int id);
+
+        Task<List<UserCoinDTO>> GetUserCoins(int id);
+
+        Task<List<UserCoinDTO>> GetCoinFollowers(int id);
+
         Task<object> GetCoinFollowCount(int id);
         Task<Response<string>> FollowCoin(int userId, int coinId);
         Task<Response<string>> UnfollowCoin(int userId, int coinId);

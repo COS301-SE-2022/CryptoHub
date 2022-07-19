@@ -3,6 +3,7 @@ using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.ImageDTOs;
 using Infrastructure.Repository;
+using Intergration.FireStoreService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,12 @@ namespace BusinessLogic.Services.ImageService
     {
         private readonly IImageRepository _imageRepository;
         private readonly IMapper _mapper;
-        public ImageService(IImageRepository imageRepository, IMapper mapper)
+        private readonly IFireStorageService _fireStorageService;
+        public ImageService(IImageRepository imageRepository, IMapper mapper, IFireStorageService fireStorageService)
         {
             _imageRepository = imageRepository;
             _mapper = mapper;
+            _fireStorageService = fireStorageService;
         }
 
         public async Task<Image> GetById(int id)
@@ -29,16 +32,33 @@ namespace BusinessLogic.Services.ImageService
 
         }
 
-        public async Task<Image> AddImage(ImageDTO imageDTO)
+        public async Task<Response<Image>> AddImage(CreateImageDTO imageDTO)
         {
-            byte[] imageArray = Convert.FromBase64String(imageDTO.Blob);
 
-            Image image = new Image();
-            image.Blob = imageArray;
+            var image = await _imageRepository.GetByExpression(image => image.Name.Contains(imageDTO.Name));
 
-            return _mapper.Map<Image>(await _imageRepository.Add(image));
+            if (image != null)
+            {
+                await _fireStorageService.DeleteImage(image.Name);
+            }
+            else
+            {
+                image = new Image();
+            }
 
+            var response =  await _fireStorageService.UploadImage(imageDTO);
+
+            if (response.HasError)
+                return response;
+
+            image.Url = response.Model.Url;
+            image.Name = response.Model.Name;
+
+            await _imageRepository.Update(image);
+            return new Response<Image>(image, false, "");
         }
+
+   
 
         public async Task Delete(int id)
         {

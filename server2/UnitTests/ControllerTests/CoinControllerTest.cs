@@ -14,7 +14,6 @@ namespace UnitTests.ControllerTests
 {
     public class CoinControllerTest
     {
-        private readonly Mock<ICoinRepository> _coinRepositoryMock;
         private readonly Mock<ICoinRatingService> _coinRatingServiceMock;
         private readonly Mock<IUserCoinService> _userCoinServiceMock;
         private readonly Mock<ICoinService> _coinServiceMock;
@@ -25,7 +24,6 @@ namespace UnitTests.ControllerTests
             _coinServiceMock = new Mock<ICoinService>();
             _userCoinServiceMock = new Mock<IUserCoinService>();
             _coinRatingServiceMock = new Mock<ICoinRatingService>();
-            _coinRepositoryMock = new Mock<ICoinRepository>();
         }
 
         [Fact]
@@ -78,7 +76,7 @@ namespace UnitTests.ControllerTests
 
             _coinServiceMock.Setup(u => u.UpdateCoin(coin)).ReturnsAsync(coin);
 
-            var controller = new CoinController(_coinServiceMock.Object);
+            var controller = new CoinController(_coinServiceMock.Object, _coinRatingServiceMock.Object, _userCoinServiceMock.Object);
 
             //act
             var result = await controller.UpdateCoin(coin);
@@ -91,7 +89,7 @@ namespace UnitTests.ControllerTests
             Assert.IsType<Coin>(actual);
 
             //arrange
-            _coinRepositoryMock.Setup(u => u.Update(It.IsAny<Expression<Func<Coin, bool>>>(), It.IsAny<Coin>())).ReturnsAsync((Coin)null);
+            _coinServiceMock.Setup(u => u.UpdateCoin(coin)).ReturnsAsync(coin);
 
             //act
             var result2 = await controller.UpdateCoin(coin);

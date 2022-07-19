@@ -32,6 +32,16 @@ namespace CryptoHubAPI.Controllers
             return Ok(await _coinService.GetAllCoins());
         }
 
+        [HttpGet("{coinId}")]
+        public async Task<ActionResult<CoinDTO>> GetCoin(int coinId)
+        {
+            var response = await _coinService.GetCoin(coinId);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
 
         [HttpPut]
         public async Task<ActionResult<Coin>> UpdateCoin([FromBody] CoinDTO coin)
@@ -74,10 +84,10 @@ namespace CryptoHubAPI.Controllers
             return Ok(response.Message);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<List<UserCoinDTO>>> GetAllCoinsUserFollows(int id)
+        [HttpGet("{coinId}")]
+        public async Task<ActionResult<List<UserCoinDTO>>> GetCoinsFollowers(int coinId)
         {
-            var response = await _userCoinService.GetAllCoinsUserFollows(id);
+            var response = await _userCoinService.GetCoinFollowers(coinId);
             if (response == null)
                 return NotFound();
 

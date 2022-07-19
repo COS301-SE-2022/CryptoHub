@@ -11,7 +11,7 @@ namespace BusinessLogic.Services.ImageService
     public interface IImageService
     {
         Task<Image> GetById(int id);
-        Task<Image> AddImage(ImageDTO imageDTO);
+        Task<Response<Image>> AddImage(CreateImageDTO imageDTO);
         Task Delete(int id);
     }
 }

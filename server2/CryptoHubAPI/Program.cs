@@ -5,6 +5,9 @@ using BusinessLogic.Services.CoinService;
 using BusinessLogic.Services.CoinRatingService;
 using BusinessLogic.Services.UserCoinService;
 using BusinessLogic.Services.UserFollowerService;
+using BusinessLogic.Services.CommentService;
+using BusinessLogic.Services.ImageService;
+using BusinessLogic.Services.TagService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.Data;
@@ -22,6 +25,7 @@ using Intergration.SendGridEmailService;
 using BusinessLogic.Services.ImageService;
 using BusinessLogic.Services.CommentService;
 using BusinessLogic.Services.TagService;
+using Intergration.FireStoreService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,8 +46,6 @@ builder.Services.AddTransient<IUserCoinRepository, UserCoinRepository>();
 
 
 
-
-
 //Services Dependency Injection.
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IAuthorizationService, AuthorizationService>();
@@ -59,6 +61,9 @@ builder.Services.AddTransient<ISendGridEmailService, SendGridEmailService>();
 builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<ITagService, TagServices>();
+builder.Services.AddTransient<IFireStorageService, FireStorageService>();
+
+
 
 //AutoMapper
 builder.Services.AddAutoMapper(Assembly.Load("Infrastructure"));

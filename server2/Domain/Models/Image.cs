@@ -13,7 +13,8 @@ namespace Domain.Models
         }
 
         public int ImageId { get; set; }
-        public byte[] Blob { get; set; } = null!;
+        public string Url { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
         public virtual ICollection<Coin> Coins { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

@@ -90,7 +90,7 @@ namespace BusinessLogic.Services.LikeService
         }
 
         public async Task<LikeDTO> GetLikeBy(int userId, int postId) {
-            var response = await _likeRepository.FindRange(p => p.UserId == userId && p.PostId == postId);
+            var response = await _likeRepository.GetByExpression(p => p.UserId == userId && p.PostId == postId);
             if (response == null)
                 return null;
 

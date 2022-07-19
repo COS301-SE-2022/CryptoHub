@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Infrastructure.DTO.ImageDTOs;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace Intergration.FireStoreService
 {
     public interface IFireStorageService
     {
-        Task<Response<string>> UploadImage(ImageDTO imageDTO);
+        Task<Response<Image>> UploadImage(CreateImageDTO imageDTO);
+
+        Task DeleteImage(string name);
     }
 }

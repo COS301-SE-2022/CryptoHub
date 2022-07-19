@@ -1,4 +1,4 @@
-﻿using BusinessLogic.Services.ReplyService;
+﻿/*using BusinessLogic.Services.ReplyService;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +17,7 @@ namespace CryptoHubAPI.Controllers
             _replyService = replyService;
         }
 
-        [HttpGet("{userid}")]
+        [HttpGet("{userId}")]
         public async Task<ActionResult<List<Reply>>> GetRepliesByUserId(int userId)
         {
             var user = await _replyService.GetRepliesByUserId(userId);
@@ -81,3 +81,4 @@ namespace CryptoHubAPI.Controllers
         }
     }
 }
+*/

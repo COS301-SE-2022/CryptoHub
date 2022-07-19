@@ -81,16 +81,16 @@ namespace CryptoHubAPI.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public async Task<ActionResult<List<UserCoinDTO>>> GetAllUserCoins()
         {
             return Ok(await _userCoinService.GetAllUserCoins());
-        }
+        }*/
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<List<UserCoinDTO>>> GetAllUsersFollowingCoin(int id)
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<List<UserCoinDTO>>> GetUserCoins(int userId)
         {
-            var response = await _userCoinService.GetAllUsersFollowingCoin(id);
+            var response = await _userCoinService.GetUserCoins(userId);
             if (response == null)
                 return NotFound();
 
