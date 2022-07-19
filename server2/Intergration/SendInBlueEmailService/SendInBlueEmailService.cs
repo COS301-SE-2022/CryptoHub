@@ -18,9 +18,9 @@ namespace Intergration.SendInBlueEmailService
         public SendInBlueEmailService(IConfiguration configuration)
         {
             string apiKey = string.Empty;
-            var apikey = Configuration.Default.ApiKey.TryGetValue("api-key",out apiKey);
+            Configuration.Default.ApiKey.TryGetValue("api-key",out apiKey);
 
-            if(string.EmptyOr)
+            if(string.IsNullOrEmpty(apiKey))
                 Configuration.Default.ApiKey.Add("api-key", configuration["SendInBlue:Key"]);
 
             _apiInstance = new TransactionalEmailsApi();
