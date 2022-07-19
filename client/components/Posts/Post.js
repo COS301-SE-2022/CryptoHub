@@ -63,7 +63,8 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         setLiked(true);
         getLikeCount();
         setLikeId(data.likeId);
-      });
+      })
+      .catch((error) => console.log("Add like error: ", error));
   };
 
   const checkIfLiked = () => {
@@ -77,14 +78,11 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        let post = [];
-        post = data;
-        post.map((data) => {
-          if (data.userId == user.id) {
-            setLiked(true);
-          }
-        });
-      });
+        if (data.userId == user.id) {
+          setLiked(true);
+        }
+      })
+      .catch((error) => console.warn("Error: ", error));
   };
 
   const handleUnlikePost = () => {
@@ -134,6 +132,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       .then((response) => response.json())
       .then((data) => {
         setComments(data);
+        console.warn("Comments: ", data);
       })
       .catch((error) => {});
   };
