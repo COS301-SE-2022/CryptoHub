@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using BusinessLogic.Services.ImageService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.PostDTO;
@@ -9,12 +10,12 @@ namespace BusinessLogic.Services.PostService
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
-        private readonly IImageRepository _imageRepository;
+        private readonly IImageService _imageService;
         private readonly IMapper _mapper;
-        public PostService(IPostRepository postRepository, IImageRepository imageRepository, IMapper mapper)
+        public PostService(IPostRepository postRepository, IImageService imageService, IMapper mapper)
         {
             _postRepository = postRepository;
-            _imageRepository = imageRepository;
+            _imageService = imageService;
             _mapper = mapper;
         }
 
@@ -39,14 +40,7 @@ namespace BusinessLogic.Services.PostService
             Post post = new Post();
             if (createPostDTO.ImageDTO != null)
             {
-                byte[] imageArray = Convert.FromBase64String(createPostDTO.ImageDTO.Blob);
-
-                Image image = new Image();
-                image.Image1 = imageArray;
-
-                await _imageRepository.Add(image);
-                post.ImageId = image.ImageId;
-
+                await _imageService.AddImage(createPostDTO.ImageDTO);
             }
 
             post.Content = createPostDTO.Post;

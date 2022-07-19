@@ -7,6 +7,6 @@ namespace Infrastructure.DTO.PostDTO
         public string Post { get; set; } = null!;
         public int UserId { get; set; }
 
-        public ImageDTO? ImageDTO { get; set; }
+        public CreateImageDTO? ImageDTO { get; set; }
     }
 }

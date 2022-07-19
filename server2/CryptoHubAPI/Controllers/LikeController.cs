@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Services.LikeService;
 using Domain.IRepository;
 using Domain.Models;
+using Infrastructure.DTO.LikeDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace CryptoHubAPI.Controllers
             _likeService = likeRepository;
         }
 
-        [HttpGet]
+        /*[HttpGet]
         // GET: LikeController
         public async Task<ActionResult<List<Like>>> GetAllLikes()
         {
@@ -32,7 +33,7 @@ namespace CryptoHubAPI.Controllers
                 return NotFound();
 
             return Ok(response);
-        }
+        }*/
 
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Like>>> GetLikeByPostId(int id)
@@ -55,7 +56,7 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Like>>> GetLikeByCommentId(int id)
+        public async Task<ActionResult<List<LikeDTO>>> GetLikeByCommentId(int id)
         {
             var response = await _likeService.GetLikeByCommentId(id);
             if (response == null)
@@ -74,7 +75,7 @@ namespace CryptoHubAPI.Controllers
             return Ok(response.Model);
         }
 
-        [HttpGet("{id}")]
+       /* [HttpGet("{id}")]
         public async Task<ActionResult<List<Like>>> GetLikeByReplyId(int id)
         {
             var response = await _likeService.GetLikeByReplyId(id);
@@ -92,10 +93,10 @@ namespace CryptoHubAPI.Controllers
                 return NotFound(response.Message);
 
             return Ok(response.Model);
-        }
+        }*/
 
         [HttpGet("{userId}/{postId}")]
-        public async Task<ActionResult<Like>> GetLikeBy(int userId, int postId)
+        public async Task<ActionResult<LikeDTO>> GetLikeBy(int userId, int postId)
         {
             var response = await _likeService.GetLikeBy(userId, postId);
             if (response == null)
@@ -105,7 +106,7 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Like>> AddLike([FromBody] Like like)
+        public async Task<ActionResult<LikeDTO>> AddLike([FromBody] Like like)
         {
             var likes = await _likeService.AddLike(like);
 
@@ -116,7 +117,7 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<Like>> UpdateLike([FromBody] Like like)
+        public async Task<ActionResult<LikeDTO>> UpdateLike([FromBody] Like like)
         {
             var response = await _likeService.UpdateLike(like);
             if (response == null)
