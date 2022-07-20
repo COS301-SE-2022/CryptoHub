@@ -11,7 +11,7 @@ namespace Domain.Models
 
 
         public int id { get; set; }
-        public int Userid { get; set; }
+        public int UserId { get; set; }
         public int PostId { get; set; }
 
 

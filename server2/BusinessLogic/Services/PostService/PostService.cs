@@ -87,7 +87,7 @@ namespace BusinessLogic.Services.PostService
             var newReport = new PostReport
             {
                 PostId = postid,
-                Userid = userid
+                UserId = userid
             };
 
             await _postReportRepository.Add(newReport);

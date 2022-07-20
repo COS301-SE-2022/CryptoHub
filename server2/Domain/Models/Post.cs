@@ -10,6 +10,7 @@ namespace Domain.Models
             Comments = new HashSet<Comment>();
             Likes = new HashSet<Like>();
             Tags = new HashSet<Tag>();
+            PostReports = new HashSet<PostReport>();
         }
 
         public int PostId { get; set; }
@@ -22,5 +23,6 @@ namespace Domain.Models
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Like> Likes { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<PostReport> PostReports { get; set; }
     }
 }
