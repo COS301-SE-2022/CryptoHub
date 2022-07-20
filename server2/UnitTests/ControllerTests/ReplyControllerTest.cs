@@ -1,23 +1,27 @@
-﻿using CryptoHubAPI.Controllers;
+﻿using BusinessLogic.Services.ReplyService;
+using BusinessLogic.Services.UserService;
+using BusinessLogic.Services.CommentService;
+using CryptoHubAPI.Controllers;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Linq.Expressions;
+using Infrastructure.DTO.ReplyDTOs;
 
 namespace UnitTests.ControllerTests
 {
     public class ReplyControllerTest
     {
-        private readonly Mock<IReplyRepository> _replyRepositoryMock;
-        private readonly Mock<IUserRepository> _userRepositoryMock;
-        private readonly Mock<ICommentRepository> _commentRepositoryMock;
+        private readonly Mock<IReplyService> _replyServiceMock;
+        private readonly Mock<IUserService> _userServiceMock;
+        private readonly Mock<ICommentService> _commentServiceMock;
 
         public ReplyControllerTest()
         {
-            _replyRepositoryMock = new Mock<IReplyRepository>();
-            _userRepositoryMock = new Mock<IUserRepository>();
-            _commentRepositoryMock = new Mock<ICommentRepository>();
+            _replyServiceMock = new Mock<IReplyService>();
+            _userServiceMock = new Mock<IUserService>();
+            _commentServiceMock = new Mock<ICommentService>();
         }
 
         [Fact]
