@@ -112,7 +112,10 @@ namespace BusinessLogic.Services.UserService
                 
                 foreach (var m in mutUserfollowers.ToList())
                 {
-                    mutuals.Add(m);
+                    if(m.UserId != id)
+                    {
+                        mutuals.Add(m);
+                    }
                 }
             }
             mutuals = mutuals.GroupBy(x => x.UserId).Select(x => x.First()).ToList();
