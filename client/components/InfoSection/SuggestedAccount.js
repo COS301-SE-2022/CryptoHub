@@ -60,13 +60,18 @@ const SuggestedAccount = ({
       <div className="flex flex-row">
         <div className="w-6 h-6 bg-black rounded-3xl"></div>
         {user.id == thisUser.userId ? (
-          <div>
+          <div className="flex flex-row">
             <Link href={`/profile`} className="pointer cursor-pointer">
               <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-                {thisUser.username}
+                {username}
               </p>
             </Link>
-            <p>{firstname}</p>
+            <p className="text-xs translate-y-1.5 ml-2 text-gray-600">
+              {firstname}
+            </p>
+            <p className="text-xs translate-y-1.5 ml-0.5 text-gray-600">
+              {lastname}
+            </p>
           </div>
         ) : (
           <div className="flex flex-row">
