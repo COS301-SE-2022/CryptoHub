@@ -45,6 +45,7 @@ builder.Services.AddTransient<ITagRepository, TagRepository>();
 builder.Services.AddTransient<IRoleRepository, RoleRepository>();
 builder.Services.AddTransient<ICoinRatingRepository, CoinRatingRepository>();
 builder.Services.AddTransient<IUserCoinRepository, UserCoinRepository>();
+builder.Services.AddTransient<IPostReportRepository, PostReportRepository>();
 
 
 
