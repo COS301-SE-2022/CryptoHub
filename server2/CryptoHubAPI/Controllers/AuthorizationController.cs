@@ -38,6 +38,39 @@ namespace CryptoHubAPI.Controllers
 
             return Ok(response.Model);
         }
+
+        [HttpPost("{email}")]
+        public async Task<ActionResult<string>> ForgetPassord(string email)
+        {
+            var response = await _authorizationService.ForgotPassword(email);
+            if (response == null)
+                return BadRequest("user not found");
+
+            return Ok("success");
+        }
+
+        [HttpPost("{email}/{otp}")]
+        public async Task<ActionResult<string>> ValidateOTP(string email,int otp)
+        {
+            var response = await _authorizationService.ValidateOTP(email, otp);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Message);
+        }
+
+
+        [HttpPost("{email}/{password}")]
+        public async Task<ActionResult<Response<User>>> UpdateForgotPassword(string email, string password)
+        {
+            var response = await _authorizationService.UpdateForgotPassword(email, password);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Message);
+
+        }
+            
     }
 
 }

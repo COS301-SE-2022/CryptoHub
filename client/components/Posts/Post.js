@@ -40,7 +40,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     fetch(`http://localhost:7215/api/Image/GetById/${imageId}`, options)
       .then((response) => response.json())
       .then((data) => {
-        let image = `data:image/jpeg;base64,${data.image1}`;
+        let image = `data:image/jpeg;base64,${data.blob}`;
         setPostImage(image);
       })
       .catch((error) => {});
@@ -63,7 +63,8 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         setLiked(true);
         getLikeCount();
         setLikeId(data.likeId);
-      });
+      })
+      .catch((error) => console.log("Add like error: ", error));
   };
 
   const checkIfLiked = () => {
@@ -77,14 +78,11 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        let post = [];
-        post = data;
-        post.map((data) => {
-          if (data.userId == user.id) {
-            setLiked(true);
-          }
-        });
-      });
+        if (data.userId == user.id) {
+          setLiked(true);
+        }
+      })
+      .catch((error) => console.warn("Error: ", error));
   };
 
   const handleUnlikePost = () => {
@@ -110,9 +108,10 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        commentId: 0,
         userId: user.id,
         postId: postId,
-        comment1: comment,
+        content: comment,
       }),
     };
     fetch("http://localhost:7215/api/Comment/AddComment", options)
@@ -121,8 +120,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         handleGetComments();
       });
   };
-
-  // =========================================================================================
 
   const handleGetComments = () => {
     const options = {
@@ -139,8 +136,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       })
       .catch((error) => {});
   };
-
-  // =========================================================================================
 
   const getLikeCount = () => {
     const options = {
@@ -177,19 +172,46 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         <div className="w-8 h-8 bg-black rounded-3xl"></div>
 
         {user.id == thisUser.userId ? (
-          <Link href={`/profile`} className="pointer cursor-pointer">
-            <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-              {thisUser.username}
-            </p>
-          </Link>
+          <div class="flex justify-between flex-container">
+            <div className="flex-row items-center ">
+              <Link href={`/profile`} className="pointer cursor-pointer">
+                <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                  {thisUser.username}
+                </p>
+              </Link>
+            </div>
+
+            <div className="translate-x-50 text-right">
+              <button
+                onClick={() => setShowModal(true)}
+                className="text-sm flex flex-row"
+              >
+                <p className="ml-1"> ... </p>
+              </button>
+            </div>
+          </div>
         ) : (
-          <Link href={`/user/${userId}`} className="pointer cursor-pointer">
-            <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-              {thisUser.username}
-            </p>
-          </Link>
+          <div class="flex flex-container">
+            <div className="flex-row items-center ">
+              <Link href={`/user/${userId}`} className="pointer cursor-pointer">
+                <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                  {thisUser.username}
+                </p>
+              </Link>
+            </div>
+
+            <div>
+              <button
+                onClick={() => setShowModal(true)}
+                className="text-sm flex flex-row"
+              >
+                <p className="ml-1"> ... </p>
+              </button>
+            </div>
+          </div>
         )}
       </div>
+
       {postImage == null ? null : (
         <div
           style={{
@@ -222,6 +244,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
           <ChatIcon className="h-5 w-5 text-black " /> {""}
           <p className="ml-1">{comments.length} comments</p>
         </button>
+
         {showModal ? (
           <>
             <div className="justify-center items-start mt-16 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -284,13 +307,13 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                           <p className="text-semibold text-gray-600 px-1">
                             Comments
                           </p>
-
+                          {console.warn("COMMMENTS: ", comments)}
                           {comments.map((data, index) => {
                             return (
                               <Comment
                                 key={index}
                                 userId={data.userId}
-                                comment={data.comment1}
+                                comment={data.content}
                               />
                             );
                           })}

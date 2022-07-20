@@ -27,7 +27,6 @@
   <ItemGroup>
     <Folder Include="DTO\LikeDTOs\" />
     <Folder Include="DTO\PostDTOs\" />
-    <Folder Include="DTO\ImageDTOs\" />
     <Folder Include="DTO\ReplyDTOs\" />
     <Folder Include="DTO\UserFollowerDTOs\" />
   </ItemGroup>

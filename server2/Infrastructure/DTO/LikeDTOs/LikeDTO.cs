@@ -7,7 +7,6 @@ namespace Infrastructure.DTO.LikeDTOs
         public int UserId { get; set; }
         public int? PostId { get; set; }
         public int? CommentId { get; set; }
-        public int? ReplyId { get; set; }
     }
 }
 

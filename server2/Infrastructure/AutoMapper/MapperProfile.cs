@@ -17,6 +17,7 @@ using Infrastructure.DTO.PostDTO;
 using Infrastructure.DTO.UserRoleDTOs;
 using Infrastructure.DTO.ReplyDTOs;
 using Infrastructure.DTO.UserFollowerDTOs;
+using Infrastructure.DTO.ImageDTOs;
 
 namespace Infrastructure.AutoMapper
 {
@@ -38,6 +39,7 @@ namespace Infrastructure.AutoMapper
             CreateMap<UserFollower, UserFollowerDTO>();
             CreateMap<User, SearchDTO>();
             CreateMap<Coin, CoinSearchDTO>();
+            CreateMap<Image, ImageDTO>();
             #endregion
 
             #region DTO to Model

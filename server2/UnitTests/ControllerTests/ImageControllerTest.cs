@@ -1,20 +1,24 @@
-﻿using CryptoHubAPI;
+﻿using BusinessLogic.Services.ImageService;
 using CryptoHubAPI.Controllers;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Linq.Expressions;
+using Infrastructure.DTO.ImageDTOs;
+using AutoMapper;
 
 namespace UnitTests.ControllerTests
 {
     public class ImageControllerTest
     {
-        private readonly Mock<IImageRepository> _imageRepositoryMock;
+        private readonly Mock<IImageService> _imageServiceMock;
+        private readonly Mock<IMapper> _mapperMock;
 
         public ImageControllerTest()
         {
-            _imageRepositoryMock = new Mock<IImageRepository>();
+            _imageServiceMock = new Mock<IImageService>();
+            _mapperMock = new Mock<IMapper>();
         }
 
         [Fact]
@@ -26,10 +30,10 @@ namespace UnitTests.ControllerTests
                 ImageId = 1,
             };
 
-            _imageRepositoryMock.Setup(u => u.GetById(It.IsAny<Expression<Func<Image, bool>>>())).ReturnsAsync(image);
+            _imageServiceMock.Setup(u => u.GetById(1)).ReturnsAsync(image);
             //_postRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(posts);
 
-            var controller = new ImageController(_imageRepositoryMock.Object);
+            var controller = new ImageController(_imageServiceMock.Object, _mapperMock.Object);
 
 
             //act
@@ -50,13 +54,14 @@ namespace UnitTests.ControllerTests
             {
                 ImageId = 1,
             };
-            var imageODT = new imageDTO
+            var imageODT = new CreateImageDTO
             {
+                Name = "sample",
                 Blob = "100110 111010 001011 101001"
             };
-            _imageRepositoryMock.Setup(u => u.Add(It.IsAny<Image>())).ReturnsAsync(image);
+            _imageServiceMock.Setup(u => u.AddImage(imageODT));
 
-            var controller = new ImageController(_imageRepositoryMock.Object);
+            var controller = new ImageController(_imageServiceMock.Object, _mapperMock.Object);
 
             //act
             var result = await controller.AddImage(imageODT);

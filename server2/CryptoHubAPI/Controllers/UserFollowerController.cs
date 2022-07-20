@@ -54,12 +54,14 @@ namespace CryptoHubAPI.Controllers
 
         }
 
+        [HttpPost("{userId}/{followId}")]
+        public async Task<IActionResult> UnfollowUser(int userId, int followId)
+        {
+            var response = await _userFollowerService.UnfollowUser(userId, followId);
+            if (response.HasError)
+                return BadRequest(response.Message);
 
-
-
-
-
-
-
+            return Ok(response.Message);
+        }
     }
 }
