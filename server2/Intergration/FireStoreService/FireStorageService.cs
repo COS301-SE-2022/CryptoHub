@@ -11,6 +11,7 @@ namespace Intergration.FireStoreService
     {
         //private readonly FirebaseAuthLink _authLink;
         private readonly FirebaseStorage _firebaseStorage;
+        private readonly FirebaseAuthLink? _authLink;
 
         public FireStorageService(IConfiguration configuration)
         {
@@ -24,25 +25,40 @@ namespace Intergration.FireStoreService
                     apiKey
                     ));
 
-            //var authLink = auth.SignInWithEmailAndPasswordAsync(email, password).Result;
-            FirebaseAuthLink authLink = null;
+            //auth.RefreshAuthAsync()
+           
+            if(FireBaseTokenClass.Exp == null || FireBaseTokenClass.Exp < DateTime.UtcNow)
+            {
+                _authLink = auth.SignInWithEmailAndPasswordAsync(email, password).Result;
+                FireBaseTokenClass.Token = _authLink.FirebaseToken;
+                FireBaseTokenClass.Exp = DateTime.UtcNow.AddSeconds(_authLink.ExpiresIn);
 
+            }
+            /*_authLink.RefreshUserDetails()
+
+            auth.RefreshAuthAsync(auth.)*/
+     
             _firebaseStorage = new FirebaseStorage(
                 bucket,
                 new FirebaseStorageOptions
                 {
-                    AuthTokenAsyncFactory = () => Task.FromResult(authLink.FirebaseToken),
+                    AuthTokenAsyncFactory = () => Task.FromResult(FireBaseTokenClass.Token),
                     ThrowOnCancel = true,
                 });
+            
+
         }
 
-        private FireStorageService(FirebaseStorage firebaseStorage)
+        /*private FireStorageService(FirebaseStorage firebaseStorage)
         {
             _firebaseStorage = firebaseStorage;
         }
 
-        public static async Task<FireStorageService> Initialize(IConfiguration configuration)
+        public async Task<FireStorageService> Initialize(IConfiguration configuration)
         {
+            if (Instance != null)
+                return Instance;
+             
 
             string apiKey = configuration["FireStore:apiKey"];
             string email = configuration["FireStore:email"];
@@ -64,10 +80,12 @@ namespace Intergration.FireStoreService
                     ThrowOnCancel = true,
                 });
 
-            return new FireStorageService(firebaseStorageObject);
+            Instance =  new FireStorageService(firebaseStorageObject);
+
+            return Instance;
 
 
-        }
+        }*/
 
         public async Task<Response<Image>> UploadImage(CreateImageDTO imageDTO)
         {
@@ -124,7 +142,12 @@ namespace Intergration.FireStoreService
 
         }
 
+    }
 
+    public static class FireBaseTokenClass
+    {
+        public static string Token { get; set; } = string.Empty;
 
+        public static DateTime? Exp {get; set; } = null!;
     }
 }

@@ -111,7 +111,7 @@ namespace CryptoHubAPI.Controllers
             
             var likes = await _likeService.AddLike(like);
 
-            if (likes == null)
+            if (likes != null)
                 return BadRequest();
 
             return Ok(await _likeService.AddLike(like));

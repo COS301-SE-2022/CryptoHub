@@ -6,6 +6,8 @@ using Infrastructure.DTO.CoinDTOs;
 using BusinessLogic.Services.CoinRatingService;
 using Infrastructure.DTO.UserCoinDTOs;
 using BusinessLogic.Services.UserCoinService;
+using BusinessLogic.Services.SearchService;
+using Infrastructure.DTO.ImageDTOs;
 
 namespace CryptoHubAPI.Controllers
 {
@@ -18,12 +20,14 @@ namespace CryptoHubAPI.Controllers
         private readonly ICoinService _coinService;
         private readonly ICoinRatingService _coinRatingService;
         private readonly IUserCoinService _userCoinService;
+        private readonly ISearchService _searchService;
 
-        public CoinController(ICoinService coinService, ICoinRatingService coinRatingService, IUserCoinService userCoinService)
+        public CoinController(ICoinService coinService, ICoinRatingService coinRatingService, IUserCoinService userCoinService, ISearchService searchService)
         {
             _coinService = coinService;
             _coinRatingService = coinRatingService;
             _userCoinService = userCoinService;
+            _searchService = searchService;
         }
 
         [HttpGet]
@@ -64,6 +68,12 @@ namespace CryptoHubAPI.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<UserCoinDTO>>> GetAllUserCoins()
+        {
+            return Ok(await _userCoinService.GetAllUserCoins());
+        }
+
         [HttpPost("{userId}/{coinId}")]
         public async Task<IActionResult> FollowCoin(int userId, int coinId)
         {
@@ -92,6 +102,27 @@ namespace CryptoHubAPI.Controllers
                 return NotFound();
 
             return Ok(response);
+        }
+
+        [HttpGet("{id}/{searchterm}")]
+        public async Task<ActionResult<List<User>>> SearchCoin(int id, string searchterm)
+        {
+            var response = await _searchService.SearchCoin(id, searchterm);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpPost("{coinId}")]
+        public async Task<IActionResult> UpdateProfilePic(int coinId, CreateImageDTO createdImageDTO)
+        {
+            var response = await _coinService.UpdateCoinProfileImage(coinId, createdImageDTO);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Message);
+
         }
     }
 }
