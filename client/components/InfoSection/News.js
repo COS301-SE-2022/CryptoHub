@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Article from "./Article";
 import { mockNewsData } from "../../mocks/mockNewsData";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,40 +7,46 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
+import { Pagination } from "swiper";
 
 const News = () => {
+  const [news, setNews] = useState([]);
+
+  const handleGetNews = () => {
+    fetch(
+      "https://newsapi.org/v2/everything?q=(bitcoin OR doge OR cryptocurrency OR ethereum OR crypto OR litecoin OR tether OR bnb OR binance)&apiKey=e05964f35e4e48e0906ed98905cb2e16&language=en"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        let news = data.articles;
+        let finalnews = news.slice(0, 10);
+        setNews(finalnews);
+      });
+  };
+
+  useEffect(() => {
+    handleGetNews();
+  }, []);
+
   return (
     <div className="flex flew-row justify-start flex-wrap">
       <p className="mt-3 font-bold text-indigo-600">News</p>
-
-      <div>
-        <Swiper
-          cssMode={true}
-          navigation={true}
-          pagination={true}
-          mousewheel={true}
-          keyboard={true}
-          modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-          className="mySwiper"
-        >
-          {/* {mockNewsData.map((data, index) => {
+      <>
+        <Swiper pagination={true} modules={[Pagination]} className="mySwiper">
+          {news.map((data, index) => {
             return (
               <SwiperSlide>
                 <Article
                   key={index}
                   title={data.title}
                   content={data.content}
+                  url={data.url}
                 />
               </SwiperSlide>
             );
-          })} */}
-          <SwiperSlide>Hello</SwiperSlide>
-          <SwiperSlide>Hello</SwiperSlide>
-          <SwiperSlide>Hello</SwiperSlide>
-          <SwiperSlide>Hello</SwiperSlide>
+          })}
         </Swiper>
-      </div>
+      </>
     </div>
   );
 };
