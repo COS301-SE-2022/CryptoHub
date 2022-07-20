@@ -178,6 +178,7 @@ const Profile = () => {
                                 name={data.username}
                                 hidefollow={true}
                                 id={data.userId}
+                                suggestions={true}
                               />
                             );
                           })}
@@ -220,6 +221,7 @@ const Profile = () => {
                                 name={data.username}
                                 hidefollow={true}
                                 id={data.userId}
+                                suggestions={true}
                               />
                             );
                           })}
