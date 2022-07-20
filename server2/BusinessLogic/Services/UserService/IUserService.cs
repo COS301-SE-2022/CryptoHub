@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Infrastructure.DTO.ImageDTOs;
 using Infrastructure.DTO.UserDTOs;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,10 @@ namespace BusinessLogic.Services.UserService
 
 
         Task Delete(int id);
-        
+
+        Task<Response<string>> UploadProfilePic(CreateImageDTO createImageDTO);
+
+
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Infrastructure.DTO.CoinDTOs;
+using Infrastructure.DTO.ImageDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace BusinessLogic.Services.CoinService
         Task<CoinDTO> GetCoin(int id);
         Task<List<CoinDTO>> GetAllCoins();
         Task<CoinDTO> UpdateCoin(CoinDTO coin);
+
+        Task<Response<Coin>> UpdateCoinProfileImage(int coinId, CreateImageDTO createImageDTO);
     }
 }

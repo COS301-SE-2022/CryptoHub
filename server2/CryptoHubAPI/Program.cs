@@ -71,14 +71,9 @@ builder.Services.AddTransient<ISendInBlueEmailService, SendInBlueEmailService>()
 //AutoMapper
 builder.Services.AddAutoMapper(Assembly.Load("Infrastructure"));
 
-
-
-
-//
-
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors();
-
 
 builder.Services.AddControllers();
 

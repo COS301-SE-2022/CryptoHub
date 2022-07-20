@@ -7,6 +7,7 @@ using BusinessLogic.Services.CoinRatingService;
 using Infrastructure.DTO.UserCoinDTOs;
 using BusinessLogic.Services.UserCoinService;
 using BusinessLogic.Services.SearchService;
+using Infrastructure.DTO.ImageDTOs;
 
 namespace CryptoHubAPI.Controllers
 {
@@ -111,6 +112,17 @@ namespace CryptoHubAPI.Controllers
                 return NotFound();
 
             return Ok(response);
+        }
+
+        [HttpPost("{coinId}")]
+        public async Task<IActionResult> UpdateProfilePic(int coinId, CreateImageDTO createdImageDTO)
+        {
+            var response = await _coinService.UpdateCoinProfileImage(coinId, createdImageDTO);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Message);
+
         }
     }
 }
