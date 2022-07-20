@@ -29,7 +29,6 @@ namespace BusinessLogic.Services.UserService
 
         Task<Response<string>> UploadProfilePic(CreateImageDTO createImageDTO);
 
-
-
+        Task<List<SearchDTO>> SuggestedUsers(int id);
     }
 }
