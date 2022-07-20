@@ -2,7 +2,15 @@ import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../../auth/auth";
 import Link from "next/link";
 
-const SuggestedAccount = ({ name, hidefollow, id }) => {
+const SuggestedAccount = ({
+  name,
+  hidefollow,
+  id,
+  firstname,
+  lastname,
+  username,
+  suggestions,
+}) => {
   const { user } = useContext(userContext);
   const [clicked, setClicked] = useState(false);
   const [thisUser, setThisUser] = useState({});
@@ -53,17 +61,33 @@ const SuggestedAccount = ({ name, hidefollow, id }) => {
       <div className="flex flex-row">
         <div className="w-6 h-6 bg-black rounded-3xl"></div>
         {user.id == thisUser.userId ? (
-          <Link href={`/profile`} className="pointer cursor-pointer">
-            <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-              {thisUser.username}
+          <div className="flex flex-row">
+            <Link href={`/profile`} className="pointer cursor-pointer">
+              <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                {suggestions ? thisUser.username : username}
+              </p>
+            </Link>
+            <p className="text-xs translate-y-1.5 ml-2 text-gray-600">
+              {firstname}
             </p>
-          </Link>
+            <p className="text-xs translate-y-1.5 ml-0.5 text-gray-600">
+              {lastname}
+            </p>
+          </div>
         ) : (
-          <Link href={`/user/${id}`} className="pointer cursor-pointer">
-            <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-              {thisUser.username}
+          <div className="flex flex-row">
+            <Link href={`/user/${id}`} className="pointer cursor-pointer">
+              <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                {suggestions ? thisUser.username : username}
+              </p>
+            </Link>
+            <p className="text-xs translate-y-1.5 ml-2 text-gray-600">
+              {firstname}
             </p>
-          </Link>
+            <p className="text-xs translate-y-1.5 ml-0.5 text-gray-600">
+              {lastname}
+            </p>
+          </div>
         )}
       </div>
       {hidefollow ? null : (
