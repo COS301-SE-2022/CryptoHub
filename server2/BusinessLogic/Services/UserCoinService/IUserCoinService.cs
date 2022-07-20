@@ -10,7 +10,7 @@ namespace BusinessLogic.Services.UserCoinService
 {
     public interface IUserCoinService
     {
-        //ask<List<UserCoinDTO>> GetAllUserCoins();
+        Task<List<UserCoinDTO>> GetAllUserCoins();
         //Task<List<UserCoinDTO>> GetAllCoinsUserFollows(int id);
         //Task<List<UserCoinDTO>> GetAllUsersFollowingCoin(int id);
 

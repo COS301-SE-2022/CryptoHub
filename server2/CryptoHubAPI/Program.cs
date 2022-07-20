@@ -5,6 +5,7 @@ using BusinessLogic.Services.CoinService;
 using BusinessLogic.Services.CoinRatingService;
 using BusinessLogic.Services.UserCoinService;
 using BusinessLogic.Services.UserFollowerService;
+using BusinessLogic.Services.SearchService;
 using BusinessLogic.Services.CommentService;
 using BusinessLogic.Services.ImageService;
 using BusinessLogic.Services.TagService;
@@ -58,13 +59,13 @@ builder.Services.AddTransient<IReplyService, ReplyService>();
 builder.Services.AddTransient<ICoinRatingService, CoinRatingService>();
 builder.Services.AddTransient<IUserCoinService, UserCoinService>();
 builder.Services.AddTransient<IUserFollowerService, UserFollowerService>();
+builder.Services.AddTransient<ISearchService, SearchService>();
 builder.Services.AddTransient<ISendGridEmailService, SendGridEmailService>();
 builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<ITagService, TagServices>();
 builder.Services.AddTransient<IFireStorageService, FireStorageService>();
 builder.Services.AddTransient<ISendInBlueEmailService, SendInBlueEmailService>();
-
 
 
 //AutoMapper
