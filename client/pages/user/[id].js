@@ -158,7 +158,7 @@ const User = () => {
                 <Post
                   key={index}
                   name={data.username}
-                  content={data.post1}
+                  content={data.content}
                   userId={data.userId}
                   imageId={data.imageId}
                   postId={data.postId}

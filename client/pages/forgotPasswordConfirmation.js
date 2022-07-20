@@ -6,11 +6,11 @@ import { useRouter } from "next/router"
 
 function forgotPasswordConfirmation() {
     const { authorise } = useContext(userContext);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+
+    console.log(router.query.email);
 
   return (
     <>
@@ -39,15 +39,15 @@ function forgotPasswordConfirmation() {
                   <div>
                     <input
                       id="confirmation-Code"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
+                      name="Code"
+                      type="Code"
+                      autoComplete="Code"
                       required
                       className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                       placeholder="Please enter code"
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                      }}
+                      // onChange={(e) => {
+                      //   setEmail(e.target.value);
+                      // }}
                     />
                   </div>
                 </div>
@@ -60,7 +60,7 @@ function forgotPasswordConfirmation() {
                     {loading ? (
                       <p className="text-indigo-200">Loading...</p>
                     ) : (
-                      <a href="/forgotPasswordConfirmation">Confirm</a>
+                      <a href={`/changePassword?email=${router.query.email}`}>Confirm</a>
                     )}
                   </button>
                 </div>
@@ -75,7 +75,6 @@ function forgotPasswordConfirmation() {
                 </a>
               </div>
             </div>
-
 
               </form>
               {error ? (

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Domain.Models
 {
@@ -16,6 +15,7 @@ namespace Domain.Models
             UserFollowerFollows = new HashSet<UserFollower>();
             UserFollowerUsers = new HashSet<UserFollower>();
             UserRoles = new HashSet<UserRole>();
+            CoinRatings = new HashSet<CoinRating>();
         }
 
         public int UserId { get; set; }
@@ -24,33 +24,25 @@ namespace Domain.Models
         public string Username { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
-        public int? ImageId { get; set; }
+        public int? OTP { get; set; } = null!;
+        public DateTime? OTPExpirationTime { get; set; } = null!;
+        public bool? HasForgottenPassword { get; set; } = null!;
 
-        [JsonIgnore]
+        public int? ImageId { get; set; }
+        public int RoleId { get; set; }
+
         public virtual Image? Image { get; set; }
 
-        [JsonIgnore]
-        public virtual ICollection<Comment>? Comments { get; set; }
+        public virtual Role Role { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Reply> Replies { get; set; }
+        public virtual ICollection<UserCoin> UserCoins { get; set; }
+        public virtual ICollection<UserFollower> UserFollowerFollows { get; set; }
+        public virtual ICollection<UserFollower> UserFollowerUsers { get; set; }
+        public virtual ICollection<UserRole> UserRoles { get; set; }
 
-        [JsonIgnore]
-        public virtual ICollection<Like>? Likes { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<Post>? Posts { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<Reply>? Replies { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<UserCoin>? UserCoins { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<UserFollower>? UserFollowerFollows { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<UserFollower>? UserFollowerUsers { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<UserRole>? UserRoles { get; set; }
+        public virtual ICollection<CoinRating> CoinRatings { get; set; }
     }
 }

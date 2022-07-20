@@ -24,9 +24,6 @@ const Posts = () => {
       .then((data) => {
         setLoading(false);
         let posts = data.reverse();
-        let myPosts = posts.filter((post) => {
-          return post.userId != user.id;
-        });
         setPosts(posts);
       })
       .catch(() => {
@@ -49,7 +46,7 @@ const Posts = () => {
             <Post
               key={index}
               name={data.username}
-              content={data.post1}
+              content={data.content}
               userId={data.userId}
               postId={data.postId}
               imageId={data.imageId}
