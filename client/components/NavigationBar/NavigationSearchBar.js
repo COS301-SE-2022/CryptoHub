@@ -7,39 +7,27 @@ const NavigationSearchBar = () => {
   const [showModal, setShowModal] = useState(false);
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [finalSearch, setFinalSearch] = useState([]);
-  const [startedSearch, setStartedSearch] = useState(false);
 
-  const getAllUsers = () => {
+  const { user } = useContext(userContext);
+
+  useEffect(() => {
+    searchByUsername(searchInput);
+  }, [searchInput]);
+
+  const searchByUsername = (searchTerm) => {
     const options = {
       method: "GET",
     };
 
-    fetch("http://localhost:7215/api/User/GetAllUsers", options)
+    fetch(
+      `http://localhost:7215/api/User/SearchUser/${user.id}/${searchTerm}`,
+      options
+    )
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
       })
       .catch(() => {});
-  };
-
-  useEffect(() => {
-    getAllUsers();
-  }, []);
-
-  useEffect(() => {
-    setFinalSearch(searchUsers);
-    if (searchInput.length > 1) {
-      setStartedSearch(true);
-    }
-  }, [searchInput]);
-
-  const searchUsers = () => {
-    let filteredUsers = users.filter((user) => {
-      return user.username.toLowerCase().includes(searchInput.toLowerCase());
-    });
-
-    return filteredUsers;
   };
 
   return (
@@ -76,15 +64,16 @@ const NavigationSearchBar = () => {
                     </div>
                     <div className="flex flex-col p-5">
                       <div>
-                        {finalSearch.length == 0 ||
-                        finalSearch.length == users.length ? (
+                        {users.length == 0 || searchInput == "" ? (
                           <p className="text-gray-400">No search results</p>
                         ) : (
-                          finalSearch.map((data, index) => {
+                          users.map((data, index) => {
                             return (
                               <SuggestedAccount
                                 key={index}
                                 name={data.username}
+                                firstname={data.firstname}
+                                lastname={data.lastname}
                                 id={data.userId}
                                 hidefollow={true}
                               />
