@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Infrastructure.DTO.UserCoinDTOs;
 using BusinessLogic.Services.UserCoinService;
 using Infrastructure.DTO.UserDTOs;
+using Infrastructure.DTO.ImageDTOs;
 
 namespace CryptoHubAPI.Controllers
 {
@@ -96,6 +97,16 @@ namespace CryptoHubAPI.Controllers
                 return NotFound();
 
             return Ok(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfileImage(CreateImageDTO createImageDTO)
+        {
+            var response = await _userService.UploadProfilePic(createImageDTO);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Message);
         }
     }
 }

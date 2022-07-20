@@ -37,16 +37,19 @@ namespace BusinessLogic.Services.PostService
         public async Task<PostDTO> AddPost(CreatePostDTO createPostDTO)
         {
             Post post = new Post();
-            if (createPostDTO.ImageDTO != null)
-            {
-                await _imageService.AddImage(createPostDTO.ImageDTO);
-            }
 
             post.Content = createPostDTO.Post;
             post.UserId = createPostDTO.UserId;
 
             await _postRepository.Add(post);
 
+            if (createPostDTO.ImageDTO != null)
+            {
+                createPostDTO.ImageDTO.Name = $"post-{post.PostId}";
+                await _imageService.AddImage(createPostDTO.ImageDTO);
+            }
+
+          
             return _mapper.Map<PostDTO>(post);
 
         }
