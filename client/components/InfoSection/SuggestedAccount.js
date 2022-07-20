@@ -9,6 +9,7 @@ const SuggestedAccount = ({
   firstname,
   lastname,
   username,
+  suggestions,
 }) => {
   const { user } = useContext(userContext);
   const [clicked, setClicked] = useState(false);
@@ -63,7 +64,7 @@ const SuggestedAccount = ({
           <div className="flex flex-row">
             <Link href={`/profile`} className="pointer cursor-pointer">
               <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-                {username}
+                {suggestions ? thisUser.username : username}
               </p>
             </Link>
             <p className="text-xs translate-y-1.5 ml-2 text-gray-600">
@@ -77,7 +78,7 @@ const SuggestedAccount = ({
           <div className="flex flex-row">
             <Link href={`/user/${id}`} className="pointer cursor-pointer">
               <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-                {username}
+                {suggestions ? thisUser.username : username}
               </p>
             </Link>
             <p className="text-xs translate-y-1.5 ml-2 text-gray-600">

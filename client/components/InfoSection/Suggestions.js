@@ -62,6 +62,7 @@ const Suggestions = () => {
               key={index}
               name={data.username}
               id={data.userId}
+              suggestions={true}
             />
           );
         })
