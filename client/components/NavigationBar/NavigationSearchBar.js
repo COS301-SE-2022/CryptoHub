@@ -72,6 +72,7 @@ const NavigationSearchBar = () => {
                               <SuggestedAccount
                                 key={index}
                                 name={data.username}
+                                username={data.username}
                                 firstname={data.firstname}
                                 lastname={data.lastname}
                                 id={data.userId}

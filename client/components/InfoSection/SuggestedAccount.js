@@ -2,7 +2,14 @@ import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../../auth/auth";
 import Link from "next/link";
 
-const SuggestedAccount = ({ name, hidefollow, id, firstname, lastname }) => {
+const SuggestedAccount = ({
+  name,
+  hidefollow,
+  id,
+  firstname,
+  lastname,
+  username,
+}) => {
   const { user } = useContext(userContext);
   const [clicked, setClicked] = useState(false);
   const [thisUser, setThisUser] = useState({});
@@ -65,7 +72,7 @@ const SuggestedAccount = ({ name, hidefollow, id, firstname, lastname }) => {
           <div className="flex flex-row">
             <Link href={`/user/${id}`} className="pointer cursor-pointer">
               <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-                {thisUser.username}
+                {username}
               </p>
             </Link>
             <p className="text-xs translate-y-1.5 ml-2 text-gray-600">
