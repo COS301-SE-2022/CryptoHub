@@ -12,8 +12,6 @@ const firebaseConfig = {
   measurementId: "G-49KJ5M594Q",
 };
 
-// Initialize Firebase
-
 export const userContext = createContext({
   username: "",
   auth: false,
