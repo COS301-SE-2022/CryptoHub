@@ -1,6 +1,10 @@
 USE [CryptoHubDB]
 GO
 
+INSERT INTO [dbo].[Image]([Name],[Url])
+VALUES
+('mandela.jpg','https://firebasestorage.googleapis.com/v0/b/cryptohub-12abc.appspot.com/o/mandela.jpg?alt=media&token=48dab6df-947c-4b53-9f1d-675411ab2d5c')
+
 
 INSERT INTO [dbo].[Role]([RoleId],[Name])
 VALUES
