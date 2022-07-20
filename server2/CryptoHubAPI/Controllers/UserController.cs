@@ -89,7 +89,7 @@ namespace CryptoHubAPI.Controllers
         public async Task<ActionResult<List<UserCoinDTO>>> GetAllUsersFollowingCoin(int id)
 
         {
-            var response = await _userCoinService.GetUserCoins(userId);
+            var response = await _userCoinService.GetUserCoins(id);
             if (response == null)
                 return NotFound();
 
