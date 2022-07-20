@@ -25,7 +25,7 @@ namespace BusinessLogic.Services.UserService
 
 
         Task Delete(int id);
-        
 
+        Task<List<SearchDTO>> SuggestedUsers(int id);
     }
 }
