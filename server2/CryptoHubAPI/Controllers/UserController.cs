@@ -107,6 +107,15 @@ namespace CryptoHubAPI.Controllers
             return Ok(response);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<User>>> SuggestedUsers(int id)
+        {
+            var response = await _userService.SuggestedUsers(id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+
         [HttpPost]
         public async Task<IActionResult> UpdateProfileImage(CreateImageDTO createImageDTO)
         {
