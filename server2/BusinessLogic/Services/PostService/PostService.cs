@@ -46,10 +46,16 @@ namespace BusinessLogic.Services.PostService
             if (createPostDTO.ImageDTO != null)
             {
                 createPostDTO.ImageDTO.Name = $"post-{post.PostId}";
-                await _imageService.AddImage(createPostDTO.ImageDTO);
+                var response = await _imageService.AddImage(createPostDTO.ImageDTO);
+
+                if (response.HasError)
+                    return null;
+
+                post.ImageId = response.Model.ImageId;
+                await _postRepository.Update(post);
+
             }
 
-          
             return _mapper.Map<PostDTO>(post);
 
         }
