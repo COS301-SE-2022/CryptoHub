@@ -78,7 +78,7 @@ namespace BusinessLogic.Services.PostService
 
         public async Task<PostReport> Report(int postid, int userid)
         {
-            var CheckpostReport = await _postRepository.GetByExpression(p => p.PostId == postid && p.UserId == userid);
+            var CheckpostReport = await _postReportRepository.GetByExpression(p => p.PostId == postid && p.UserId == userid);
             if(CheckpostReport != null)
             {
                 return null;
