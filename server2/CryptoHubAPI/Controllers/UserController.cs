@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.DTO.UserCoinDTOs;
 using BusinessLogic.Services.UserCoinService;
+using BusinessLogic.Services.SearchService;
 using Infrastructure.DTO.UserDTOs;
 
 namespace CryptoHubAPI.Controllers
@@ -17,11 +18,13 @@ namespace CryptoHubAPI.Controllers
 
         private readonly IUserService _userService;
         private readonly IUserCoinService _userCoinService;
+        private readonly ISearchService _searchService;
 
-        public UserController(IUserService userService, IUserCoinService userCoinService)
+        public UserController(IUserService userService, IUserCoinService userCoinService, ISearchService searchService)
         {
             _userService = userService;
             _userCoinService = userCoinService;
+            _searchService = searchService;
         }
 
         [HttpGet]
@@ -56,8 +59,8 @@ namespace CryptoHubAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<UserDTO>> AddUser([FromBody] User user)
         {
-           var response = await _userService.AddUser(user);
-           if (response == null)
+            var response = await _userService.AddUser(user);
+            if (response == null)
                 return BadRequest();
 
             return Ok(response);
@@ -82,16 +85,21 @@ namespace CryptoHubAPI.Controllers
             return Ok();
         }
 
-        /*[HttpGet]
-        public async Task<ActionResult<List<UserCoinDTO>>> GetAllUserCoins()
-        {
-            return Ok(await _userCoinService.GetAllUserCoins());
-        }*/
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<UserCoinDTO>>> GetAllUsersFollowingCoin(int id)
 
-        [HttpGet("{userId}")]
-        public async Task<ActionResult<List<UserCoinDTO>>> GetUserCoins(int userId)
         {
             var response = await _userCoinService.GetUserCoins(userId);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id}/{searchterm}")]
+        public async Task<ActionResult<List<User>>> SearchUser(int id, string searchterm)
+        {
+            var response = await _searchService.SearchUser(id, searchterm);
             if (response == null)
                 return NotFound();
 
