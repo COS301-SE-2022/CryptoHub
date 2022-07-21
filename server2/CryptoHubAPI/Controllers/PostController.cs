@@ -70,7 +70,7 @@ namespace CryptoHubAPI.Controllers
         {
             var response = await _postService.Report(postid, userid);
 
-            if(response == null)
+            if (response == null)
             {
                 return BadRequest();
             }
@@ -79,5 +79,14 @@ namespace CryptoHubAPI.Controllers
 
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Comment>> GetReportCountByPostId(int id)
+        {
+            var response = await _postService.GetReportCountByPostId(id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
     }
 }

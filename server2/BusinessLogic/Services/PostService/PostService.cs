@@ -13,7 +13,7 @@ namespace BusinessLogic.Services.PostService
         private readonly IImageService _imageService;
         private readonly IPostReportRepository _postReportRepository;
         private readonly IMapper _mapper;
-        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository , IMapper mapper)
+        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository, IMapper mapper)
         {
             _postRepository = postRepository;
             _imageService = imageService;
@@ -79,7 +79,7 @@ namespace BusinessLogic.Services.PostService
         public async Task<PostReport> Report(int postid, int userid)
         {
             var CheckpostReport = await _postReportRepository.GetByExpression(p => p.PostId == postid && p.UserId == userid);
-            if(CheckpostReport != null)
+            if (CheckpostReport != null)
             {
                 return null;
             }
@@ -94,8 +94,15 @@ namespace BusinessLogic.Services.PostService
 
             return newReport;
         }
+        public async Task<Response<object>> GetReportCountByPostId(int id)
+        {
+            var response = await _postReportRepository.FindRange(c => c.PostId == id);
+            if (response == null)
+                return new Response<object>(null, true, "no reports");
 
+            return new Response<object>(new { Count = response.Count() }, false, "");
 
+        }
 
 
 
