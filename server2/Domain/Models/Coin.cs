@@ -15,6 +15,8 @@ namespace Domain.Models
         public string CoinName { get; set; } = null!;
         public int? ImageId { get; set; }
 
+        public string? ImageUrl { get; set; } = null!;
+
         public virtual Image? Image { get; set; }
         public virtual ICollection<UserCoin> UserCoins { get; set; }
 

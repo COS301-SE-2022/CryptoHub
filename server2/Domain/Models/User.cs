@@ -30,6 +30,8 @@ namespace Domain.Models
         public bool? HasForgottenPassword { get; set; } = null!;
 
         public int? ImageId { get; set; }
+
+        public string? ImageUrl { get; set; } = null!;
         public int RoleId { get; set; }
 
         public virtual Image? Image { get; set; }
