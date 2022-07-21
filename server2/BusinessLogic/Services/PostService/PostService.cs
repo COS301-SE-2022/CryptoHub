@@ -27,7 +27,18 @@ namespace BusinessLogic.Services.PostService
         public async Task<List<PostDTO>> GetAllPosts()
         {
             var Post = await _postRepository.GetAll();
-            return _mapper.Map<List<PostDTO>>(Post);
+            var images = await _imageService.GetAll();
+            var posts = (from p in Post
+                         join i in images
+                         on p.ImageId equals i.ImageId
+                         select new PostDTO
+                         {
+                             PostId = p.PostId,
+                             Content = p.Content,
+                             UserId = p.UserId,
+                             ImageUrl = i.Url
+                         }).ToList();
+            return _mapper.Map<List<PostDTO>>(posts);
         }
         public async Task<List<PostDTO>> GetPostByUserId(int id)
         {
@@ -35,7 +46,20 @@ namespace BusinessLogic.Services.PostService
             if (response == null)
                 return null;
 
-            return _mapper.Map<List<PostDTO>>(response);
+            var images = await _imageService.GetAll();
+
+            var posts = (from p in response
+                         join i in images
+                         on p.ImageId equals i.ImageId
+                         select new PostDTO
+                         {
+                             PostId = p.PostId,
+                             Content = p.Content,
+                             UserId = p.UserId,
+                             ImageUrl = i.Url
+                         }).ToList();
+
+            return _mapper.Map<List<PostDTO>>(posts);
 
         }
 
