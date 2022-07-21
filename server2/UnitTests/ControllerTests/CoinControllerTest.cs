@@ -1,6 +1,7 @@
 using BusinessLogic.Services.CoinService;
 using BusinessLogic.Services.CoinRatingService;
 using BusinessLogic.Services.UserCoinService;
+using BusinessLogic.Services.SearchService;
 using CryptoHubAPI.Controllers;
 using Domain.IRepository;
 using Domain.Models;
@@ -17,6 +18,7 @@ namespace UnitTests.ControllerTests
         private readonly Mock<ICoinRatingService> _coinRatingServiceMock;
         private readonly Mock<IUserCoinService> _userCoinServiceMock;
         private readonly Mock<ICoinService> _coinServiceMock;
+        private readonly Mock<ISearchService> _searchServiceMock;
 
 
         public CoinControllerTest()
@@ -24,6 +26,7 @@ namespace UnitTests.ControllerTests
             _coinServiceMock = new Mock<ICoinService>();
             _userCoinServiceMock = new Mock<IUserCoinService>();
             _coinRatingServiceMock = new Mock<ICoinRatingService>();
+            _searchServiceMock = new Mock<ISearchService>();
         }
 
         [Fact]
@@ -51,7 +54,7 @@ namespace UnitTests.ControllerTests
 
             _coinServiceMock.Setup(u => u.GetAllCoins()).ReturnsAsync(coins);
 
-            var controller = new CoinController(_coinServiceMock.Object, _coinRatingServiceMock.Object, _userCoinServiceMock.Object);
+            var controller = new CoinController(_coinServiceMock.Object, _coinRatingServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
 
             //act
             var result = await controller.GetAllCoins();
@@ -76,7 +79,7 @@ namespace UnitTests.ControllerTests
 
             _coinServiceMock.Setup(u => u.UpdateCoin(coin)).ReturnsAsync(coin);
 
-            var controller = new CoinController(_coinServiceMock.Object, _coinRatingServiceMock.Object, _userCoinServiceMock.Object);
+            var controller = new CoinController(_coinServiceMock.Object, _coinRatingServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
 
             //act
             var result = await controller.UpdateCoin(coin);
