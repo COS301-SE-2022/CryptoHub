@@ -1,37 +1,45 @@
 ﻿using CryptoHubAPI.Controllers;
+using BusinessLogic.Services.UserFollowerService;
+using BusinessLogic.Services.UserService;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Linq.Expressions;
+using Infrastructure.DTO.UserFollowerDTOs;
+using Infrastructure.DTO.UserDTOs;
 
 namespace UnitTests.ControllerTests
 {
     public class UserFollowerControllerTest
     {
-        private readonly Mock<IUserFollowerRepository> _userFollowerRepositoryMock;
-        private readonly Mock<IUserRepository> _userRepositoryMock;
+        //private readonly Mock<IUserFollowerRepository> _userFollowerRepositoryMock;
+        //private readonly Mock<IUserRepository> _userRepositoryMock;
+        private readonly Mock<IUserFollowerService> _userFollowerServiceMock;
+        private readonly Mock<IUserService> _userServiceMock;
 
         public UserFollowerControllerTest()
         {
-            _userFollowerRepositoryMock = new Mock<IUserFollowerRepository>();
-            _userRepositoryMock = new Mock<IUserRepository>();
+            //_userFollowerRepositoryMock = new Mock<IUserFollowerRepository>();
+            //_userRepositoryMock = new Mock<IUserRepository>();
+            _userFollowerServiceMock = new Mock<IUserFollowerService>();
+            _userServiceMock = new Mock<IUserService>();
         }
 
         [Fact]
         public async Task GetAllUsers_ListOfUsers_ReturnsListOfUsers()
         {
             //arrange
-            List<UserFollower> userFollowers = new List<UserFollower>
+            List<UserFollowerDTO> userFollowers = new List<UserFollowerDTO>
             {
-                new UserFollower
+                new UserFollowerDTO
                 {
                     Id = 1,
                     UserId = 1,
                     FollowId = 1,
                     FollowDate = new DateTime(2000, 1, 25)
                 },
-                new UserFollower
+                new UserFollowerDTO
                 {
                     Id = 2,
                     UserId = 2,
@@ -40,9 +48,9 @@ namespace UnitTests.ControllerTests
                 },
             };
 
-            _userFollowerRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(userFollowers);
+            _userFollowerServiceMock.Setup(u => u.GetAllUserFollowers()).Returns(Task.FromResult(userFollowers));
 
-            var controller = new UserFollowerController(_userFollowerRepositoryMock.Object, _userRepositoryMock.Object);
+            var controller = new UserFollowerController(_userFollowerServiceMock.Object);
 
             //act
             var result = await controller.GetAllUserFollowers();
@@ -61,9 +69,9 @@ namespace UnitTests.ControllerTests
         public async Task GetUserUserFollower_Id_ReturnsUserIDAndUserName()
         {
             //arrange
-            List<UserFollower> userFollowers = new List<UserFollower>
+            var userFollowers = new List<UserFollowerDTO>
             {
-                new UserFollower
+                new UserFollowerDTO
                 {
                     Id = 1,
                     UserId = 1,
@@ -71,44 +79,41 @@ namespace UnitTests.ControllerTests
                     FollowDate = new DateTime(2000, 1, 25)
                 },
             };
-            List<User> users = new List<User>
+            List<UserDTO> users = new List<UserDTO>
             {
-                new User
+                new UserDTO
                 {
                     UserId = 1,
                     Email = "johndoe@gmail.com",
                     Firstname = "john",
                     Lastname = "doe",
-                    Username = "john",
-                    Password = "1234"
+                    Username = "john"
                 },
-                new User
+                new UserDTO
                 {
                     UserId = 2,
                     Email = "elonmusk@gmail.com",
                     Firstname = "elon",
                     Lastname = "musk",
-                    Username = "elon",
-                    Password = "1234"
+                    Username = "elon"
                 },
-                new User
+                new UserDTO
                 {
                     UserId = 3,
                     Email = "billgates@gmail.com",
                     Firstname = "bill",
                     Lastname = "gates",
-                    Username = "bill",
-                    Password = "windows"
+                    Username = "bill"
                 }
             };
 
-            _userFollowerRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<UserFollower, bool>>>())).ReturnsAsync(userFollowers);
-            _userRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(users);
+            _userFollowerServiceMock.Setup(u => u.GetUserUserFollower(1)).Returns(Task.FromResult(userFollowers));
+            _userServiceMock.Setup(u => u.GetAllUsers()).Returns(Task.FromResult(users));
 
-            var controller = new UserFollowerController(_userFollowerRepositoryMock.Object, _userRepositoryMock.Object);
+            var controller = new UserFollowerController(_userFollowerServiceMock.Object);
 
             //act
-            var result = await controller.GetUserUserFollower(1);
+            var result = await controller.GetUserFollower(1);
 
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
@@ -127,9 +132,9 @@ namespace UnitTests.ControllerTests
         public async Task GetUserFollowing_Id_ReturnsUserIDAndUserName()
         {
             //arrange
-            List<UserFollower> userFollowers = new List<UserFollower>
+            List<UserFollowerDTO> userFollowers = new List<UserFollowerDTO>
             {
-                new UserFollower
+                new UserFollowerDTO
                 {
                     Id = 1,
                     UserId = 1,
@@ -137,41 +142,38 @@ namespace UnitTests.ControllerTests
                     FollowDate = new DateTime(2000, 1, 25)
                 },
             };
-            List<User> users = new List<User>
+            List<UserDTO> users = new List<UserDTO>
             {
-                new User
+                new UserDTO
                 {
                     UserId = 1,
                     Email = "johndoe@gmail.com",
                     Firstname = "john",
                     Lastname = "doe",
-                    Username = "john",
-                    Password = "1234"
+                    Username = "john"
                 },
-                new User
+                new UserDTO
                 {
                     UserId = 2,
                     Email = "elonmusk@gmail.com",
                     Firstname = "elon",
                     Lastname = "musk",
-                    Username = "elon",
-                    Password = "1234"
+                    Username = "elon"
                 },
-                new User
+                new UserDTO
                 {
                     UserId = 3,
                     Email = "billgates@gmail.com",
                     Firstname = "bill",
                     Lastname = "gates",
-                    Username = "bill",
-                    Password = "windows"
+                    Username = "bill"
                 }
             };
 
-            _userFollowerRepositoryMock.Setup(u => u.FindRange(It.IsAny<Expression<Func<UserFollower, bool>>>())).ReturnsAsync(userFollowers);
-            _userRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(users);
+            _userFollowerServiceMock.Setup(u => u.GetUserFollowing(2)).Returns(Task.FromResult(userFollowers));
+            _userServiceMock.Setup(u => u.GetAllUsers()).Returns(Task.FromResult(users));
 
-            var controller = new UserFollowerController(_userFollowerRepositoryMock.Object, _userRepositoryMock.Object);
+            var controller = new UserFollowerController(_userFollowerServiceMock.Object);
 
             //act
             var result = await controller.GetUserFollowing(1);
@@ -193,18 +195,18 @@ namespace UnitTests.ControllerTests
         public async Task FollowUser_UserIdAndTargetId_ReturnsUserFollowed()
         {
             //arrange
-            UserFollower userFollower = new UserFollower
+            UserFollowerDTO userFollower = new UserFollowerDTO
             {
                 Id = 1,
                 UserId = 1,
-                FollowId = 1,
+                FollowId = 2,
                 FollowDate = new DateTime(2000, 1, 25)
             };
 
-            _userFollowerRepositoryMock.Setup(u => u.FindOne(It.IsAny<Expression<Func<UserFollower, bool>>>())).ReturnsAsync(userFollower);
+            _userFollowerServiceMock.Setup(u => u.FollowUser(1, 2)).Returns(Task.FromResult(new Response<string>(null, true, "User already followed by that user")));
 
 
-            var controller = new UserFollowerController(_userFollowerRepositoryMock.Object, _userRepositoryMock.Object);
+            var controller = new UserFollowerController(_userFollowerServiceMock.Object);
 
             //act
             var result = await controller.FollowUser(1, 2);
@@ -217,7 +219,8 @@ namespace UnitTests.ControllerTests
             Assert.Equal("Already following this account", actual.ToString());
 
             //arrange 2
-            _userFollowerRepositoryMock.Setup(u => u.FindOne(It.IsAny<Expression<Func<UserFollower, bool>>>())).ReturnsAsync((UserFollower)null);
+            _userFollowerServiceMock.Setup(u => u.FollowUser(1, 2)).Returns(Task.FromResult(new Response<string>(null, true, "user followed")));
+
 
             //act 2
             var result2 = await controller.FollowUser(1, 2);

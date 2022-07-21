@@ -1,20 +1,28 @@
-/*using CryptoHubAPI.Controllers;
+using CryptoHubAPI.Controllers;
+using BusinessLogic.Services.UserService;
+using BusinessLogic.Services.UserCoinService;
+using BusinessLogic.Services.SearchService;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Linq.Expressions;
+using Infrastructure.DTO.UserDTOs;
 
 namespace UnitTests.ControllerTests
 {
     public class UserControllerTest
     {
 
-        private readonly Mock<IUserRepository> _userRepositoryMock;
+        private readonly Mock<IUserService> _userServiceMock;
+        private readonly Mock<IUserCoinService> _userCoinServiceMock;
+        private readonly Mock<ISearchService> _searchServiceMock;
 
         public UserControllerTest()
         {
-            _userRepositoryMock = new Mock<IUserRepository>();
+            _userServiceMock = new Mock<IUserService>();
+            _userCoinServiceMock = new Mock<IUserCoinService>();
+            _searchServiceMock = new Mock<ISearchService>();
         }
 
 
@@ -22,40 +30,37 @@ namespace UnitTests.ControllerTests
         public async Task GetAllUsers_ListOfUsers_ReturnsListOfUsers()
         {
             //arrange
-            List<User> users = new List<User>
+            List<UserDTO> users = new List<UserDTO>
             {
-                new User
+                new UserDTO
                 {
                     UserId = 1,
                     Email = "johndoe@gmail.com",
                     Firstname = "john",
                     Lastname = "doe",
-                    Username = "john",
-                    Password = "1234"
+                    Username = "john"
                 },
-                new User
+                new UserDTO
                 {
                     UserId = 2,
                     Email = "elonmusk@gmail.com",
                     Firstname = "elon",
                     Lastname = "musk",
-                    Username = "elon",
-                    Password = "1234"
+                    Username = "elon"
                 },
-                new User
+                new UserDTO
                 {
                     UserId = 3,
                     Email = "billgates@gmail.com",
                     Firstname = "bill",
                     Lastname = "gates",
-                    Username = "bill",
-                    Password = "windows"
+                    Username = "bill"
                 }
             };
 
-            _userRepositoryMock.Setup(u => u.GetAll()).ReturnsAsync(users);
+            _userServiceMock.Setup(u => u.GetAllUsers()).Returns(Task.FromResult(users));
 
-            var controller = new UserController(_userRepositoryMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
 
             //act
             var result = await controller.GetAllUsers();
@@ -76,19 +81,19 @@ namespace UnitTests.ControllerTests
         public async Task GetUserById_UserId_ReturnsUserOfId()
         {
             //arrange
-            var user = new User
+            var user = new UserDTO
             {
                 UserId = 1,
                 Email = "johndoe@gmail.com",
                 Firstname = "john",
                 Lastname = "doe",
-                Username = "john",
-                Password = "1234"
+                Username = "john"
             };
 
-            _userRepositoryMock.Setup(u => u.GetById(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(user);
+            _userServiceMock.Setup(u => u.GetById(user.UserId)).Returns(Task.FromResult(user));
 
-            var controller = new UserController(_userRepositoryMock.Object);
+
+            var controller = new UserController(_userServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
 
             //act
             var result = await controller.GetUserById(1);
@@ -104,19 +109,18 @@ namespace UnitTests.ControllerTests
         public async Task GetUserByEmail_UserEmail_ReturnsUserOfEmail()
         {
             //arrange
-            var user = new User
+            var user = new UserDTO
             {
                 UserId = 1,
                 Email = "johndoe@gmail.com",
                 Firstname = "john",
                 Lastname = "doe",
-                Username = "john",
-                Password = "1234"
+                Username = "john"
             };
 
-            _userRepositoryMock.Setup(u => u.FindOne(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(user);
+            _userServiceMock.Setup(u => u.GetUserByEmail(user.Email)).Returns(Task.FromResult(user));
 
-            var controller = new UserController(_userRepositoryMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
 
             //act
             var result = await controller.GetUserByEmail(user.Email);
@@ -141,9 +145,17 @@ namespace UnitTests.ControllerTests
                 Username = "john",
                 Password = "1234"
             };
-            _userRepositoryMock.Setup(u => u.Add(It.IsAny<User>())).ReturnsAsync(user);
+            var userDTO = new UserDTO
+            {
+                UserId = 1,
+                Email = "johndoe@gmail.com",
+                Firstname = "john",
+                Lastname = "doe",
+                Username = "john"
+            };
+            _userServiceMock.Setup(u => u.AddUser(user)).Returns(Task.FromResult(userDTO));
 
-            var controller = new UserController(_userRepositoryMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
 
             //act
             var result = await controller.AddUser(user);
@@ -168,10 +180,18 @@ namespace UnitTests.ControllerTests
                 Username = "john",
                 Password = "1234"
             };
+            var userDTO = new UserDTO
+            {
+                UserId = 1,
+                Email = "johndoe@gmail.com",
+                Firstname = "john",
+                Lastname = "doe",
+                Username = "john"
+            };
 
-            _userRepositoryMock.Setup(u => u.Update(It.IsAny<Expression<Func<User, bool>>>(), It.IsAny<User>())).ReturnsAsync(user);
+            _userServiceMock.Setup(u => u.UpateUser(user)).Returns(Task.FromResult(userDTO));
 
-            var controller = new UserController(_userRepositoryMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
 
             //act
             var result = await controller.UpdateUser(user);
@@ -197,9 +217,9 @@ namespace UnitTests.ControllerTests
                 Password = "1234"
             };
 
-            _userRepositoryMock.Setup(u => u.DeleteOne(It.IsAny<Expression<Func<User, bool>>>()));
+            _userServiceMock.Setup(u => u.Delete(user.UserId)).Returns(Task.FromResult(user));
 
-            var controller = new UserController(_userRepositoryMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
 
             //act
             var result = await controller.Delete(user.UserId);
@@ -208,4 +228,4 @@ namespace UnitTests.ControllerTests
             Assert.IsType<OkResult>(result);
         }
     }
-}*/
+}
