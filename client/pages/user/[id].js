@@ -100,7 +100,7 @@ const User = () => {
         <title>CryptoHub</title>
       </Head>
       <Layout>
-        <div className="flex flex-col sm:flex-row w-full sm:w-6/12 items-center mt-8">
+        <div className="flex flex-col sm:flex-row w-full sm:w-7/12 items-center mt-8">
           <span className="inline-block h-40 w-40 rounded-full overflow-hidden bg-gray-100 mr-6 mb-3">
             <svg
               className="h-full w-full text-gray-300"
@@ -152,8 +152,8 @@ const User = () => {
             <br />
           </div>
         </div>
-        <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
-        <div className="flex flex-col items-center w-full sm:w-4/12">
+        <div className="bg-gray-400 sm:w-7/12" style={{ height: "1px" }}></div>
+        <div className="flex flex-col items-center w-full sm:w-7/12">
           <div>
             <p className="text-sm mt-4 text-gray-600">Posts</p>
           </div>

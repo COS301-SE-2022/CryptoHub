@@ -238,9 +238,9 @@ const Post = ({ name, content, userId, postId, imageId }) => {
           className="text-sm mr-4 flex flex-row"
         >
           {liked ? (
-            <RedHeartIcon className="h-5 w-5 text-red-500 " />
+            <RedHeartIcon className="h-5 w-5 text-red-500" />
           ) : (
-            <HeartIcon className="h-5 w-5 text-black " />
+            <HeartIcon className="h-5 w-5 text-black" />
           )}{" "}
           {""}
           <p className="ml-1">{likes} likes</p>
