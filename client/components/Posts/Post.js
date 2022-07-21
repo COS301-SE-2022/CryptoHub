@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import { XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
@@ -6,6 +6,11 @@ import Comment from "./Comment";
 import Image from "next/image";
 import { userContext } from "../../auth/auth";
 import { HeartIcon as RedHeartIcon } from "@heroicons/react/solid";
+import { Menu, Transition } from "@headlessui/react";
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 const Post = ({ name, content, userId, postId, imageId }) => {
   const [thisUser, setUser] = useState({});
@@ -205,9 +210,9 @@ const Post = ({ name, content, userId, postId, imageId }) => {
             >
               <Menu as="div" className="ml-1 sm:ml-3 relative">
                 <div>
-                  <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                  <Menu.Button>
                     <span className="sr-only">Open user menu</span>
-                    <div className="w-8 h-8 bg-black rounded-3xl"></div>
+                    <div className="-translate-y-1">...</div>
                   </Menu.Button>
                 </div>
                 <Transition
@@ -232,27 +237,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                               "block px-4 py-2 text-sm text-gray-700 w-full"
                             )}
                           >
-                            Profile
-                          </button>
-                          <button
-                            onClick={() => {
-                              router.push("/");
-                            }}
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700 w-full"
-                            )}
-                          >
-                            Feed
-                          </button>
-                          <button
-                            onClick={logout}
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700 w-full"
-                            )}
-                          >
-                            Sign out
+                            Report
                           </button>
                         </>
                       )}
