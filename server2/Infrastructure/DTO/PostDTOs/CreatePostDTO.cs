@@ -1,5 +1,7 @@
 ﻿using System;
 using Infrastructure.DTO.ImageDTOs;
+using Infrastructure.DTO.TagDTOs;
+
 namespace Infrastructure.DTO.PostDTO
 {
     public class CreatePostDTO
@@ -8,5 +10,7 @@ namespace Infrastructure.DTO.PostDTO
         public int UserId { get; set; }
 
         public CreateImageDTO? ImageDTO { get; set; }
+
+        public BatchTagsDTO? BatchTags { get; set; }
     }
 }
