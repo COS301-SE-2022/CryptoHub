@@ -156,6 +156,25 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       });
   };
 
+  const handleReportPost = (e) => {
+    e.preventDefault();
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: 1,
+        postId: 1,
+      }),
+    };
+    fetch("http://localhost:7215/api/Post/Report", options)
+      .then((response) => response.json())
+      .then((data) => {
+        handleGetComments();
+      });
+  };
+
   useEffect(() => {
     handleGetUser();
     getLikeCount();
@@ -205,7 +224,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
         <div>
           <div className="translate-x-50 text-right">
             <button
-              onClick={() => setShowModal(true)}
+              // onClick={() => setShowModal(true)}
               className="text-sm flex flex-row"
             >
               <Menu as="div" className="ml-1 sm:ml-3 relative">
@@ -224,17 +243,17 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-20 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <Menu.Item>
                       {({ active }) => (
                         <>
                           <button
-                            onClick={() => {
-                              router.push("/profile");
-                            }}
+                            // onClick={() => {
+                            //   router.push("/profile");
+                            // }}
                             className={classNames(
                               active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700 w-full"
+                              "block px-2 py-2 text-sm text-gray-700 w-full"
                             )}
                           >
                             Report
