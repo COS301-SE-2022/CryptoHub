@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import { XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
@@ -6,6 +6,12 @@ import Comment from "./Comment";
 import Image from "next/image";
 import { userContext } from "../../auth/auth";
 import { HeartIcon as RedHeartIcon } from "@heroicons/react/solid";
+import { useRouter } from "next/router";
+import { Menu, Transition } from "@headlessui/react";
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 const Post = ({ name, content, userId, postId, imageId }) => {
   const [thisUser, setUser] = useState({});
