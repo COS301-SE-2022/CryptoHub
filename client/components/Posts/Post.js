@@ -156,22 +156,22 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       });
   };
 
-  const handleReportPost = (e) => {
-    e.preventDefault();
+  const handleReportPost = () => {
+    // e.preventDefault();
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: 1,
-        postId: 1,
+        userId: userId,
+        postId: postId,
       }),
     };
     fetch("http://localhost:7215/api/Post/Report", options)
       .then((response) => response.json())
       .then((data) => {
-        handleGetComments();
+        handleReportPost();
       });
   };
 
@@ -248,9 +248,9 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                       {({ active }) => (
                         <>
                           <button
-                            // onClick={() => {
-                            //   router.push("/profile");
-                            // }}
+                            onClick={() => {
+                              handleReportPost();
+                            }}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-2 py-2 text-sm text-gray-700 w-full"
