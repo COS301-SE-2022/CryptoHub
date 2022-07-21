@@ -24,13 +24,6 @@ namespace BusinessLogic.Services.ImageService
             _fireStorageService = fireStorageService;
         }
 
-
-        public async Task<List<Image>> GetAll()
-        {
-            return await _imageRepository.GetAll();
-
-        }
-
         public async Task<Image> GetById(int id)
         {
             var response = await _imageRepository.GetById(u => u.ImageId == id);
