@@ -157,22 +157,22 @@ const Post = ({ name, content, userId, postId, imageId }) => {
   };
 
   const handleReportPost = () => {
-    // e.preventDefault();
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: userId,
+        userId: user.id,
         postId: postId,
       }),
     };
-    fetch("http://localhost:7215/api/Post/Report", options)
+    fetch(
+      `http://localhost:7215/api/Post/Report?postid=${postId}&userid=${user.id}`,
+      options
+    )
       .then((response) => response.json())
-      .then((data) => {
-        handleReportPost();
-      });
+      .then((data) => {});
   };
 
   useEffect(() => {
