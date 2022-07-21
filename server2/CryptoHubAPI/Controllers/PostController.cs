@@ -65,6 +65,12 @@ namespace CryptoHubAPI.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<PostReport>>> GetAllReports()
+        {
+            return Ok(await _postService.GetAllReports());
+        }
+
         [HttpPost]
         public async Task<ActionResult<PostReport>> Report(int postid, int userid)
         {

@@ -76,6 +76,12 @@ namespace BusinessLogic.Services.PostService
 
         }
 
+        public async Task<List<PostReport>> GetAllReports()
+        {
+            var Reports = await _postReportRepository.GetAll();
+            return _mapper.Map<List<PostReport>>(Reports);
+        }
+
         public async Task<PostReport> Report(int postid, int userid)
         {
             var CheckpostReport = await _postReportRepository.GetByExpression(p => p.PostId == postid && p.UserId == userid);
