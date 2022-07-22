@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Linq.Expressions;
 using Infrastructure.DTO.UserDTOs;
+using Infrastructure.DTO.UserCoinDTOs;
 
 namespace UnitTests.ControllerTests
 {
@@ -71,10 +72,8 @@ namespace UnitTests.ControllerTests
 
 
             var actual = (result.Result as OkObjectResult).Value;
-            Assert.IsType<List<User>>(actual);
-            Assert.Equal(3, (actual as List<User>).Count);
-
-
+            Assert.IsType<List<UserDTO>>(actual);
+            Assert.Equal(3, (actual as List<UserDTO>).Count);
         }
 
         [Fact]
@@ -102,7 +101,7 @@ namespace UnitTests.ControllerTests
             Assert.IsType<OkObjectResult>(result.Result);
 
             var actual = (result.Result as OkObjectResult).Value;
-            Assert.IsType<User>(actual);
+            Assert.IsType<UserDTO>(actual);
         }
 
         [Fact]
@@ -129,7 +128,7 @@ namespace UnitTests.ControllerTests
             Assert.IsType<OkObjectResult>(result.Result);
 
             var actual = (result.Result as OkObjectResult).Value;
-            Assert.IsType<User>(actual);
+            Assert.IsType<UserDTO>(actual);
         }
 
         [Fact]
@@ -164,7 +163,7 @@ namespace UnitTests.ControllerTests
             Assert.IsType<OkObjectResult>(result.Result);
 
             var actual = (result.Result as OkObjectResult).Value;
-            Assert.IsType<User>(actual);
+            Assert.IsType<UserDTO>(actual);
         }
 
         [Fact]
@@ -200,7 +199,7 @@ namespace UnitTests.ControllerTests
             Assert.IsType<OkObjectResult>(result.Result);
 
             var actual = (result.Result as OkObjectResult).Value;
-            Assert.IsType<User>(actual);
+            Assert.IsType<UserDTO>(actual);
         }
 
         [Fact]
@@ -226,6 +225,50 @@ namespace UnitTests.ControllerTests
 
             Assert.NotNull(result);
             Assert.IsType<OkResult>(result);
+        }
+
+        [Fact]
+        public async Task GetAllUsersFollowingCoin_CoinId_None()
+        {
+            //arrange
+            var userCoin = new List<UserCoinDTO>
+            {
+                new UserCoinDTO
+                {
+                    UserId = 1,
+                    CoinId = 1
+                },
+                new UserCoinDTO
+                {
+                    UserId = 2,
+                    CoinId = 1
+                }
+            };
+
+            _userCoinServiceMock.Setup(u => u.GetUserCoins(1)).Returns(Task.FromResult(userCoin));
+
+            var controller = new UserController(_userServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
+
+            //act
+            var result = await controller.GetAllUsersFollowingCoin(1);
+
+            Assert.NotNull(result);
+            Assert.IsType<ActionResult<List<UserCoinDTO>>>(result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<List<UserCoinDTO>>(actual);
+
+            //arrange 2
+            _userCoinServiceMock.Setup(u => u.GetUserCoins(1)).Returns((Task<List<UserCoinDTO>>)null);
+
+            //act 2
+            var result2 = await controller.GetAllUsersFollowingCoin(9001);
+
+            Assert.NotNull(result2);
+            Assert.IsType<ActionResult<List<UserCoinDTO>>>(result2);
+
+            var actual2 = (result.Result as NotFoundObjectResult);
+            Assert.Null(actual2);
         }
     }
 }
