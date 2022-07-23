@@ -1,4 +1,5 @@
 ﻿using Infrastructure.DTO.EmailDTOs;
+using Infrastructure.Setting;
 using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -20,7 +21,8 @@ namespace Intergration.SendGridEmailService
             var apikey = configuration["SendInBlue:Key"];
             _sendGridClient = new SendGridClient(apikey);
 
-            _sourceEmailAddress = new EmailAddress(configuration["SendInBlue:Sender"], configuration["SendInBlue:Name"]);
+            
+            _sourceEmailAddress = new EmailAddress(FireStoreSettings.Email, configuration["SendInBlue:Name"]);
 
         }
 

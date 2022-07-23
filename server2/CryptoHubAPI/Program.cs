@@ -28,9 +28,15 @@ using BusinessLogic.Services.CommentService;
 using BusinessLogic.Services.TagService;
 using Intergration.FireStoreService;
 using Intergration.SendInBlueEmailService;
+using Infrastructure.Setting;
+using Microsoft.Extensions.DependencyInjection;
+using CryptoHubAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHostedService<MyInitializer>();
+
+//await Doppler.FetchSecretsAsync();
 // Repository Dependency Injection.
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
