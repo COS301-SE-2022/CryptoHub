@@ -9,6 +9,7 @@ using Moq;
 using System.Linq.Expressions;
 using Infrastructure.DTO.UserDTOs;
 using Infrastructure.DTO.UserCoinDTOs;
+using Infrastructure.DTO.ImageDTOs;
 
 namespace UnitTests.ControllerTests
 {
@@ -252,6 +253,7 @@ namespace UnitTests.ControllerTests
             //act
             var result = await controller.GetAllUsersFollowingCoin(1);
 
+            //assert
             Assert.NotNull(result);
             Assert.IsType<ActionResult<List<UserCoinDTO>>>(result);
 
@@ -264,11 +266,139 @@ namespace UnitTests.ControllerTests
             //act 2
             var result2 = await controller.GetAllUsersFollowingCoin(9001);
 
+            //assert 2
             Assert.NotNull(result2);
             Assert.IsType<ActionResult<List<UserCoinDTO>>>(result2);
 
             var actual2 = (result.Result as NotFoundObjectResult);
             Assert.Null(actual2);
+        }
+
+        [Fact]
+        public async Task SearchUser_userIdsearchTerm_ListOfUsers()
+        {
+            //arrange
+            var users = new List<SearchDTO>
+            {
+                new SearchDTO
+                {
+                    UserId = 1,
+                    Firstname = "John",
+                    Lastname = "Snow",
+                    Username = "JS"
+                },
+                new SearchDTO
+                {
+                    UserId = 2,
+                    Firstname = "Jane",
+                    Lastname = "Lava",
+                    Username = "JL"
+                },
+                new SearchDTO
+                {
+                    UserId = 3,
+                    Firstname = "James",
+                    Lastname = "Brown",
+                    Username = "JB"
+                }
+            };
+
+            _searchServiceMock.Setup(u => u.SearchUser(1, "J")).Returns(Task.FromResult(users));
+
+            var controller = new UserController(_userServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
+
+            //act
+            var result = await controller.SearchUser(1, "J");
+
+            //assert
+            Assert.NotNull(result);
+            Assert.IsType<ActionResult<List<User>>>(result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<List<SearchDTO>>(actual);
+
+            //arrange 2
+            _searchServiceMock.Setup(u => u.SearchUser(1, "J")).Returns((Task<List<SearchDTO>>)null);
+
+            //act 2
+            var result2 = await controller.SearchUser(1, "MadeUpName");
+
+            //assert 2
+            Assert.NotNull(result2);
+            Assert.IsType<ActionResult<List<User>>>(result2);
+
+            var actual2 = (result.Result as NotFoundObjectResult);
+            Assert.Null(actual2);
+        }
+
+        [Fact]
+        public async Task SuggestedUsers_userId_ListOfUsers()
+        {
+            //arrange
+            var users = new List<SearchDTO>
+            {
+                new SearchDTO
+                {
+                    UserId = 1,
+                    Firstname = "John",
+                    Lastname = "Snow",
+                    Username = "JS"
+                },
+                new SearchDTO
+                {
+                    UserId = 2,
+                    Firstname = "Jane",
+                    Lastname = "Lava",
+                    Username = "JL"
+                },
+                new SearchDTO
+                {
+                    UserId = 3,
+                    Firstname = "James",
+                    Lastname = "Brown",
+                    Username = "JB"
+                }
+            };
+
+            _userServiceMock.Setup(u => u.SuggestedUsers(1)).Returns(Task.FromResult(users));
+
+            var controller = new UserController(_userServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
+
+            //act
+            var result = await controller.SuggestedUsers(1);
+
+            //assert
+            Assert.NotNull(result);
+            Assert.IsType<ActionResult<List<User>>>(result);
+
+            var actual = (result.Result as OkObjectResult).Value;
+            Assert.IsType<List<SearchDTO>>(actual);
+
+            //arrange 2
+            _userServiceMock.Setup(u => u.SuggestedUsers(1)).Returns((Task<List<SearchDTO>>)null);
+
+            //act 2
+            var result2 = await controller.SuggestedUsers(0);
+
+            //assert 2
+            Assert.NotNull(result2);
+            Assert.IsType<ActionResult<List<User>>>(result2);
+
+            var actual2 = (result.Result as NotFoundObjectResult);
+            Assert.Null(actual2);
+        }
+
+        [Fact]
+        public async Task UpdateProfileImage_CreateImageDTO_ActionResult()
+        {
+            //arrange
+            var imageODT = new CreateImageDTO
+            {
+                Name = "sample",
+                Blob = "100110 111010 001011 101001"
+            };
+
+            _userServiceMock.Setup(u => u.UploadProfilePic(imageODT)).Returns(Task.FromResult(imageODT));
         }
     }
 }
