@@ -14,7 +14,6 @@ const Suggestions = () => {
       method: "GET",
     };
 
-    // fetch("http://localhost:7215/api/UserFollower/GetAllUserFollowers", options)
     fetch("http://localhost:7215/api/User/GetAllUsers", options)
       .then((response) => response.json())
       .then((data) => {
@@ -63,6 +62,7 @@ const Suggestions = () => {
               key={index}
               name={data.username}
               id={data.userId}
+              suggestions={true}
             />
           );
         })

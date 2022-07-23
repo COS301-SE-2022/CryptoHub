@@ -1,7 +1,10 @@
-﻿using System;
+﻿using BusinessLogic.Services.ImageService;
+using System;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Infrastructure.DTO.ImageDTOs;
+using AutoMapper;
 
 namespace CryptoHubAPI.Controllers
 {
@@ -11,32 +14,34 @@ namespace CryptoHubAPI.Controllers
 
     public class ImageController : Controller
     {
-        private readonly IImageRepository _imageRepository;
-        public ImageController(IImageRepository imageRepository)
+        private readonly IImageService _imageService;
+        private readonly IMapper _mapper;
+
+        public ImageController(IImageService imageService, IMapper mapper)
         {
-            _imageRepository = imageRepository;
+            _imageService = imageService;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var response = await _imageRepository.GetById(u => u.ImageId == id);
+            var response = await _imageService.GetById(id);
             if (response == null)
                 return NotFound();
 
             return Ok(response);
-
         }
 
         [HttpPost]
-        public async Task<ActionResult<Image>> AddImage(imageDTO imageDTO)
+        public async Task<ActionResult<ImageDTO>> AddImage(CreateImageDTO imageDTO)
         {
-            byte[] imageArray = Convert.FromBase64String(imageDTO.Blob);
+            var response = await _imageService.AddImage(imageDTO);
+            if (response.HasError)
+                return BadRequest(response.Message);
 
-            Image image = new Image();
-            image.Image1 = imageArray;
-            
-            return Ok(await _imageRepository.Add(image));
+            var image = _mapper.Map<ImageDTO>(response.Model);
+            return Ok(image);
 
         }
 
@@ -44,7 +49,7 @@ namespace CryptoHubAPI.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            await _imageRepository.DeleteOne(u => u.ImageId == id);
+            await _imageService.Delete(id);
             return Ok();
         }
 

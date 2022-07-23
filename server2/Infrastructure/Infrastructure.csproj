@@ -7,8 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,5 +19,16 @@
 
   <ItemGroup>
     <None Remove="Data\" />
+    <None Remove="DTO\LikeDTOs\" />
+    <None Remove="DTO\PostDTO\" />
+    <None Remove="DTO\imageDTOs\" />
+    <None Remove="DTO\ReplyDTOs\" />
+    <None Remove="DTO\UserFollowerDTOs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DTO\LikeDTOs\" />
+    <Folder Include="DTO\PostDTOs\" />
+    <Folder Include="DTO\ReplyDTOs\" />
+    <Folder Include="DTO\UserFollowerDTOs\" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,7 @@
-﻿using Domain.IRepository;
+﻿using BusinessLogic.Services.PostService;
+using Domain.IRepository;
 using Domain.Models;
+using Infrastructure.DTO.PostDTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,27 +12,25 @@ namespace CryptoHubAPI.Controllers
     public class PostController : Controller
     {
 
-        private readonly IPostRepository _postRepository;
-        private readonly IImageRepository _imageRepository;
+        private readonly IPostService _postService;
 
-        public PostController(IPostRepository postRepository, IImageRepository imageRepository)
+        public PostController(IPostService postService)
         {
-            _postRepository = postRepository;
-            _imageRepository = imageRepository;
+            _postService = postService;
         }
 
         [HttpGet]
         // GET: PostController
-        public async Task<ActionResult<List<Post>>> GetAllPosts()
+        public async Task<ActionResult<List<PostDTO>>> GetAllPosts()
         {
-            return Ok(await _postRepository.GetAll());
+            return Ok(await _postService.GetAllPosts());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Post>> GetPostByUserId(int id)
+        public async Task<ActionResult<PostDTO>> GetPostByUserId(int id)
         {
-            var response = await _postRepository.FindRange(p => p.UserId == id);
-            if(response == null)
+            var response = await _postService.GetPostByUserId(id);
+            if (response == null)
                 return NotFound();
 
             return Ok(response);
@@ -38,36 +38,21 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Post>> AddPost([FromBody] CreatePostDTO createPostDTO)
+        public async Task<ActionResult<PostDTO>> AddPost([FromBody] CreatePostDTO createPostDTO)
         {
 
-            Post post = new Post();
-            if(createPostDTO.imageDTO != null)
-            {
-                byte[] imageArray = Convert.FromBase64String(createPostDTO.imageDTO.Blob);
+            var response = await _postService.AddPost(createPostDTO);
 
-                Image image = new Image();
-                image.Image1 = imageArray;
-
-                await _imageRepository.Add(image);
-                post.ImageId = image.ImageId;
-
-            }
-
-            post.Post1 = createPostDTO.Post;
-            post.UserId = createPostDTO.UserId;
-
-            return Ok( await _postRepository.Add(post));
+            return Ok(response);
 
         }
 
-        [HttpPut]       
-        public async Task<ActionResult<Post>> UpdatePost([FromBody] Post Post)
+        [HttpPut]
+        public async Task<ActionResult<PostDTO>> UpdatePost([FromBody] Post Post)
         {
-            var response = await _postRepository.Update(u => u.PostId == Post.PostId,Post);
+            var response = await _postService.UpdatePost(Post);
             if (response == null)
                 return null;
-            
             return Ok(response);
         }
 
@@ -76,10 +61,23 @@ namespace CryptoHubAPI.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            await _postRepository.DeleteOne(u => u.PostId == id);
+            await _postService.Delete(id);
             return Ok();
         }
 
-        
+        [HttpPost]
+        public async Task<ActionResult<PostReport>> Report(int postid, int userid)
+        {
+            var response = await _postService.Report(postid, userid);
+
+            if(response == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(response);
+
+        }
+
     }
 }

@@ -102,11 +102,16 @@ const Profile = () => {
         <title>CryptoHub</title>
       </Head>
       <Layout>
-        <div className="flex flex-col sm:flex-row w-full sm:w-6/12 items-center mt-8">
-          <div
-            className="w-32 h-32 bg-black sm:mr-10 mb-5"
-            style={{ borderRadius: "100%" }}
-          ></div>
+        <div className="flex flex-col sm:flex-row w-full sm:w-7/12 items-center mt-8">
+          <span className="inline-block h-40 w-40 rounded-full overflow-hidden bg-gray-100 mr-6 mb-3">
+            <svg
+              className="h-full w-full text-gray-300"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </span>
           <div className="flex flex-col">
             <p className="font-semibold text-center sm:text-left">
               {user.username}
@@ -128,9 +133,17 @@ const Profile = () => {
                 followers
               </button>
             </div>
+            <button
+              onClick={() => {
+                router.push("/editprofile");
+              }}
+              className="sm:self-start text-sm font-semibold bg-gray-300 px-3 py-1 rounded-md hover:bg-gray-400 transition"
+            >
+              edit profile
+            </button>
           </div>
         </div>
-        <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
+        <div className="bg-gray-400 sm:w-7/12" style={{ height: "1px" }}></div>
         <div className="flex flex-col items-center w-full sm:w-4/12">
           <div>
             <p className="text-sm mt-4 text-gray-600">Posts</p>
@@ -141,7 +154,7 @@ const Profile = () => {
                 <Post
                   key={index}
                   name={data.username}
-                  content={data.post1}
+                  content={data.content}
                   userId={data.userId}
                   imageId={data.imageId}
                   postId={data.postId}
@@ -178,6 +191,7 @@ const Profile = () => {
                                 name={data.username}
                                 hidefollow={true}
                                 id={data.userId}
+                                suggestions={true}
                               />
                             );
                           })}
@@ -220,6 +234,7 @@ const Profile = () => {
                                 name={data.username}
                                 hidefollow={true}
                                 id={data.userId}
+                                suggestions={true}
                               />
                             );
                           })}
