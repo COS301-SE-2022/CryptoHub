@@ -8,13 +8,13 @@ namespace Infrastructure.Setting
         [JsonPropertyName("FIRESTORE_EMAIL")]
         public string Email { get; set; }
 
-        [JsonProperty("FIRESTORE_PASSWORD")]
+        [JsonPropertyName("FIRESTORE_PASSWORD")]
         public string Password { get; set; }
 
-        [JsonProperty("FIRESTORE_APIKEY")]
+        [JsonPropertyName("FIRESTORE_APIKEY")]
         public string APIKey { get; set; }
 
-        [JsonProperty("FIRESTORE_STORAGEBUCKET")]
+        [JsonPropertyName("FIRESTORE_STORAGEBUCKET")]
         public string StorageBucket { get; set; }
     }
 }
