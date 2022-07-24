@@ -92,9 +92,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        ValidAudience = JWTSettings.Audience,
+        ValidIssuer = JWTSettings.Issuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTSettings.Key))
     };
 });
 
@@ -104,7 +104,7 @@ builder.Services.AddDbContext<CryptoHubDBContext>(
         if(builder.Environment.IsDevelopment())
             options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
         else
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
+            options.UseSqlServer(DBConnctionSettings.ConnectionString);
 
     });
 
