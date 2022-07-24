@@ -5,6 +5,7 @@ using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.EmailDTOs;
 using Infrastructure.DTO.UserDTOs;
+using Infrastructure.Setting;
 using Intergration.SendGridEmailService;
 using Intergration.SendInBlueEmailService;
 using Microsoft.Extensions.Configuration;
@@ -159,7 +160,7 @@ namespace BusinessLogic.Services.AuthorizationService
 
             List<Claim> claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, _configuration["JWT:Subject"]),
+                new Claim(JwtRegisteredClaimNames.Sub, JWTSettings.Subject),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                 new Claim("id", user.UserId.ToString()),
@@ -170,13 +171,13 @@ namespace BusinessLogic.Services.AuthorizationService
                  
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("JWT:Key").Value));
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(JWTSettings.Key));
 
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
+                JWTSettings.Issuer,
+                JWTSettings.Audience,
                 claims: claims,
                 expires: DateTime.Now.AddHours(1), 
                 signingCredentials: cred);
