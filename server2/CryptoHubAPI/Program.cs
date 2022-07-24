@@ -137,7 +137,7 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(config =>
@@ -145,7 +145,14 @@ if (app.Environment.IsDevelopment())
         config.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
         config.DisplayRequestDuration();
     });
-}
+}*/
+
+app.UseSwagger();
+app.UseSwaggerUI(config =>
+{
+    config.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+    config.DisplayRequestDuration();
+});
 
 app.UseCors(
     options =>
