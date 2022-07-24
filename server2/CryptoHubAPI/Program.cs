@@ -92,17 +92,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        ValidAudience = JWTSettings.Audience,
+        ValidIssuer = JWTSettings.Issuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTSettings.Key))
     };
 });
 
 builder.Services.AddDbContext<CryptoHubDBContext>(
     options =>
     {
-        //options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
-        options.UseSqlServer(builder.Configuration.GetConnectionString("SmarterASPNET"));
+        if(builder.Environment.IsDevelopment())
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
+        else
+            options.UseSqlServer(DBConnctionSettings.ConnectionString);
+
     });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -137,7 +140,11 @@ var app = builder.Build();
 /*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(config =>
+    {
+        config.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+        config.DisplayRequestDuration();
+    });
 }*/
 
 app.UseSwagger();

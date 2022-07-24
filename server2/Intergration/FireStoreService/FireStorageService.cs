@@ -16,11 +16,10 @@ namespace Intergration.FireStoreService
 
         public FireStorageService(IConfiguration configuration)
         {
-            string apiKey = configuration["FireStore:apiKey"];
-            string email = configuration["FireStore:email"];
-            string password = configuration["FireStore:password"];
-            string bucket = configuration["FireStore:storageBucket"];
-            var e = FireStoreSettings.Email;
+            string apiKey = FireStoreSettings.APIKey;
+            string email = FireStoreSettings.Email;
+            string password = FireStoreSettings.Password;
+            string bucket = FireStoreSettings.StorageBucket;
 
             var auth = new FirebaseAuthProvider(
                 new FirebaseConfig(
