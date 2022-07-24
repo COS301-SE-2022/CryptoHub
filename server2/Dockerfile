@@ -8,6 +8,7 @@ COPY ["BusinessLogic/BusinessLogic.csproj","./BusinessLogic/"]
 COPY ["CryptoHubAPI/CryptoHubAPI.csproj","./CryptoHubAPI/"]
 COPY ["Domain/Domain.csproj","./Domain/"]
 COPY ["Infrastructure/Infrastructure.csproj","./Infrastructure/"]
+COPY ["Intergration/Intergration.csproj","./Intergration/"]
 RUN dotnet restore "CryptoHubAPI/CryptoHubAPI.csproj"
 COPY . .
 WORKDIR "/src/CryptoHubAPI"
