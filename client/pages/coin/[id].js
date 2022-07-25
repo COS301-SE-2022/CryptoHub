@@ -60,8 +60,51 @@ const Coin = () => {
             <p className="font-semibold text-center sm:text-left ">
               {coinData.name}
             </p>{" "}
+            {/* ==================================================================== */}
+            <div className="flex flex-row">
+              <p className="font-semibold text-center sm:text-left">
+                {/* {thisUser.username} */}
+              </p>{" "}
+              {user.auth ? (
+                isFollowing ? (
+                  <>
+                    <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
+                      Following
+                    </p>
+                    <button
+                      onClick={() => {
+                        router.push(`/messages/${id}`);
+                      }}
+                    >
+                      <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                        Message
+                      </p>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={handleFollowUser}>
+                      <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                        Follow
+                      </p>
+                    </button>
+                    <button
+                      onClick={() => {
+                        router.push(`/messages/${id}`);
+                      }}
+                    >
+                      <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                        Message
+                      </p>
+                    </button>
+                  </>
+                )
+              ) : null}
+              <br />
+            </div>
+            {/* ========================================================================= */}
             <br />
-            <div className="flex flex-row -translate-y-5"></div>
+            <div className="flex flex-row -translate-y-10"></div>
           </div>
         </div>
 
