@@ -19,12 +19,14 @@ namespace UnitTests.ControllerTests
         private readonly Mock<IUserService> _userServiceMock;
         private readonly Mock<IUserCoinService> _userCoinServiceMock;
         private readonly Mock<ISearchService> _searchServiceMock;
+        private readonly Mock<IUserRepository> _userRepositoryMock;
 
         public UserControllerTest()
         {
             _userServiceMock = new Mock<IUserService>();
             _userCoinServiceMock = new Mock<IUserCoinService>();
             _searchServiceMock = new Mock<ISearchService>();
+            _userRepositoryMock = new Mock<IUserRepository>();
         }
 
 
@@ -125,11 +127,25 @@ namespace UnitTests.ControllerTests
             //act
             var result = await controller.GetUserByEmail(user.Email);
 
+            //assert
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result.Result);
 
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<UserDTO>(actual);
+
+            //arrange 2
+            _userServiceMock.Setup(u => u.GetUserByEmail(user.Email)).Returns((Task<UserDTO>)null);
+
+            //act 2
+            var result2 = await controller.GetUserByEmail("MadeUpEmail");
+
+            //assert 2
+            Assert.NotNull(result2);
+            Assert.IsType<ActionResult<UserDTO>>(result2);
+
+            var actual2 = (result.Result as NotFoundObjectResult);
+            Assert.Null(actual2);
         }
 
         [Fact]
@@ -165,6 +181,20 @@ namespace UnitTests.ControllerTests
 
             var actual = (result.Result as OkObjectResult).Value;
             Assert.IsType<UserDTO>(actual);
+
+            ////arrange 2
+            //_userServiceMock.Setup(u => u.AddUser(user)).Returns((Task<UserDTO>)null);
+            ////_userRepositoryMock.Setup(u => u.Add(user)).Returns((Task<User>)null);
+
+            ////act 2
+            //var result2 = await controller.AddUser(user);
+
+            ////assert 2
+            //Assert.Null(result2);
+            //Assert.IsType<ActionResult<UserDTO>>(result2);
+
+            //var actual2 = (result.Result as NotFoundObjectResult);
+            //Assert.Null(actual2);
         }
 
         [Fact]
@@ -388,17 +418,17 @@ namespace UnitTests.ControllerTests
             Assert.Null(actual2);
         }
 
-        [Fact]
-        public async Task UpdateProfileImage_CreateImageDTO_ActionResult()
-        {
-            //arrange
-            var imageODT = new CreateImageDTO
-            {
-                Name = "sample",
-                Blob = "100110 111010 001011 101001"
-            };
+        //[Fact]
+        //public async Task UpdateProfileImage_CreateImageDTO_ActionResult()
+        //{
+        //    //arrange
+        //    var imageDTO = new CreateImageDTO
+        //    {
+        //        Name = "sample",
+        //        Blob = "100110 111010 001011 101001"
+        //    };
 
-            _userServiceMock.Setup(u => u.UploadProfilePic(imageODT)).Returns(Task.FromResult(imageODT));
-        }
+        //    _userServiceMock.Setup(u => u.UploadProfilePic(imageDTO)).Returns(Task.FromResult(imageDTO));
+        //}
     }
 }
