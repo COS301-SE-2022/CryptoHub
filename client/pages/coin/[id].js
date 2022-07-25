@@ -63,7 +63,7 @@ const Coin = () => {
             {/* ==================================================================== */}
             <div className="flex flex-row">
               <p className="font-semibold text-center sm:text-left">
-                {/* {thisUser.username} */}
+                {thisUser.username}
               </p>{" "}
               {user.auth ? (
                 isFollowing ? (
@@ -75,26 +75,13 @@ const Coin = () => {
                       onClick={() => {
                         router.push(`/messages/${id}`);
                       }}
-                    >
-                      <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
-                        Message
-                      </p>
-                    </button>
+                    ></button>
                   </>
                 ) : (
                   <>
                     <button onClick={handleFollowUser}>
                       <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
                         Follow
-                      </p>
-                    </button>
-                    <button
-                      onClick={() => {
-                        router.push(`/messages/${id}`);
-                      }}
-                    >
-                      <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
-                        Message
                       </p>
                     </button>
                   </>
