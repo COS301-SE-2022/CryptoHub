@@ -71,11 +71,6 @@ const Coin = () => {
                     <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
                       Following
                     </p>
-                    <button
-                      onClick={() => {
-                        router.push(`/messages/${id}`);
-                      }}
-                    ></button>
                   </>
                 ) : (
                   <>
