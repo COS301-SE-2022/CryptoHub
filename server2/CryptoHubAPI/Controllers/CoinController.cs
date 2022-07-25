@@ -74,7 +74,7 @@ namespace CryptoHubAPI.Controllers
             return Ok(await _userCoinService.GetAllUserCoins());
         }
 
-        [HttpPost("{userId}/{coinId}")]
+        [HttpPost("{userId}/{coinName}")]
         public async Task<IActionResult> FollowCoin(int userId, string coinName)
         {
             var response = await _userCoinService.FollowCoin(userId, coinName);
@@ -84,10 +84,10 @@ namespace CryptoHubAPI.Controllers
             return Ok(response.Message);
         }
 
-        [HttpPost("{userId}/{coinId}")]
-        public async Task<IActionResult> UnfollowCoin(int userId, int coinId)
+        [HttpPost("{userId}/{coinName}")]
+        public async Task<IActionResult> UnfollowCoin(int userId, string coinName)
         {
-            var response = await _userCoinService.UnfollowCoin(userId, coinId);
+            var response = await _userCoinService.UnfollowCoin(userId, coinName);
             if (response.HasError)
                 return BadRequest(response.Message);
 
