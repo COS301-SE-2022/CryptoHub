@@ -77,7 +77,7 @@ const Coin = () => {
           />
           <CoinInfoNext
             id={id}
-            name="State"
+            name="Change"
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
             arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
           />
