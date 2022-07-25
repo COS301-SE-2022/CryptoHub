@@ -10,14 +10,9 @@ const Coin = () => {
   const router = useRouter();
   const { id } = router.query;
   const { user } = useContext(userContext);
-  const [posts, setPosts] = useState([]);
-  const [, setError] = useState(false);
-  const [, setLoading] = useState(false);
-  const [followers, setFollowers] = useState([]);
-  const [following, setFollowing] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [showFollowingModal, setFollowingShowModal] = useState(false);
   const [coinData, setCoinData] = useState({});
+  const [following, setFollowing] = useState([]);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   const handleGetCoin = () => {
     const options = {
@@ -100,7 +95,7 @@ const Coin = () => {
                 ) : (
                   <>
                     <button onClick={handleFollowCoin}>
-                      <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                      <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition -translate-x-5">
                         Follow
                       </p>
                     </button>
