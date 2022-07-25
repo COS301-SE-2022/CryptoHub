@@ -32,6 +32,31 @@ const Coin = () => {
       .catch((error) => {});
   };
 
+  const handleFollowCoin = () => {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: user.id,
+        followerId: id,
+      }),
+    };
+
+    fetch(
+      `http://localhost:7215/api/UserFollower/FollowUser/${id}/${user.id}`,
+      options
+    )
+      .then((response) => {
+        setClicked(true);
+        response.json();
+      })
+      .then((data) => {
+        setClicked(true);
+        setIsFollowing(true);
+      })
+      .catch(() => {});
+  };
+
   useEffect(() => {
     handleGetCoin();
     id == undefined && router.push("/");
@@ -63,7 +88,7 @@ const Coin = () => {
             {/* ==================================================================== */}
             <div className="flex flex-row">
               <p className="font-semibold text-center sm:text-left">
-                {thisUser.username}
+                {/* {thisUser.username} */}
               </p>{" "}
               {user.auth ? (
                 isFollowing ? (
@@ -74,7 +99,7 @@ const Coin = () => {
                   </>
                 ) : (
                   <>
-                    <button onClick={handleFollowUser}>
+                    <button onClick={handleFollowCoin}>
                       <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
                         Follow
                       </p>
