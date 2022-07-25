@@ -75,9 +75,9 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPost("{userId}/{coinId}")]
-        public async Task<IActionResult> FollowCoin(int userId, int coinId)
+        public async Task<IActionResult> FollowCoin(int userId, string coinName)
         {
-            var response = await _userCoinService.FollowCoin(userId, coinId);
+            var response = await _userCoinService.FollowCoin(userId, coinName);
             if (response.HasError)
                 return BadRequest(response.Message);
 
