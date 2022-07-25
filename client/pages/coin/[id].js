@@ -3,7 +3,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import CoinInfo from "../../components/CoinAccount/CoinInfo";
 import CoinInfoNext from "../../components/CoinAccount/CoinInfoNext";
-import CoinCalculator from "../../components/CoinAccount/CoinCalculator";
 import Layout from "../../components/Layout";
 import { userContext } from "../../auth/auth";
 
@@ -79,11 +78,6 @@ const Coin = () => {
           <CoinInfoNext
             id={id}
             name="Change"
-            state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
-            arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
-          />
-          <CoinCalculator
-            id={id}
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
             arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
           />
