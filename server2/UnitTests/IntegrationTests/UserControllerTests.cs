@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.EntityFrameworkCore;
 //using Domain.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Data;
 
 namespace UnitTests.IntegrationTests
@@ -63,9 +64,9 @@ namespace UnitTests.IntegrationTests
             var testUser = new User()
             {
 
-                Firstname = "test",
-                Lastname = "user",
-                Username = "test user",
+                Firstname = "test1",
+                Lastname = "user1",
+                Username = "user1",
                 Email = "test@gmail.com",
                 Password = "1234"
 
@@ -73,9 +74,9 @@ namespace UnitTests.IntegrationTests
             var testUser2 = new User()
             {
 
-                Firstname = "test",
-                Lastname = "user",
-                Username = "test user",
+                Firstname = "test2",
+                Lastname = "user2",
+                Username = "user2",
                 Email = "test2@gmail.com",
                 Password = "1234"
 
@@ -83,17 +84,17 @@ namespace UnitTests.IntegrationTests
             var testUser3 = new User()
             {
 
-                Firstname = "test",
-                Lastname = "user",
-                Username = "test user",
+                Firstname = "test3",
+                Lastname = "user3",
+                Username = "user3",
                 Email = "test3@gmail.com",
                 Password = "1234"
 
             };
 
-            var x = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
-            var y = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser2);
-            var z = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser3);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser2);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser3);
 
             //Act
             var response = await _httpClient.GetAsync("http://localhost:7215/api/User/GetAllUsers");
@@ -104,7 +105,7 @@ namespace UnitTests.IntegrationTests
 
             var users = await response.Content.ReadAsAsync<List<User>>();
 
-            Assert.Equal(3, users.Count());
+            Assert.Equal(3, users.Count);
         }
 
         [Fact]
@@ -124,30 +125,33 @@ namespace UnitTests.IntegrationTests
             //Arrange
             var testUser = new User()
             {
-                UserId = 1,
+                //UserId = 1,
                 Firstname = "test",
                 Lastname = "user",
-                Username = "test user",
+                Username = "user1",
                 Email = "test@gmail.com",
-                Password = "1234"
+                Password = "1234",
+                RoleId = 3,
             };
             var testUser2 = new User()
             {
-                UserId = 2,
+                //UserId = 2,
                 Firstname = "test",
                 Lastname = "user",
-                Username = "test user",
+                Username = "user2",
                 Email = "test2@gmail.com",
-                Password = "1234"
+                Password = "1234",
+                RoleId = 3,
             };
             var testUser3 = new User()
             {
-                UserId = 3,
+                //UserId = 3,
                 Firstname = "test",
                 Lastname = "user",
-                Username = "test user",
+                Username = "user3",
                 Email = "test3@gmail.com",
-                Password = "1234"
+                Password = "1234",
+                RoleId = 3,
             };
 
             var x = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);

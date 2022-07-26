@@ -39,7 +39,7 @@ namespace UnitTests.ControllerTests
                 new UserDTO
                 {
                     UserId = 1,
-                    Email = "johndoe@gmail.com",
+                    //Email = "johndoe@gmail.com",
                     Firstname = "john",
                     Lastname = "doe",
                     Username = "john"
@@ -47,7 +47,7 @@ namespace UnitTests.ControllerTests
                 new UserDTO
                 {
                     UserId = 2,
-                    Email = "elonmusk@gmail.com",
+                    //Email = "elonmusk@gmail.com",
                     Firstname = "elon",
                     Lastname = "musk",
                     Username = "elon"
@@ -55,7 +55,7 @@ namespace UnitTests.ControllerTests
                 new UserDTO
                 {
                     UserId = 3,
-                    Email = "billgates@gmail.com",
+                    //Email = "billgates@gmail.com",
                     Firstname = "bill",
                     Lastname = "gates",
                     Username = "bill"
@@ -86,7 +86,7 @@ namespace UnitTests.ControllerTests
             var user = new UserDTO
             {
                 UserId = 1,
-                Email = "johndoe@gmail.com",
+                //Email = "johndoe@gmail.com",
                 Firstname = "john",
                 Lastname = "doe",
                 Username = "john"
@@ -107,46 +107,46 @@ namespace UnitTests.ControllerTests
             Assert.IsType<UserDTO>(actual);
         }
 
-        [Fact]
-        public async Task GetUserByEmail_UserEmail_ReturnsUserOfEmail()
-        {
-            //arrange
-            var user = new UserDTO
-            {
-                UserId = 1,
-                Email = "johndoe@gmail.com",
-                Firstname = "john",
-                Lastname = "doe",
-                Username = "john"
-            };
+        //[Fact]
+        //public async Task GetUserByEmail_UserEmail_ReturnsUserOfEmail()
+        //{
+        //    //arrange
+        //    var user = new UserDTO
+        //    {
+        //        UserId = 1,
+        //        //Email = "johndoe@gmail.com",
+        //        Firstname = "john",
+        //        Lastname = "doe",
+        //        Username = "john"
+        //    };
 
-            _userServiceMock.Setup(u => u.GetUserByEmail(user.Email)).Returns(Task.FromResult(user));
+        //    _userServiceMock.Setup(u => u.GetUserByEmail(user.Email)).Returns(Task.FromResult(user));
 
-            var controller = new UserController(_userServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
+        //    var controller = new UserController(_userServiceMock.Object, _userCoinServiceMock.Object, _searchServiceMock.Object);
 
-            //act
-            var result = await controller.GetUserByEmail(user.Email);
+        //    //act
+        //    var result = await controller.GetUserByEmail(user.Email);
 
-            //assert
-            Assert.NotNull(result);
-            Assert.IsType<OkObjectResult>(result.Result);
+        //    //assert
+        //    Assert.NotNull(result);
+        //    Assert.IsType<OkObjectResult>(result.Result);
 
-            var actual = (result.Result as OkObjectResult).Value;
-            Assert.IsType<UserDTO>(actual);
+        //    var actual = (result.Result as OkObjectResult).Value;
+        //    Assert.IsType<UserDTO>(actual);
 
-            //arrange 2
-            _userServiceMock.Setup(u => u.GetUserByEmail(user.Email)).Returns((Task<UserDTO>)null);
+        //    //arrange 2
+        //    _userServiceMock.Setup(u => u.GetUserByEmail(user.Email)).Returns((Task<UserDTO>)null);
 
-            //act 2
-            var result2 = await controller.GetUserByEmail("MadeUpEmail");
+        //    //act 2
+        //    var result2 = await controller.GetUserByEmail("MadeUpEmail");
 
-            //assert 2
-            Assert.NotNull(result2);
-            Assert.IsType<ActionResult<UserDTO>>(result2);
+        //    //assert 2
+        //    Assert.NotNull(result2);
+        //    Assert.IsType<ActionResult<UserDTO>>(result2);
 
-            var actual2 = (result.Result as NotFoundObjectResult);
-            Assert.Null(actual2);
-        }
+        //    var actual2 = (result.Result as NotFoundObjectResult);
+        //    Assert.Null(actual2);
+        //}
 
         [Fact]
         public async Task AddUser_User_ReturnsUser()
@@ -164,7 +164,7 @@ namespace UnitTests.ControllerTests
             var userDTO = new UserDTO
             {
                 UserId = 1,
-                Email = "johndoe@gmail.com",
+                //Email = "johndoe@gmail.com",
                 Firstname = "john",
                 Lastname = "doe",
                 Username = "john"
@@ -213,7 +213,7 @@ namespace UnitTests.ControllerTests
             var userDTO = new UserDTO
             {
                 UserId = 1,
-                Email = "johndoe@gmail.com",
+                //Email = "johndoe@gmail.com",
                 Firstname = "john",
                 Lastname = "doe",
                 Username = "john"

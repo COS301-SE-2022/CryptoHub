@@ -84,7 +84,7 @@ namespace UnitTests.ControllerTests
                 new UserDTO
                 {
                     UserId = 1,
-                    Email = "johndoe@gmail.com",
+                    //Email = "johndoe@gmail.com",
                     Firstname = "john",
                     Lastname = "doe",
                     Username = "john"
@@ -92,7 +92,7 @@ namespace UnitTests.ControllerTests
                 new UserDTO
                 {
                     UserId = 2,
-                    Email = "elonmusk@gmail.com",
+                    //Email = "elonmusk@gmail.com",
                     Firstname = "elon",
                     Lastname = "musk",
                     Username = "elon"
@@ -100,7 +100,7 @@ namespace UnitTests.ControllerTests
                 new UserDTO
                 {
                     UserId = 3,
-                    Email = "billgates@gmail.com",
+                    //Email = "billgates@gmail.com",
                     Firstname = "bill",
                     Lastname = "gates",
                     Username = "bill"
@@ -147,7 +147,7 @@ namespace UnitTests.ControllerTests
                 new UserDTO
                 {
                     UserId = 1,
-                    Email = "johndoe@gmail.com",
+                    //Email = "johndoe@gmail.com",
                     Firstname = "john",
                     Lastname = "doe",
                     Username = "john"
@@ -155,7 +155,7 @@ namespace UnitTests.ControllerTests
                 new UserDTO
                 {
                     UserId = 2,
-                    Email = "elonmusk@gmail.com",
+                    //Email = "elonmusk@gmail.com",
                     Firstname = "elon",
                     Lastname = "musk",
                     Username = "elon"
@@ -163,7 +163,7 @@ namespace UnitTests.ControllerTests
                 new UserDTO
                 {
                     UserId = 3,
-                    Email = "billgates@gmail.com",
+                    //Email = "billgates@gmail.com",
                     Firstname = "bill",
                     Lastname = "gates",
                     Username = "bill"
