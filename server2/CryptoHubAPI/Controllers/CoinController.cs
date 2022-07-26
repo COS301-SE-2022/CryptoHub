@@ -94,10 +94,10 @@ namespace CryptoHubAPI.Controllers
             return Ok(response.Message);
         }
 
-        [HttpGet("{coinId}")]
-        public async Task<ActionResult<List<UserCoinDTO>>> GetCoinsFollowers(int coinId)
+        [HttpGet("{coinName}")]
+        public async Task<ActionResult<List<UserCoinDTO>>> GetCoinsFollowers(string coinName)
         {
-            var response = await _userCoinService.GetCoinFollowers(coinId);
+            var response = await _userCoinService.GetCoinFollowers(coinName);
             if (response == null)
                 return NotFound();
 

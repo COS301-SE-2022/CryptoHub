@@ -54,9 +54,11 @@ namespace BusinessLogic.Services.UserCoinService
             return _mapper.Map<List<UserCoinDTO>>(usercoins);
         }
 
-        public async Task<List<UserCoinDTO>> GetCoinFollowers(int id)
+        public async Task<List<UserCoinDTO>> GetCoinFollowers(string coinName)
         {
-            var userCoin = await _userCoinRepository.ListByExpression(u => u.CoinId == id);
+            var coin = await _coinService.GetCoinByName(coinName);
+
+            var userCoin = await _userCoinRepository.ListByExpression(u => u.CoinId == coin.CoinId);
             var users = await _userRepository.GetAll();
 
             var usercoins = from uc in userCoin
