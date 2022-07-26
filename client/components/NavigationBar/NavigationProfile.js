@@ -1,7 +1,8 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { userContext } from "../../auth/auth";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -10,21 +11,57 @@ function classNames(...classes) {
 const NavigationProfile = () => {
   const router = useRouter();
   const { logout } = useContext(userContext);
+  const [thisUser, setThisUser] = useState("");
+  const { user } = useContext(userContext);
+
+  const handleGetUser = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`http://localhost:7215/api/User/GetUserById/${user.id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        setThisUser(data.imageUrl);
+      })
+      .catch((error) => {});
+  };
+
+  useEffect(() => {
+    handleGetUser();
+
+    if (thisUser !== "") {
+      console.warn("work bitch: ", thisUser);
+    }
+  }, []);
 
   return (
     <Menu as="div" className="ml-1 sm:ml-3 relative">
       <div>
         <Menu.Button className=" flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-400 focus:ring-white">
           <span className="sr-only">Open user menu</span>
-          <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
-            <svg
-              className="h-full w-full text-gray-300"
-              fill="currentColor"
-              viewBox="0 0 24 24"
+          {thisUser !== "" ? (
+            <div
+              className="rounded-full overflow-hidden"
+              style={{
+                width: "50px",
+                height: "50px",
+                position: "relative",
+              }}
             >
-              <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-          </span>
+              <Image src={thisUser} layout="fill" />
+            </div>
+          ) : (
+            <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+              <svg
+                className="h-full w-full text-gray-300"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </span>
+          )}
         </Menu.Button>
       </div>
       <Transition
