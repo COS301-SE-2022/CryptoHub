@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Data;
 using Infrastructure.DTO.PostDTO;
+using System.Net.Http;
 
 namespace UnitTests.IntegrationTests
 {
@@ -260,6 +261,35 @@ namespace UnitTests.IntegrationTests
             var postsGet = await responseGet.Content.ReadAsAsync<List<PostDTO>>();
 
             Assert.Empty(postsGet);
+        }
+
+        [Fact]
+        public async Task ReportPost_NoPost()
+        {
+            //Arrange
+            var testPost = new CreatePostDTO()
+            {
+                Post = "sample post",
+                UserId = 1
+            };
+            var report = new PostReport()
+            {
+                UserId = 1,
+                PostId = 1
+            };
+
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Post/AddPost", testPost);
+
+            //Act
+            var response = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Post/Report", report);
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var reports = await response.Content.ReadAsAsync<PostReport>();
+
+            Assert.NotNull(reports);
         }
     }
 }
