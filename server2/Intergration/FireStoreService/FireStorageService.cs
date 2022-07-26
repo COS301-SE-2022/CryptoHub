@@ -2,6 +2,7 @@
 using Firebase.Auth;
 using Firebase.Storage;
 using Infrastructure.DTO.ImageDTOs;
+using Infrastructure.Setting;
 using Microsoft.Extensions.Configuration;
 using SixLabors.ImageSharp.Formats;
 
@@ -15,10 +16,10 @@ namespace Intergration.FireStoreService
 
         public FireStorageService(IConfiguration configuration)
         {
-            string apiKey = configuration["FireStore:apiKey"];
-            string email = configuration["FireStore:email"];
-            string password = configuration["FireStore:password"];
-            string bucket = configuration["FireStore:storageBucket"];
+            string apiKey = FireStoreSettings.APIKey;
+            string email = FireStoreSettings.Email;
+            string password = FireStoreSettings.Password;
+            string bucket = FireStoreSettings.StorageBucket;
 
             var auth = new FirebaseAuthProvider(
                 new FirebaseConfig(

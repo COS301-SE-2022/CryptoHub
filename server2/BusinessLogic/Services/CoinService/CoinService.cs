@@ -52,6 +52,7 @@ namespace BusinessLogic.Services.CoinService
                 return new Response<Coin>(null,true,response.Message);
 
             coin.ImageId = response.Model.ImageId;
+            coin.ImageUrl = response.Model.Url;
 
             await _coinRepository.Update(coin);
 
@@ -65,7 +66,7 @@ namespace BusinessLogic.Services.CoinService
             {
                 CoinId = coin.CoinId,
                 CoinName = coin.CoinName,
-                ImageId = coin.ImageId
+                //ImageId = coin.ImageId
             };
             var response = await _coinRepository.Update(c => c.CoinId == newCoin.CoinId, newCoin);
             if (response == null)
