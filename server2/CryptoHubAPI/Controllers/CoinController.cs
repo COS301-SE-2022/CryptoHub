@@ -95,6 +95,16 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{coinName}")]
+        public async Task<ActionResult<UserCoinDTO>> GetCoinFollowCount(string coinName)
+        {
+            var response = await _userCoinService.GetCoinFollowCount(coinName);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{coinName}")]
         public async Task<ActionResult<List<UserCoinDTO>>> GetCoinsFollowers(string coinName)
         {
             var response = await _userCoinService.GetCoinFollowers(coinName);
