@@ -9,6 +9,14 @@
     }
   },
   "profiles": {
+    "Custom": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:30501",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
@@ -22,15 +30,6 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:7215;http://localhost:5215",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "DOPPLER_TOKEN": "dp.st.dev.HwXyqhbyFs01ph5OxHyo6RI3WE8Jt8jFdBVXUUXSfKd"
-      }
-    },
-    "Custom": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "applicationUrl": "http://localhost:30501",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
