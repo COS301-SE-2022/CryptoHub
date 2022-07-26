@@ -38,7 +38,7 @@ const Coin = () => {
     };
 
     fetch(
-      `http://localhost:7215/api/UserFollower/FollowUser/${id}/${user.id}`,
+      `http://localhost:7215/api/Coin/FollowCoin/${user.id}/${coinData.name}`,
       options
     )
       .then((response) => {
@@ -52,6 +52,18 @@ const Coin = () => {
       .catch(() => {});
   };
 
+  const checkFollowing = () => {
+    fetch(`http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        data.map((d) => {
+          if (d.userId == id) {
+            setIsFollowing(true);
+          }
+        });
+      });
+  };
+
   useEffect(() => {
     handleGetCoin();
     id == undefined && router.push("/");
@@ -63,6 +75,7 @@ const Coin = () => {
       handleGetCoin();
     }, 10000);
     return () => clearInterval(interval);
+    checkFollowing();
   }, []);
 
   return (
