@@ -10,7 +10,7 @@ namespace Infrastructure.DTO.CoinDTOs
     {
         public int CoinId { get; set; }
         public string CoinName { get; set; } = null!;
-        public string? ImageUrl { get; set; } = null!;
+        public int? ImageId { get; set; }
 
     }
 }
