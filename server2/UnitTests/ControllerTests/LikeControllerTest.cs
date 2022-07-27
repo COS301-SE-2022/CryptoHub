@@ -348,7 +348,7 @@ namespace UnitTests.ControllerTests
         public async Task AddLike_Like_ReturnsLike()
         {
             //arrange
-            var like = new Like
+            var like = new LikeDTO
             {
                 LikeId = 1,
                 UserId = 1,
@@ -373,6 +373,13 @@ namespace UnitTests.ControllerTests
         public async Task UpdateLike_Like_ReturnsLike()
         {
             //arrange
+            var likeDTO = new LikeDTO
+            {
+                LikeId = 1,
+                UserId = 1,
+                PostId = 1,
+            };
+
             var like = new Like
             {
                 LikeId = 1,
@@ -380,7 +387,7 @@ namespace UnitTests.ControllerTests
                 PostId = 1,
             };
 
-            _likeServiceMock.Setup(u => u.AddLike(like));
+            _likeServiceMock.Setup(u => u.AddLike(likeDTO));
 
             var controller = new LikeController(_likeServiceMock.Object);
 

@@ -31,22 +31,19 @@ namespace UnitTests.ControllerTests
                 {
                     PostId = 1,
                     Content = "Post 1",
-                    UserId = 1,
-                    ImageId = 1
+                    UserId = 1
                 },
                 new PostDTO
                 {
                     PostId = 2,
                     Content = "Post 2",
-                    UserId = 2,
-                    ImageId = 2
+                    UserId = 2
                 },
                 new PostDTO
                 {
                     PostId = 3,
                     Content = "Post 3",
-                    UserId = 3,
-                    ImageId = 3
+                    UserId = 3
                 }
             };
 
@@ -75,22 +72,19 @@ namespace UnitTests.ControllerTests
                 {
                     PostId = 1,
                     Content = "Post 1",
-                    UserId = 1,
-                    ImageId = 1
+                    UserId = 1
                 },
                 new PostDTO
                 {
                     PostId = 2,
                     Content = "Post 2",
-                    UserId = 2,
-                    ImageId = 2
+                    UserId = 2
                 },
                 new PostDTO
                 {
                     PostId = 3,
                     Content = "Post 3",
-                    UserId = 3,
-                    ImageId = 3
+                    UserId = 3
                 }
             };
 
@@ -117,8 +111,7 @@ namespace UnitTests.ControllerTests
             {
                 PostId = 1,
                 Content = "Post 1",
-                UserId = 1,
-                ImageId = 1
+                UserId = 1
             };
             var dto = new CreatePostDTO
             {
