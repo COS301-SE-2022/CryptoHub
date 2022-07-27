@@ -1,6 +1,7 @@
 ﻿using System;
 using Domain.Models;
 using Infrastructure.DTO.PostDTO;
+using Infrastructure.DTO.ReportPostDTO;
 
 
 namespace BusinessLogic.Services.PostService
@@ -13,7 +14,8 @@ namespace BusinessLogic.Services.PostService
         Task<PostDTO> UpdatePost(Post Post);
         Task Delete(int id);
         Task<PostReport> Report(int postid, int userid);
-        Task<IEnumerable<PostDTO>> GetAllReportedPosts();
+        Task<Response<object>> GetReportCountByPostId(int id);
+        Task<IEnumerable<ReportPostDTO>> GetAllReportedPosts();
     }
 }
 
