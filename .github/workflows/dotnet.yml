@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    environment: dev
+    environment: devTest
     runs-on: ubuntu-latest
 
     steps:
