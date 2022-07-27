@@ -15,7 +15,7 @@ namespace BusinessLogic.Services.PostService
         private readonly IPostReportRepository _postReportRepository;
         private readonly ITagService _tagService;
         private readonly IMapper _mapper;
-        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository , IMapper mapper, ITagService tagService)
+        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository, IMapper mapper, ITagService tagService)
         {
             _postRepository = postRepository;
             _imageService = imageService;
@@ -35,7 +35,7 @@ namespace BusinessLogic.Services.PostService
             if (response == null)
                 return null;
 
-            
+
 
             return _mapper.Map<List<PostDTO>>(response);
 
@@ -63,10 +63,10 @@ namespace BusinessLogic.Services.PostService
                 await _postRepository.Update(post);
             }
 
-            if(createPostDTO.BatchTags != null)
+            if (createPostDTO.BatchTags != null)
             {
                 var response = await _tagService.BatchAddTag(post.PostId, createPostDTO.BatchTags);
-                
+
                 if (response.HasError)
                     return null;
             }
@@ -92,7 +92,7 @@ namespace BusinessLogic.Services.PostService
         public async Task<PostReport> Report(int postid, int userid)
         {
             var CheckpostReport = await _postReportRepository.GetByExpression(p => p.PostId == postid && p.UserId == userid);
-            if(CheckpostReport != null)
+            if (CheckpostReport != null)
             {
                 return null;
             }
@@ -108,10 +108,24 @@ namespace BusinessLogic.Services.PostService
             return newReport;
         }
 
+        public async Task<IEnumerable<PostDTO>> GetAllReportedPosts()
+        {
+            var reports = await _postReportRepository.GetAll();
+            var allPosts = await _postRepository.GetAll();
 
+            var reportedPosts = from r in reports
+                                join p in allPosts
+                                on r.PostId equals p.PostId
+                                select new PostDTO
+                                {
+                                    PostId = p.PostId,
+                                    Content = p.Content,
+                                    UserId = p.UserId,
+                                    ImageUrl = p.ImageUrl,
+                                };
 
-
-
+            return _mapper.Map<IEnumerable<PostDTO>>(reportedPosts);
+        }
     }
 }
 

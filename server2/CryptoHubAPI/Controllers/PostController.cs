@@ -79,5 +79,12 @@ namespace CryptoHubAPI.Controllers
 
         }
 
+        [HttpGet]
+        // GET: PostController
+        public async Task<ActionResult<List<PostDTO>>> GetAllReportedPosts()
+        {
+            return Ok(await _postService.GetAllReportedPosts());
+        }
+
     }
 }
