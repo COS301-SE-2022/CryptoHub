@@ -11,7 +11,6 @@ const Coin = () => {
   const { id } = router.query;
   const { user } = useContext(userContext);
   const [coinData, setCoinData] = useState({});
-  const [following, setFollowing] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
 
   const handleGetCoin = () => {
@@ -37,10 +36,7 @@ const Coin = () => {
       }),
     };
 
-    fetch(
-      `http://localhost:7215/api/Coin/FollowCoin/${user.id}/${coinData.name}`,
-      options
-    )
+    fetch(`http://localhost:7215/api/Coin/FollowCoin/${user.id}/${id}`, options)
       .then((response) => {
         setClicked(true);
         response.json();
@@ -53,11 +49,12 @@ const Coin = () => {
   };
 
   const checkFollowing = () => {
-    fetch(`http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`)
+    fetch(`http://localhost:7215/api/Coin/GetCoinsFollowers/${id}`)
       .then((response) => response.json())
       .then((data) => {
+        //console.warn("dataaaa", data);
         data.map((d) => {
-          if (d.userId == id) {
+          if (d.userId == user.id) {
             setIsFollowing(true);
           }
         });
@@ -70,12 +67,12 @@ const Coin = () => {
   }, []);
 
   useEffect(() => {
+    checkFollowing();
     handleGetCoin();
     const interval = setInterval(() => {
       handleGetCoin();
     }, 10000);
     return () => clearInterval(interval);
-    checkFollowing();
   }, []);
 
   return (
@@ -104,6 +101,11 @@ const Coin = () => {
                     <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
                       Following
                     </p>
+                    <button
+                      onClick={() => {
+                        router.push(`/messages/${id}`);
+                      }}
+                    ></button>
                   </>
                 ) : (
                   <>
