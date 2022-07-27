@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, Fragment } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import { XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
@@ -6,11 +6,6 @@ import Comment from "./Comment";
 import Image from "next/image";
 import { userContext } from "../../auth/auth";
 import { HeartIcon as RedHeartIcon } from "@heroicons/react/solid";
-import { Menu, Transition } from "@headlessui/react";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 const Post = ({ name, content, userId, postId, imageId }) => {
   const [thisUser, setUser] = useState({});
@@ -156,25 +151,6 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       });
   };
 
-  const handleReportPost = () => {
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: user.id,
-        postId: postId,
-      }),
-    };
-    fetch(
-      `http://localhost:7215/api/Post/Report?postid=${postId}&userid=${user.id}`,
-      options
-    )
-      .then((response) => response.json())
-      .then((data) => {});
-  };
-
   useEffect(() => {
     handleGetUser();
     getLikeCount();
@@ -192,81 +168,56 @@ const Post = ({ name, content, userId, postId, imageId }) => {
 
   return (
     <div className="bg-white m-4 p-4 rounded-lg">
-      <div className="flex flew-row items-center mb-2 justify-between">
-        <div className="flex flex-row">
-          <div className="w-8 h-8 bg-black rounded-3xl"></div>
+      <div className="flex flew-row items-center mb-2">
+        <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
+          <svg
+            className="h-full w-full text-gray-300"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </span>
 
-          {user.id == thisUser.userId ? (
-            <div class="flex justify-between flex-container">
-              <div className="flex-row items-center ">
-                <Link href={`/profile`} className="pointer cursor-pointer">
-                  <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-                    {thisUser.username}
-                  </p>
-                </Link>
-              </div>
+        {user.id == thisUser.userId ? (
+          <div class="flex justify-between flex-container">
+            <div className="flex-row items-center ">
+              <Link href={`/profile`} className="pointer cursor-pointer">
+                <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                  {thisUser.username}
+                </p>
+              </Link>
             </div>
-          ) : (
-            <div class="flex flex-container">
-              <div className="flex-row items-center ">
-                <Link
-                  href={`/user/${userId}`}
-                  className="pointer cursor-pointer"
-                >
-                  <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-                    {thisUser.username}
-                  </p>
-                </Link>
-              </div>
+
+            <div className="translate-x-50 text-right">
+              <button
+                onClick={() => setShowModal(true)}
+                className="text-sm flex flex-row"
+              >
+                <p className="ml-1"> ... </p>
+              </button>
             </div>
-          )}
-        </div>
-        <div>
-          <div className="translate-x-50 text-right">
-            <button
-              // onClick={() => setShowModal(true)}
-              className="text-sm flex flex-row"
-            >
-              <Menu as="div" className="ml-1 sm:ml-3 relative">
-                <div>
-                  <Menu.Button>
-                    <span className="sr-only">Open user menu</span>
-                    <div className="-translate-y-1">...</div>
-                  </Menu.Button>
-                </div>
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-20 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <>
-                          <button
-                            onClick={() => {
-                              handleReportPost();
-                            }}
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-2 py-2 text-sm text-gray-700 w-full"
-                            )}
-                          >
-                            Report
-                          </button>
-                        </>
-                      )}
-                    </Menu.Item>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
-            </button>
           </div>
-        </div>
+        ) : (
+          <div class="flex flex-container">
+            <div className="flex-row items-center ">
+              <Link href={`/user/${userId}`} className="pointer cursor-pointer">
+                <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                  {thisUser.username}
+                </p>
+              </Link>
+            </div>
+
+            <div>
+              <button
+                onClick={() => setShowModal(true)}
+                className="text-sm flex flex-row"
+              >
+                <p className="ml-1"> ... </p>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {postImage == null ? null : (
@@ -287,9 +238,9 @@ const Post = ({ name, content, userId, postId, imageId }) => {
           className="text-sm mr-4 flex flex-row"
         >
           {liked ? (
-            <RedHeartIcon className="h-5 w-5 text-red-500 " />
+            <RedHeartIcon className="h-5 w-5 text-red-500" />
           ) : (
-            <HeartIcon className="h-5 w-5 text-black " />
+            <HeartIcon className="h-5 w-5 text-black" />
           )}{" "}
           {""}
           <p className="ml-1">{likes} likes</p>
