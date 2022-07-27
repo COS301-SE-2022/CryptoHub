@@ -207,17 +207,22 @@ const Post = ({ name, content, userId, postId, imageId, admin }) => {
 
           {user.id == thisUser.userId ? (
             <div class="flex justify-between flex-container">
-              <div className="flex-row items-center ">
+              <div className="flex flex-row items-center ">
                 <Link href={`/profile`} className="pointer cursor-pointer">
                   <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
                     {thisUser.username}
                   </p>
                 </Link>
+                {admin && (
+                  <p className="text-sm font-semibold mb-2 translate-y-1 ml-5 text-red-600 cursor-pointer">
+                    Reports:
+                  </p>
+                )}
               </div>
             </div>
           ) : (
             <div class="flex flex-container">
-              <div className="flex-row items-center ">
+              <div className="flex flex-row items-center ">
                 <Link
                   href={`/user/${userId}`}
                   className="pointer cursor-pointer"
@@ -226,6 +231,11 @@ const Post = ({ name, content, userId, postId, imageId, admin }) => {
                     {thisUser.username}
                   </p>
                 </Link>
+                {admin && (
+                  <p className="text-sm font-semibold mb-2 translate-y-1 ml-5 text-red-600 cursor-pointer">
+                    Reports:
+                  </p>
+                )}
               </div>
 
               {/* <div>
@@ -260,23 +270,25 @@ const Post = ({ name, content, userId, postId, imageId, admin }) => {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <>
-                            <button
-                              onClick={() => {
-                                handleReportPost();
-                              }}
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-2 py-2 text-sm text-gray-700 w-full"
-                              )}
-                            >
-                              Report
-                            </button>
-                          </>
-                        )}
-                      </Menu.Item>
+                      {!admin && (
+                        <Menu.Item>
+                          {({ active }) => (
+                            <>
+                              <button
+                                onClick={() => {
+                                  handleReportPost();
+                                }}
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-2 py-2 text-sm text-gray-700 w-full"
+                                )}
+                              >
+                                Report
+                              </button>
+                            </>
+                          )}
+                        </Menu.Item>
+                      )}
                       {admin && (
                         <Menu.Item>
                           {({ active }) => (

@@ -8,7 +8,7 @@ const AdminFeed = () => {
   const { user } = useContext(userContext);
 
   return (
-    <div className="flex flex-col w-11/12 sm:flex items-center">
+    <div className="flex flex-col w-full sm:w-11/12 sm:flex items-center">
       <p className="text-3xl text-gray-600 font-semibold">Reported Posts</p>
       <AdminPosts />
     </div>
@@ -72,7 +72,7 @@ const AdminPosts = () => {
   }, [feedstate]);
 
   return (
-    <div className="sm:w-5/12">
+    <div className="w-full sm:w-5/12">
       {loading ? (
         <p>loading...</p>
       ) : (
