@@ -18,8 +18,6 @@ namespace Domain.Models
         public int UserId { get; set; }
         public int? ImageId { get; set; }
 
-        public string? ImageUrl { get; set; } = null!;
-
         public virtual Image? Image { get; set; }
         public virtual User User { get; set; } = null!;
         public virtual ICollection<Comment> Comments { get; set; }

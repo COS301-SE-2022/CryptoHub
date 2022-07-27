@@ -138,16 +138,16 @@ VALUES
 ('Samantha','Simpson','Samantha@Simpsongmail.com',')w%oYNv7','SSimpson',3),
 ('Jason','Keller','Jason@Kellergmail.com','tv3WeZP!','JKeller',3);
 
-INSERT INTO [dbo].[Post] ([UserId],[Content],[ImageId],[ImageUrl])
+INSERT INTO [dbo].[Post] ([UserId],[Content],[ImageId])
 VALUES 
-(1,'This Coin is Cool',null,null),
-(2,'Lets make Money',null,null),
-(3,'Cryptohub is awesome',null,null),
-(1,'Bitcoin is the furure',null,null),
-(2,'DogeCoin go',null,null),
-(3,'Too the moon',null,null),
-(5,'the market is looking bad',null,null),
-(1,'THIS IS IT PEOPLE',null,'https://firebasestorage.googleapis.com/v0/b/cryptohub-12abc.appspot.com/o/mandela.jpg?alt=media&token=48dab6df-947c-4b53-9f1d-675411ab2d5c');
+(1,'This Coin is Cool',null),
+(2,'Lets make Money',null),
+(3,'Cryptohub is awesome',null),
+(1,'Bitcoin is the furure',null),
+(2,'DogeCoin go',null),
+(3,'Too the moon',null),
+(5,'the market is looking bad',null),
+(1,'THIS IS IT PEOPLE',null);
 
 INSERT INTO [dbo].[Comment]([UserId],[PostId],[Content])
 VALUES
