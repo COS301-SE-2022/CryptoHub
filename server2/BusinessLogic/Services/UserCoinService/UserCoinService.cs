@@ -54,9 +54,11 @@ namespace BusinessLogic.Services.UserCoinService
             return _mapper.Map<List<UserCoinDTO>>(usercoins);
         }
 
-        public async Task<List<UserCoinDTO>> GetCoinFollowers(int id)
+        public async Task<List<UserCoinDTO>> GetCoinFollowers(string coinName)
         {
-            var userCoin = await _userCoinRepository.ListByExpression(u => u.CoinId == id);
+            var coin = await _coinService.GetCoinByName(coinName);
+
+            var userCoin = await _userCoinRepository.ListByExpression(u => u.CoinId == coin.CoinId);
             var users = await _userRepository.GetAll();
 
             var usercoins = from uc in userCoin
@@ -71,9 +73,11 @@ namespace BusinessLogic.Services.UserCoinService
             return _mapper.Map<List<UserCoinDTO>>(usercoins);
         }
 
-        public async Task<object> GetCoinFollowCount(int id)
+        public async Task<object> GetCoinFollowCount(string coinName)
         {
-            var userCoin = await _userCoinRepository.ListByExpression(u => u.CoinId == id);
+            var coin = await _coinService.GetCoinByName(coinName);
+
+            var userCoin = await _userCoinRepository.ListByExpression(u => u.CoinId == coin.CoinId);
             var users = await _userRepository.GetAll();
 
             var usercoins = from uc in userCoin
@@ -91,14 +95,15 @@ namespace BusinessLogic.Services.UserCoinService
             return new Response<object>(new { Count = usercoins.Count() }, false, "");
         }
 
-        public async Task<Response<string>> FollowCoin(int userId, int coinId)
+        public async Task<Response<string>> FollowCoin(int userId, string coinName)
         {
-            var coin = await _coinService.GetCoin(coinId);
+            //var coin = await _coinService.GetCoin(coinId);
+            var coin = await _coinService.GetCoinByName(coinName);
 
             if (coin == null)
                 return new Response<string>(null, true, "Coin does not exist");
 
-            var response = await _userCoinRepository.GetByExpression(uf => uf.UserId == userId && uf.CoinId == coinId);
+            var response = await _userCoinRepository.GetByExpression(uf => uf.UserId == userId && uf.CoinId == coin.CoinId);
 
             if (response != null)
                 return new Response<string>(null, true, "Coin already followed by that user");
@@ -108,7 +113,7 @@ namespace BusinessLogic.Services.UserCoinService
             UserCoin userCoin = new UserCoin
             {
                 UserId = userId,
-                CoinId = coinId,
+                CoinId = coin.CoinId
             };
 
             await _userCoinRepository.Add(userCoin);
@@ -116,19 +121,21 @@ namespace BusinessLogic.Services.UserCoinService
 
         }
 
-        public async Task<Response<string>> UnfollowCoin(int userId, int coinId)
+        public async Task<Response<string>> UnfollowCoin(int userId, string coinName)
         {
-            var coin = await _coinService.GetCoin(coinId);
+            //var coin = await _coinService.GetCoin(coinId);
+            var coin = await _coinService.GetCoinByName(coinName);
+
 
             if (coin == null)
                 return new Response<string>(null, true, "Coin does not exist");
 
-            var response = await _userCoinRepository.GetByExpression(uf => uf.UserId == userId && uf.CoinId == coinId);
+            var response = await _userCoinRepository.GetByExpression(uf => uf.UserId == userId && uf.CoinId == coin.CoinId);
 
             if (response == null)
                 return new Response<string>(null, true, "Coin not followed by that user");
 
-            await _userCoinRepository.DeleteOne(u => u.UserId == userId && u.CoinId == coinId);
+            await _userCoinRepository.DeleteOne(u => u.UserId == userId && u.CoinId == coin.CoinId);
             return new Response<string>(null, false, "Coin has been unfollowed");
 
         }
