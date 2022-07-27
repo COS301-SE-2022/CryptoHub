@@ -83,7 +83,7 @@ const CoinInfo = ({ name, price }) => {
             <input
               className="border text-sm mb-3 mt-3 h-10 rounded-md w-full px-2 py-1 mr-1 sm:mr-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Amount"
-              onChange={(e) => setAmountInput(e.target.value)}
+              onChange={(e) => setAmountInput(e.target.value * price)}
             />
             <p className="self-center">{amountInput} USD</p>
           </div>
