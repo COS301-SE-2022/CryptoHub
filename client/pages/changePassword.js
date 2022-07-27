@@ -42,7 +42,10 @@ function changePassword() {
         `http://localhost:7215/api/Authorization/UpdateForgotPassword/${router.query.email}/${newPassword}`,
         options
       )
-        .then((response) => response.json())
+        .then((response) => {
+          response.json();
+          router.push("/login");
+        })
         .then((data) => {
           setLoading(false);
           if (response == "password updated") {

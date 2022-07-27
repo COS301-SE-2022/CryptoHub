@@ -8,10 +8,11 @@ function forgotPasswordConfirmation() {
   const { authorise } = useContext(userContext);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState(0);
   const router = useRouter();
 
-  console.log(router.query.email);
+  //console.log(router.query.email);
+  // console.log(otp);
 
   const handleValidOtp = (e) => {
     setLoading(true);
