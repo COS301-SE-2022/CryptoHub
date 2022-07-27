@@ -65,18 +65,12 @@ namespace CryptoHubAPI.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<PostReport>>> GetAllReports()
-        {
-            return Ok(await _postService.GetAllReports());
-        }
-
         [HttpPost]
         public async Task<ActionResult<PostReport>> Report(int postid, int userid)
         {
             var response = await _postService.Report(postid, userid);
 
-            if (response == null)
+            if(response == null)
             {
                 return BadRequest();
             }
@@ -85,14 +79,5 @@ namespace CryptoHubAPI.Controllers
 
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Comment>> GetReportCountByPostId(int id)
-        {
-            var response = await _postService.GetReportCountByPostId(id);
-            if (response == null)
-                return NotFound();
-
-            return Ok(response);
-        }
     }
 }

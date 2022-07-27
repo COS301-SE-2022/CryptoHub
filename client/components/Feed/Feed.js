@@ -7,7 +7,7 @@ const Feed = () => {
   const { user } = useContext(userContext);
 
   return (
-    <div className="w-10/12 sm:flex">
+    <div className="w-11/12 sm:flex">
       <InfoSection />
       <Posts />
     </div>
