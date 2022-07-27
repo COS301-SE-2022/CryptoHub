@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using BusinessLogic.Services.ImageService;
+using BusinessLogic.Services.TagService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.PostDTO;
@@ -12,12 +13,14 @@ namespace BusinessLogic.Services.PostService
         private readonly IPostRepository _postRepository;
         private readonly IImageService _imageService;
         private readonly IPostReportRepository _postReportRepository;
+        private readonly ITagService _tagService;
         private readonly IMapper _mapper;
-        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository, IMapper mapper)
+        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository , IMapper mapper, ITagService tagService)
         {
             _postRepository = postRepository;
             _imageService = imageService;
             _postReportRepository = postReportRepository;
+            _tagService = tagService;
             _mapper = mapper;
         }
 
@@ -31,6 +34,8 @@ namespace BusinessLogic.Services.PostService
             var response = await _postRepository.FindRange(p => p.UserId == id);
             if (response == null)
                 return null;
+
+            
 
             return _mapper.Map<List<PostDTO>>(response);
 
@@ -54,8 +59,16 @@ namespace BusinessLogic.Services.PostService
                     return null;
 
                 post.ImageId = response.Model.ImageId;
+                post.ImageUrl = response.Model.Url;
                 await _postRepository.Update(post);
+            }
 
+            if(createPostDTO.BatchTags != null)
+            {
+                var response = await _tagService.BatchAddTag(post.PostId, createPostDTO.BatchTags);
+                
+                if (response.HasError)
+                    return null;
             }
 
             return _mapper.Map<PostDTO>(post);
@@ -76,16 +89,10 @@ namespace BusinessLogic.Services.PostService
 
         }
 
-        public async Task<List<PostReport>> GetAllReports()
-        {
-            var Reports = await _postReportRepository.GetAll();
-            return _mapper.Map<List<PostReport>>(Reports);
-        }
-
         public async Task<PostReport> Report(int postid, int userid)
         {
             var CheckpostReport = await _postReportRepository.GetByExpression(p => p.PostId == postid && p.UserId == userid);
-            if (CheckpostReport != null)
+            if(CheckpostReport != null)
             {
                 return null;
             }
@@ -100,15 +107,8 @@ namespace BusinessLogic.Services.PostService
 
             return newReport;
         }
-        public async Task<Response<object>> GetReportCountByPostId(int id)
-        {
-            var response = await _postReportRepository.FindRange(c => c.PostId == id);
-            if (response == null)
-                return new Response<object>(null, true, "no reports");
 
-            return new Response<object>(new { Count = response.Count() }, false, "");
 
-        }
 
 
 

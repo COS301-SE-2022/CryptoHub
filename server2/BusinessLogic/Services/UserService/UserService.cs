@@ -139,6 +139,7 @@ namespace BusinessLogic.Services.UserService
                 return new Response<string>(null, true, response.Message);
 
             user.ImageId = response.Model.ImageId;
+            user.ImageUrl = response.Model.Url;
 
             await _userRepository.Update(user);
 
