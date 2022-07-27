@@ -45,8 +45,9 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     fetch(`http://localhost:7215/api/Image/GetById/${imageId}`, options)
       .then((response) => response.json())
       .then((data) => {
-        let image = `data:image/jpeg;base64,${data.blob}`;
-        setPostImage(image);
+        // let image = `data:image/jpeg;base64,${data.blob}`;
+        // let image = ;
+        setPostImage(data.url);
       })
       .catch((error) => {});
   };
