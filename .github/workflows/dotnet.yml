@@ -22,6 +22,10 @@ jobs:
         cd server2
         dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: |
+        cd server2
+        dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: |
+        cd server2
+        dotnet test --no-build --verbosity normal
