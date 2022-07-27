@@ -18,7 +18,7 @@ namespace BusinessLogic.Services.CoinService
         private readonly ICoinRepository _coinRepository;
         private readonly IImageService _imageService;
         private readonly IMapper _mapper;
-        public CoinService(ICoinRepository coinRepository,IImageService imageService  ,IMapper mapper)
+        public CoinService(ICoinRepository coinRepository, IImageService imageService, IMapper mapper)
         {
             _coinRepository = coinRepository;
             _imageService = imageService;
@@ -28,6 +28,12 @@ namespace BusinessLogic.Services.CoinService
         public async Task<CoinDTO> GetCoin(int id)
         {
             var coin = await _coinRepository.GetById(c => c.CoinId == id);
+            return _mapper.Map<CoinDTO>(coin);
+        }
+
+        public async Task<CoinDTO> GetCoinByName(string name)
+        {
+            var coin = await _coinRepository.FindOne(c => c.CoinName == name);
             return _mapper.Map<CoinDTO>(coin);
         }
 
@@ -48,8 +54,8 @@ namespace BusinessLogic.Services.CoinService
 
             var response = await _imageService.AddImage(createImageDTO);
 
-            if(response.HasError)
-                return new Response<Coin>(null,true,response.Message);
+            if (response.HasError)
+                return new Response<Coin>(null, true, response.Message);
 
             coin.ImageId = response.Model.ImageId;
             coin.ImageUrl = response.Model.Url;

@@ -12,6 +12,7 @@ namespace BusinessLogic.Services.CoinService
     public interface ICoinService
     {
         Task<CoinDTO> GetCoin(int id);
+        Task<CoinDTO> GetCoinByName(string name);
         Task<List<CoinDTO>> GetAllCoins();
         Task<CoinDTO> UpdateCoin(CoinDTO coin);
 
