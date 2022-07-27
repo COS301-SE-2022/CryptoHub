@@ -1,19 +1,29 @@
 ﻿using AutoMapper;
+using BusinessLogic.Services.ImageService;
 using Domain.IRepository;
 using Domain.Models;
+using Infrastructure.DTO.ImageDTOs;
 using Infrastructure.DTO.UserDTOs;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace BusinessLogic.Services.UserService
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserFollowerRepository _userFollowerRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
-
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        private readonly IImageService _imageService;
+        
+        public UserService(IUserRepository userRepository, IImageService imageService, IHttpContextAccessor httpContextAccessor, IMapper mapper, IUserFollowerRepository userFollowerRepository)
         {
             _userRepository = userRepository;
+            _imageService = imageService;
+            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
+            _userFollowerRepository = userFollowerRepository;
         }
 
         public async Task<List<UserDTO>> GetAllUsers()
@@ -65,6 +75,79 @@ namespace BusinessLogic.Services.UserService
         public async Task Delete(int id)
         {
             await _userRepository.DeleteOne(u => u.UserId == id);
+        }
+        public async Task<List<SearchDTO>> SuggestedUsers(int id)
+        {
+            var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
+            var users = await _userRepository.GetAll();
+
+            var userfollowers = from f in followers
+                                join u in users
+                                on f.UserId equals u.UserId
+                                select new User
+                                {
+                                    UserId = u.UserId,
+                                    Firstname = u.Firstname,
+                                    Lastname = u.Lastname,
+                                    Username = u.Username,
+                                };
+
+            var mutuals = new List<User>();
+            foreach (var usf in userfollowers.ToList())
+            {
+                var mutFollowers = await _userFollowerRepository.FindRange(uf => uf.FollowId == usf.UserId);
+                var mutUsers = await _userRepository.GetAll();
+
+                var mutUserfollowers = from f in mutFollowers
+                                       join u in mutUsers
+                                    on f.UserId equals u.UserId
+                                       select new User
+                                       {
+                                           UserId = u.UserId,
+                                           Firstname = u.Firstname,
+                                           Lastname = u.Lastname,
+                                           Username = u.Username,
+                                       };
+
+                
+                foreach (var m in mutUserfollowers.ToList())
+                {
+                    if(m.UserId != id)
+                    {
+                        mutuals.Add(m);
+                    }
+                }
+            }
+            mutuals = mutuals.GroupBy(x => x.UserId).Select(x => x.First()).ToList();
+            return _mapper.Map<List<SearchDTO>>(mutuals);
+        }
+
+        public async Task<Response<string>> UploadProfilePic(CreateImageDTO createImageDTO)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst("Id")?.Value;
+            
+            var user = await _userRepository.GetByExpression(u => u.UserId.ToString() == userId);
+
+            if (user == null)
+                return new Response<string>(null, true, "user not found");
+
+            createImageDTO.Name = $"user-{userId}";
+
+            var response = await _imageService.AddImage(createImageDTO);
+
+            if(response.HasError)
+                return new Response<string>(null, true, response.Message);
+
+            user.ImageId = response.Model.ImageId;
+            user.ImageUrl = response.Model.Url;
+
+            await _userRepository.Update(user);
+
+            return new Response<string>(null, false, "profile uploaded");
+
+
+
+
         }
 
     }

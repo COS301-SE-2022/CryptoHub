@@ -28,9 +28,15 @@ using BusinessLogic.Services.CommentService;
 using BusinessLogic.Services.TagService;
 using Intergration.FireStoreService;
 using Intergration.SendInBlueEmailService;
+using Infrastructure.Setting;
+using Microsoft.Extensions.DependencyInjection;
+using CryptoHubAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHostedService<MyInitializer>();
+
+//await Doppler.FetchSecretsAsync();
 // Repository Dependency Injection.
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
@@ -45,6 +51,7 @@ builder.Services.AddTransient<ITagRepository, TagRepository>();
 builder.Services.AddTransient<IRoleRepository, RoleRepository>();
 builder.Services.AddTransient<ICoinRatingRepository, CoinRatingRepository>();
 builder.Services.AddTransient<IUserCoinRepository, UserCoinRepository>();
+builder.Services.AddTransient<IPostReportRepository, PostReportRepository>();
 
 
 
@@ -71,14 +78,9 @@ builder.Services.AddTransient<ISendInBlueEmailService, SendInBlueEmailService>()
 //AutoMapper
 builder.Services.AddAutoMapper(Assembly.Load("Infrastructure"));
 
-
-
-
-//
-
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors();
-
 
 builder.Services.AddControllers();
 
@@ -90,16 +92,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        ValidAudience = JWTSettings.Audience,
+        ValidIssuer = JWTSettings.Issuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTSettings.Key))
     };
 });
 
 builder.Services.AddDbContext<CryptoHubDBContext>(
     options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
+        if(builder.Environment.IsDevelopment())
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
+        else
+            options.UseSqlServer(DBConnctionSettings.ConnectionString);
+
     });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -131,7 +137,7 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(config =>
@@ -139,7 +145,14 @@ if (app.Environment.IsDevelopment())
         config.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
         config.DisplayRequestDuration();
     });
-}
+}*/
+
+app.UseSwagger();
+app.UseSwaggerUI(config =>
+{
+    config.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+    config.DisplayRequestDuration();
+});
 
 app.UseCors(
     options =>

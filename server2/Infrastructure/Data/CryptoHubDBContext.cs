@@ -243,6 +243,25 @@ namespace Infrastructure.Data
                     .HasConstraintName("FK_CoinRating_UserId");
             });
 
+            modelBuilder.Entity<PostReport>(entity =>
+            {
+                entity.ToTable("PostReport");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.PostReports)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PostReport_UserId");
+
+                entity.HasOne(d => d.Post)
+                    .WithMany(p => p.PostReports)
+                    .HasForeignKey(d => d.PostId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PostReport_PostId");
+
+
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 

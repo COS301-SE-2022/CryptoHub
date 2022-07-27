@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using BusinessLogic.Services.ImageService;
+using BusinessLogic.Services.TagService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.PostDTO;
@@ -11,11 +12,15 @@ namespace BusinessLogic.Services.PostService
     {
         private readonly IPostRepository _postRepository;
         private readonly IImageService _imageService;
+        private readonly IPostReportRepository _postReportRepository;
+        private readonly ITagService _tagService;
         private readonly IMapper _mapper;
-        public PostService(IPostRepository postRepository, IImageService imageService, IMapper mapper)
+        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository , IMapper mapper, ITagService tagService)
         {
             _postRepository = postRepository;
             _imageService = imageService;
+            _postReportRepository = postReportRepository;
+            _tagService = tagService;
             _mapper = mapper;
         }
 
@@ -30,6 +35,8 @@ namespace BusinessLogic.Services.PostService
             if (response == null)
                 return null;
 
+            
+
             return _mapper.Map<List<PostDTO>>(response);
 
         }
@@ -37,15 +44,32 @@ namespace BusinessLogic.Services.PostService
         public async Task<PostDTO> AddPost(CreatePostDTO createPostDTO)
         {
             Post post = new Post();
-            if (createPostDTO.ImageDTO != null)
-            {
-                await _imageService.AddImage(createPostDTO.ImageDTO);
-            }
 
             post.Content = createPostDTO.Post;
             post.UserId = createPostDTO.UserId;
 
             await _postRepository.Add(post);
+
+            if (createPostDTO.ImageDTO != null)
+            {
+                createPostDTO.ImageDTO.Name = $"post-{post.PostId}";
+                var response = await _imageService.AddImage(createPostDTO.ImageDTO);
+
+                if (response.HasError)
+                    return null;
+
+                post.ImageId = response.Model.ImageId;
+                post.ImageUrl = response.Model.Url;
+                await _postRepository.Update(post);
+            }
+
+            if(createPostDTO.BatchTags != null)
+            {
+                var response = await _tagService.BatchAddTag(post.PostId, createPostDTO.BatchTags);
+                
+                if (response.HasError)
+                    return null;
+            }
 
             return _mapper.Map<PostDTO>(post);
 
@@ -65,6 +89,24 @@ namespace BusinessLogic.Services.PostService
 
         }
 
+        public async Task<PostReport> Report(int postid, int userid)
+        {
+            var CheckpostReport = await _postReportRepository.GetByExpression(p => p.PostId == postid && p.UserId == userid);
+            if(CheckpostReport != null)
+            {
+                return null;
+            }
+
+            var newReport = new PostReport
+            {
+                PostId = postid,
+                UserId = userid
+            };
+
+            await _postReportRepository.Add(newReport);
+
+            return newReport;
+        }
 
 
 
