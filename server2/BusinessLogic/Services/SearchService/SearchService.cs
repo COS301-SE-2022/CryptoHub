@@ -31,7 +31,22 @@ namespace BusinessLogic.Services.SearchService
             var results = await _userRepository.FindRange(u => u.Username.ToLower().StartsWith(searchterm.ToLower()) ||
             u.Firstname.ToLower().StartsWith(searchterm.ToLower()) || u.Lastname.ToLower().StartsWith(searchterm.ToLower()));
 
-            foreach (var r in results)
+            var resultList = new List<SearchDTO>();
+
+            foreach (var result in results)
+            {
+                var temp = new SearchDTO
+                {
+                    UserId = result.UserId,
+                    Firstname = result.Firstname,
+                    Lastname = result.Lastname,
+                    Username = result.Username,
+                    followCount = 0
+                };
+                resultList.Add(temp);
+            }
+
+            foreach (var r in resultList)
             {
                 var fol = await _userFollowerRepository.FindRange(uf => uf.UserId == r.UserId);
                 var allUsers = await _userRepository.GetAll();
@@ -46,12 +61,10 @@ namespace BusinessLogic.Services.SearchService
                                   UserId = u.UserId,
                                   Username = u.Username
                               };
-                r.ImageId = userFol.Count();
-                r.Email = null;
-                r.Password = null;
+                r.followCount = userFol.Count();
             }
 
-            results = results.OrderByDescending(r => r.ImageId).ToList();
+            resultList = resultList.OrderByDescending(r => r.followCount).ToList();
 
             var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
             var users = await _userRepository.GetAll();
@@ -68,10 +81,10 @@ namespace BusinessLogic.Services.SearchService
                                 };
 
             //join current users followers and search results
-            var searchFollowers = from r in results
+            var searchFollowers = from r in resultList
                                   join f in userfollowers
                                   on r.UserId equals f.UserId
-                                  select new User
+                                  select new SearchDTO
                                   {
                                       UserId = r.UserId,
                                       Firstname = r.Firstname,
@@ -84,7 +97,7 @@ namespace BusinessLogic.Services.SearchService
             var final = sf;
 
             //find all mutual followers
-            var mutuals = new List<User>();
+            var mutuals = new List<SearchDTO>();
             foreach (var usf in userfollowers.ToList())
             {
                 var mutFollowers = await _userFollowerRepository.FindRange(uf => uf.FollowId == usf.UserId);
@@ -93,7 +106,7 @@ namespace BusinessLogic.Services.SearchService
                 var mutUserfollowers = from f in mutFollowers
                                        join u in mutUsers
                                     on f.UserId equals u.UserId
-                                       select new User
+                                       select new SearchDTO
                                        {
                                            UserId = u.UserId,
                                            Firstname = u.Firstname,
@@ -101,7 +114,7 @@ namespace BusinessLogic.Services.SearchService
                                            Username = u.Username,
                                        };
 
-                foreach (var r in results.ToList())
+                foreach (var r in resultList.ToList())
                 {
                     foreach (var m in mutUserfollowers.ToList())
                     {
@@ -116,28 +129,28 @@ namespace BusinessLogic.Services.SearchService
             mutuals = mutuals.GroupBy(x => x.UserId).Select(x => x.First()).ToList();
 
             //add mutual followers to the results
-            foreach (var r in results.ToList())
+            foreach (var r in resultList.ToList())
             {
                 foreach (var m in sf.ToList())
                 {
                     if (m.UserId == r.UserId)
                     {
-                        results.Remove(r);
+                        resultList.Remove(r);
                     }
                 }
                 foreach (var m in mutuals.ToList())
                 {
                     if (m.UserId == r.UserId)
                     {
-                        results.Remove(r);
+                        resultList.Remove(r);
                     }
                 }
             }
-            foreach(var s in sf.ToList())
+            foreach (var s in sf.ToList())
             {
-                foreach(var m in mutuals.ToList())
+                foreach (var m in mutuals.ToList())
                 {
-                    if(m.UserId == s.UserId)
+                    if (m.UserId == s.UserId)
                     {
                         mutuals.Remove(m);
                     }
@@ -151,7 +164,7 @@ namespace BusinessLogic.Services.SearchService
             }
 
             //add rest of the result
-            foreach (var r in results.ToList())
+            foreach (var r in resultList.ToList())
             {
                 final.Add(r);
             }
