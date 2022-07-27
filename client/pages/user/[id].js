@@ -11,7 +11,6 @@ const User = () => {
   const [thisUser, setUser] = useState({});
   const [posts, setPosts] = useState([]);
   const [clicked, setClicked] = useState(false);
-  const [following, setFollowing] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
 
   const { user } = useContext(userContext);

@@ -10,14 +10,8 @@ const Coin = () => {
   const router = useRouter();
   const { id } = router.query;
   const { user } = useContext(userContext);
-  const [posts, setPosts] = useState([]);
-  const [, setError] = useState(false);
-  const [, setLoading] = useState(false);
-  const [followers, setFollowers] = useState([]);
-  const [following, setFollowing] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [showFollowingModal, setFollowingShowModal] = useState(false);
   const [coinData, setCoinData] = useState({});
+  const [isFollowing, setIsFollowing] = useState(false);
 
   const handleGetCoin = () => {
     const options = {
@@ -32,12 +26,48 @@ const Coin = () => {
       .catch((error) => {});
   };
 
+  const handleFollowCoin = () => {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: user.id,
+        followerId: id,
+      }),
+    };
+
+    fetch(`http://localhost:7215/api/Coin/FollowCoin/${user.id}/${id}`, options)
+      .then((response) => {
+        setClicked(true);
+        response.json();
+      })
+      .then((data) => {
+        setClicked(true);
+        setIsFollowing(true);
+      })
+      .catch(() => {});
+  };
+
+  const checkFollowing = () => {
+    fetch(`http://localhost:7215/api/Coin/GetCoinsFollowers/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        //console.warn("dataaaa", data);
+        data.map((d) => {
+          if (d.userId == user.id) {
+            setIsFollowing(true);
+          }
+        });
+      });
+  };
+
   useEffect(() => {
     handleGetCoin();
     id == undefined && router.push("/");
   }, []);
 
   useEffect(() => {
+    checkFollowing();
     handleGetCoin();
     const interval = setInterval(() => {
       handleGetCoin();
@@ -60,8 +90,38 @@ const Coin = () => {
             <p className="font-semibold text-center sm:text-left ">
               {coinData.name}
             </p>{" "}
+            {/* ==================================================================== */}
+            <div className="flex flex-row">
+              <p className="font-semibold text-center sm:text-left">
+                {/* {thisUser.username} */}
+              </p>{" "}
+              {user.auth ? (
+                isFollowing ? (
+                  <>
+                    <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
+                      Following
+                    </p>
+                    <button
+                      onClick={() => {
+                        router.push(`/messages/${id}`);
+                      }}
+                    ></button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={handleFollowCoin}>
+                      <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition -translate-x-5">
+                        Follow
+                      </p>
+                    </button>
+                  </>
+                )
+              ) : null}
+              <br />
+            </div>
+            {/* ========================================================================= */}
             <br />
-            <div className="flex flex-row -translate-y-5"></div>
+            <div className="flex flex-row -translate-y-10"></div>
           </div>
         </div>
 

@@ -1,4 +1,5 @@
 ﻿using Infrastructure.DTO.EmailDTOs;
+using Infrastructure.Setting;
 using Microsoft.Extensions.Configuration;
 using sib_api_v3_sdk.Api;
 using sib_api_v3_sdk.Client;
@@ -21,10 +22,10 @@ namespace Intergration.SendInBlueEmailService
             Configuration.Default.ApiKey.TryGetValue("api-key",out apiKey);
 
             if(string.IsNullOrEmpty(apiKey))
-                Configuration.Default.ApiKey.Add("api-key", configuration["SendInBlue:Key"]);
+                Configuration.Default.ApiKey.Add("api-key", SendInBlueSettings.Key);
 
             _apiInstance = new TransactionalEmailsApi();
-            _sender = new SendSmtpEmailSender(configuration["SendInBlue:Name"],configuration["SendInBlue:Email"]);
+            _sender = new SendSmtpEmailSender(SendInBlueSettings.Name,SendInBlueSettings.Email);
 
         }
 
