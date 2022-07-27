@@ -38,6 +38,7 @@ const Posts = () => {
 
   return (
     <div className="sm:w-5/12">
+      <p className="text-center text-3xl text-gray-700">Admin Dashboard</p>
       {loading ? (
         <p>loading...</p>
       ) : (
