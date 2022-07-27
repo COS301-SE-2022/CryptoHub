@@ -78,11 +78,6 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
           <p className="text-2xl font-bold mb-2 translate-y-1 ml-2 justify-between">
             {state}
           </p>
-          {arrow == "up" ? (
-            <div className="h-0 w-4.5 border-x-8 border-x-transparent translate-y-3 translate-x-2 border-b-[15px] border-b-green-600"></div>
-          ) : (
-            <div className="h-0 w-4.5 border-x-8 border-x-transparent translate-y-4 translate-x-2 border-b-[15px] border-b-red-600 rotate-180"></div>
-          )}
         </div>
         <div>
           <Line data={chartData} />

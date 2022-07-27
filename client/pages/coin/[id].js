@@ -123,7 +123,7 @@ const Coin = () => {
         <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
         <div className="flex flex-col items-center w-10/12 sm:w-6/12">
           <div>
-            <p className="text-sm mt-4 text-gray-600">Coin Info</p>
+            <p className="text-sm mt-4 text-gray-600">Info</p>
           </div>
           <div className="w-full"></div>
           <CoinInfo
@@ -132,7 +132,7 @@ const Coin = () => {
           />
           <CoinInfoNext
             id={id}
-            name="State"
+            name="Change"
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
             arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
           />
