@@ -114,6 +114,14 @@ namespace CryptoHubAPI.Controllers
             return Ok(response);
         }
 
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<List<CoinDTO>>> GetCoinsFollowedByUser(int userId)
+        {
+            var response = await _userCoinService.GetCoinsFollowedByUser(userId);
+
+            return Ok(response);
+        }
+
         [HttpGet("{id}/{searchterm}")]
         public async Task<ActionResult<List<User>>> SearchCoin(int id, string searchterm)
         {

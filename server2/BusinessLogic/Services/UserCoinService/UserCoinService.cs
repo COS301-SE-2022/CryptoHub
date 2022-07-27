@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BusinessLogic.Services.CoinService;
+using BusinessLogic.Services.UserService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.UserCoinDTOs;
+using Infrastructure.DTO.CoinDTOs;
 using Infrastructure.Repository;
 using System;
 using System.Collections.Generic;
@@ -16,15 +18,18 @@ namespace BusinessLogic.Services.UserCoinService
     public class UserCoinService : IUserCoinService
     {
         private readonly ICoinService _coinService;
+        private readonly IUserService _userService;
         private readonly IUserCoinRepository _userCoinRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICoinRepository _coinRepository;
         private readonly IMapper _mapper;
-        public UserCoinService(ICoinService coinService, IUserCoinRepository userCoinRepository,
-            IUserRepository userRepository, ICoinRepository coinRepository,
+        public UserCoinService(ICoinService coinService, IUserService userService, 
+            IUserCoinRepository userCoinRepository, IUserRepository userRepository, 
+            ICoinRepository coinRepository,
             IMapper mapper)
         {
             _coinService = coinService;
+            _userService = userService;
             _userCoinRepository = userCoinRepository;
             _userRepository = userRepository;
             _coinRepository = coinRepository;
@@ -138,6 +143,36 @@ namespace BusinessLogic.Services.UserCoinService
             await _userCoinRepository.DeleteOne(u => u.UserId == userId && u.CoinId == coin.CoinId);
             return new Response<string>(null, false, "Coin has been unfollowed");
 
+        }
+
+        public async Task<List<CoinDTO>> GetCoinsFollowedByUser(int userId)
+        {
+            var userCoins = await _userCoinRepository.GetAll();
+            var users = await _userService.GetById(userId);
+
+            var usercoins = new List<UserCoin>();
+
+            foreach (var coin in userCoins)
+            {
+                if (coin.UserId == userId)
+                {
+                    usercoins.Add(coin);
+                }
+            }
+
+            var coins = await _coinService.GetAllCoins();
+
+            var coinList = from uc in usercoins
+                            join u in coins
+                            on uc.CoinId equals u.CoinId
+                            select new CoinDTO
+                            {
+                                CoinId = u.CoinId,
+                                CoinName = u.CoinName,
+                                ImageUrl = u.ImageUrl
+                            };
+
+            return _mapper.Map<List<CoinDTO>>(coinList);
         }
     }
 }
