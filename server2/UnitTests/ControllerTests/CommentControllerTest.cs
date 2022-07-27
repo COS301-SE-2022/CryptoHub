@@ -138,7 +138,7 @@ namespace UnitTests.ControllerTests
         public async Task AddComment_Comment_ReturnsComment()
         {
             //arrange
-            var comment = new Comment
+            var comment = new CommentDTO
             {
                 CommentId = 1,
                 UserId = 1,

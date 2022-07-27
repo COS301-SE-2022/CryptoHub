@@ -28,9 +28,11 @@ namespace UnitTests.ControllerTests
                 Password = "1234"
             };
 
-            var jwt = new JWT("abc");
+            //var jwt = new JWT("abc");
+            //var token = CreateToken(loginUser, role.Name);
+            //var success = new Response<JWT>(token, false, "logged in");
 
-            _authorizationServiceMock.Setup(u => u.Login(login));
+            //_authorizationServiceMock.Setup(u => u.Login(login)).Returns(Task.FromResult(success));
 
             var controllerAuth = new AuthorizationController(_authorizationServiceMock.Object);
 

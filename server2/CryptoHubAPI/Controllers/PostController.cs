@@ -70,7 +70,7 @@ namespace CryptoHubAPI.Controllers
         {
             var response = await _postService.Report(postid, userid);
 
-            if(response == null)
+            if (response == null)
             {
                 return BadRequest();
             }
