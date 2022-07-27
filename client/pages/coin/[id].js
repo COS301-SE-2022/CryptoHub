@@ -12,6 +12,7 @@ const Coin = () => {
   const { user } = useContext(userContext);
   const [coinData, setCoinData] = useState({});
   const [isFollowing, setIsFollowing] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
   const handleGetCoin = () => {
     const options = {
@@ -39,6 +40,7 @@ const Coin = () => {
     fetch(`http://localhost:7215/api/Coin/FollowCoin/${user.id}/${id}`, options)
       .then((response) => {
         setClicked(true);
+        setIsFollowing(true);
         response.json();
       })
       .then((data) => {
@@ -62,7 +64,6 @@ const Coin = () => {
   };
 
   useEffect(() => {
-    handleGetCoin();
     id == undefined && router.push("/");
   }, []);
 
@@ -86,26 +87,20 @@ const Coin = () => {
             className="w-32 h-32 bg-black sm:mr-10 mb-5"
             style={{ borderRadius: "100%" }}
           ></div>
-          <div className="flex flex-col">
-            <p className="font-semibold text-center sm:text-left ">
+          <div className="flex flex-row">
+            <p className="font-semibold text-center sm:text-left mr-4">
               {coinData.name}
             </p>{" "}
             {/* ==================================================================== */}
             <div className="flex flex-row">
-              <p className="font-semibold text-center sm:text-left">
-                {/* {thisUser.username} */}
-              </p>{" "}
+              <p className="font-semibold text-center sm:text-left"></p>{" "}
+              {console.warn("Is following: ", isFollowing)}
               {user.auth ? (
                 isFollowing ? (
                   <>
                     <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
                       Following
                     </p>
-                    <button
-                      onClick={() => {
-                        router.push(`/messages/${id}`);
-                      }}
-                    ></button>
                   </>
                 ) : (
                   <>
