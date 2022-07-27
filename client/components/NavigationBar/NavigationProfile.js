@@ -9,7 +9,7 @@ function classNames(...classes) {
 
 const NavigationProfile = () => {
   const router = useRouter();
-  const { logout } = useContext(userContext);
+  const { user, logout } = useContext(userContext);
 
   return (
     <Menu as="div" className="ml-1 sm:ml-3 relative">
@@ -40,6 +40,19 @@ const NavigationProfile = () => {
           <Menu.Item>
             {({ active }) => (
               <>
+                {user.admin ? (
+                  <button
+                    onClick={() => {
+                      router.push("/admin");
+                    }}
+                    className={classNames(
+                      active ? "bg-gray-100" : "",
+                      "block px-4 py-2 text-sm text-gray-700 w-full"
+                    )}
+                  >
+                    <p>Admin Dashboard</p>
+                  </button>
+                ) : null}
                 <button
                   onClick={() => {
                     router.push("/profile");
@@ -62,6 +75,7 @@ const NavigationProfile = () => {
                 >
                   Feed
                 </button>
+
                 <button
                   onClick={logout}
                   className={classNames(

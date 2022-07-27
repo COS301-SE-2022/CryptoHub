@@ -13,19 +13,13 @@ const Admin = () => {
       <Head>
         <title>CryptoHub - Admin</title>
       </Head>
-      {/* {user.auth ? 
-      (
+      {user.auth && user.admin ? (
         <Layout>
           <Feed />
         </Layout>
-      ) 
-      : (
+      ) : (
         <LandingPage />
-      )} */}
-
-      <Layout>
-        <Feed />
-      </Layout>
+      )}
     </>
   );
 };
