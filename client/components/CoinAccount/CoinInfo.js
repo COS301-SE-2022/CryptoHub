@@ -85,7 +85,7 @@ const CoinInfo = ({ name, price }) => {
               placeholder="Amount"
               onChange={(e) => setAmountInput(e.target.value)}
             />
-            <p className="self-center">{amountInput}</p>
+            <p className="self-center">{amountInput} USD</p>
           </div>
         </div>
       </div>
