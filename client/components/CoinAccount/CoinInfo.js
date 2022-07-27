@@ -1,3 +1,4 @@
+import { IdentificationIcon } from "@heroicons/react/outline";
 import React, { useEffect, useState } from "react";
 
 const CoinInfo = ({ name, price }) => {
@@ -77,7 +78,7 @@ const CoinInfo = ({ name, price }) => {
         ></div>
         <div>
           <p className="text-xl font-semibold mt-2 mb-2 translate-y-1 ml-2 text-center text-gray-700">
-            Calculate the price in your currency
+            Calculate the price
           </p>
           <div className="flex flex-col sm:px-24 justify-center">
             <input
@@ -85,7 +86,9 @@ const CoinInfo = ({ name, price }) => {
               placeholder="Amount"
               onChange={(e) => setAmountInput(e.target.value * price)}
             />
-            <p className="self-center">{amountInput} USD</p>
+            <p className="self-center text-3xl font-semibold text-indigo-600">
+              {amountInput} USD
+            </p>
           </div>
         </div>
       </div>
