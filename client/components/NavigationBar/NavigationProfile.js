@@ -50,7 +50,7 @@ const NavigationProfile = () => {
                       "block px-4 py-2 text-sm text-gray-700 w-full"
                     )}
                   >
-                    <p>Admin Dashboard</p>
+                    <p>Admin</p>
                   </button>
                 ) : null}
                 <button

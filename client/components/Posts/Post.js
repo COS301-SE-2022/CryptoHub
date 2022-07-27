@@ -12,7 +12,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Post = ({ name, content, userId, postId, imageId }) => {
+const Post = ({ name, content, userId, postId, imageId, admin }) => {
   const [thisUser, setUser] = useState({});
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
@@ -247,7 +247,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                   <div>
                     <Menu.Button>
                       <span className="sr-only">Open user menu</span>
-                      <div className="-translate-y-1">...</div>
+                      <div className="-translate-y-4">...</div>
                     </Menu.Button>
                   </div>
                   <Transition
@@ -277,7 +277,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
                           </>
                         )}
                       </Menu.Item>
-                      {user.admin && (
+                      {admin && (
                         <Menu.Item>
                           {({ active }) => (
                             <>
