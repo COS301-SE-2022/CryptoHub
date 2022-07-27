@@ -110,8 +110,24 @@ namespace BusinessLogic.Services.PostService
 
         }
 
+        public async Task<IEnumerable<PostDTO>> GetAllReportedPosts()
+        {
+            var reports = await _postReportRepository.GetAll();
+            var allPosts = await _postRepository.GetAll();
 
+            var reportedPosts = from r in reports
+                                join p in allPosts
+                                on r.PostId equals p.PostId
+                                select new PostDTO
+                                {
+                                    PostId = p.PostId,
+                                    Content = p.Content,
+                                    UserId = p.UserId,
+                                    ImageId = p.ImageId,
+                                };
 
+            return _mapper.Map<IEnumerable<PostDTO>>(reportedPosts);
+        }
     }
 }
 
