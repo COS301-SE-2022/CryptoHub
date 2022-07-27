@@ -20,17 +20,18 @@ function forgotPassword() {
         email: email,
       }),
     };
-
     fetch(
       `http://localhost:7215/api/Authorization/ForgetPassord/${email}`,
       options
     )
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 200) {
+          router.push("/forgotPasswordConfirmation?email=" + email);
+        } else setError(true);
+      })
+
       .then((data) => {
         setLoading(false);
-        console.log(email);
-        if (reponse.status == "user not found") setError(true);
-        else router.push("/forgotPasswordConfirmation?email=" + email);
       })
       .catch(() => {
         setError(true);
