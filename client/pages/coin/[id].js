@@ -111,7 +111,7 @@ const Coin = () => {
                         Follow
                       </p>
                     </button>
-                    § <Rating />
+                    <Rating />
                   </>
                 )
               ) : null}
