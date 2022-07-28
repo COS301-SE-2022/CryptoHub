@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Infrastructure.DTO.UserCoinDTOs;
+using Infrastructure.DTO.CoinDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,6 @@ namespace BusinessLogic.Services.UserCoinService
         Task<object> GetCoinFollowCount(string coinName);
         Task<Response<string>> FollowCoin(int userId, string coinName);
         Task<Response<string>> UnfollowCoin(int userId, string coinName);
+        Task<List<CoinDTO>> GetCoinsFollowedByUser(int userId);
     }
 }
