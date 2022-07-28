@@ -1,21 +1,14 @@
-import Dropdown from "react-bootstrap/Dropdown";
+var FruitSelector = React.createClass({
+  getInitialState: function () {
+    return { selectValue: "Radish" };
+  },
+  handleChange: function (e) {
+    this.setState({ selectValue: e.target.value });
+  },
+  render: function () {
+    var message = "You selected " + this.state.selectValue;
+    return <div></div>;
+  },
+});
 
-function BasicExample() {
-  return (
-    <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-        Dropdown Button
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">1</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">2</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">3</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">4</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">5</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-  );
-}
-
-export default BasicExample;
+React.render(<FruitSelector name="World" />, document.body);
