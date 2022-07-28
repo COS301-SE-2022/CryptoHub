@@ -33,6 +33,7 @@ const UserProvider = ({ children }) => {
   const [feedstate, setFeedstate] = useState(false);
   const [show, setShow] = useState(false);
   const [alertText, setAlertText] = useState("");
+  const [profilePicture, setProfilePicture] = useState(null);
 
   const app = initializeApp(firebaseConfig);
 
@@ -115,6 +116,8 @@ const UserProvider = ({ children }) => {
         show,
         alertText,
         closeAlert,
+        profilePicture,
+        setProfilePicture,
       }}
     >
       {children}
