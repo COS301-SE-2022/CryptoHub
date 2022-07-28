@@ -10,7 +10,7 @@ namespace Infrastructure.Setting
         public static async Task FetchSecretsAsync()
         {
             var dopplerToken = Environment.GetEnvironmentVariable("DOPPLER_TOKEN");
-            Console.WriteLine(dopplerToken);
+            Console.WriteLine($"THE TOEKN IS {dopplerToken}");
             var basicAuthHeaderValue = Convert.ToBase64String(Encoding.Default.GetBytes(dopplerToken + ":"));
 
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", basicAuthHeaderValue);
