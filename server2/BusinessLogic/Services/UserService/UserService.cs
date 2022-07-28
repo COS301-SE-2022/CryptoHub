@@ -175,7 +175,7 @@ namespace BusinessLogic.Services.UserService
             }
             mutuals = mutuals.GroupBy(x => x.UserId).Select(x => x.First()).ToList();
             var finalList = new List<SearchDTO>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 5; i++)
             {
                 finalList.Add(mutuals.ElementAt(i));
             }
