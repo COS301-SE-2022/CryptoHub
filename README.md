@@ -30,6 +30,7 @@ CryptoHub is an interactive and social application that allows a user to explore
 - [Coding Standards](https://github.com/COS301-SE-2022/CryptoHub/wiki/Coding-Standards)
 - [User Manual](https://github.com/COS301-SE-2022/CryptoHub/wiki/User-Manual)
 - [Technical Installation Manual](https://github.com/COS301-SE-2022/CryptoHub/wiki/Technical-Installation-Manual)
+- [Coding Standards](https://github.com/COS301-SE-2022/CryptoHub/wiki/Coding-Standards)
 
 ## Tools used for Project Management
 - [Project Board](https://github.com/COS301-SE-2022/CryptoHub/projects/1)
