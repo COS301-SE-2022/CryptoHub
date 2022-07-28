@@ -7,7 +7,17 @@ var FruitSelector = React.createClass({
   },
   render: function () {
     var message = "You selected " + this.state.selectValue;
-    return <div></div>;
+    return (
+      <div>
+        {" "}
+        <select value={this.state.selectValue} onChange={this.handleChange}>
+          <option value="Orange">Orange</option>
+          <option value="Radish">Radish</option>
+          <option value="Cherry">Cherry</option>
+        </select>
+        <p>{message}</p>
+      </div>
+    );
   },
 });
 
