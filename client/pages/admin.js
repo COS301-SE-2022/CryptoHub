@@ -4,20 +4,19 @@ import LandingPage from "../components/LandingPage/LandingPage";
 import { userContext } from "../auth/auth";
 import Feed from "../components/Feed/Feed";
 import Head from "next/head";
+import AdminFeed from "../components/Admin/AdminFeed";
 
-const Home = () => {
+const Admin = () => {
   const { user } = useContext(userContext);
-
-  console.warn("User admin: ", user.admin);
 
   return (
     <>
       <Head>
-        <title>CryptoHub</title>
+        <title>CryptoHub - Admin</title>
       </Head>
-      {user.auth ? (
+      {user.auth && user.admin ? (
         <Layout>
-          <Feed />
+          <AdminFeed />
         </Layout>
       ) : (
         <LandingPage />
@@ -26,4 +25,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Admin;
