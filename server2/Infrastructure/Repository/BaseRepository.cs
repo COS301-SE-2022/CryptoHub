@@ -122,5 +122,14 @@ namespace Infrastructure.Repository
 
             return Task.CompletedTask;
         }
+
+        public Task DeleteRange(List<TEntity> entities)
+        {
+            dbSet.RemoveRange(entities);
+            dBContext.SaveChanges();
+
+            return Task.CompletedTask;
+        }
+
     }
 }

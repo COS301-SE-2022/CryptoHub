@@ -15,14 +15,20 @@ namespace BusinessLogic.Services.PostService
         private readonly IImageService _imageService;
         private readonly IPostReportRepository _postReportRepository;
         private readonly ITagService _tagService;
+        private readonly ICommentRepository _commentRepository;
+        private readonly ILikeRepository _likeRepository;
+        private readonly IReplyRepository _replyRepository;
         private readonly IMapper _mapper;
-        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository, IMapper mapper, ITagService tagService)
+        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository, IMapper mapper, ITagService tagService, ICommentRepository commentRepository, ILikeRepository likeRepository, IReplyRepository replyRepository)
         {
             _postRepository = postRepository;
             _imageService = imageService;
             _postReportRepository = postReportRepository;
             _tagService = tagService;
             _mapper = mapper;
+            _commentRepository = commentRepository;
+            _likeRepository = likeRepository;
+            _replyRepository = replyRepository;
         }
 
         public async Task<List<PostDTO>> GetAllPosts()
@@ -86,7 +92,51 @@ namespace BusinessLogic.Services.PostService
         }
         public async Task Delete(int id)
         {
-            await _postRepository.DeleteOne(u => u.PostId == id);
+            //await _postRepository.DeleteOne(u => u.PostId == id);
+            var post = await _postRepository.GetByExpression(p => p.PostId == id);
+
+            var postReports = await _postReportRepository.ListByExpression(p => p.PostId == id);
+            var comments = await _commentRepository.ListByExpression( c => c.PostId == post.PostId);
+            var allReplies = await _replyRepository.GetAll();
+
+            var repiles = (from reply in allReplies
+                          join comment in comments
+                          on reply.CommentId equals comment.CommentId
+                          select reply).ToList();
+
+            var alllikes = await _likeRepository.GetAll();
+
+            var replylikes = (from like in alllikes
+                              join reply in repiles
+                              on like.ReplyId equals reply.ReplyId
+                              select like).ToList();
+
+            await _likeRepository.DeleteRange(replylikes);
+
+
+            alllikes = await _likeRepository.GetAll();
+
+            var commentlikes = (from like in alllikes
+                              join comment in comments
+                              on like.CommentId equals comment.CommentId
+                              select like).ToList();
+
+            await _likeRepository.DeleteRange(commentlikes);
+
+            var postlikes = await _likeRepository.ListByExpression(l => l.PostId == post.PostId);
+
+            var imageId = post.ImageId ?? null;
+
+            await _postReportRepository.DeleteRange(postReports);
+            await _likeRepository.DeleteRange(postlikes);
+            await _replyRepository.DeleteRange(repiles);
+            await _commentRepository.DeleteRange(comments);
+            await _postRepository.Delete(post);
+
+
+            if(imageId != null)
+                await _imageService.Delete(imageId.Value);
+
 
         }
 
