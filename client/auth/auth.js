@@ -17,6 +17,7 @@ export const userContext = createContext({
   auth: false,
   id: 0,
   token: "",
+  admin: false,
 });
 
 const UserProvider = ({ children }) => {
@@ -26,6 +27,7 @@ const UserProvider = ({ children }) => {
     auth: false,
     id: 0,
     token: "",
+    admin: false,
   });
   const [feedstate, setFeedstate] = useState(false);
 
@@ -53,14 +55,35 @@ const UserProvider = ({ children }) => {
       auth: false,
       id: 0,
       token: "",
+      admin: false,
     });
     router.push("/");
   };
 
   const authorise = (token) => {
     let user = parseJwt(token);
-    setUser({ username: user.username, auth: true, id: user.id, token: token });
-    router.push("/");
+
+    console.warn("jwt: ", user);
+
+    if (user.roles == "Super") {
+      setUser({
+        username: user.username,
+        auth: true,
+        id: user.id,
+        token: token,
+        admin: true,
+      });
+      router.push("/");
+    } else {
+      setUser({
+        username: user.username,
+        auth: true,
+        id: user.id,
+        token: token,
+        admin: false,
+      });
+      router.push("/");
+    }
   };
 
   const refreshfeed = () => {

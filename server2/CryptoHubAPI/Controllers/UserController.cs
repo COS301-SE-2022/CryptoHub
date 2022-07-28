@@ -115,6 +115,7 @@ namespace CryptoHubAPI.Controllers
                 return NotFound();
 
             return Ok(response);
+        }
 
         [HttpPost]
         public async Task<IActionResult> UpdateProfileImage(CreateImageDTO createImageDTO)

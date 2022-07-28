@@ -29,7 +29,7 @@ namespace BusinessLogic.Services.UserFollowerService
             return _mapper.Map<List<UserFollowerDTO>>(user);
         }
 
-        public async Task<IEnumerable<UserFollowerDTO>> GetUserUserFollower(int id)
+        public async Task<List<UserFollowerDTO>> GetUserUserFollower(int id)
         {
             var followers = await _userFollowerRepository.FindRange(uf => uf.UserId == id);
             var users = await _userRepository.GetAll();
@@ -47,9 +47,9 @@ namespace BusinessLogic.Services.UserFollowerService
                                     FollowDate = f.FollowDate
                                 };
 
-            return _mapper.Map<IEnumerable<UserFollowerDTO>>(userfollowers);
+            return _mapper.Map<List<UserFollowerDTO>>(userfollowers.ToList());
         }
-        public async Task<IEnumerable<UserFollowerDTO>> GetUserFollowing(int id)
+        public async Task<List<UserFollowerDTO>> GetUserFollowing(int id)
         {
             var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
             var users = await _userRepository.GetAll();
@@ -67,7 +67,7 @@ namespace BusinessLogic.Services.UserFollowerService
                                     FollowDate = f.FollowDate
                                 };
 
-            return _mapper.Map<IEnumerable<UserFollowerDTO>>(userfollowers);
+            return _mapper.Map<List<UserFollowerDTO>>(userfollowers.ToList());
         }
 
         public async Task<Response<string>> FollowUser(int userid, int targetid)

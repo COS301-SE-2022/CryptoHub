@@ -112,7 +112,10 @@ namespace BusinessLogic.Services.UserService
                 
                 foreach (var m in mutUserfollowers.ToList())
                 {
-                    mutuals.Add(m);
+                    if(m.UserId != id)
+                    {
+                        mutuals.Add(m);
+                    }
                 }
             }
             mutuals = mutuals.GroupBy(x => x.UserId).Select(x => x.First()).ToList();
@@ -136,6 +139,7 @@ namespace BusinessLogic.Services.UserService
                 return new Response<string>(null, true, response.Message);
 
             user.ImageId = response.Model.ImageId;
+            user.ImageUrl = response.Model.Url;
 
             await _userRepository.Update(user);
 

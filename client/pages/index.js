@@ -8,6 +8,8 @@ import Head from "next/head";
 const Home = () => {
   const { user } = useContext(userContext);
 
+  console.warn("User admin: ", user.admin);
+
   return (
     <>
       <Head>
