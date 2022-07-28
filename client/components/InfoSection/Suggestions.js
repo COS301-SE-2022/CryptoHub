@@ -4,10 +4,10 @@ import { userContext } from "../../auth/auth";
 
 const Suggestions = () => {
   const { user } = useContext(userContext);
-  const [accounts, setAccounts] = useState([]);
-  const [followers, setFollowers] = useState([]);
+  // const [accounts, setAccounts] = useState([]);
+  // const [followers, setFollowers] = useState([]);
   const [suggestedAccounts, setSuggestedAccounts] = useState([]);
-  const [refresh, setRefresh] = useState(false);
+  //const [refresh, setRefresh] = useState(false);
   const [, setLoading] = useState(false);
   const [, setError] = useState(false);
 
@@ -22,6 +22,7 @@ const Suggestions = () => {
         setLoading(false);
         setFollowing(data);
         setSuggestedAccounts(data);
+        console.log(data);
         console.log(suggestedAccounts);
       })
       .catch((error) => {
@@ -32,7 +33,7 @@ const Suggestions = () => {
 
   useEffect(() => {
     handleSuggestedUser();
-  }, [refresh]);
+  }, []);
 
   return (
     <div>

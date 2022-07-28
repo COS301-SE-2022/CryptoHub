@@ -3,13 +3,11 @@ import { userContext } from "../../auth/auth";
 import Link from "next/link";
 
 const SuggestedAccount = ({
-  name,
-  hidefollow,
-  id,
+  // userId,
   firstname,
   lastname,
   username,
-  suggestions,
+  // imageUrl,
 }) => {
   const { user } = useContext(userContext);
   const [clicked, setClicked] = useState(false);
