@@ -1,13 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import StarRatingComponent from "react-star-rating-component";
+import Dropdown from "react-bootstrap/Dropdown";
 
-class App extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      rating: 1,
-    };
-  }
+function BasicExample() {
+  return (
+    <Dropdown>
+      <Dropdown.Toggle variant="success" id="dropdown-basic">
+        Dropdown Button
+      </Dropdown.Toggle>
+    </Dropdown>
+  );
 }
+
+export default BasicExample;
