@@ -30,7 +30,7 @@ jobs:
         dotnet build --no-restore
     - name: Test
       env :
-        DOPPLER_TOKEN : echo ${{ secrets.DOPPLER_TOKEN }}
+        DOPPLER_TOKEN : ${{ secrets.DOPPLER_TOKEN }}
       run: |
         cd server2
         dotnet test --no-build --verbosity normal
