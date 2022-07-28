@@ -3,10 +3,18 @@ import { userContext } from "../../auth/auth";
 import Link from "next/link";
 
 const SuggestedAccount = ({
-  // userId,
+  name,
+  hidefollow,
+  id,
   firstname,
   lastname,
   username,
+  suggestions,
+
+  // userId,
+  // firstname,
+  // lastname,
+  // username,
   // imageUrl,
 }) => {
   const { user } = useContext(userContext);

@@ -44,7 +44,16 @@ const Suggestions = () => {
         <p className="text-sm text-gray-500">No suggestions</p>
       ) : (
         suggestedAccounts.map((data) => {
-          return <SuggestedAccount id={data.userId} name={data.username} />;
+          suggestedAccounts.map((data, index) => {
+            return (
+              <SuggestedAccount
+                key={index}
+                name={data.username}
+                id={data.userId}
+                suggestions={true}
+              />
+            );
+          });
         })
       )}
     </div>
