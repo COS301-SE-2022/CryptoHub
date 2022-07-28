@@ -29,7 +29,10 @@ const UserProvider = ({ children }) => {
     token: "",
     admin: false,
   });
+
   const [feedstate, setFeedstate] = useState(false);
+  const [show, setShow] = useState(false);
+  const [alertText, setAlertText] = useState("");
 
   const app = initializeApp(firebaseConfig);
 
@@ -58,6 +61,15 @@ const UserProvider = ({ children }) => {
       admin: false,
     });
     router.push("/");
+  };
+
+  const alert = (text) => {
+    setAlertText(text);
+    setShow(true);
+  };
+
+  const closeAlert = () => {
+    setShow(false);
   };
 
   const authorise = (token) => {
@@ -92,7 +104,18 @@ const UserProvider = ({ children }) => {
 
   return (
     <userContext.Provider
-      value={{ user, logout, authorise, feedstate, refreshfeed, app }}
+      value={{
+        user,
+        logout,
+        authorise,
+        feedstate,
+        refreshfeed,
+        app,
+        alert,
+        show,
+        alertText,
+        closeAlert,
+      }}
     >
       {children}
     </userContext.Provider>
