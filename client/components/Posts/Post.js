@@ -12,7 +12,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Post = ({ name, content, userId, postId, imageId, admin }) => {
+const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
   const [thisUser, setUser] = useState({});
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
@@ -215,7 +215,7 @@ const Post = ({ name, content, userId, postId, imageId, admin }) => {
                 </Link>
                 {admin && (
                   <p className="text-sm font-semibold mb-2 translate-y-1 ml-5 text-red-600 cursor-pointer">
-                    Reports:
+                    Reports: {}
                   </p>
                 )}
               </div>
@@ -233,7 +233,7 @@ const Post = ({ name, content, userId, postId, imageId, admin }) => {
                 </Link>
                 {admin && (
                   <p className="text-sm font-semibold mb-2 translate-y-1 ml-5 text-red-600 cursor-pointer">
-                    Reports:
+                    Reports: {reports}
                   </p>
                 )}
               </div>

@@ -5,6 +5,7 @@ using BusinessLogic.Services.TagService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.PostDTO;
+using Infrastructure.DTO.ReportPostDTO;
 
 namespace BusinessLogic.Services.PostService
 {
@@ -158,7 +159,17 @@ namespace BusinessLogic.Services.PostService
             return newReport;
         }
 
-        public async Task<IEnumerable<PostDTO>> GetAllReportedPosts()
+        public async Task<Response<object>> GetReportCountByPostId(int id)
+        {
+            var response = await _postReportRepository.FindRange(c => c.PostId == id);
+            if (response == null)
+                return new Response<object>(null, true, "no reports");
+
+            return new Response<object>(new { Count = response.Count() }, false, "");
+
+        }
+
+        public async Task<IEnumerable<ReportPostDTO>> GetAllReportedPosts()
         {
             var reports = await _postReportRepository.GetAll();
             var allPosts = await _postRepository.GetAll();
@@ -166,15 +177,34 @@ namespace BusinessLogic.Services.PostService
             var reportedPosts = from r in reports
                                 join p in allPosts
                                 on r.PostId equals p.PostId
-                                select new PostDTO
+                                select new ReportPostDTO
                                 {
                                     PostId = p.PostId,
                                     Content = p.Content,
                                     UserId = p.UserId,
                                     ImageUrl = p.ImageUrl,
+                                    ReportCount = 0
                                 };
+            var final = new List<ReportPostDTO>();
+            foreach (var post in reportedPosts)
+            {
+                var response = await _postReportRepository.FindRange(c => c.PostId == post.PostId);
+                
+                var count = response.Count();
+                var temp = new ReportPostDTO
+                {
+                    PostId = post.PostId,
+                    Content = post.Content,
+                    UserId = post.UserId,
+                    ImageUrl = post.ImageUrl,
+                    ReportCount = count
+                };
+                final.Add(temp);
+            }
+            final = final.GroupBy(x => x.PostId).Select(x => x.First()).ToList();
 
-            return _mapper.Map<IEnumerable<PostDTO>>(reportedPosts);
+
+            return _mapper.Map<IEnumerable<ReportPostDTO>>(final);
         }
     }
 }

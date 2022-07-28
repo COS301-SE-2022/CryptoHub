@@ -86,6 +86,7 @@ const AdminPosts = () => {
               postId={data.postId}
               imageId={data.imageId}
               admin={true}
+              reports={data.reportCount}
             />
           );
         })
