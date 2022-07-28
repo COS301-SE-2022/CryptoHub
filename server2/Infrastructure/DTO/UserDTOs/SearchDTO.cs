@@ -12,7 +12,7 @@ namespace Infrastructure.DTO.UserDTOs
         public string Firstname { get; set; } = null!;
         public string Lastname { get; set; } = null!;
         public string Username { get; set; } = null!;
-
+        public int followCount { get; set; }
         public string? ImageUrl { get; set; } = null!;
     }
 }
