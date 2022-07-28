@@ -132,7 +132,7 @@ namespace BusinessLogic.Services.UserFollowerService
                        join u in users
                        on uf.FollowId equals u.UserId
                        join p in posts
-                       on u.UserId equals p.UserId
+                       on uf.FollowId equals p.UserId
                        select new PostDTO
                        {
                            
