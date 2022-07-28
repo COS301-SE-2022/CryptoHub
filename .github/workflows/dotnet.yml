@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Envs
       run: |
-        echo ${{ secrets.DOPPLER_TOKEN }}
+        echo ${{ secrets }}
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
