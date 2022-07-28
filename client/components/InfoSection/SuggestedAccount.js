@@ -63,7 +63,7 @@ const SuggestedAccount = ({
     <div className="flex flex-row p-2 w-full justify-between bg-gray-100 mb-2 rounded-md">
       <div className="flex flex-row">
         {profilePicture == null ? (
-          <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+          <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
             <svg
               className="h-full w-full text-gray-300"
               fill="currentColor"
@@ -76,8 +76,8 @@ const SuggestedAccount = ({
           <div
             className="rounded-full overflow-hidden"
             style={{
-              width: "40px",
-              height: "40px",
+              width: "32px",
+              height: "32px",
               position: "relative",
             }}
           >
