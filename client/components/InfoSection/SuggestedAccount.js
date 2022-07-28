@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../../auth/auth";
 import Link from "next/link";
+import Image from "next/image";
 
 const SuggestedAccount = ({
   name,
@@ -14,6 +15,7 @@ const SuggestedAccount = ({
   const { user } = useContext(userContext);
   const [clicked, setClicked] = useState(false);
   const [thisUser, setThisUser] = useState({});
+  const [profilePicture, setProfilePicture] = useState(null);
 
   const handleFollowUser = () => {
     const options = {
@@ -48,6 +50,7 @@ const SuggestedAccount = ({
       .then((response) => response.json())
       .then((data) => {
         setThisUser(data);
+        setProfilePicture(data.imageUrl);
       })
       .catch((error) => {});
   };
@@ -59,15 +62,28 @@ const SuggestedAccount = ({
   return (
     <div className="flex flex-row p-2 w-full justify-between bg-gray-100 mb-2 rounded-md">
       <div className="flex flex-row">
-        <span className="inline-block h-7 w-7 rounded-full overflow-hidden bg-gray-100">
-          <svg
-            className="h-full w-full text-gray-300"
-            fill="currentColor"
-            viewBox="0 0 24 24"
+        {profilePicture == null ? (
+          <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+            <svg
+              className="h-full w-full text-gray-300"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </span>
+        ) : (
+          <div
+            className="rounded-full overflow-hidden"
+            style={{
+              width: "40px",
+              height: "40px",
+              position: "relative",
+            }}
           >
-            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
-        </span>
+            <Image src={profilePicture} layout="fill" />
+          </div>
+        )}
         {user.id == thisUser.userId ? (
           <div className="flex flex-row">
             <Link href={`/profile`} className="pointer cursor-pointer">

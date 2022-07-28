@@ -6,9 +6,10 @@ import Post from "../components/Posts/Post";
 import { useRouter } from "next/router";
 import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../components/InfoSection/SuggestedAccount";
+import Image from "next/image";
 
 const Profile = () => {
-  const { user } = useContext(userContext);
+  const { user, profilePicture } = useContext(userContext);
   const [posts, setPosts] = useState([]);
   const [, setError] = useState(false);
   const [, setLoading] = useState(false);
@@ -17,6 +18,7 @@ const Profile = () => {
   const [following, setFollowing] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showFollowingModal, setFollowingShowModal] = useState(false);
+  const [, setProfilePicture] = useState(null);
 
   const handleViewFollowing = () => {
     const options = {
@@ -103,15 +105,28 @@ const Profile = () => {
       </Head>
       <Layout>
         <div className="flex flex-col sm:flex-row w-full sm:w-7/12 items-center mt-8">
-          <span className="inline-block h-40 w-40 rounded-full overflow-hidden bg-gray-100 mr-6 mb-3">
-            <svg
-              className="h-full w-full text-gray-300"
-              fill="currentColor"
-              viewBox="0 0 24 24"
+          {profilePicture == null ? (
+            <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+              <svg
+                className="h-full w-full text-gray-300"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </span>
+          ) : (
+            <div
+              className="rounded-full overflow-hidden m-4"
+              style={{
+                width: "170px",
+                height: "170px",
+                position: "relative",
+              }}
             >
-              <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-          </span>
+              <Image src={profilePicture} layout="fill" />
+            </div>
+          )}
           <div className="flex flex-col">
             <p className="font-semibold text-center sm:text-left">
               {user.username}

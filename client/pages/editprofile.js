@@ -1,17 +1,20 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Layout from "../components/Layout";
 import { XIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 import { userContext } from "../auth/auth";
+import { useRouter } from "next/router";
 
 const editprofile = () => {
-  const { user, refreshfeed } = useContext(userContext);
+  const { user, refreshfeed, profilePicture } = useContext(userContext);
   const [showModal, setShowModal] = useState(false);
   const [post, setPost] = useState("");
   const [, setError] = useState(false);
   const [, setLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [clientImage, setClientImage] = useState(undefined);
+
+  const router = useRouter();
 
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -39,7 +42,6 @@ const editprofile = () => {
   const handleCreatePost = (e) => {
     e.preventDefault();
 
-    console.warn("token: ", user.token);
     const options = {
       method: "POST",
       headers: {
@@ -66,8 +68,14 @@ const editprofile = () => {
       .catch(() => {
         setError(true);
         setLoading(false);
+        setShowModal(false);
+        refreshfeed();
       });
   };
+
+  useEffect(() => {
+    !user.auth && router.push("/");
+  });
 
   return (
     <Layout>
@@ -81,15 +89,28 @@ const editprofile = () => {
                     Photo
                   </label>
                   <div className="mt-1 flex items-center">
-                    <span className="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                      <svg
-                        className="h-full w-full text-gray-300"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
+                    {profilePicture == null ? (
+                      <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+                        <svg
+                          className="h-full w-full text-gray-300"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                      </span>
+                    ) : (
+                      <div
+                        className="rounded-full overflow-hidden"
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          position: "relative",
+                        }}
                       >
-                        <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                      </svg>
-                    </span>
+                        <Image src={profilePicture} layout="fill" />
+                      </div>
+                    )}
                     <button
                       type="button"
                       className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -188,7 +209,7 @@ const editprofile = () => {
                         type="submit"
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       >
-                        Change
+                        Save
                       </button>
                     </div>
                   </form>
