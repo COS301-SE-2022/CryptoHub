@@ -10,12 +10,6 @@ const SuggestedAccount = ({
   lastname,
   username,
   suggestions,
-
-  // userId,
-  // firstname,
-  // lastname,
-  // username,
-  // imageUrl,
 }) => {
   const { user } = useContext(userContext);
   const [clicked, setClicked] = useState(false);

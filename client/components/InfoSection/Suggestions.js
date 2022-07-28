@@ -19,11 +19,10 @@ const Suggestions = () => {
     fetch(`http://localhost:7215/api/User/SuggestedUsers/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
+        setSuggestedAccounts(data);
+        console.log(suggestedAccounts);
         setLoading(false);
         setFollowing(data);
-        setSuggestedAccounts(data);
-        console.log(data);
-        console.log(suggestedAccounts);
       })
       .catch((error) => {
         setError(true);
@@ -43,17 +42,15 @@ const Suggestions = () => {
       {suggestedAccounts.length == 0 ? (
         <p className="text-sm text-gray-500">No suggestions</p>
       ) : (
-        suggestedAccounts.map((data) => {
-          suggestedAccounts.map((data, index) => {
-            return (
-              <SuggestedAccount
-                key={index}
-                name={data.username}
-                id={data.userId}
-                suggestions={true}
-              />
-            );
-          });
+        suggestedAccounts.map((data, index) => {
+          return (
+            <SuggestedAccount
+              key={index}
+              name={data.username}
+              id={data.userId}
+              suggestions={true}
+            />
+          );
         })
       )}
     </div>
