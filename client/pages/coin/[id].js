@@ -5,6 +5,7 @@ import CoinInfo from "../../components/CoinAccount/CoinInfo";
 import CoinInfoNext from "../../components/CoinAccount/CoinInfoNext";
 import Layout from "../../components/Layout";
 import { userContext } from "../../auth/auth";
+import Rating from "../../components/CoinAccount/RatingCoin";
 
 const Coin = () => {
   const router = useRouter();
@@ -101,6 +102,7 @@ const Coin = () => {
                     <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
                       Following
                     </p>
+                    <Rating />
                   </>
                 ) : (
                   <>
@@ -109,6 +111,7 @@ const Coin = () => {
                         Follow
                       </p>
                     </button>
+                    § <Rating />
                   </>
                 )
               ) : null}

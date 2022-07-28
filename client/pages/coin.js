@@ -8,7 +8,6 @@ import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../components/InfoSection/SuggestedAccount";
 import CoinInfo from "../components/CoinAccount/CoinInfo";
 import CoinInfoNext from "../components/CoinAccount/CoinInfoNext";
-import Rating from "../components/CoinAccount/RatingCoin";
 
 const Coin = () => {
   const { user } = useContext(userContext);
@@ -43,7 +42,6 @@ const Coin = () => {
                 </span>
                 followers
               </button>
-              <Rating />
             </div>
           </div>
         </div>
