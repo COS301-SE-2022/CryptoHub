@@ -106,7 +106,7 @@ const Profile = () => {
       <Layout>
         <div className="flex flex-col sm:flex-row w-full sm:w-7/12 items-center mt-8">
           {profilePicture == null ? (
-            <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+            <span className="inline-block h-40 w-40 m-4 rounded-full overflow-hidden bg-gray-100">
               <svg
                 className="h-full w-full text-gray-300"
                 fill="currentColor"
