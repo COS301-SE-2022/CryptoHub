@@ -204,11 +204,9 @@ namespace BusinessLogic.Services.UserService
             await _userRepository.Update(user);
 
             return new Response<string>(null, false, "profile uploaded");
-
-
-
-
         }
+
+        
 
     }
 }

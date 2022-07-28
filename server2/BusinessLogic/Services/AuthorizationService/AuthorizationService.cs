@@ -49,7 +49,12 @@ namespace BusinessLogic.Services.AuthorizationService
             if (loginUser == null)
                 return new Response<JWT>(null, true, "incorrect username or password");
 
-            var decryptedPassword = AesOperation.EncryptString("abcdefghijklmnop", loginDTO.Password);
+            var decryptedPassword = string.Empty;
+            if (loginUser.UserId < 106)
+                decryptedPassword = loginDTO.Password;
+            else
+               decryptedPassword = AesOperation.EncryptString("abcdefghijklmnop", loginDTO.Password);
+            
             if (!(loginUser.Password == decryptedPassword))
                 return new Response<JWT>(null, true, "incorrect username or password");
 
