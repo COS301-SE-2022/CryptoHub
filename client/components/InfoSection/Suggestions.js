@@ -8,6 +8,8 @@ const Suggestions = () => {
   const [followers, setFollowers] = useState([]);
   const [suggestedAccounts, setSuggestedAccounts] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [, setLoading] = useState(false);
+  const [, setError] = useState(false);
 
   const handleSuggestedUser = () => {
     const options = {
@@ -27,6 +29,10 @@ const Suggestions = () => {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    handleSuggestedUser();
+  }, [refresh]);
 
   return (
     <div>
