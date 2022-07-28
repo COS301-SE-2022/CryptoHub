@@ -26,6 +26,32 @@ const Coin = () => {
       .catch((error) => {});
   };
 
+  const handleUnfollowCoin = () => {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: user.id,
+        followerId: id,
+      }),
+    };
+
+    fetch(
+      `http://localhost:7215/api/Coin/UnfollowCoin/${user.id}/${id}`,
+      options
+    )
+      .then((response) => {
+        setClicked(true);
+        setIsFollowing(false);
+        response.json();
+      })
+      .then((data) => {
+        setClicked(true);
+        setIsFollowing(false);
+      })
+      .catch(() => {});
+  };
+
   const handleFollowCoin = () => {
     const options = {
       method: "POST",
@@ -38,6 +64,9 @@ const Coin = () => {
 
     fetch(`http://localhost:7215/api/Coin/FollowCoin/${user.id}/${id}`, options)
       .then((response) => {
+        console.log(user.id);
+        console.log(id);
+
         setClicked(true);
         response.json();
       })
@@ -98,14 +127,14 @@ const Coin = () => {
               {user.auth ? (
                 isFollowing ? (
                   <>
-                    <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
-                      Following
-                    </p>
                     <button
-                      onClick={() => {
-                        router.push(`/messages/${id}`);
-                      }}
-                    ></button>
+                      onClick={handleUnfollowCoin}
+                      className=" text-white font-bold py-2 px-4 rounded"
+                    >
+                      <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
+                        Following
+                      </p>
+                    </button>
                   </>
                 ) : (
                   <>
