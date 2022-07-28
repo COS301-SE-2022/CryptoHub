@@ -22,7 +22,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
   const [postImage, setPostImage] = useState(null);
   const [comment, setComment] = useState("");
   const [likeId, setLikeId] = useState(null);
-  const { user } = useContext(userContext);
+  const { user, refreshfeed } = useContext(userContext);
 
   const handleGetUser = () => {
     const options = {
@@ -159,7 +159,9 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       options
     )
       .then((response) => response.json())
-      .then((data) => {});
+      .then((data) => {
+        refreshfeed();
+      });
   };
 
   const getLikeCount = () => {
@@ -174,6 +176,20 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       .then((data) => {
         setLikes(data.count);
       });
+  };
+
+  const handleDeletePost = () => {
+    const options = {
+      method: "DELETE",
+    };
+
+    fetch(`http://localhost:7215/api/Post/Delete?id=${postId}`, options).then(
+      (response) => {
+        if (response.status == 200) {
+          refreshfeed();
+        }
+      }
+    );
   };
 
   useEffect(() => {
@@ -215,7 +231,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
                 </Link>
                 {admin && (
                   <p className="text-sm font-semibold mb-2 translate-y-1 ml-5 text-red-600 cursor-pointer">
-                    Reports: {}
+                    Reports: {reports}
                   </p>
                 )}
               </div>
@@ -295,7 +311,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
                             <>
                               <button
                                 onClick={() => {
-                                  console.warn("Delete hahahahahaha");
+                                  handleDeletePost();
                                 }}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
