@@ -57,10 +57,10 @@ namespace CryptoHubAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPost("{userId}/{coinId}/{rating}")]
-        public async Task<ActionResult<string>> RateCoin(int userId, int coinId, int rating)
+        [HttpPost("{userId}/{coinName}/{rating}")]
+        public async Task<ActionResult<string>> RateCoin(int userId, string coinName, int rating)
         {
-            var response = await _coinRatingService.RateCoin(userId, coinId, rating);
+            var response = await _coinRatingService.RateCoin(userId, coinName, rating);
             if (response.HasError)
                 return BadRequest(response.Message);
 
