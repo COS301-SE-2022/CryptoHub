@@ -46,7 +46,7 @@ const Profile = () => {
     };
 
     fetch(
-      `http://localhost:7215/api/UserFollower/GetUserUserFollower/${user.id}`,
+      `http://localhost:7215/api/UserFollower/GetUserFollower/${user.id}`,
       options
     )
       .then((response) => response.json())
