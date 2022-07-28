@@ -174,7 +174,12 @@ namespace BusinessLogic.Services.UserService
                 }
             }
             mutuals = mutuals.GroupBy(x => x.UserId).Select(x => x.First()).ToList();
-            return _mapper.Map<List<SearchDTO>>(mutuals);//mutuals
+            var finalList = new List<SearchDTO>();
+            for (int i = 0; i < 5; i++)
+            {
+                finalList.Add(mutuals.ElementAt(i));
+            }
+            return _mapper.Map<List<SearchDTO>>(finalList);
         }
 
         public async Task<Response<string>> UploadProfilePic(CreateImageDTO createImageDTO)
