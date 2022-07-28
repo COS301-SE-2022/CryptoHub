@@ -25,6 +25,7 @@ const Messages = () => {
       .sort((a, b) => {
         return a.timestamp - b.timestamp;
       });
+    console.warn("Final messages: ", messages);
     setMessages(final);
   };
 
@@ -88,7 +89,7 @@ const Messages = () => {
                   message={message.message}
                   sender={message.sender}
                   receiver={message.receiver}
-                  time={message.timestamp}
+                  time={message.time}
                 />
               );
             } else if (
@@ -100,7 +101,7 @@ const Messages = () => {
                   message={message.message}
                   sender={message.sender}
                   receiver={message.receiver}
-                  time={message.timestamp}
+                  time={message.time}
                 />
               );
             }
@@ -152,7 +153,6 @@ const ReceiverMessage = ({ message, sender, receiver, time }) => {
   const router = useRouter();
   const { user } = useContext(userContext);
   const { id } = router.query;
-  console.warn("time: ", time);
   return (
     <div className="bg-gray-200  m-3 rounded-xl px-3 py-1 min:w-4/12 self-start">
       <p>{message}</p>

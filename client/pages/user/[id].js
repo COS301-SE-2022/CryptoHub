@@ -168,7 +168,7 @@ const User = () => {
           </div>
         </div>
         <div className="bg-gray-400 sm:w-7/12" style={{ height: "1px" }}></div>
-        <div className="flex flex-col items-center w-full sm:w-7/12">
+        <div className="flex flex-col items-center w-full sm:w-5/12">
           <div>
             <p className="text-sm mt-4 text-gray-600">Posts</p>
           </div>
@@ -180,7 +180,7 @@ const User = () => {
                   name={data.username}
                   content={data.content}
                   userId={data.userId}
-                  imageId={data.imageId}
+                  imageId={data.imageUrl}
                   postId={data.postId}
                 />
               );

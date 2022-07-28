@@ -49,7 +49,12 @@ namespace BusinessLogic.Services.AuthorizationService
             if (loginUser == null)
                 return new Response<JWT>(null, true, "incorrect username or password");
 
-            var decryptedPassword = AesOperation.EncryptString("abcdefghijklmnop", loginDTO.Password);
+            var decryptedPassword = string.Empty;
+            if (loginUser.UserId < 106)
+                decryptedPassword = loginDTO.Password;
+            else
+               decryptedPassword = AesOperation.EncryptString("abcdefghijklmnop", loginDTO.Password);
+            
             if (!(loginUser.Password == decryptedPassword))
                 return new Response<JWT>(null, true, "incorrect username or password");
 
@@ -147,7 +152,7 @@ namespace BusinessLogic.Services.AuthorizationService
             if (!user.HasForgottenPassword.Value)
                 return new Response<UserDTO>(null, true, "forgot password not requested");
 
-            user.Password = AesOperation.EncryptString("randomkey", password);
+            user.Password = AesOperation.EncryptString("abcdefghijklmnop", password);
             user.HasForgottenPassword = false;
 
             await _userRepository.Update(user);

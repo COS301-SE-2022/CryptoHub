@@ -19,7 +19,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
   const [commentCount, setCommentCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [postImage, setPostImage] = useState(null);
+  const [postImage, setPostImage] = useState(imageId);
   const [comment, setComment] = useState("");
   const [likeId, setLikeId] = useState(null);
   const { user, refreshfeed, alert } = useContext(userContext);
@@ -49,6 +49,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       .then((data) => {
         // let image = `data:image/jpeg;base64,${data.blob}`;
         // let image = ;
+        console.warn("imageurll", data.url);
         setPostImage(data.url);
       })
       .catch((error) => {});
@@ -197,9 +198,9 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
   useEffect(() => {
     handleGetUser();
     getLikeCount();
-    if (imageId != null) {
-      handleGetPostImage();
-    }
+    // if (imageId != null) {
+    //   handleGetPostImage();
+    // }
     handleGetComments();
     checkIfLiked();
   }, []);
@@ -298,7 +299,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
                       {!admin && (
                         <Menu.Item>
                           {({ active }) => (
