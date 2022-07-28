@@ -10,29 +10,6 @@ const Suggestions = () => {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    const options = {
-      method: "GET",
-    };
-
-    fetch("http://localhost:7215/api/User/GetAllUsers", options)
-      .then((response) => response.json())
-      .then((data) => {
-        setAccounts(data);
-        fetch(
-          `http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`,
-          options
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            setFollowers(data);
-            setRefresh(true);
-          })
-          .catch(() => {});
-      })
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
     try {
       let suggested = accounts.filter((account) => {
         return !followers.find((acc) => {
