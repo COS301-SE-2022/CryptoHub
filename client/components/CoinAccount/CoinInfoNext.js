@@ -60,7 +60,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
             {name}
           </p>
           <div className="flex flex-row justify-between">
-            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
+            {/* <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
               Day
             </button>
             <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
@@ -71,7 +71,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
             </button>
             <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
               Year
-            </button>
+            </button> */}
           </div>
         </div>
         <div className="flex flex-row">

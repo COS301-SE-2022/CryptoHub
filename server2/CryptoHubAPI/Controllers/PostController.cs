@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services.PostService;
+using BusinessLogic.Services.UserFollowerService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.PostDTO;
@@ -14,10 +15,12 @@ namespace CryptoHubAPI.Controllers
     {
 
         private readonly IPostService _postService;
+        private readonly IUserFollowerService _userFollowerService;
 
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, IUserFollowerService userFollowerService)
         {
             _postService = postService;
+            _userFollowerService = userFollowerService;
         }
 
         [HttpGet]
@@ -95,6 +98,17 @@ namespace CryptoHubAPI.Controllers
         public async Task<ActionResult<List<ReportPostDTO>>> GetAllReportedPosts()
         {
             return Ok(await _postService.GetAllReportedPosts());
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<PostDTO>>> GetFeed()
+        {
+            var response = await _userFollowerService.GetFeed();
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Model);
+
         }
 
     }

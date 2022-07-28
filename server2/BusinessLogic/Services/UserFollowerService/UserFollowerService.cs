@@ -4,7 +4,8 @@ using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.UserFollowerDTOs;
 using BusinessLogic.Services.UserService;
-
+using Microsoft.AspNetCore.Http;
+using Infrastructure.DTO.PostDTO;
 
 namespace BusinessLogic.Services.UserFollowerService
 {
@@ -13,14 +14,18 @@ namespace BusinessLogic.Services.UserFollowerService
         private readonly IUserFollowerRepository _userFollowerRepository;
         private readonly IUserRepository _userRepository;
         private readonly IUserService _userService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IPostRepository _postRepository;
         private readonly IMapper _mapper;
 
-        public UserFollowerService(IUserFollowerRepository userFollowerRepository, IUserRepository userRepository, IMapper mapper, IUserService userService)
+        public UserFollowerService(IUserFollowerRepository userFollowerRepository, IUserRepository userRepository, IMapper mapper, IUserService userService, IHttpContextAccessor httpContextAccessor, IPostRepository postRepository)
         {
             _userFollowerRepository = userFollowerRepository;
             _userRepository = userRepository;
             _mapper = mapper;
             _userService = userService;
+            _httpContextAccessor = httpContextAccessor;
+            _postRepository = postRepository;
         }
 
         public async Task<List<UserFollowerDTO>> GetAllUserFollowers()
@@ -105,6 +110,38 @@ namespace BusinessLogic.Services.UserFollowerService
 
             await _userFollowerRepository.DeleteOne(u => u.UserId == userId && u.FollowId == followId);
             return new Response<string>(null, false, "User has been unfollowed");
+
+        }
+
+        public async Task<Response<List<PostDTO>>> GetFeed()
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst("Id")?.Value;
+
+            var user = await _userRepository.GetByExpression(u => u.UserId.ToString() == userId);
+
+            if (user == null)
+                return new Response<List<PostDTO>>(null, true, "user not found");
+
+            var userFollowers = await _userFollowerRepository.ListByExpression(u => u.FollowId == user.UserId);
+            var posts = await _postRepository.GetAll();
+
+
+
+            var feed = (from uf in userFollowers
+                       join p in posts
+                       on uf.UserId equals p.UserId
+                       select new PostDTO
+                       {
+                           
+                              UserId = p.UserId,
+                              PostId = p.PostId,
+                              Content = p.Content,
+                              ImageUrl = p.ImageUrl
+                              
+                       }).ToList();
+
+            
+             return new Response<List<PostDTO>>(feed, false, "");
 
         }
     }

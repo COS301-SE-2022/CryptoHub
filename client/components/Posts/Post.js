@@ -19,10 +19,11 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
   const [commentCount, setCommentCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [postImage, setPostImage] = useState(null);
+  const [postImage, setPostImage] = useState(imageId);
   const [comment, setComment] = useState("");
   const [likeId, setLikeId] = useState(null);
-  const { user } = useContext(userContext);
+  const { user, refreshfeed, alert } = useContext(userContext);
+  const [profilePicture, setProfilePicture] = useState(null);
 
   const handleGetUser = () => {
     const options = {
@@ -33,6 +34,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
+        setProfilePicture(data.imageUrl);
       })
       .catch((error) => {});
   };
@@ -47,6 +49,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       .then((data) => {
         // let image = `data:image/jpeg;base64,${data.blob}`;
         // let image = ;
+        console.warn("imageurll", data.url);
         setPostImage(data.url);
       })
       .catch((error) => {});
@@ -159,7 +162,9 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       options
     )
       .then((response) => response.json())
-      .then((data) => {});
+      .then((data) => {
+        refreshfeed();
+      });
   };
 
   const getLikeCount = () => {
@@ -176,12 +181,26 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       });
   };
 
+  const handleDeletePost = () => {
+    const options = {
+      method: "DELETE",
+    };
+
+    fetch(`http://localhost:7215/api/Post/Delete?id=${postId}`, options).then(
+      (response) => {
+        if (response.status == 200) {
+          refreshfeed();
+        }
+      }
+    );
+  };
+
   useEffect(() => {
     handleGetUser();
     getLikeCount();
-    if (imageId != null) {
-      handleGetPostImage();
-    }
+    // if (imageId != null) {
+    //   handleGetPostImage();
+    // }
     handleGetComments();
     checkIfLiked();
   }, []);
@@ -189,21 +208,32 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
     /* <Image src={postImage} height="200" width="200" /> */
   }
 
-  useEffect(() => {}, []);
-
   return (
     <div className="bg-white m-4 p-4 rounded-lg">
       <div className="flex flew-row items-center mb-2 justify-between">
         <div className="flex flex-row">
-          <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-            <svg
-              className="h-full w-full text-gray-300"
-              fill="currentColor"
-              viewBox="0 0 24 24"
+          {profilePicture == null ? (
+            <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+              <svg
+                className="h-full w-full text-gray-300"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </span>
+          ) : (
+            <div
+              className="rounded-full overflow-hidden"
+              style={{
+                width: "40px",
+                height: "40px",
+                position: "relative",
+              }}
             >
-              <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-          </span>
+              <Image src={profilePicture} layout="fill" />
+            </div>
+          )}
 
           {user.id == thisUser.userId ? (
             <div class="flex justify-between flex-container">
@@ -215,7 +245,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
                 </Link>
                 {admin && (
                   <p className="text-sm font-semibold mb-2 translate-y-1 ml-5 text-red-600 cursor-pointer">
-                    Reports: {}
+                    Reports: {reports}
                   </p>
                 )}
               </div>
@@ -269,7 +299,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
                       {!admin && (
                         <Menu.Item>
                           {({ active }) => (
@@ -295,7 +325,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
                             <>
                               <button
                                 onClick={() => {
-                                  console.warn("Delete hahahahahaha");
+                                  handleDeletePost();
                                 }}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",

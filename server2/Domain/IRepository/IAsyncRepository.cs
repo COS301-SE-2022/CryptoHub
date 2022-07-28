@@ -37,6 +37,8 @@ namespace Domain.IRepository
 
         Task Delete(TEntity entity);
 
+        Task DeleteRange(List<TEntity> entities);
+
 
 
 

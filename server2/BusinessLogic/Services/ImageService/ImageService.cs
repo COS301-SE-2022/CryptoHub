@@ -69,7 +69,12 @@ namespace BusinessLogic.Services.ImageService
 
         public async Task Delete(int id)
         {
-            await _imageRepository.DeleteOne(u => u.ImageId == id);
+            var image = await _imageRepository.GetById(u => u.ImageId == id);
+            if (image != null)
+                return;
+
+            await _fireStorageService.DeleteImage(image.Name);
+            await _imageRepository.Delete(image);
         }
     }
 }
