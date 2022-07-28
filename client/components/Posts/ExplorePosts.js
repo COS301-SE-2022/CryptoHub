@@ -67,6 +67,8 @@ const ExplorePosts = () => {
     <div className=" w-full sm:w-5/12">
       {loading ? (
         <p>loading...</p>
+      ) : explorePosts.count == 0 ? (
+        <p>No posts to explore</p>
       ) : (
         explorePosts.map((data, index) => {
           return (
