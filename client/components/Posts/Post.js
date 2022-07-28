@@ -22,7 +22,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
   const [postImage, setPostImage] = useState(null);
   const [comment, setComment] = useState("");
   const [likeId, setLikeId] = useState(null);
-  const { user, refreshfeed } = useContext(userContext);
+  const { user, refreshfeed, alert } = useContext(userContext);
 
   const handleGetUser = () => {
     const options = {
@@ -205,7 +205,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
     /* <Image src={postImage} height="200" width="200" /> */
   }
 
-  useEffect(() => {}, []);
+  const showToast = () => {};
 
   return (
     <div className="bg-white m-4 p-4 rounded-lg">
