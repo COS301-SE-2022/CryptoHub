@@ -171,7 +171,7 @@ const Profile = () => {
                   name={data.username}
                   content={data.content}
                   userId={data.userId}
-                  imageId={data.imageId}
+                  imageId={data.imageUrl}
                   postId={data.postId}
                 />
               );
