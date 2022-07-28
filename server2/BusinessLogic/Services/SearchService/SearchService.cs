@@ -72,7 +72,7 @@ namespace BusinessLogic.Services.SearchService
             var userfollowers = from f in followers
                                 join u in users
                                 on f.UserId equals u.UserId
-                                select new User
+                                select new SearchDTO
                                 {
                                     UserId = u.UserId,
                                     Firstname = u.Firstname,
@@ -90,6 +90,7 @@ namespace BusinessLogic.Services.SearchService
                                       Firstname = r.Firstname,
                                       Lastname = r.Lastname,
                                       Username = r.Username,
+                                      followedByCurrentUser = true
                                   };
 
             //rearange results to show followed users first
