@@ -147,7 +147,7 @@ namespace BusinessLogic.Services.AuthorizationService
             if (!user.HasForgottenPassword.Value)
                 return new Response<UserDTO>(null, true, "forgot password not requested");
 
-            user.Password = AesOperation.EncryptString("randomkey", password);
+            user.Password = AesOperation.EncryptString("abcdefghijklmnop", password);
             user.HasForgottenPassword = false;
 
             await _userRepository.Update(user);
