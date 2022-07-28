@@ -14,10 +14,16 @@ namespace Infrastructure.Setting
 
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", basicAuthHeaderValue);
             //var stream = await client.GetStreamAsync("https://api.doppler.com/v3/configs/config/secrets/download?format=json");
-            var fireStoreStream = await client.GetStreamAsync("https://api.doppler.com/v3/configs/config/secrets/download?format=json"); ;
-            var jwtStream = await client.GetStreamAsync("https://api.doppler.com/v3/configs/config/secrets/download?format=json"); ;
-            var sendInBlueStream = await client.GetStreamAsync("https://api.doppler.com/v3/configs/config/secrets/download?format=json"); ;
-            var dbConnectionStream = await client.GetStreamAsync("https://api.doppler.com/v3/configs/config/secrets/download?format=json"); ;
+            var fireStoreStream = await client.GetStreamAsync("https://api.doppler.com/v3/configs/config/secrets/download?format=json");
+
+            if (fireStoreStream == null)
+                Console.WriteLine("BROKEN");
+            else
+                Console.WriteLine("WE GOOD");
+
+            var jwtStream = await client.GetStreamAsync("https://api.doppler.com/v3/configs/config/secrets/download?format=json");
+            var sendInBlueStream = await client.GetStreamAsync("https://api.doppler.com/v3/configs/config/secrets/download?format=json");
+            var dbConnectionStream = await client.GetStreamAsync("https://api.doppler.com/v3/configs/config/secrets/download?format=json");
             //var streamTask = await client.GetAsy("https://api.doppler.com/v3/configs/config/secrets/download?format=json");
 
 
