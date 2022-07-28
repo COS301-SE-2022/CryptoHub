@@ -144,7 +144,7 @@ const SenderMessage = ({ message, sender, receiver, time }) => {
   return (
     <div className="bg-indigo-300 text-right m-3 rounded-xl px-3 py-1 min:w-4/12 self-end">
       <p>{message}</p>
-      <p>{time}</p>
+      {/* <p>{time}</p> */}
     </div>
   );
 };
@@ -156,7 +156,7 @@ const ReceiverMessage = ({ message, sender, receiver, time }) => {
   return (
     <div className="bg-gray-200  m-3 rounded-xl px-3 py-1 min:w-4/12 self-start">
       <p>{message}</p>
-      <p>{time}</p>
+      {/* <p>{time}</p> */}
     </div>
   );
 };

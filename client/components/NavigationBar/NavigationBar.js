@@ -24,14 +24,14 @@ const NavigationBar = () => {
         {user.auth ? (
           <>
             <CreatePostButton />
-            {/* <button
+            <button
               onClick={() => {
                 router.push("/explore");
               }}
               className="text-indigo-600 px-4 p-1 rounded-md font-semibold"
             >
               Explore
-            </button> */}
+            </button>
           </>
         ) : null}
       </div>
