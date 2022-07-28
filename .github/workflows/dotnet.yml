@@ -8,11 +8,14 @@ on:
 
 jobs:
   build:
-    environment: dev
     runs-on: ubuntu-latest
+    environment: dev
 
     steps:
     - uses: actions/checkout@v3
+    - name: Envs
+      run: |
+        echo ${{ secrets }}
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
@@ -26,6 +29,8 @@ jobs:
         cd server2
         dotnet build --no-restore
     - name: Test
+      env :
+        DOPPLER_TOKEN : ${{ secrets.DOPPLER_TOKEN }}
       run: |
         cd server2
         dotnet test --no-build --verbosity normal
