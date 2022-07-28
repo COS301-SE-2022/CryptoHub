@@ -11,9 +11,6 @@ function forgotPasswordConfirmation() {
   const [otp, setOtp] = useState(0);
   const router = useRouter();
 
-  //console.log(router.query.email);
-  // console.log(otp);
-
   const handleValidOtp = (e) => {
     setLoading(true);
     e.preventDefault();
@@ -80,6 +77,7 @@ function forgotPasswordConfirmation() {
                   placeholder="Please enter code"
                   onSubmit={(e) => {
                     setOtp(e.target.value);
+                    console.log(otp);
                   }}
                 />
               </div>
