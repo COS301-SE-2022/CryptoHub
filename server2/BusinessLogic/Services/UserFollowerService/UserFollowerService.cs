@@ -123,20 +123,17 @@ namespace BusinessLogic.Services.UserFollowerService
                 return new Response<List<PostDTO>>(null, true, "user not found");
 
             var userFollowers = await _userFollowerRepository.ListByExpression(u => u.UserId == user.UserId);
-            var users = await _userRepository.GetAll();
             var posts = await _postRepository.GetAll();
 
 
 
             var feed = (from uf in userFollowers
-                       join u in users
-                       on uf.FollowId equals u.UserId
                        join p in posts
                        on uf.FollowId equals p.UserId
                        select new PostDTO
                        {
                            
-                              UserId = u.UserId,
+                              UserId = p.UserId,
                               PostId = p.PostId,
                               Content = p.Content,
                               ImageUrl = p.ImageUrl
