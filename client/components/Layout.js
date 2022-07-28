@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
     <div className={styles.container}>
       <NavigationBar />
       <main className={styles.main}>{children}</main>
-      <Toast />
+      {/* <Toast /> */}
     </div>
   );
 };
