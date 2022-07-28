@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import Post from "./Post";
 import { userContext } from "../../auth/auth";
+import { useRouter } from "next/router";
 
 const Posts = () => {
   const { feedstate } = useContext(userContext);
   const [posts, setPosts] = useState([]);
   const [following, setFollowing] = useState([]);
+  const router = useRouter();
 
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,6 +50,8 @@ const Posts = () => {
       .then((data) => {
         setLoading(false);
         let posts = data.reverse();
+        console.warn("Final feed: ", posts);
+
         setPosts(posts);
       })
       .catch(() => {
@@ -64,8 +68,18 @@ const Posts = () => {
     <div className="sm:w-5/12">
       {loading ? (
         <p>loading...</p>
-      ) : posts.count == 0 ? (
-        <div>Explore</div>
+      ) : posts.length == 0 ? (
+        <div className="flex flex-col items-center w-full pt-10">
+          <button
+            onClick={() => {
+              router.push("/explore");
+            }}
+          >
+            <p className="text-2xl font-semibold text-indigo-600">
+              Explore more posts 🚀
+            </p>
+          </button>
+        </div>
       ) : (
         posts.map((data, index) => {
           return (
