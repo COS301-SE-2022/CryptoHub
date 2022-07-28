@@ -2,6 +2,7 @@
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.PostDTO;
+using Infrastructure.DTO.ReportPostDTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -77,6 +78,23 @@ namespace CryptoHubAPI.Controllers
 
             return Ok(response);
 
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Post>> GetReportCountByPostId(int id)
+        {
+            var response = await _postService.GetReportCountByPostId(id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        // GET: PostController
+        public async Task<ActionResult<List<ReportPostDTO>>> GetAllReportedPosts()
+        {
+            return Ok(await _postService.GetAllReportedPosts());
         }
 
     }

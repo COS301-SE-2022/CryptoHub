@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.DTO.PostDTO;
+using Infrastructure.DTO.ReportPostDTO;
 using Infrastructure.DTO.UserRoleDTOs;
 using Infrastructure.DTO.ReplyDTOs;
 using Infrastructure.DTO.UserFollowerDTOs;
@@ -40,6 +41,7 @@ namespace Infrastructure.AutoMapper
             CreateMap<User, SearchDTO>();
             CreateMap<Coin, CoinSearchDTO>();
             CreateMap<Image, ImageDTO>();
+            CreateMap<Post, ReportPostDTO>();
             #endregion
 
             #region DTO to Model
@@ -53,6 +55,7 @@ namespace Infrastructure.AutoMapper
             CreateMap<UserFollowerDTO, UserFollower>();
             CreateMap<SearchDTO, User>();
             CreateMap<CoinSearchDTO, Coin>();
+            CreateMap<ReportPostDTO, Post>();
             #endregion
 
         }
