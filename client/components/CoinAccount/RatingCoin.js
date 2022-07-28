@@ -2,9 +2,14 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import React, { useState, useEffect, useContext } from "react";
+import { useRouter } from "next/router";
+import { userContext } from "../../auth/auth";
 
 const Rating = () => {
+  const router = useRouter();
   const [rating, setRating] = useState(0);
+  const { id } = router.query;
+  const { user } = useContext(userContext);
 
   const handleRateCoin = () => {
     const options = {
@@ -13,6 +18,7 @@ const Rating = () => {
       body: JSON.stringify({
         userId: user.id,
         coinId: id,
+        rating: rating,
       }),
     };
 
@@ -64,7 +70,7 @@ const Rating = () => {
               {({ active }) => (
                 <a
                   onClick={(e) => {
-                    setRating(e.target.value);
+                    setRating(1);
                     handleRateCoin();
                   }}
                   className={classNames(
@@ -80,7 +86,7 @@ const Rating = () => {
               {({ active }) => (
                 <a
                   onClick={(e) => {
-                    setRating(e.target.value);
+                    setRating(2);
                     handleRateCoin();
                   }}
                   className={classNames(
@@ -96,7 +102,7 @@ const Rating = () => {
               {({ active }) => (
                 <a
                   onClick={(e) => {
-                    setRating(e.target.value);
+                    setRating(3);
                     handleRateCoin();
                   }}
                   className={classNames(
@@ -112,7 +118,7 @@ const Rating = () => {
               {({ active }) => (
                 <a
                   onClick={(e) => {
-                    setRating(e.target.value);
+                    setRating(4);
                     handleRateCoin();
                   }}
                   className={classNames(
@@ -128,7 +134,7 @@ const Rating = () => {
               {({ active }) => (
                 <a
                   onClick={(e) => {
-                    setRating(e.target.value);
+                    setRating(5);
                     handleRateCoin();
                   }}
                   className={classNames(
