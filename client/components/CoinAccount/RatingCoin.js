@@ -12,9 +12,13 @@ const Rating = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         userId: user.id,
-        followerId: id,
+        coinId: id,
       }),
     };
+
+    console.log(user.id);
+    console.log(id);
+    console.log(rating);
 
     fetch(
       `http://localhost:7215/api/Coin/RateCoin/${user.id}/${id}/${rating}`,
@@ -61,6 +65,7 @@ const Rating = () => {
                 <a
                   onClick={(e) => {
                     setRating(e.target.value);
+                    handleRateCoin();
                   }}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
@@ -76,6 +81,7 @@ const Rating = () => {
                 <a
                   onClick={(e) => {
                     setRating(e.target.value);
+                    handleRateCoin();
                   }}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
@@ -91,6 +97,7 @@ const Rating = () => {
                 <a
                   onClick={(e) => {
                     setRating(e.target.value);
+                    handleRateCoin();
                   }}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
@@ -106,6 +113,7 @@ const Rating = () => {
                 <a
                   onClick={(e) => {
                     setRating(e.target.value);
+                    handleRateCoin();
                   }}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
@@ -121,6 +129,7 @@ const Rating = () => {
                 <a
                   onClick={(e) => {
                     setRating(e.target.value);
+                    handleRateCoin();
                   }}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
