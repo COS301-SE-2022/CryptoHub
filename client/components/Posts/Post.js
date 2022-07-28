@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import { XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
@@ -6,8 +6,13 @@ import Comment from "./Comment";
 import Image from "next/image";
 import { userContext } from "../../auth/auth";
 import { HeartIcon as RedHeartIcon } from "@heroicons/react/solid";
+import { Menu, Transition } from "@headlessui/react";
 
-const Post = ({ name, content, userId, postId, imageId }) => {
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
   const [thisUser, setUser] = useState({});
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
@@ -17,7 +22,8 @@ const Post = ({ name, content, userId, postId, imageId }) => {
   const [postImage, setPostImage] = useState(null);
   const [comment, setComment] = useState("");
   const [likeId, setLikeId] = useState(null);
-  const { user } = useContext(userContext);
+  const { user, refreshfeed, alert } = useContext(userContext);
+  const [profilePicture, setProfilePicture] = useState(null);
 
   const handleGetUser = () => {
     const options = {
@@ -28,6 +34,7 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
+        setProfilePicture(data.imageUrl);
       })
       .catch((error) => {});
   };
@@ -40,8 +47,9 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     fetch(`http://localhost:7215/api/Image/GetById/${imageId}`, options)
       .then((response) => response.json())
       .then((data) => {
-        let image = `data:image/jpeg;base64,${data.blob}`;
-        setPostImage(image);
+        // let image = `data:image/jpeg;base64,${data.blob}`;
+        // let image = ;
+        setPostImage(data.url);
       })
       .catch((error) => {});
   };
@@ -137,6 +145,27 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       .catch((error) => {});
   };
 
+  const handleReportPost = () => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user.id,
+        postId: postId,
+      }),
+    };
+    fetch(
+      `http://localhost:7215/api/Post/Report?postid=${postId}&userid=${user.id}`,
+      options
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        refreshfeed();
+      });
+  };
+
   const getLikeCount = () => {
     const options = {
       method: "GET",
@@ -149,6 +178,20 @@ const Post = ({ name, content, userId, postId, imageId }) => {
       .then((data) => {
         setLikes(data.count);
       });
+  };
+
+  const handleDeletePost = () => {
+    const options = {
+      method: "DELETE",
+    };
+
+    fetch(`http://localhost:7215/api/Post/Delete?id=${postId}`, options).then(
+      (response) => {
+        if (response.status == 200) {
+          refreshfeed();
+        }
+      }
+    );
   };
 
   useEffect(() => {
@@ -164,60 +207,143 @@ const Post = ({ name, content, userId, postId, imageId }) => {
     /* <Image src={postImage} height="200" width="200" /> */
   }
 
-  useEffect(() => {}, []);
-
   return (
     <div className="bg-white m-4 p-4 rounded-lg">
-      <div className="flex flew-row items-center mb-2">
-        <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-          <svg
-            className="h-full w-full text-gray-300"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
-        </span>
-
-        {user.id == thisUser.userId ? (
-          <div class="flex justify-between flex-container">
-            <div className="flex-row items-center ">
-              <Link href={`/profile`} className="pointer cursor-pointer">
-                <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-                  {thisUser.username}
-                </p>
-              </Link>
+      <div className="flex flew-row items-center mb-2 justify-between">
+        <div className="flex flex-row">
+          {profilePicture == null ? (
+            <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+              <svg
+                className="h-full w-full text-gray-300"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </span>
+          ) : (
+            <div
+              className="rounded-full overflow-hidden"
+              style={{
+                width: "40px",
+                height: "40px",
+                position: "relative",
+              }}
+            >
+              <Image src={profilePicture} layout="fill" />
             </div>
+          )}
 
+          {user.id == thisUser.userId ? (
+            <div class="flex justify-between flex-container">
+              <div className="flex flex-row items-center ">
+                <Link href={`/profile`} className="pointer cursor-pointer">
+                  <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                    {thisUser.username}
+                  </p>
+                </Link>
+                {admin && (
+                  <p className="text-sm font-semibold mb-2 translate-y-1 ml-5 text-red-600 cursor-pointer">
+                    Reports: {reports}
+                  </p>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div class="flex flex-container">
+              <div className="flex flex-row items-center ">
+                <Link
+                  href={`/user/${userId}`}
+                  className="pointer cursor-pointer"
+                >
+                  <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
+                    {thisUser.username}
+                  </p>
+                </Link>
+                {admin && (
+                  <p className="text-sm font-semibold mb-2 translate-y-1 ml-5 text-red-600 cursor-pointer">
+                    Reports: {reports}
+                  </p>
+                )}
+              </div>
+
+              {/* <div>
+              <button
+                onClick={() => setShowModal(true)}
+                className="text-sm flex flex-row"
+              >
+                <p className="ml-1"> ... </p>
+              </button>
+            </div> */}
+            </div>
+          )}
+        </div>
+        <>
+          <div>
             <div className="translate-x-50 text-right">
-              <button
-                onClick={() => setShowModal(true)}
-                className="text-sm flex flex-row"
-              >
-                <p className="ml-1"> ... </p>
+              <button className="text-sm flex flex-row">
+                <Menu as="div" className="ml-1 sm:ml-3 relative">
+                  <div>
+                    <Menu.Button>
+                      <span className="sr-only">Open user menu</span>
+                      <div className="-translate-y-4">...</div>
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      {!admin && (
+                        <Menu.Item>
+                          {({ active }) => (
+                            <>
+                              <button
+                                onClick={() => {
+                                  handleReportPost();
+                                }}
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-2 py-2 text-sm text-gray-700 w-full"
+                                )}
+                              >
+                                Report
+                              </button>
+                            </>
+                          )}
+                        </Menu.Item>
+                      )}
+                      {admin && (
+                        <Menu.Item>
+                          {({ active }) => (
+                            <>
+                              <button
+                                onClick={() => {
+                                  handleDeletePost();
+                                }}
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-2 py-2 text-sm text-red-700 font-semibold w-full"
+                                )}
+                              >
+                                Delete Post
+                              </button>
+                            </>
+                          )}
+                        </Menu.Item>
+                      )}
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
               </button>
             </div>
           </div>
-        ) : (
-          <div class="flex flex-container">
-            <div className="flex-row items-center ">
-              <Link href={`/user/${userId}`} className="pointer cursor-pointer">
-                <p className="text-sm font-semibold mb-2 translate-y-1 ml-2 cursor-pointer">
-                  {thisUser.username}
-                </p>
-              </Link>
-            </div>
-
-            <div>
-              <button
-                onClick={() => setShowModal(true)}
-                className="text-sm flex flex-row"
-              >
-                <p className="ml-1"> ... </p>
-              </button>
-            </div>
-          </div>
-        )}
+        </>
       </div>
 
       {postImage == null ? null : (

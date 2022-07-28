@@ -74,32 +74,50 @@ namespace CryptoHubAPI.Controllers
             return Ok(await _userCoinService.GetAllUserCoins());
         }
 
-        [HttpPost("{userId}/{coinId}")]
-        public async Task<IActionResult> FollowCoin(int userId, int coinId)
+        [HttpPost("{userId}/{coinName}")]
+        public async Task<IActionResult> FollowCoin(int userId, string coinName)
         {
-            var response = await _userCoinService.FollowCoin(userId, coinId);
+            var response = await _userCoinService.FollowCoin(userId, coinName);
             if (response.HasError)
                 return BadRequest(response.Message);
 
             return Ok(response.Message);
         }
 
-        [HttpPost("{userId}/{coinId}")]
-        public async Task<IActionResult> UnfollowCoin(int userId, int coinId)
+        [HttpPost("{userId}/{coinName}")]
+        public async Task<IActionResult> UnfollowCoin(int userId, string coinName)
         {
-            var response = await _userCoinService.UnfollowCoin(userId, coinId);
+            var response = await _userCoinService.UnfollowCoin(userId, coinName);
             if (response.HasError)
                 return BadRequest(response.Message);
 
             return Ok(response.Message);
         }
 
-        [HttpGet("{coinId}")]
-        public async Task<ActionResult<List<UserCoinDTO>>> GetCoinsFollowers(int coinId)
+        [HttpGet("{coinName}")]
+        public async Task<ActionResult<UserCoinDTO>> GetCoinFollowCount(string coinName)
         {
-            var response = await _userCoinService.GetCoinFollowers(coinId);
+            var response = await _userCoinService.GetCoinFollowCount(coinName);
             if (response == null)
                 return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{coinName}")]
+        public async Task<ActionResult<List<UserCoinDTO>>> GetCoinsFollowers(string coinName)
+        {
+            var response = await _userCoinService.GetCoinFollowers(coinName);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<List<CoinDTO>>> GetCoinsFollowedByUser(int userId)
+        {
+            var response = await _userCoinService.GetCoinsFollowedByUser(userId);
 
             return Ok(response);
         }

@@ -17,6 +17,7 @@ export const userContext = createContext({
   auth: false,
   id: 0,
   token: "",
+  admin: false,
 });
 
 const UserProvider = ({ children }) => {
@@ -26,8 +27,13 @@ const UserProvider = ({ children }) => {
     auth: false,
     id: 0,
     token: "",
+    admin: false,
   });
+
   const [feedstate, setFeedstate] = useState(false);
+  const [show, setShow] = useState(false);
+  const [alertText, setAlertText] = useState("");
+  const [profilePicture, setProfilePicture] = useState(null);
 
   const app = initializeApp(firebaseConfig);
 
@@ -53,14 +59,44 @@ const UserProvider = ({ children }) => {
       auth: false,
       id: 0,
       token: "",
+      admin: false,
     });
     router.push("/");
   };
 
+  const alert = (text) => {
+    setAlertText(text);
+    setShow(true);
+  };
+
+  const closeAlert = () => {
+    setShow(false);
+  };
+
   const authorise = (token) => {
     let user = parseJwt(token);
-    setUser({ username: user.username, auth: true, id: user.id, token: token });
-    router.push("/");
+
+    console.warn("jwt: ", user);
+
+    if (user.roles == "Super") {
+      setUser({
+        username: user.username,
+        auth: true,
+        id: user.id,
+        token: token,
+        admin: true,
+      });
+      router.push("/");
+    } else {
+      setUser({
+        username: user.username,
+        auth: true,
+        id: user.id,
+        token: token,
+        admin: false,
+      });
+      router.push("/");
+    }
   };
 
   const refreshfeed = () => {
@@ -69,7 +105,20 @@ const UserProvider = ({ children }) => {
 
   return (
     <userContext.Provider
-      value={{ user, logout, authorise, feedstate, refreshfeed, app }}
+      value={{
+        user,
+        logout,
+        authorise,
+        feedstate,
+        refreshfeed,
+        app,
+        alert,
+        show,
+        alertText,
+        closeAlert,
+        profilePicture,
+        setProfilePicture,
+      }}
     >
       {children}
     </userContext.Provider>

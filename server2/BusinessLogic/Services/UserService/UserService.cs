@@ -16,7 +16,7 @@ namespace BusinessLogic.Services.UserService
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly IImageService _imageService;
-        
+
         public UserService(IUserRepository userRepository, IImageService imageService, IHttpContextAccessor httpContextAccessor, IMapper mapper, IUserFollowerRepository userFollowerRepository)
         {
             _userRepository = userRepository;
@@ -81,10 +81,45 @@ namespace BusinessLogic.Services.UserService
             var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
             var users = await _userRepository.GetAll();
 
-            var userfollowers = from f in followers
-                                join u in users
+            var resultList = new List<SearchDTO>();
+
+            foreach (var result in users.ToList())
+            {
+                var temp = new SearchDTO
+                {
+                    UserId = result.UserId,
+                    Firstname = result.Firstname,
+                    Lastname = result.Lastname,
+                    Username = result.Username,
+                    followCount = 0
+                };
+                resultList.Add(temp);
+            }
+
+            foreach (var r in resultList.ToList()) //order by follow count
+            {
+                var fol = await _userFollowerRepository.FindRange(uf => uf.UserId == r.UserId);
+                var allUsers = await _userRepository.GetAll();
+
+
+
+                var userFol = from f in fol
+                              join u in allUsers
+                              on f.FollowId equals u.UserId
+                              select new
+                              {
+                                  UserId = u.UserId,
+                                  Username = u.Username
+                              };
+                r.followCount = userFol.Count();
+            }
+
+            resultList = resultList.OrderByDescending(r => r.followCount).ToList();
+
+            var userfollowers = from f in followers //All users user follows
+                                join u in resultList
                                 on f.UserId equals u.UserId
-                                select new User
+                                select new SearchDTO
                                 {
                                     UserId = u.UserId,
                                     Firstname = u.Firstname,
@@ -92,8 +127,9 @@ namespace BusinessLogic.Services.UserService
                                     Username = u.Username,
                                 };
 
-            var mutuals = new List<User>();
-            foreach (var usf in userfollowers.ToList())
+
+            var mutuals = new List<SearchDTO>();
+            foreach (var usf in userfollowers.ToList()) //gets all mutual users
             {
                 var mutFollowers = await _userFollowerRepository.FindRange(uf => uf.FollowId == usf.UserId);
                 var mutUsers = await _userRepository.GetAll();
@@ -101,7 +137,7 @@ namespace BusinessLogic.Services.UserService
                 var mutUserfollowers = from f in mutFollowers
                                        join u in mutUsers
                                     on f.UserId equals u.UserId
-                                       select new User
+                                       select new SearchDTO
                                        {
                                            UserId = u.UserId,
                                            Firstname = u.Firstname,
@@ -109,23 +145,47 @@ namespace BusinessLogic.Services.UserService
                                            Username = u.Username,
                                        };
 
-                
+
                 foreach (var m in mutUserfollowers.ToList())
                 {
-                    if(m.UserId != id)
+                    if (m.UserId != id)
                     {
                         mutuals.Add(m);
                     }
                 }
             }
+            
+
+            foreach (var user in resultList.ToList())
+            {
+                if (user.UserId != id)
+                {
+                    mutuals.Add(user);
+                }
+            }
+            foreach (var user in userfollowers.ToList())
+            {
+                foreach (var m in mutuals.ToList())
+                {
+                    if (m.UserId == user.UserId)
+                    {
+                        mutuals.Remove(m);
+                    }
+                }
+            }
             mutuals = mutuals.GroupBy(x => x.UserId).Select(x => x.First()).ToList();
-            return _mapper.Map<List<SearchDTO>>(mutuals);
+            var finalList = new List<SearchDTO>();
+            for (int i = 0; i < 5; i++)
+            {
+                finalList.Add(mutuals.ElementAt(i));
+            }
+            return _mapper.Map<List<SearchDTO>>(finalList);
         }
 
         public async Task<Response<string>> UploadProfilePic(CreateImageDTO createImageDTO)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst("Id")?.Value;
-            
+
             var user = await _userRepository.GetByExpression(u => u.UserId.ToString() == userId);
 
             if (user == null)
@@ -135,7 +195,7 @@ namespace BusinessLogic.Services.UserService
 
             var response = await _imageService.AddImage(createImageDTO);
 
-            if(response.HasError)
+            if (response.HasError)
                 return new Response<string>(null, true, response.Message);
 
             user.ImageId = response.Model.ImageId;
