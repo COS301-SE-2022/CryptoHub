@@ -49,7 +49,7 @@ const Posts = () => {
               content={data.content}
               userId={data.userId}
               postId={data.postId}
-              imageId={data.imageId}
+              imageId={data.imageUrl}
             />
           );
         })

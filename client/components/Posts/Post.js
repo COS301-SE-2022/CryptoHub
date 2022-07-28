@@ -19,7 +19,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
   const [commentCount, setCommentCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [postImage, setPostImage] = useState(null);
+  const [postImage, setPostImage] = useState(imageId);
   const [comment, setComment] = useState("");
   const [likeId, setLikeId] = useState(null);
   const { user, refreshfeed, alert } = useContext(userContext);
@@ -49,6 +49,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       .then((data) => {
         // let image = `data:image/jpeg;base64,${data.blob}`;
         // let image = ;
+        console.warn("imageurll", data.url);
         setPostImage(data.url);
       })
       .catch((error) => {});
@@ -197,9 +198,9 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
   useEffect(() => {
     handleGetUser();
     getLikeCount();
-    if (imageId != null) {
-      handleGetPostImage();
-    }
+    // if (imageId != null) {
+    //   handleGetPostImage();
+    // }
     handleGetComments();
     checkIfLiked();
   }, []);
