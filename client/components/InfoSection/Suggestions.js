@@ -9,24 +9,24 @@ const Suggestions = () => {
   const [suggestedAccounts, setSuggestedAccounts] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
-  const handleSuggestedUsers = () => {
+  const handleSuggestedUser = () => {
     const options = {
       method: "GET",
-      headers: new Headers({
-        "X-Api-Key": "3Fii6K+evhLZN2zl7lh8Lg==WxuC4gFF5eX27Ekz",
-      }),
     };
 
     fetch(
-      `https://api.api-ninjas.com/v1/convertcurrency?have=${have}&want=${want}&amount=${amount}`,
+      `http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`,
       options
     )
       .then((response) => response.json())
       .then((data) => {
-        setCurrencyLabel(want);
-        setAmount(data.new_amount);
+        setLoading(false);
+        setFollowing(data);
       })
-      .catch(() => {});
+      .catch((error) => {
+        setError(true);
+        setLoading(false);
+      });
   };
 
   return (
