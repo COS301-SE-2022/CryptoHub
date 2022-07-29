@@ -43,8 +43,8 @@ const CreatePostButton = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         post: post,
-        userid: user.id,
-        imageDTO: image == null ? null : { blob: image },
+        userId: user.id,
+        imageDTO: image == null ? null : { name: "", blob: image },
       }),
     };
 

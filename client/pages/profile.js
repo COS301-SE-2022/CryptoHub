@@ -6,9 +6,10 @@ import Post from "../components/Posts/Post";
 import { useRouter } from "next/router";
 import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../components/InfoSection/SuggestedAccount";
+import Image from "next/image";
 
 const Profile = () => {
-  const { user } = useContext(userContext);
+  const { user, profilePicture } = useContext(userContext);
   const [posts, setPosts] = useState([]);
   const [, setError] = useState(false);
   const [, setLoading] = useState(false);
@@ -17,6 +18,7 @@ const Profile = () => {
   const [following, setFollowing] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showFollowingModal, setFollowingShowModal] = useState(false);
+  const [, setProfilePicture] = useState(null);
 
   const handleViewFollowing = () => {
     const options = {
@@ -44,7 +46,7 @@ const Profile = () => {
     };
 
     fetch(
-      `http://localhost:7215/api/UserFollower/GetUserUserFollower/${user.id}`,
+      `http://localhost:7215/api/UserFollower/GetUserFollower/${user.id}`,
       options
     )
       .then((response) => response.json())
@@ -102,11 +104,29 @@ const Profile = () => {
         <title>CryptoHub</title>
       </Head>
       <Layout>
-        <div className="flex flex-col sm:flex-row w-full sm:w-6/12 items-center mt-8">
-          <div
-            className="w-32 h-32 bg-black sm:mr-10 mb-5"
-            style={{ borderRadius: "100%" }}
-          ></div>
+        <div className="flex flex-col sm:flex-row w-full sm:w-7/12 items-center mt-8">
+          {profilePicture == null ? (
+            <span className="inline-block h-40 w-40 m-4 rounded-full overflow-hidden bg-gray-100">
+              <svg
+                className="h-full w-full text-gray-300"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </span>
+          ) : (
+            <div
+              className="rounded-full overflow-hidden m-4"
+              style={{
+                width: "170px",
+                height: "170px",
+                position: "relative",
+              }}
+            >
+              <Image src={profilePicture} layout="fill" />
+            </div>
+          )}
           <div className="flex flex-col">
             <p className="font-semibold text-center sm:text-left">
               {user.username}
@@ -128,9 +148,17 @@ const Profile = () => {
                 followers
               </button>
             </div>
+            <button
+              onClick={() => {
+                router.push("/editprofile");
+              }}
+              className="sm:self-start text-sm font-semibold bg-gray-300 px-3 py-1 rounded-md hover:bg-gray-400 transition"
+            >
+              edit profile
+            </button>
           </div>
         </div>
-        <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
+        <div className="bg-gray-400 sm:w-7/12" style={{ height: "1px" }}></div>
         <div className="flex flex-col items-center w-full sm:w-4/12">
           <div>
             <p className="text-sm mt-4 text-gray-600">Posts</p>
@@ -141,9 +169,9 @@ const Profile = () => {
                 <Post
                   key={index}
                   name={data.username}
-                  content={data.post1}
+                  content={data.content}
                   userId={data.userId}
-                  imageId={data.imageId}
+                  imageId={data.imageUrl}
                   postId={data.postId}
                 />
               );
@@ -178,6 +206,7 @@ const Profile = () => {
                                 name={data.username}
                                 hidefollow={true}
                                 id={data.userId}
+                                suggestions={true}
                               />
                             );
                           })}
@@ -220,6 +249,7 @@ const Profile = () => {
                                 name={data.username}
                                 hidefollow={true}
                                 id={data.userId}
+                                suggestions={true}
                               />
                             );
                           })}

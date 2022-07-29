@@ -4,50 +4,35 @@ import { userContext } from "../../auth/auth";
 
 const Suggestions = () => {
   const { user } = useContext(userContext);
-  const [accounts, setAccounts] = useState([]);
-  const [followers, setFollowers] = useState([]);
+  // const [accounts, setAccounts] = useState([]);
+  // const [followers, setFollowers] = useState([]);
   const [suggestedAccounts, setSuggestedAccounts] = useState([]);
-  const [refresh, setRefresh] = useState(false);
+  //const [refresh, setRefresh] = useState(false);
+  const [, setLoading] = useState(false);
+  const [, setError] = useState(false);
 
-  useEffect(() => {
+  const handleSuggestedUser = () => {
     const options = {
       method: "GET",
     };
 
-    // fetch("http://localhost:7215/api/UserFollower/GetAllUserFollowers", options)
-    fetch("http://localhost:7215/api/User/GetAllUsers", options)
+    fetch(`http://localhost:7215/api/User/SuggestedUsers/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
-        setAccounts(data);
-        fetch(
-          `http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`,
-          options
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            setFollowers(data);
-            setRefresh(true);
-          })
-          .catch(() => {});
+        setSuggestedAccounts(data);
+        console.log(suggestedAccounts);
+        setLoading(false);
+        setFollowing(data);
       })
-      .catch(() => {});
-  }, []);
+      .catch((error) => {
+        setError(true);
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
-    try {
-      let suggested = accounts.filter((account) => {
-        return !followers.find((acc) => {
-          return acc.userId == account.userId;
-        });
-      });
-
-      let final = suggested.filter((acc) => {
-        return acc.userId != user.id;
-      });
-
-      setSuggestedAccounts(final.slice(0, 4));
-    } catch {}
-  }, [refresh]);
+    handleSuggestedUser();
+  }, []);
 
   return (
     <div>
@@ -63,6 +48,7 @@ const Suggestions = () => {
               key={index}
               name={data.username}
               id={data.userId}
+              suggestions={true}
             />
           );
         })

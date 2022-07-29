@@ -1,25 +1,102 @@
 import { createContext, useState } from "react";
 import { useRouter } from "next/router";
+import { initializeApp } from "firebase/app";
 
-export const userContext = createContext({ username: "", auth: false, id: 0 });
+const firebaseConfig = {
+  apiKey: "AIzaSyAs6bxiM71e6LE4E8-pGzUNL3OGeyE8iTA",
+  authDomain: "cryptohub-12abc.firebaseapp.com",
+  projectId: "cryptohub-12abc",
+  storageBucket: "cryptohub-12abc.appspot.com",
+  messagingSenderId: "727091318041",
+  appId: "1:727091318041:web:9d918df3015cc4ffb30988",
+  measurementId: "G-49KJ5M594Q",
+};
+
+export const userContext = createContext({
+  username: "",
+  auth: false,
+  id: 0,
+  token: "",
+  admin: false,
+});
 
 const UserProvider = ({ children }) => {
   const router = useRouter();
-  const [user, setUser] = useState({ username: "", auth: false, id: 0 });
+  const [user, setUser] = useState({
+    username: "",
+    auth: false,
+    id: 0,
+    token: "",
+    admin: false,
+  });
+
   const [feedstate, setFeedstate] = useState(false);
+  const [show, setShow] = useState(false);
+  const [alertText, setAlertText] = useState("");
+  const [profilePicture, setProfilePicture] = useState(null);
+
+  const app = initializeApp(firebaseConfig);
+
+  const parseJwt = (token) => {
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jsonPayload = decodeURIComponent(
+      window
+        .atob(base64)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+
+    return JSON.parse(jsonPayload);
+  };
 
   const logout = () => {
     setUser({
       username: "",
       auth: false,
       id: 0,
+      token: "",
+      admin: false,
     });
     router.push("/");
   };
 
-  const authorise = (username, id) => {
-    setUser({ username: username, auth: true, id: id });
-    router.push("/");
+  const alert = (text) => {
+    setAlertText(text);
+    setShow(true);
+  };
+
+  const closeAlert = () => {
+    setShow(false);
+  };
+
+  const authorise = (token) => {
+    let user = parseJwt(token);
+
+    console.warn("jwt: ", user);
+
+    if (user.roles == "Super") {
+      setUser({
+        username: user.username,
+        auth: true,
+        id: user.id,
+        token: token,
+        admin: true,
+      });
+      router.push("/");
+    } else {
+      setUser({
+        username: user.username,
+        auth: true,
+        id: user.id,
+        token: token,
+        admin: false,
+      });
+      router.push("/");
+    }
   };
 
   const refreshfeed = () => {
@@ -28,7 +105,20 @@ const UserProvider = ({ children }) => {
 
   return (
     <userContext.Provider
-      value={{ user, logout, authorise, feedstate, refreshfeed }}
+      value={{
+        user,
+        logout,
+        authorise,
+        feedstate,
+        refreshfeed,
+        app,
+        alert,
+        show,
+        alertText,
+        closeAlert,
+        profilePicture,
+        setProfilePicture,
+      }}
     >
       {children}
     </userContext.Provider>

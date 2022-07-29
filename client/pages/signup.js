@@ -21,7 +21,6 @@ const Signup = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        userId: 0,
         firstname: firstname,
         lastname: lastname,
         username: username,
@@ -34,8 +33,8 @@ const Signup = () => {
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        if (!data.hasError) {
-          authorise(data.model.username, data.model.userId);
+        if (data.token) {
+          authorise(data.token);
         } else {
           setError(true);
         }
