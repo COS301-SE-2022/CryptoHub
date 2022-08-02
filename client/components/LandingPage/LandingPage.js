@@ -52,7 +52,7 @@ const MainContent = () => {
           <Image
             src="https://firebasestorage.googleapis.com/v0/b/cryptohub-12abc.appspot.com/o/landing.png?alt=media&token=be95a74b-c81f-4d6a-8084-c74ea08d64f6"
             layout="intrinsic"
-            width={320}
+            width={300}
             height={600}
           />
           <div className="flex flex-col ml-2 mt-2">
