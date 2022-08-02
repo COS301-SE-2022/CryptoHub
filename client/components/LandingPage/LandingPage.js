@@ -1,7 +1,6 @@
 import React from "react";
 import NavigationBar from "../NavigationBar/NavigationBar";
 import Image from "next/image";
-import PhoneImage from "../../public/images/landing.png";
 import { useRouter } from "next/router";
 
 const LandingPage = () => {
