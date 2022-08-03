@@ -10,22 +10,31 @@ const Rate = () => {
   const router = useRouter();
   const { id } = router.query;
   const { user } = useContext(userContext);
-  //const [coinData, setCoinData] = useState({});
 
-  const handleRateCoin = () => {
+  const handleGetCoinRating = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`http://localhost:7215/api/Coin/GetCoinRating/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        setCoinData(data.data);
+      })
+      .catch((error) => {});
+  };
+
+  const handleRateCoin = (givenRating) => {
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         userId: user.id,
         coinId: id,
-        rate: rate,
+        rate: givenRating,
       }),
     };
 
-    console.log(user.id);
-    console.log(id);
-    console.log(rate);
     fetch(`http://localhost:7215/api/Coin/FollowCoin/${user.id}/${id}`, options)
       .then((response) => {
         setClicked(true);
@@ -33,11 +42,20 @@ const Rate = () => {
         response.json();
       })
       .then((data) => {
+        setRate(givenRating);
         setClicked(true);
         setIsFollowing(true);
       })
       .catch(() => {});
+
+    console.log(givenRating);
+
+    console.log(rate);
   };
+
+  useEffect(() => {
+    handleGetCoinRating();
+  }, []);
 
   return (
     <Container>
@@ -50,19 +68,13 @@ const Rate = () => {
               type="radio"
               value={givenRating}
               onClick={() => {
-                setRate(givenRating);
-                // console.log(givenRating); //This is to get the rating of the coing
-                handleRateCoin();
-                //alert(`Are you sure you want to give ${givenRating} stars ?`);
+                console.log(givenRating);
+                handleRateCoin(givenRating);
               }}
             />
             <Rating>
               <FaStar
-                color={
-                  givenRating < rate || givenRating === rate
-                    ? "000"
-                    : "rgb(192,192,192)"
-                }
+                color={givenRating === rate ? "000" : "rgb(192,192,192)"}
               />
             </Rating>
           </label>
