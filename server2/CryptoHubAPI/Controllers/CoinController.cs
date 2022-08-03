@@ -152,6 +152,16 @@ namespace CryptoHubAPI.Controllers
 
             return Ok(response.Model);
         }
+
+        [HttpGet("{userId}/{coinName}")]
+        public async Task<IActionResult> GetCoinRatingByUserId(int userId, string coinName)
+        {
+            var response = await _coinService.GetCoinRatingByUserId(userId, coinName);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Model);
+        }
     }
 }
 
