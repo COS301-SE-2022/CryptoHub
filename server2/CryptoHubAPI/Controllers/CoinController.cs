@@ -132,10 +132,11 @@ namespace CryptoHubAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPost("{coinId}")]
-        public async Task<IActionResult> UpdateProfilePic(int coinId, CreateImageDTO createdImageDTO)
+        [HttpPost("{coinName}")]
+        public async Task<IActionResult> UpdateProfilePic(string coinName, CreateImageDTO createdImageDTO)
         {
-            var response = await _coinService.UpdateCoinProfileImage(coinId, createdImageDTO);
+            var coin = await _coinService.GetCoinByName(coinName);
+            var response = await _coinService.UpdateCoinProfileImage(coin.CoinId, createdImageDTO);
             if (response.HasError)
                 return BadRequest(response.Message);
 
