@@ -1,4 +1,5 @@
 
+from turtle import distance
 import numpy as np
 from numpy.linalg import norm
 
@@ -22,5 +23,21 @@ class Kmeans:
             centroids[i] = np.mean(X[labels == i], axis = 0)
         return centroids
 
-    def Calculate_
+    def Calculate_Distance(self, X, centroids):
+        distance = np.zeros((X.shape[0], self.number_of_Clusters))
+        for i in range(self.number_of_Clusters):
+            distance[:, i] = norm(X - centroids[i], axis = 1)
+        return distance
+
+    def determine_closest_cluster(self, distance):
+        return np.argmin(distance, axis = 1)
+
+
+    def Calculate_sse(self, X, labels, centroids):
+        distance = np.zeros(X.shape[0])
+        for i in range(self.number_of_Clusters):
+            distance[labels == i] = norm(X[labels == i] - centroids[i], axis = 1)
+        
+        return np.sum(np.square(distance))
+
 
