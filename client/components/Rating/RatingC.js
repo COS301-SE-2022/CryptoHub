@@ -35,16 +35,19 @@ const Rate = () => {
       }),
     };
 
-    fetch(`http://localhost:7215/api/Coin/FollowCoin/${user.id}/${id}`, options)
+    fetch(
+      `http://localhost:7215/api/Coin/RateCoin/${user.id}/${id}/${givenRating}`,
+      options
+    )
       .then((response) => {
         setClicked(true);
         setIsFollowing(true);
         response.json();
       })
       .then((data) => {
-        setRate(givenRating);
         setClicked(true);
         setIsFollowing(true);
+        setRate(givenRating);
       })
       .catch(() => {});
 
@@ -69,12 +72,17 @@ const Rate = () => {
               value={givenRating}
               onClick={() => {
                 console.log(givenRating);
+                setRate(givenRating);
                 handleRateCoin(givenRating);
               }}
             />
             <Rating>
               <FaStar
-                color={givenRating === rate ? "000" : "rgb(192,192,192)"}
+                color={
+                  givenRating < rate || givenRating === rate
+                    ? "000"
+                    : "rgb(192,192,192)"
+                }
               />
             </Rating>
           </label>
