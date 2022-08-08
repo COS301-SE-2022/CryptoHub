@@ -31,6 +31,7 @@ using Intergration.SendInBlueEmailService;
 using Infrastructure.Setting;
 using Microsoft.Extensions.DependencyInjection;
 using CryptoHubAPI;
+using CryptoHubAPI.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,6 +82,8 @@ builder.Services.AddAutoMapper(Assembly.Load("Infrastructure"));
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors();
+
+builder.Services.AddSignalR();
 
 builder.Services.AddControllers();
 
@@ -158,11 +161,15 @@ app.UseCors(
     options =>
     {
         options.
-        AllowAnyOrigin().
+        WithOrigins("null").
         AllowAnyMethod().
-        AllowAnyHeader();
+        AllowAnyHeader().
+        AllowCredentials();
 
     });
+
+app.MapHub<MessageHub>("/messagehub");
+
 
 app.UseAuthentication();
 
