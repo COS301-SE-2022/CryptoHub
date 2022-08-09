@@ -5,6 +5,7 @@ import CoinInfo from "../../components/CoinAccount/CoinInfo";
 import CoinInfoNext from "../../components/CoinAccount/CoinInfoNext";
 import Layout from "../../components/Layout";
 import { userContext } from "../../auth/auth";
+import { coinHistory } from "../../data/coin-history";
 
 const Coin = () => {
   const router = useRouter();
@@ -167,6 +168,32 @@ const Coin = () => {
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
             arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
           />
+
+          <div className="bg-white m-4 p-4 rounded-lg w-full">
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              About {coinData.name}
+            </p>
+            <div className="flex flex-col mb-2">
+              <p className="ml-2 text-md">
+                {coinHistory.map((coin) => {
+                  if (coin.name == id) {
+                    return coin.history;
+                  }
+                })}
+              </p>
+              <a
+                href={coinHistory.map((coin) => {
+                  if (coin.name == id) {
+                    return coin.link;
+                  }
+                })}
+                className="text-blue-700 text-sm mr-2 mt-2 text-right"
+                target="_blank"
+              >
+                Read more here
+              </a>
+            </div>
+          </div>
         </div>
       </Layout>
     </>
