@@ -279,7 +279,7 @@ const Profile = () => {
 const WatchList = () => {
   return (
     <div className="bg-white sm:w-5/12 m-4 p-4 rounded-lg sm:fixed right-10 overflow-auto max-h-[40rem]">
-      <p className="text-center font-semibold text-indigo-600 text-2xl">
+      <p className="text-left font-semibold text-indigo-600 text-2xl mb-4">
         Watch List
       </p>
       <MyCoins />
@@ -352,7 +352,18 @@ const MyCoins = () => {
   }, []);
 
   return (
-    <div className="flex flew-row sm:justify-center flex-wrap">
+    <div>
+      <div className="flex flex-row my-2 items-center">
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 translate-x-1">
+          Name
+        </p>
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 -translate-x-2">
+          Price
+        </p>
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 translate-x-3">
+          Change
+        </p>
+      </div>
       {data.length == 0 ? (
         <p className="text-sm text-gray-500">Loading...</p>
       ) : (
@@ -386,11 +397,13 @@ const CoinInfo = ({ id }) => {
   }, []);
 
   return (
-    <div className="flex flex-col p-4 m-1 items-center">
+    <div className="flex flex-row p-1 my-2 items-center bg-gray-100 rounded-md">
       <Link href={`/coin/${id}`}>
-        <p className="text-sm font-semibold cursor-pointer">{coin.name}</p>
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24">
+          {coin.name}
+        </p>
       </Link>
-      <p className="text-md font-semibold text-indigo-600">{`$${
+      <p className="text-md font-semibold text-indigo-600 mr-3 w-32">{`$${
         Math.round(coin.priceUsd * 10) / 10
       }`}</p>
       <p className={`${color} text-sm font-semibold`}>{` ${
