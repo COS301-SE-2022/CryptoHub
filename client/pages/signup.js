@@ -12,6 +12,22 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [validPassword, setValidPassword] = useState(false);
+
+  const checkPassword = (value) => {
+    let expression = new RegExp(
+      "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
+    );
+    return expression.test(value);
+  };
+
+  const validator = (value) => {
+    if (checkPassword(value)) {
+      setValidPassword(true);
+    } else {
+      setValidPassword(false);
+    }
+  };
 
   const handleSignup = (e) => {
     setLoading(true);
@@ -136,19 +152,40 @@ const Signup = () => {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  data-tip="hello world"
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 ${
+                    validPassword
+                      ? "focus:border-green-700"
+                      : "focus:border-red-500"
+                  } focus:z-10 sm:text-sm`}
                   placeholder="Password"
                   onChange={(e) => {
                     setPassword(e.target.value);
+                    validator(e.target.value);
                   }}
                 />
               </div>
             </div>
+            {!validPassword ? (
+              <h2 className="text-center text-xs text-gray-500 -translate-y-3">
+                Password must contain min 8 characters, at least one lowercase
+                letter, uppercase letter, special character & number
+              </h2>
+            ) : (
+              <h2 className="text-center text-sm text-green-700 -translate-y-3">
+                Great password!
+              </h2>
+            )}
 
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
+                  validPassword
+                    ? "bg-indigo-600 hover:bg-indigo-700"
+                    : "bg-gray-400 cursor-not-allowed"
+                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                disabled={!validPassword}
               >
                 {loading ? (
                   <p className="text-indigo-200">Loading...</p>
