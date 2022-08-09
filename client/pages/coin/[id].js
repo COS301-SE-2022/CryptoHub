@@ -84,7 +84,6 @@ const Coin = () => {
     fetch(`http://localhost:7215/api/Coin/GetCoinsFollowers/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        //console.warn("dataaaa", data);
         data.map((d) => {
           if (d.userId == user.id) {
             setIsFollowing(true);
@@ -181,7 +180,7 @@ const Coin = () => {
                   }
                 })}
               </p>
-              <a
+              {/* <a
                 href={coinHistory.map((coin) => {
                   if (coin.name == id) {
                     return coin.link;
@@ -191,7 +190,7 @@ const Coin = () => {
                 target="_blank"
               >
                 Read more here
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
