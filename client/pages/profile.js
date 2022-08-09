@@ -354,7 +354,7 @@ const MyCoins = () => {
   return (
     <div>
       <div className="flex flex-row my-2 items-center">
-        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 translate-x-1">
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-32 text-gray-500 translate-x-1">
           Name
         </p>
         <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 -translate-x-2">
@@ -399,7 +399,7 @@ const CoinInfo = ({ id }) => {
   return (
     <div className="flex flex-row p-1 my-2 items-center bg-gray-100 rounded-md">
       <Link href={`/coin/${id}`}>
-        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24">
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-32">
           {coin.name}
         </p>
       </Link>
