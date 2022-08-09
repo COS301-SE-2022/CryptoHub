@@ -28,7 +28,8 @@
     "react-dom": "18.1.0",
     "react-firebase-hooks": "^5.0.3",
     "request": "^2.88.2",
-    "swiper": "^8.3.1"
+    "swiper": "^8.3.1",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.6",

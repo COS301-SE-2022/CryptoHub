@@ -105,8 +105,8 @@ const Profile = () => {
         <title>CryptoHub</title>
       </Head>
       <Layout>
-        <div className="flex flex-col w-full px-10">
-          <div className="flex flex-col sm:flex-row w-full sm:w-7/12 items-center mt-8">
+        <div className="flex flex-col w-full px-2 sm:px-10">
+          <div className="flex flex-col sm:flex-row w-fullsm:w-8/12 items-center mt-8">
             {profilePicture == null ? (
               <span className="inline-block h-40 w-40 m-4 rounded-full overflow-hidden bg-gray-100">
                 <svg
@@ -161,10 +161,10 @@ const Profile = () => {
             </div>
           </div>
           <div
-            className="bg-gray-400 sm:w-5/12"
+            className="bg-gray-400 sm:w-6/12 mt-10 sm:my-0"
             style={{ height: "1px" }}
           ></div>
-          <div className="flex flex-col items-center w-full sm:w-5/12">
+          <div className="flex flex-col items-center justify-center sm:translate-x-14 w-full sm:w-5/12">
             <div>
               <p className="text-sm mt-4 text-gray-600">Posts</p>
             </div>
@@ -278,7 +278,7 @@ const Profile = () => {
 
 const WatchList = () => {
   return (
-    <div className="bg-white sm:w-6/12 m-4 p-4 rounded-lg sm:fixed right-10 overflow-auto max-h-[40rem]">
+    <div className="bg-white sm:w-5/12 m-4 p-4 rounded-lg sm:fixed right-10 overflow-auto max-h-[40rem]">
       <p className="text-center font-semibold text-indigo-600 text-2xl">
         Watch List
       </p>
