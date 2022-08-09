@@ -14,22 +14,25 @@ export const coinHistory = [
   {
     name: "tether",
     history:
-      "Tether (often referred to by one of its currency codes, USD₮), is an asset-backed cryptocurrency stablecoin. It was launched by the company Tether Limited Inc. in 2014.[4] Tether Limited is owned by the Hong Kong-based company iFinex Inc., which also owns the Bitfinex cryptocurrency exchange.[5] As of July 2022, Tether Limited has minted the USDT stablecoin on ten protocols and blockchains.[6] Tether is described as a stablecoin because it was originally designed to be valued at USD $1.00, with Tether Limited maintaining USD $1.00 of asset reserves for each USDT issued.",
+      "Tether (often referred to by one of its currency codes, USD₮), is an asset-backed cryptocurrency stablecoin. It was launched by the company Tether Limited Inc. in 2014. Tether Limited is owned by the Hong Kong-based company iFinex Inc., which also owns the Bitfinex cryptocurrency exchange. As of July 2022, Tether Limited has minted the USDT stablecoin on ten protocols and blockchains. Tether is described as a stablecoin because it was originally designed to be valued at USD $1.00, with Tether Limited maintaining USD $1.00 of asset reserves for each USDT issued",
     link: "https://en.wikipedia.org/wiki/Tether_(cryptocurrency)",
   },
   {
-    name: "",
-    history: "",
-    link: "",
+    name: "usd-coin",
+    history:
+      "USD Coin (USDC) is a digital stablecoin that was pegged to the United States dollar. USD Coin is managed by a consortium called Centre, which was founded by Circle and includes members from the cryptocurrency exchange Coinbase and Bitcoin mining company Bitmain, an investor in Circle. USDC is issued by a private entity and should not be confused with a central bank digital currency (CBDC)",
+    link: "https://en.wikipedia.org/wiki/USD_Coin",
   },
   {
-    name: "",
-    history: "",
-    link: "",
+    name: "binance-coin",
+    history:
+      "Binance Coin is the cryptocurrency issued by Binance exchange and trades with the BNB symbol. As of Q2 2022, Binance Exchange is the largest cryptocurrency exchange in the world, with a volume of $7.6 billion",
+    link: "https://www.investopedia.com/terms/b/binance-coin-bnb.asp",
   },
   {
-    name: "",
-    history: "",
-    link: "",
+    name: "binance-usd",
+    history:
+      "Binance USD, which is also known as BUSD, is a U.S. dollar stablecoin issued by crypto exchange Binance and blockchain company Paxos Trust. Similar to rivals USDC and tether (USDT), the BUSD stablecoin attempts to maintain a price of one U.S. dollar at all times through its backing of fiat reserves",
+    link: "https://www.coindesk.com/price/binance-usd/",
   },
 ];
