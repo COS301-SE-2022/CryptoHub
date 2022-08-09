@@ -14,6 +14,8 @@ const Coin = () => {
   const [coinData, setCoinData] = useState({});
   const [isFollowing, setIsFollowing] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [amount, setAmount] = useState(0);
+  const [amountInput, setAmountInput] = useState(0);
 
   const handleGetCoin = () => {
     const options = {
@@ -161,6 +163,26 @@ const Coin = () => {
             name="Price"
             price={Math.round(coinData.priceUsd * 100) / 100}
           />
+          <div className="bg-white m-4 p-4 rounded-lg w-full">
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              Calculate Price
+            </p>
+            <div className="flex flex-col mb-2">
+              <div className="flex flex-col sm:px-24 text-left -translate-x-24 ml-1">
+                <input
+                  className="border text-sm mb-3 mt-3 h-10 rounded-md w-full px-2 py-1 mr-1 sm:mr-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  placeholder="Amount"
+                  onChange={(e) =>
+                    setAmountInput(
+                      (e.target.value * Math.round(coinData.priceUsd * 100)) /
+                        100
+                    )
+                  }
+                />
+                <p className="text-3xl font-semibold ml-1">{amountInput} USD</p>
+              </div>
+            </div>
+          </div>
           <CoinInfoNext
             id={id}
             name="Change"
@@ -180,17 +202,6 @@ const Coin = () => {
                   }
                 })}
               </p>
-              {/* <a
-                href={coinHistory.map((coin) => {
-                  if (coin.name == id) {
-                    return coin.link;
-                  }
-                })}
-                className="text-blue-700 text-base mr-2 mt-2 text-right"
-                target="_blank"
-              >
-                Read more here
-              </a> */}
             </div>
           </div>
         </div>
