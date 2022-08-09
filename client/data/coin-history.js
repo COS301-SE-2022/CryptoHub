@@ -12,9 +12,10 @@ export const coinHistory = [
     link: "https://en.wikipedia.org/wiki/Ethereum",
   },
   {
-    name: "",
-    history: "",
-    link: "",
+    name: "tether",
+    history:
+      "Tether (often referred to by one of its currency codes, USD₮), is an asset-backed cryptocurrency stablecoin. It was launched by the company Tether Limited Inc. in 2014.[4] Tether Limited is owned by the Hong Kong-based company iFinex Inc., which also owns the Bitfinex cryptocurrency exchange.[5] As of July 2022, Tether Limited has minted the USDT stablecoin on ten protocols and blockchains.[6] Tether is described as a stablecoin because it was originally designed to be valued at USD $1.00, with Tether Limited maintaining USD $1.00 of asset reserves for each USDT issued.",
+    link: "https://en.wikipedia.org/wiki/Tether_(cryptocurrency)",
   },
   {
     name: "",
