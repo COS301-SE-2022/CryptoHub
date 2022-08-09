@@ -40,4 +40,6 @@ class Kmeans:
         
         return np.sum(np.square(distance))
 
+        
+
 
