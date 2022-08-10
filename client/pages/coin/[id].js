@@ -31,7 +31,6 @@ const Coin = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        setCoinData(data.data);
         setRate(data.rating);
       })
       .catch((error) => {});
@@ -45,6 +44,7 @@ const Coin = () => {
     fetch(`https://api.coincap.io/v2/assets/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
+        console.log("data", data.data);
         setCoinData(data.data);
       })
       .catch((error) => {});
@@ -223,14 +223,40 @@ const Coin = () => {
           </div>
 
           <div className="bg-white m-4 p-4 rounded-lg w-full">
+            {/* ==============================================================================================≠ */}
+            {/* {user.auth ? (
+              isFollowing ? (
+                <>
+                  <button onClick={handleUnfollowCoin}>
+                    <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
+                      Following
+                    </p>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button onClick={handleFollowCoin}>
+                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition -translate-x-5">
+                      Follow
+                    </p>
+                  </button>
+                </>
+              )
+            ) : null} */}
+
+            {/* ==============================================================================================≠ */}
+            {/* remember IF statement */}
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              Your current rating is {handleGetCoinRating()}
+            </p>
+            <div className="flex flex-col mb-2 translate-x-1">
+              <Rate />
+            </div>
             <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
               Please rate this coin.
             </p>
             <div className="flex flex-col mb-2 translate-x-1">
               <Rate />
-              <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-                Your current rating is {handleGetCoinRating()}
-              </p>
             </div>
           </div>
         </div>
