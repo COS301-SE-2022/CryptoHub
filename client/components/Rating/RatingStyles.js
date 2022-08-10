@@ -6,9 +6,10 @@ export const Container = styled.div`
   justify-content: left;
   align-items: left;
   text-align: left;
+
   ${"" /* padding-left: 200px; */}
   ${"" /* min-height: 10vh; */}
-  font-size: 20px;
+  font-size: 30px;
 `;
 export const Radio = styled.input`
   display: none;

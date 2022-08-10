@@ -207,7 +207,7 @@ const Coin = () => {
             <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
               Please rate this coin.
             </p>
-            <div className="flex flex-col mb-2">{<Rate />}</div>
+            <div className="flex flex-col mb-2 translate-x-1">{<Rate />}</div>
           </div>
         </div>
       </Layout>

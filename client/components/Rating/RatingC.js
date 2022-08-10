@@ -15,11 +15,17 @@ const Rate = () => {
     const options = {
       method: "GET",
     };
+    console.log(id);
+    console.log(user.id);
 
-    fetch(`http://localhost:7215/api/Coin/GetCoinRating/${id}`, options)
+    fetch(
+      `http://localhost:7215/api/Coin/GetCoinRatingByUserId/${user.id}/${id}`,
+      options
+    )
       .then((response) => response.json())
       .then((data) => {
         setCoinData(data.data);
+        setRate(data.rating);
       })
       .catch((error) => {});
   };
