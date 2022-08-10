@@ -15,6 +15,7 @@ namespace Domain.Models
 
         public string? Content  { get; set; } = string.Empty;
 
+        public DateTime TimeDelivered { get; set; }
 
         public virtual User Sender { get; set; }
 
