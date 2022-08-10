@@ -30,6 +30,8 @@ namespace Infrastructure.Data
         public virtual DbSet<UserFollower> UserFollowers { get; set; } = null!;
         public virtual DbSet<CoinRating> CoinRatings { get; set; } = null!;
 
+        public virtual DbSet<Message> Messages { get; set; } = null!;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -259,6 +261,24 @@ namespace Infrastructure.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PostReport_PostId");
 
+
+            });
+
+            modelBuilder.Entity<Message>(entity =>
+            {
+                entity.ToTable("Message");
+
+                entity.HasOne(d => d.Sender)
+                .WithMany(p => p.Messages)
+                .HasForeignKey(d => d.SenderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Message_SenderId");
+
+                entity.HasOne(d => d.Reciever)
+               .WithMany(p => p.Messages)
+               .HasForeignKey(d => d.RecieverId)
+               .OnDelete(DeleteBehavior.ClientSetNull)
+               .HasConstraintName("FK_Message_RecieverId");
 
             });
 

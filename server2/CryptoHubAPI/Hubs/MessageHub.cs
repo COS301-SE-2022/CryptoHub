@@ -1,52 +1,60 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using BusinessLogic.Services.MessageService;
+using BusinessLogic.Services.UserService;
+using Domain.IRepository;
+using Domain.Models;
+using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 
 namespace CryptoHubAPI.Hubs
 {
     public class MessageHub : Hub
     {
-        private static List<User> _users = new List<User>();
-        private static List<Message> _messages = new List<Message> 
-        {
-            new Message
-            {
-                From = "1",
-                To = "2",
-                Content = "hello"
-            },
-            new Message
-            {
-                From = "2",
-                To = "1",
-                Content = "hey"
-            },
+        private static List<ChatUser> _users = new List<ChatUser>();
+        private static List<Message> _messages = new List<Message>();
 
-        }; 
+        private readonly IMessageService _messageService;
+        private readonly IUserService _userService;
+
+        public MessageHub(IMessageService messageService, IUserService userService)
+        {
+            _messageService = messageService;
+            _userService = userService;
+        }
 
         public override Task OnConnectedAsync()
         {
-            var username = Context.GetHttpContext().Request.Query["username"].FirstOrDefault();
+            //var x = 
             var id = Context.GetHttpContext().Request.Query["userId"].FirstOrDefault();
 
-            _users.Add(new User
+            var user = _users.FirstOrDefault(x => x.UserId.ToString() == id);
+            if(user == null)
             {
-                Id = id,
-                Name = username,
-                ConnectionId = Context.ConnectionId
-
-            });
-            
+                _users.Add(new ChatUser
+                {
+                    UserId = Int32.Parse(id),
+                    ConnectionId = Context.ConnectionId
+                });
+            }
+            else
+            {
+                user.ConnectionId = Context.ConnectionId;
+            }
+                
             Console.WriteLine(Context.ConnectionId + " is Connected");
 
-            var messages = JsonConvert.SerializeObject(_messages);
-
-            Clients.Client(Context.ConnectionId).SendAsync("RecievedID", Context.ConnectionId,id, username,messages);
+            Clients.Client(Context.ConnectionId).SendAsync("RecievedID", Context.ConnectionId,id);
             return base.OnConnectedAsync();
         }
 
-        public override Task OnDisconnectedAsync(Exception? exception)
+        public override async Task<Task> OnDisconnectedAsync(Exception? exception)
         {
-            var user = _users.FirstOrDefault(x => x.ConnectionId ==  Context.ConnectionId);
+            var user = _users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+
+            var messages = _messages.FindAll(m => m.SenderId == user.UserId);
+
+            await _messageService.AddBatchMessages(messages);
+
+            _messages.RemoveAll(m => m.SenderId == user.UserId);
 
             _users.Remove(user);
 
@@ -59,40 +67,26 @@ namespace CryptoHubAPI.Hubs
 
             var msg = JsonConvert.DeserializeObject<Message>(message);
 
-            //var reciever = _users.FirstOrDefault(x => x.Id == msg.To);
-            var reciever = msg.To;
-
-            //await Clients.All.SendAsync("RecievedMessage", msg);
-
+            var reciever = _users.FirstOrDefault(x => x.UserId == msg.RecieverId);
+          
             if (reciever == null)
             {
-                _messages.Add(msg);
+                await _messageService.AddMessage(msg);
                 await Clients.Caller.SendAsync("RecievedMessage", msg);
             }
             else
             {
                 _messages.Add(msg);
-                //await Clients.Client(reciever.ConnectionId).SendAsync("RecivedMessage", msg);
-                await Clients.Client(reciever).SendAsync("RecievedMessage", message);
+                await Clients.Caller.SendAsync("RecievedMessage", msg);
+                await Clients.Client(reciever.ConnectionId).SendAsync("RecievedMessage", message);
             }
         }   
     }
 
-    public class User
+    public class ChatUser
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public int UserId { get; set; }
+
         public string ConnectionId { get; set; }
-    }
-
-    public class Message
-    {
-        public string From { get; set; }
-
-        public string To { get; set; }
-
-        public string Content  { get; set; }
-
-        
     }
 }
