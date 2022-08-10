@@ -6,6 +6,7 @@ import CoinInfoNext from "../../components/CoinAccount/CoinInfoNext";
 import Layout from "../../components/Layout";
 import { userContext } from "../../auth/auth";
 import { coinHistory } from "../../data/coin-history";
+import Rate from "../../components/Rating/RatingC.js";
 
 const Coin = () => {
   const router = useRouter();
@@ -139,7 +140,6 @@ const Coin = () => {
                         Follow
                       </p>
                     </button>
-                    <Rate />
                   </>
                 )
               ) : null}
@@ -201,6 +201,13 @@ const Coin = () => {
                 })}
               </p>
             </div>
+          </div>
+
+          <div className="bg-white m-4 p-4 rounded-lg w-full">
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              Please rate this coin.
+            </p>
+            <div className="flex flex-col mb-2">{<Rate />}</div>
           </div>
         </div>
       </Layout>

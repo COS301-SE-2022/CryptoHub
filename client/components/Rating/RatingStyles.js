@@ -3,9 +3,9 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  justify-content: right;
-  align-items: right;
-  text-align: right;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
   ${"" /* padding-left: 200px; */}
   ${"" /* min-height: 10vh; */}
   font-size: 20px;

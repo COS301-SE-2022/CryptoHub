@@ -50,10 +50,6 @@ const Rate = () => {
         setRate(givenRating);
       })
       .catch(() => {});
-
-    console.log(givenRating);
-
-    console.log(rate);
   };
 
   useEffect(() => {
@@ -71,7 +67,7 @@ const Rate = () => {
               type="radio"
               value={givenRating}
               onClick={() => {
-                console.log(givenRating);
+                // console.log(givenRating);
                 setRate(givenRating);
                 handleRateCoin(givenRating);
               }}
