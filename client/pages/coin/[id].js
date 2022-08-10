@@ -68,9 +68,6 @@ const Coin = () => {
 
     fetch(`http://localhost:7215/api/Coin/FollowCoin/${user.id}/${id}`, options)
       .then((response) => {
-        console.log(user.id);
-        console.log(id);
-
         setClicked(true);
         setIsFollowing(true);
         response.json();
