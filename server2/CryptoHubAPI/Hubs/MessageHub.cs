@@ -7,10 +7,11 @@ using Newtonsoft.Json;
 
 namespace CryptoHubAPI.Hubs
 {
-    public class MessageHub : Hub
+    public class MessageHub : BaseHub
     {
         private static List<ChatUser> _users = new List<ChatUser>();
         private static List<Message> _messages = new List<Message>();
+        private NotificationHub _notificationHub;
 
         private readonly IMessageService _messageService;
         private readonly IUserService _userService;
@@ -19,13 +20,14 @@ namespace CryptoHubAPI.Hubs
         {
             _messageService = messageService;
             _userService = userService;
+            _notificationHub = new NotificationHub();
         }
 
         public override Task OnConnectedAsync()
         {
             //var x = 
             var id = Context.GetHttpContext().Request.Query["userId"].FirstOrDefault();
-
+ 
             var user = _users.FirstOrDefault(x => x.UserId.ToString() == id);
             if(user == null)
             {
@@ -80,6 +82,10 @@ namespace CryptoHubAPI.Hubs
                 await Clients.Caller.SendAsync("RecievedMessage", msg);
                 await Clients.Client(reciever.ConnectionId).SendAsync("RecievedMessage", message);
             }
+
+            await _notificationHub.AddNotification(msg.SenderId,msg.RecieverId);
+
+
         }   
     }
 
