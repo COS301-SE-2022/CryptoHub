@@ -1,6 +1,8 @@
+from fileinput import filename
 import json
 from types import SimpleNamespace
 import requests
+import pandas as pd
 
 # x = requests.get('https://api.coincap.io/v2/assets/bitcoin/history?interval=d1&start=1325368800000&end=1660412319938')
 
@@ -15,7 +17,7 @@ import requests
 # for i in range(100):
 #     print("'"+z.data[i].id+"'"+",")
 
-coinid={
+coinid=[
 'bitcoin',
 'ethereum',
 'tether',
@@ -116,4 +118,19 @@ coinid={
 'yearn-finance',
 'ravencoin',
 'kadena'
-}
+]
+
+
+for i in range (2):
+    filename = coinid[i] + ".csv"
+    x = requests.get('https://api.coincap.io/v2/assets/'+ coinid[i]+ '/history?interval=d1&start=1325368800000&end=1660412319938')
+    content = x.json().get('data')
+    # with open(filename, 'w') as f:
+    #     json.dump(content, f)
+    df = pd.DataFrame(content)
+    df.to_csv(filename, encoding = 'utf-8', index=False)
+
+
+
+
+
