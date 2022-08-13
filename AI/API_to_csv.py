@@ -1,5 +1,7 @@
+from email import header
 from fileinput import filename
 import json
+import os
 from types import SimpleNamespace
 import requests
 import pandas as pd
@@ -121,14 +123,20 @@ coinid=[
 ]
 
 
-for i in range (2):
+for i in range (100):
     filename = coinid[i] + ".csv"
     x = requests.get('https://api.coincap.io/v2/assets/'+ coinid[i]+ '/history?interval=d1&start=1325368800000&end=1660412319938')
     content = x.json().get('data')
     # with open(filename, 'w') as f:
     #     json.dump(content, f)
-    df = pd.DataFrame(content)
-    df.to_csv(filename, encoding = 'utf-8', index=False)
+
+    json_str =  '{"Courses":{"r1":"Spark"},"Fee":{"r1":"25000"},"Duration":{"r1":"50 Days"}}'
+
+    df = pd.read_json(json.dumps(content))
+
+    #headers = ['priceUsd','time','date']
+    df.to_csv(os.path.join('CSVs',filename), encoding = 'utf-8',sep=";")
+
 
 
 
