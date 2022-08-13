@@ -11,7 +11,7 @@ namespace CryptoHubAPI.Hubs
     {
         private static List<ChatUser> _users = new List<ChatUser>();
         private static List<Message> _messages = new List<Message>();
-        private NotificationHub _notificationHub;
+        private static List<Notifications> _notifications = new List<Notifications>();
 
         private readonly IMessageService _messageService;
         private readonly IUserService _userService;
@@ -20,7 +20,6 @@ namespace CryptoHubAPI.Hubs
         {
             _messageService = messageService;
             _userService = userService;
-            _notificationHub = new NotificationHub();
         }
 
         public override Task OnConnectedAsync()
@@ -86,7 +85,59 @@ namespace CryptoHubAPI.Hubs
             await _notificationHub.AddNotification(msg.SenderId,msg.RecieverId);
 
 
-        }   
+        }
+
+        public async Task AddNotification(int senderId, int reciverId)
+        {
+            var user = _users.FirstOrDefault(x => x.UserId == reciverId);
+
+            if (user == null)
+                return;
+            
+            var notification = _notifications.FirstOrDefault(x => 
+            x.userId == reciverId 
+            && x.senderId == senderId);
+
+            if (notification == null)
+            {
+                _notifications.Add(new Notifications
+                {
+                    userId = user.UserId,
+                    senderId = senderId,
+                });
+
+                await Clients.Clients(user.ConnectionId).SendAsync("AddNotification");
+            }
+        }
+
+        public async Task RemoveNotification(int senderId, int reciverId)
+        {
+            var user = _users.FirstOrDefault(x => x.UserId == reciverId);
+            if (user == null)
+                return;
+
+            var notification = _notifications.FirstOrDefault(x =>
+            x.userId == reciverId
+            && x.senderId == senderId);
+
+            if (notification != null)
+            {
+                _notifications.Remove(notification);
+
+                await Clients.Clients(user.ConnectionId).SendAsync("RemoveNotification");
+            }
+        }
+
+        public async Task MarkAsRead(int senderId, int reciverId)
+        {
+            var user = _users.FirstOrDefault(x => x.UserId == reciverId);
+            if (user == null)
+                return;
+
+            await Clients.Client(user.ConnectionId).SendAsync("Read");
+
+            await RemoveNotification(senderId, reciverId);
+        }
     }
 
     public class ChatUser
@@ -94,5 +145,12 @@ namespace CryptoHubAPI.Hubs
         public int UserId { get; set; }
 
         public string ConnectionId { get; set; }
+    }
+
+    public class Notifications
+    {
+        public int userId { get; set; }
+
+        public int senderId { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿/*using Microsoft.AspNetCore.SignalR;
 
 namespace CryptoHubAPI.Hubs
 {
@@ -63,3 +63,4 @@ namespace CryptoHubAPI.Hubs
         public int senderId { get; set; }
     }
 }
+*/
