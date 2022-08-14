@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    public partial class Message
+    public class Notification
     {
         public int Id { get; set; }
 
+        public int UserId { get; set; }
+
         public int SenderId { get; set; }
-        public int RecieverId {get; set; }
 
-        public string? Content  { get; set; } = string.Empty;
+        public DateTime LastModified { get; set; }
 
-        public DateTime TimeDelivered { get; set; }
+        public bool IsDeleted { get; set; }
 
-        public bool Read { get; set; } = false;
+        public virtual User User { get; set; }
 
         public virtual User Sender { get; set; }
 
-        public virtual User Reciever { get; set; }
+        
     }
 }

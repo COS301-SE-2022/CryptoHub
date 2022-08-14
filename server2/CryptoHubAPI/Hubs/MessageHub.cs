@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services.MessageService;
+using BusinessLogic.Services.NotificationService;
 using BusinessLogic.Services.UserService;
 using Domain.IRepository;
 using Domain.Models;
@@ -15,11 +16,13 @@ namespace CryptoHubAPI.Hubs
 
         private readonly IMessageService _messageService;
         private readonly IUserService _userService;
+        private readonly INotificationService _notificationService;
 
-        public MessageHub(IMessageService messageService, IUserService userService)
+        public MessageHub(IMessageService messageService, IUserService userService, INotificationService notificationService)
         {
             _messageService = messageService;
             _userService = userService;
+            _notificationService = notificationService;
         }
 
         public override Task OnConnectedAsync()
@@ -82,7 +85,7 @@ namespace CryptoHubAPI.Hubs
                 await Clients.Client(reciever.ConnectionId).SendAsync("RecievedMessage", message);
             }
 
-            await _notificationHub.AddNotification(msg.SenderId,msg.RecieverId);
+            await AddNotification(msg.SenderId, msg.RecieverId);
 
 
         }

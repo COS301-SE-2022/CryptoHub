@@ -41,6 +41,17 @@ namespace BusinessLogic.Services.MessageService
             await _messageRepository.AddRange(messages);
         }
 
+        public async Task MarkAsRead(int id)
+        {
+            var message = await _messageRepository.GetByExpression(m => m.Id == id);
+
+            if (message == null)
+                return;
+
+            message.Read = true;
+            await _messageRepository.Update(message);
+        }
+
 
     }
 }
