@@ -12,16 +12,13 @@ namespace CryptoHubAPI.Hubs
     {
         private static List<ChatUser> _users = new List<ChatUser>();
         private static List<Message> _messages = new List<Message>();
-        private static List<Notifications> _notifications = new List<Notifications>();
 
         private readonly IMessageService _messageService;
-        private readonly IUserService _userService;
         private readonly INotificationService _notificationService;
 
-        public MessageHub(IMessageService messageService, IUserService userService, INotificationService notificationService)
+        public MessageHub(IMessageService messageService, INotificationService notificationService)
         {
             _messageService = messageService;
-            _userService = userService;
             _notificationService = notificationService;
         }
 
@@ -97,20 +94,22 @@ namespace CryptoHubAPI.Hubs
             if (user == null)
                 return;
             
-            var notification = _notifications.FirstOrDefault(x => 
-            x.userId == reciverId 
-            && x.senderId == senderId);
+            var notification = await _notificationService.GetNotification(reciverId,senderId);
 
-            if (notification == null)
+            if (notification==null || notification.IsDeleted)
             {
-                _notifications.Add(new Notifications
+                await _notificationService.AddNotification(new Notification
                 {
-                    userId = user.UserId,
-                    senderId = senderId,
+
+                    UserId = reciverId,
+                    SenderId = senderId,
                 });
 
                 await Clients.Clients(user.ConnectionId).SendAsync("AddNotification");
             }
+            else
+                await _notificationService.AddNotification(notification);
+
         }
 
         public async Task RemoveNotification(int senderId, int reciverId)
@@ -119,13 +118,11 @@ namespace CryptoHubAPI.Hubs
             if (user == null)
                 return;
 
-            var notification = _notifications.FirstOrDefault(x =>
-            x.userId == reciverId
-            && x.senderId == senderId);
+            var notification = await _notificationService.GetNotification(reciverId, senderId);
 
             if (notification != null)
             {
-                _notifications.Remove(notification);
+                _notificationService.RemoveNotification(notification.UserId,notification.SenderId);
 
                 await Clients.Clients(user.ConnectionId).SendAsync("RemoveNotification");
             }
