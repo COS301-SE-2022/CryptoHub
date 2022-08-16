@@ -1,4 +1,3 @@
-// import React from "react";
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
@@ -35,6 +34,13 @@ const handleSendMessage = async (e) => {
 };
 
 function directMessges() {
+  const router = useRouter();
+  const { user, app } = useContext(userContext);
+  const { id } = router.query;
+  const [thisUser, setUser] = useState({});
+  const [username, setUsername] = useState("");
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
   return <div>directMessges</div>;
 }
 
