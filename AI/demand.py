@@ -17,6 +17,7 @@ def Equation(coinid, x, rating , following):
     c = rating
     d = following
     fx = a(x)**3 + b(x)**2 + c(x) + d(x)
+    return fx
 
 x =  requests.get('https://api.coincap.io/v2/assets')
 content = x.json().get('data')
