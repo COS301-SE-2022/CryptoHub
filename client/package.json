@@ -4,15 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
+    "heroku-postbuild": "npm run build",
     "lint": "next lint",
     "cypress": "cypress open",
     "cypress:headless": "cypress run",
     "e2e": "start-server-and-test start http://localhost:3000 cypress",
     "e2e:headless": "start-server-and-test start http://localhost:3000 cypress:headless",
-    "test": "jest --watch",
-    "export": "next build && next export"
+    "test": "jest --watch"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.1",
