@@ -6,6 +6,11 @@ def get_supply(coinid):
     content = x.json().get('data')
     return content.get('supply')
 
+def get_marketCapUsd(coinid):
+    x = requests.get('http://api.coincap.io/v2/assets/'+coinid)
+    content = x.json().get('data')
+    return content.get('marketCapUsd')
+
 
 x =  requests.get('https://api.coincap.io/v2/assets')
 content = x.json().get('data')
