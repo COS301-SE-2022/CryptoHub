@@ -17,7 +17,7 @@ namespace BusinessLogic.Services.CoinService
         Task<CoinDTO> UpdateCoin(CoinDTO coin);
 
         Task<Response<Coin>> UpdateCoinProfileImage(int coinId, CreateImageDTO createImageDTO);
-
         Task<Response<object>> GetCoinRating(string name);
+        Task<Response<object>> GetCoinRatingByUserId(int userId, string CoinName);
     }
 }

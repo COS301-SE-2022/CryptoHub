@@ -4,15 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
-    "start": "next start -p $PORT",
+    "build": "next build",
+    "start": "next start",
+    "heroku-postbuild": "npm run build",
     "lint": "next lint",
     "cypress": "cypress open",
     "cypress:headless": "cypress run",
     "e2e": "start-server-and-test start http://localhost:3000 cypress",
     "e2e:headless": "start-server-and-test start http://localhost:3000 cypress:headless",
-    "test": "jest --watch",
-    "export": "next build && next export"
+    "test": "jest --watch"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.1",
@@ -27,6 +27,7 @@
     "react-chartjs-2": "^4.2.0",
     "react-dom": "18.1.0",
     "react-firebase-hooks": "^5.0.3",
+    "react-icons": "^4.4.0",
     "request": "^2.88.2",
     "swiper": "^8.3.1",
     "validator": "^13.7.0"

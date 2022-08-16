@@ -1,4 +1,5 @@
 import { IdentificationIcon } from "@heroicons/react/outline";
+
 import React, { useEffect, useState } from "react";
 
 const CoinInfo = ({ name, price }) => {
