@@ -39,6 +39,7 @@ namespace Domain.IRepository
 
         Task DeleteRange(List<TEntity> entities);
 
+        Task AddRange(List<TEntity> entities);
 
 
 

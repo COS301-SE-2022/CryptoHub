@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <!--dotnet tool install -g Microsoft.Web.LibraryManager.cli-->
+  <!--libman install @aspnet/signalr@next -p unpkg -d lib/signalr --files dist/browser/signalr.js-->
+
+  <head>
+    <meta charset="UTF-8" />
+    <title>SignalR client</title>
+  </head>
+
+  <body>
+    <h1>SignalR client</h1>
+    <p id="stateLabel">Ready to connect</p>
+    <p id="connIDLabel">ConnID: N/a</p>
+    <p id="IdLabel">Id: N/a</p>
+    <p id="nameLabel">Username: N/a</p>
+
+    <div>
+      <label for="connectionUrl">SignalR Server URL: </label>
+      <input id="connectionUrl" />
+      <button id="connectButton" type="submit">Connect</button>
+      <button id="closeButton" disabled>Close Socket</button>
+    </div>
+
+    <p></p>
+
+    <div>
+      <label for="sendMessage">Message: </label>
+      <input id="sendMessage" disabled />
+      <button id="sendButton" type="submit" disabled>Send</button>
+    </div>
+
+    <p></p>
+
+    <div>
+      <label for="recipients">Recipient IDs: </label>
+      <input id="recipients" disabled />
+    </div>
+
+    <p></p>
+
+    <h2>Communication Log</h2>
+    <table style="width: 800px">
+      <thead>
+        <tr>
+          <td style="width: 100px">From</td>
+          <td style="width: 100px">To</td>
+          <td>Data</td>
+        </tr>
+      </thead>
+      <tbody id="commsLog"></tbody>
+    </table>
+    <p></p>
+  </body>
+
+  <script src="lib/signalr/dist//browser/signalr.js"></script>
+
+  <script>
+    var connectionUrl = document.getElementById("connectionUrl");
+    var connectButton = document.getElementById("connectButton");
+    var stateLabel = document.getElementById("stateLabel");
+    var sendMessage = document.getElementById("sendMessage");
+    var sendButton = document.getElementById("sendButton");
+    var commsLog = document.getElementById("commsLog");
+    var closeButton = document.getElementById("closeButton");
+    var recipients = document.getElementById("recipients");
+    var connID = document.getElementById("connIDLabel");
+    var nameID = document.getElementById("nameLabel");
+    var Id = document.getElementById("IdLabel");
+
+    connectionUrl.value =
+      "http://localhost:7215/messagehub?username=khotso&userId=1";
+
+    var hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl(connectionUrl.value)
+      .build();
+
+    connectButton.onclick = function () {
+      stateLabel.innerHTML = "Attempting to connect...";
+      console.log("do this one first");
+
+      hubConnection.start().then(function () {
+        console.log("do this");
+        updateState();
+
+        commsLog.innerHTML +=
+          "<tr>" +
+          '<td colspan="3" class="commslog-data">Connection opended</td>' +
+          "</tr>";
+      });
+    };
+
+    closeButton.onclick = function () {
+      if (!hubConnection || hubConnection.state !== "Connected")
+        alert("Hub not connected");
+
+      hubConnection.stop().then(function () {
+        console.debug("Requested stop on hub");
+      });
+    };
+
+    hubConnection.onclose(function () {
+      console.log("here4");
+
+      commsLog.innerHTML +=
+        "<tr>" +
+        '<td colspan="3" class="commslog-data">Connection Stopped</td>' +
+        "</tr>";
+
+      updateState();
+    });
+
+    sendButton.onclick = function () {
+      var message = constructJsonPayLoad();
+
+      hubConnection.invoke("SendMessageAsync", message);
+
+      commsLog.innerHTML +=
+        "<tr>" +
+        '<td class="commslog-client">Client</td>' +
+        '<td class="commslog-server">Server</td>' +
+        '<td class="commslog-data">' +
+        htmlEscape(message) +
+        "</td></tr>";
+    };
+
+    hubConnection.on(
+      "RecievedID",
+      function (connectionID, id, username, messages) {
+        console.log("here5");
+        connID.innerHTML = "ConnId: " + connectionID;
+        Id.innerHTML = "Id: " + id;
+        nameID.innerHTML = "Username: " + username;
+
+        console.log(messages);
+
+        commsLog.innerHTML +=
+          "<tr>" +
+          '<td colspan="3" class="commslog-data">Connection ID recieved from hub</td>' +
+          "</tr>" +
+          "<tr>" +
+          '<td class="commslog-client">Client</td>' +
+          '<td class="commslog-server">Server</td>' +
+          '<td class="commslog-data">' +
+          messages +
+          "</td></tr>";
+      }
+    );
+
+    hubConnection.on("RecievedMessage", function (message) {
+      commsLog.innerHTML +=
+        "<tr>" +
+        '<td class="commslog-client">Client</td>' +
+        '<td class="commslog-server">Server</td>' +
+        '<td class="commslog-data">' +
+        message +
+        "</td></tr>";
+    });
+
+    function htmlEscape(str) {
+      return str
+        .toString()
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&qout;")
+        .replace(/'/g, "&#39;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/,/g, "\n");
+    }
+
+    function isConnID(str) {
+      if (str.substring(0, 7) == "ConnID:")
+        connID.innerHTML = "ConnID: " + str.substring(8, 45);
+    }
+
+    function constructJsonPayLoad() {
+      return JSON.stringify({
+        From: connID.innerHTML.substring(8, connID.innerHTML.length),
+        To: recipients.value,
+        Content: sendMessage.value,
+      });
+    }
+
+    function updateState() {
+      function disable() {
+        sendMessage.disabled = true;
+        sendButton.disabled = true;
+        closeButton.disabled = true;
+        recipients.disabled = true;
+      }
+
+      function enable() {
+        sendMessage.disabled = false;
+        sendButton.disabled = false;
+        closeButton.disabled = false;
+        recipients.disabled = false;
+      }
+
+      connectionUrl.disabled = true;
+      connectButton.disabled = true;
+
+      if (!hubConnection) {
+        console.log("here");
+        disable();
+      } else {
+        console.log("here2");
+        switch (hubConnection.state) {
+          case "Disconnected":
+            connectionUrl.disabled = false;
+            connectButton.disabled = false;
+            disable();
+            console.log("here3");
+            stateLabel.innerHTML = "Closed";
+            connID.innerHTML = "ConnID: N/a";
+            break;
+          case "Connecting":
+            disable();
+            stateLabel.innerHTML = "Connecting...";
+            console.log("here3");
+            break;
+          case "Connected":
+            enable();
+            stateLabel.innerHTML = "Connected";
+            break;
+          default:
+            disable();
+            stateLabel.innerHTML = "Unknown state";
+            break;
+        }
+      }
+    }
+  </script>
+</html>
