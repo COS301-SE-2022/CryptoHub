@@ -21,6 +21,19 @@ const handleGetUser = () => {
     .catch((error) => {});
 };
 
+const handleSendMessage = async (e) => {
+  e.preventDefault();
+
+  await addDoc(messagesRef, {
+    sender: user.id.toString(),
+    receiver: id.toString(),
+    message: message,
+    timestamp: serverTimestamp(),
+  });
+  getMessages();
+  setMessage("");
+};
+
 function directMessges() {
   return <div>directMessges</div>;
 }
