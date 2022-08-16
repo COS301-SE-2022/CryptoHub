@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import sklearn.cluster as cluster
 
 #Read data
-df = pd.read_csv('D:/UP/2022/Semester_1/COS301/Development/tuks/CryptoHub/AI/Mall_Customers.csv')
+df = pd.read_csv('AI/Mall_Customers.csv')
 
 #Renames data coloumn names
 df.rename(columns={'Annual Income (k$)' : 'Income', 'Spending Score (1-100)' : 'Spending_Score'}, inplace=True)
@@ -42,4 +42,4 @@ for i in range(len(df)):
 
 #Sort dataframe by clusters then distance within cluster
 df.sort_values(by=['Clusters', 'Distance'], inplace=True)
-df.to_csv('AI/mallClusters.csv', index = False)
+df.to_csv('AI/CSVs/mallClusters.csv', index = False)
