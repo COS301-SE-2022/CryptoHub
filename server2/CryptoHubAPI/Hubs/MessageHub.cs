@@ -8,18 +8,23 @@ using Newtonsoft.Json;
 
 namespace CryptoHubAPI.Hubs
 {
-    public class MessageHub : BaseHub
+    public class MessageHub : Hub
     {
-        private static List<ChatUser> _users = new List<ChatUser>();
+        /*private static List<ChatUser> _users = new List<ChatUser>();
         private static List<Message> _messages = new List<Message>();
 
         private readonly IMessageService _messageService;
         private readonly INotificationService _notificationService;
-
-        public MessageHub(IMessageService messageService, INotificationService notificationService)
+*/
+        /*public MessageHub(IMessageService messageService, INotificationService notificationService)
         {
             _messageService = messageService;
             _notificationService = notificationService;
+        }*/
+
+        public MessageHub()
+        {
+
         }
 
         public override Task OnConnectedAsync()
@@ -27,7 +32,7 @@ namespace CryptoHubAPI.Hubs
             //var x = 
             var id = Context.GetHttpContext().Request.Query["userId"].FirstOrDefault();
  
-            var user = _users.FirstOrDefault(x => x.UserId.ToString() == id);
+            /*var user = _users.FirstOrDefault(x => x.UserId.ToString() == id);
             if(user == null)
             {
                 _users.Add(new ChatUser
@@ -39,7 +44,7 @@ namespace CryptoHubAPI.Hubs
             else
             {
                 user.ConnectionId = Context.ConnectionId;
-            }
+            }*/
                 
             Console.WriteLine(Context.ConnectionId + " is Connected");
 
@@ -47,7 +52,7 @@ namespace CryptoHubAPI.Hubs
             return base.OnConnectedAsync();
         }
 
-        public override async Task<Task> OnDisconnectedAsync(Exception? exception)
+        /*public override async Task<Task> OnDisconnectedAsync(Exception? exception)
         {
             var user = _users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
 
@@ -137,7 +142,7 @@ namespace CryptoHubAPI.Hubs
             await Clients.Client(user.ConnectionId).SendAsync("Read");
 
             await RemoveNotification(senderId, reciverId);
-        }
+        }*/
     }
 
     public class ChatUser
