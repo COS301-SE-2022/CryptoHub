@@ -22,6 +22,3 @@ def Equation(coinid, x, rating , following):
 x =  requests.get('https://api.coincap.io/v2/assets')
 content = x.json().get('data')
 
-
-for i in range (1):
-    print(content[i].get('marketCapUsd'))
