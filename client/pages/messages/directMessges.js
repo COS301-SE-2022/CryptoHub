@@ -5,6 +5,15 @@ import { useContext } from "react";
 import { userContext } from "../../auth/auth";
 import { getFirestore, serverTimestamp } from "@firebase/firestore";
 import { collection, getDocs, addDoc } from "firebase/firestore";
+import { HubConnection } from "signalr-client-react";
+
+let connection = new HubConnection("/chat");
+
+connection.on("newMessage", (data) => {
+  console.log(data);
+});
+
+connection.start();
 
 function directMessges() {
   const router = useRouter();
