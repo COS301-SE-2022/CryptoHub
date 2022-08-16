@@ -12,7 +12,8 @@
     "cypress:headless": "cypress run",
     "e2e": "start-server-and-test start http://localhost:3000 cypress",
     "e2e:headless": "start-server-and-test start http://localhost:3000 cypress:headless",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "export": "next build && next export"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.1",
