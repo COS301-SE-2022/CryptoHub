@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿/*using Microsoft.AspNetCore.SignalR;
 
 namespace CryptoHubAPI.Hubs
 {
@@ -35,11 +35,11 @@ namespace CryptoHubAPI.Hubs
         {
             var user = _users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
 
-            /*var messages = _messages.FindAll(m => m.SenderId == user.UserId);
+            *//*var messages = _messages.FindAll(m => m.SenderId == user.UserId);
 
             await _messageService.AddBatchMessages(messages);
 
-            _messages.RemoveAll(m => m.SenderId == user.UserId);*/
+            _messages.RemoveAll(m => m.SenderId == user.UserId);*//*
 
             _users.Remove(user);
 
@@ -47,3 +47,4 @@ namespace CryptoHubAPI.Hubs
         }
     }
 }
+*/
