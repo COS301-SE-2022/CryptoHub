@@ -5,10 +5,13 @@
 
   <head>
     <meta charset="UTF-8" />
-    <title>SignalR client</title>
+    <title>SignalR client 2</title>
   </head>
 
   <body>
+    <div align="left">
+      <p id="ntfy">Notifications: 1</p>
+    </div>
     <button id="start">Start</button> <button id="stop">Stop</button>
     <div id="message">
       <label for="msg">Message:</label><br />
@@ -18,7 +21,10 @@
     <div id="connect">
       <p>hello</p>
     </div>
-    <div id="text"></div>
+    <div>
+      <button id="read">Read</button>
+      <div id="text" style="border: 1px solid black"></div>
+    </div>
   </body>
 
   <script src="lib/signalr/dist//browser/signalr.js"></script>
@@ -31,6 +37,8 @@
     var btnstop = document.getElementById("stop");
     var btnsndmsg = document.getElementById("sendmsg");
     var msg = document.getElementById("msg");
+    var ntfy = document.getElementById("ntfy");
+    var btnread = document.getElementById("read");
 
     var hubConnection = new signalR.HubConnectionBuilder()
       .withUrl("http://localhost:7215/messagehub?username=khotso&userId=2")
@@ -56,7 +64,7 @@
 
     btnsndmsg.onclick = function () {
       let message =
-        '{"UserId" : 1,"RecieverId" : 2,"Content" : "' + msg.value + '"}';
+        '{"UserId" : 2,"RecieverId" : 1,"Content" : "' + msg.value + '"}';
 
       hubConnection.invoke("SendMessage", message);
     };
@@ -74,6 +82,20 @@
     hubConnection.on("RecievedMessage", function (message) {
       console.log("message");
       text.innerHTML += "<p>" + message + "</p>";
+    });
+
+    hubConnection.on("AddNotification", function () {
+      ntfy.value =
+        ntfy.value.substring(0, 13) + parseInt(ntfy.value.substring(13)) + 1;
+    });
+
+    btnread.onclick = function () {
+      hubConnection.invoke("MarkAsRead", 2, 1);
+    };
+
+    hubConnection.on("RemoveNotification", function () {
+      ntfy.value =
+        ntfy.value.substring(0, 13) + parseInt(ntfy.value.substring(13)) - 1;
     });
   </script>
 </html>

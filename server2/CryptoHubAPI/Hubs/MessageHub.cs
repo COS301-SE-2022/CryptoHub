@@ -124,29 +124,27 @@ namespace CryptoHubAPI.Hubs
 
         }
 
-        public async Task RemoveNotification(int senderId, int reciverId)
+        public async Task RemoveNotification(int userId, int senderId)
         {
-            var user = _users.FirstOrDefault(x => x.UserId == reciverId);
-            if (user == null)
-                return;
+           
 
-            var notification = await _notificationService.GetNotification(reciverId, senderId);
+            var notification = await _notificationService.GetNotification(userId, senderId);
 
-            if (notification != null)
+            if (notification != null && notification.IsDeleted == false)
             {
                 await _notificationService.RemoveNotification(notification.UserId, notification.SenderId);
 
-                await Clients.Clients(user.ConnectionId).SendAsync("RemoveNotification");
+                var user = _users.FirstOrDefault(x => x.UserId == userId);
+                if (user == null)
+                    await Clients.Clients(user.ConnectionId).SendAsync("RemoveNotification");
             }
         }
 
         public async Task MarkAsRead(int senderId, int reciverId)
         {
             var user = _users.FirstOrDefault(x => x.UserId == reciverId);
-            if (user == null)
-                return;
-
-            await Clients.Client(user.ConnectionId).SendAsync("Read");
+            if (user != null)
+                await Clients.Client(user.ConnectionId).SendAsync("Read");
 
             await RemoveNotification(senderId, reciverId);
         }
