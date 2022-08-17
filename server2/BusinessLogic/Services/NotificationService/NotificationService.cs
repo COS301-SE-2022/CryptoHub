@@ -41,7 +41,7 @@ namespace BusinessLogic.Services.NotificationService
 
             if (response == null)
             {
-                response = new Notification()
+                response = new Notification();
                 response.UserId = notificsaion.UserId;
                 response.SenderId = notificsaion.SenderId;
             }
