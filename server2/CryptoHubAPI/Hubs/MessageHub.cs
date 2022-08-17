@@ -140,13 +140,13 @@ namespace CryptoHubAPI.Hubs
             }
         }
 
-        public async Task MarkAsRead(int senderId, int reciverId)
+        public async Task MarkAsRead(int userId, int senderId)
         {
-            var user = _users.FirstOrDefault(x => x.UserId == reciverId);
+            var user = _users.FirstOrDefault(x => x.UserId == senderId);
             if (user != null)
                 await Clients.Client(user.ConnectionId).SendAsync("Read");
 
-            await RemoveNotification(senderId, reciverId);
+            await RemoveNotification(userId, senderId);
         }
     }
 
