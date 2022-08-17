@@ -10,13 +10,13 @@ namespace CryptoHubAPI.Hubs
 {
     public class MessageHub : Hub
     {
-        /*private static List<ChatUser> _users = new List<ChatUser>();
+        private static List<ChatUser> _users = new List<ChatUser>();
         private static List<Message> _messages = new List<Message>();
 
-        private readonly IMessageService _messageService;
+        /*private readonly IMessageService _messageService;
         private readonly INotificationService _notificationService;
 */
-        /*public MessageHub(IMessageService messageService, INotificationService notificationService)
+      /*  public MessageHub(IMessageService messageService, INotificationService notificationService)
         {
             _messageService = messageService;
             _notificationService = notificationService;
@@ -24,16 +24,16 @@ namespace CryptoHubAPI.Hubs
 
         public MessageHub()
         {
-
+            Console.WriteLine("hey");
         }
 
         public override Task OnConnectedAsync()
         {
             //var x = 
             var id = Context.GetHttpContext().Request.Query["userId"].FirstOrDefault();
- 
-            /*var user = _users.FirstOrDefault(x => x.UserId.ToString() == id);
-            if(user == null)
+
+            var user = _users.FirstOrDefault(x => x.UserId.ToString() == id);
+            if (user == null)
             {
                 _users.Add(new ChatUser
                 {
@@ -44,8 +44,8 @@ namespace CryptoHubAPI.Hubs
             else
             {
                 user.ConnectionId = Context.ConnectionId;
-            }*/
-                
+            }
+
             Console.WriteLine(Context.ConnectionId + " is Connected");
 
             Clients.Client(Context.ConnectionId).SendAsync("RecievedID", Context.ConnectionId,id);
@@ -65,9 +65,9 @@ namespace CryptoHubAPI.Hubs
             _users.Remove(user);
 
             return base.OnDisconnectedAsync(exception);
-        }
+        }*/
 
-        public async Task SendMessageAsync(string message)
+        /*public async Task SendMessageAsync(string message)
         {
             Console.WriteLine("Message Recived on: " + Context.ConnectionId);
 

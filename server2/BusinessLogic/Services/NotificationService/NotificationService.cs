@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Services.NotificationService
 {
-    public class NotificationService
+    public class NotificationService : INotificationService
     {
         private readonly INotificationRepository _notificationRepository;
 

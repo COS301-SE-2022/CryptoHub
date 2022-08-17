@@ -42,10 +42,10 @@
     //     "</tr>";
     // });
 
-    // hubConnection.on("RecievedID", function (connectionID, id) {
-    //   console.log("connection id: " + connectionID);
-    //   connect.innerHTML += "<p>" + connectionID + "</p>";
-    // });
+    hubConnection.on("RecievedID", function (connectionID, id) {
+      console.log("connection id: " + connectionID);
+      connect.innerHTML += "<p>" + connectionID + "</p>";
+    });
 
     // hubConnection.on("RecievedMessage", function (message) {
     //   commsLog.innerHTML +=

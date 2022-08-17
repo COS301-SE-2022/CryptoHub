@@ -32,6 +32,8 @@ using Infrastructure.Setting;
 using Microsoft.Extensions.DependencyInjection;
 using CryptoHubAPI;
 using CryptoHubAPI.Hubs;
+using BusinessLogic.Services.MessageService;
+using BusinessLogic.Services.NotificationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +55,8 @@ builder.Services.AddTransient<IRoleRepository, RoleRepository>();
 builder.Services.AddTransient<ICoinRatingRepository, CoinRatingRepository>();
 builder.Services.AddTransient<IUserCoinRepository, UserCoinRepository>();
 builder.Services.AddTransient<IPostReportRepository, PostReportRepository>();
+builder.Services.AddTransient<IMessageRepository, MessageRepository>();
+builder.Services.AddTransient<INotificationRepository, NotificationRepository>();
 
 
 
@@ -74,6 +78,8 @@ builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<ITagService, TagServices>();
 builder.Services.AddTransient<IFireStorageService, FireStorageService>();
 builder.Services.AddTransient<ISendInBlueEmailService, SendInBlueEmailService>();
+builder.Services.AddTransient<IMessageService, MessageService>();
+builder.Services.AddTransient<INotificationService, NotificationService>();
 
 
 //AutoMapper
