@@ -15,10 +15,10 @@ namespace CryptoHubAPI.Controllers
             _messageService = messageService;
         }
 
-        [HttpGet("{senderid}/{reciverId}")]
-        public async Task<List<Message>> GetMessages(int senderId, int reciverid)
+        [HttpGet("{senderId}/{reciverId}")]
+        public async Task<List<Message>> GetMessages(int senderId, int reciverId)
         {
-            return await _messageService.GetMessages(senderId, reciverid);
+            return await _messageService.GetMessages(senderId, reciverId);
         }
     }
 }

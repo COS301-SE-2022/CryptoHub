@@ -11,11 +11,7 @@ namespace BusinessLogic.Services.MessageService
     {
         Task<List<Message>> GetMessages(int senderid, int recieverid);
 
-
-
         Task AddMessage(Message message);
-
-
 
         Task AddBatchMessages(List<Message> messages);
         

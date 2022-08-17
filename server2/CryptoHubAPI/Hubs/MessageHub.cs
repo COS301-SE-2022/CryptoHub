@@ -15,11 +15,13 @@ namespace CryptoHubAPI.Hubs
 
         private readonly IMessageService _messageService;
         private readonly INotificationService _notificationService;
+        private readonly IUserService _userService;
 
-        public MessageHub(IMessageService messageService, INotificationService notificationService)
+        public MessageHub(IMessageService messageService, INotificationService notificationService, IUserService userService)
         {
             _messageService = messageService;
             _notificationService = notificationService;
+            _userService = userService;
         }
 
         /*public MessageHub()
@@ -52,56 +54,59 @@ namespace CryptoHubAPI.Hubs
             return base.OnConnectedAsync();
         }
 
-        /*public override async Task<Task> OnDisconnectedAsync(Exception? exception)
+        public override async Task<Task> OnDisconnectedAsync(Exception? exception)
         {
             var user = _users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
 
-            var messages = _messages.FindAll(m => m.SenderId == user.UserId);
+            var messages = _messages.FindAll(m => m.UserId == user.UserId);
 
             await _messageService.AddBatchMessages(messages);
 
-            _messages.RemoveAll(m => m.SenderId == user.UserId);
+            _messages.RemoveAll(m => m.UserId == user.UserId);
 
             _users.Remove(user);
 
             return base.OnDisconnectedAsync(exception);
-        }*/
+        }
 
-        /*public async Task SendMessageAsync(string message)
+        public async Task SendMessage(string message)
         {
+
+            //await Clients.All.SendAsync("RecievedMessage", "a message was sent");
             Console.WriteLine("Message Recived on: " + Context.ConnectionId);
 
             var msg = JsonConvert.DeserializeObject<Message>(message);
 
             var reciever = _users.FirstOrDefault(x => x.UserId == msg.RecieverId);
-          
+
             if (reciever == null)
             {
+                //var x = await _messageService.GetMessages(1, 2);
                 await _messageService.AddMessage(msg);
-                await Clients.Caller.SendAsync("RecievedMessage", msg);
+                await Clients.Caller.SendAsync("RecievedMessage",msg.Content);
             }
             else
             {
                 _messages.Add(msg);
-                await Clients.Caller.SendAsync("RecievedMessage", msg);
-                await Clients.Client(reciever.ConnectionId).SendAsync("RecievedMessage", message);
+                await Clients.Caller.SendAsync("RecievedMessage", msg.Content);
+                await Clients.Client(reciever.ConnectionId).SendAsync("RecievedMessage", msg.Content);
             }
 
-            await AddNotification(msg.SenderId, msg.RecieverId);
+            await AddNotification(msg.UserId, msg.RecieverId);
 
 
         }
 
         public async Task AddNotification(int senderId, int reciverId)
         {
-            var user = _users.FirstOrDefault(x => x.UserId == reciverId);
+            var user = await _userService.GetById(reciverId);
 
             if (user == null)
                 return;
-            
-            var notification = await _notificationService.GetNotification(reciverId,senderId);
 
-            if (notification==null || notification.IsDeleted)
+            var notification = await _notificationService.GetNotification(reciverId, senderId);
+
+            if (notification == null || notification.IsDeleted)
             {
                 await _notificationService.AddNotification(new Notification
                 {
@@ -110,7 +115,9 @@ namespace CryptoHubAPI.Hubs
                     SenderId = senderId,
                 });
 
-                await Clients.Clients(user.ConnectionId).SendAsync("AddNotification");
+                var chatUser = _users.FirstOrDefault(x => x.UserId == user.UserId );
+                if (chatUser != null)
+                    await Clients.Clients(chatUser.ConnectionId).SendAsync("AddNotification");
             }
             else
                 await _notificationService.AddNotification(notification);
@@ -127,7 +134,7 @@ namespace CryptoHubAPI.Hubs
 
             if (notification != null)
             {
-                _notificationService.RemoveNotification(notification.UserId,notification.SenderId);
+                await _notificationService.RemoveNotification(notification.UserId, notification.SenderId);
 
                 await Clients.Clients(user.ConnectionId).SendAsync("RemoveNotification");
             }
@@ -142,7 +149,7 @@ namespace CryptoHubAPI.Hubs
             await Clients.Client(user.ConnectionId).SendAsync("Read");
 
             await RemoveNotification(senderId, reciverId);
-        }*/
+        }
     }
 
     public class ChatUser

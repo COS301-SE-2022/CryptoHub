@@ -270,6 +270,8 @@ namespace Infrastructure.Data
             {
                 entity.ToTable("Message");
 
+                entity.Property(d => d.TimeDelivered).HasDefaultValue(DateTime.UtcNow);
+
                 entity.HasOne(d => d.User)
                 .WithMany(p => p.Messages)
                 .HasForeignKey(d => d.UserId)
