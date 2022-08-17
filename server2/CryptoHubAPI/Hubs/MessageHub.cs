@@ -134,9 +134,8 @@ namespace CryptoHubAPI.Hubs
             {
                 await _notificationService.RemoveNotification(notification.UserId, notification.SenderId);
 
-                var user = _users.FirstOrDefault(x => x.UserId == userId);
-                if (user == null)
-                    await Clients.Clients(user.ConnectionId).SendAsync("RemoveNotification");
+               
+                await Clients.Caller.SendAsync("RemoveNotification");
             }
         }
 

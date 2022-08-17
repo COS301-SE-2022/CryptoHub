@@ -85,8 +85,9 @@
     });
 
     hubConnection.on("AddNotification", function () {
-      ntfy.value =
-        ntfy.value.substring(0, 13) + parseInt(ntfy.value.substring(13)) + 1;
+      ntfy.innerText =
+        ntfy.innerText.substring(0, 15) +
+        (parseInt(ntfy.innerText.substring(15)) + 1);
     });
 
     btnread.onclick = function () {
@@ -94,8 +95,9 @@
     };
 
     hubConnection.on("RemoveNotification", function () {
-      ntfy.value =
-        ntfy.value.substring(0, 13) + parseInt(ntfy.value.substring(13)) - 1;
+      ntfy.innerText =
+        ntfy.innerText.substring(0, 15) +
+        (parseInt(ntfy.innerText.substring(15)) - 1);
     });
   </script>
 </html>
