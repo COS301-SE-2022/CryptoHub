@@ -13,19 +13,19 @@ namespace CryptoHubAPI.Hubs
         private static List<ChatUser> _users = new List<ChatUser>();
         private static List<Message> _messages = new List<Message>();
 
-        /*private readonly IMessageService _messageService;
+        private readonly IMessageService _messageService;
         private readonly INotificationService _notificationService;
-*/
-      /*  public MessageHub(IMessageService messageService, INotificationService notificationService)
+
+        public MessageHub(IMessageService messageService, INotificationService notificationService)
         {
             _messageService = messageService;
             _notificationService = notificationService;
-        }*/
+        }
 
-        public MessageHub()
+        /*public MessageHub()
         {
             Console.WriteLine("hey");
-        }
+        }*/
 
         public override Task OnConnectedAsync()
         {

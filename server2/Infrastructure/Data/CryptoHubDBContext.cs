@@ -270,17 +270,11 @@ namespace Infrastructure.Data
             {
                 entity.ToTable("Message");
 
-                entity.HasOne(d => d.Sender)
+                entity.HasOne(d => d.User)
                 .WithMany(p => p.Messages)
-                .HasForeignKey(d => d.SenderId)
+                .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Message_SenderId");
-
-                entity.HasOne(d => d.Reciever)
-               .WithMany(p => p.Messages)
-               .HasForeignKey(d => d.RecieverId)
-               .OnDelete(DeleteBehavior.ClientSetNull)
-               .HasConstraintName("FK_Message_RecieverId");
+                .HasConstraintName("FK_Message_UserId");
 
             });
 
@@ -288,17 +282,11 @@ namespace Infrastructure.Data
             {
                 entity.ToTable("Notification");
 
-                entity.HasOne(d => d.Sender)
-                .WithMany(p => p.Notifications)
-                .HasForeignKey(d => d.SenderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Notification_SenderId");
-
                 entity.HasOne(d => d.User)
                .WithMany(p => p.Notifications)
-               .HasForeignKey(d => d.User)
+               .HasForeignKey(d => d.UserId)
                .OnDelete(DeleteBehavior.ClientSetNull)
-               .HasConstraintName("FK_Notification_RecieverId");
+               .HasConstraintName("FK_Notification_UserId");
 
             });
 

@@ -24,8 +24,8 @@ namespace BusinessLogic.Services.MessageService
         {
        
             var messages = await _messageRepository.ListByExpression(m =>
-            (m.SenderId == senderid || m.RecieverId == senderid)
-            && (m.SenderId == recieverid || m.RecieverId == recieverid));
+            (m.UserId == senderid || m.RecieverId == senderid)
+            && (m.UserId == recieverid || m.RecieverId == recieverid));
 
             return messages;
         }

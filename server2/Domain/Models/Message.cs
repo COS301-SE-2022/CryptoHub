@@ -10,7 +10,7 @@ namespace Domain.Models
     {
         public int Id { get; set; }
 
-        public int SenderId { get; set; }
+        public int UserId { get; set; }
         public int RecieverId {get; set; }
 
         public string? Content  { get; set; } = string.Empty;
@@ -19,8 +19,6 @@ namespace Domain.Models
 
         public bool Read { get; set; } = false;
 
-        public virtual User Sender { get; set; }
-
-        public virtual User Reciever { get; set; }
+        public virtual User User { get; set; }
     }
 }
