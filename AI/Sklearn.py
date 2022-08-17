@@ -6,17 +6,17 @@ import matplotlib.pyplot as plt
 import sklearn.cluster as cluster
 
 #Read data
-df = pd.read_csv('AI/Mall_Customers.csv')
+df = pd.read_csv('AI/Volatilities.csv')
 
 #Renames data coloumn names
-df.rename(columns={'Annual Income (k$)' : 'Income', 'Spending Score (1-100)' : 'Spending_Score'}, inplace=True)
+#df.rename(columns={'Annual Income (k$)' : 'Income', 'Spending Score (1-100)' : 'Spending_Score'}, inplace=True)
 
 #view data
 #print(df.describe())
 
 #Run kmeans clustering on Income and Spending_Score
 kmeans = cluster.KMeans(n_clusters=5, init="k-means++", random_state=42)
-kmeans = kmeans.fit(df[['Income', 'Spending_Score']])
+kmeans = kmeans.fit(df[['dailyVolatility', 'annualVolatility']])
 
 #View cluster centroids
 print(kmeans.cluster_centers_)
@@ -26,7 +26,7 @@ df['Clusters'] = kmeans.labels_
 print(df.head())
 
 #Plot clusters
-sns.scatterplot(x='Spending_Score', y='Income', hue='Clusters', data=df)
+sns.scatterplot(x='dailyVolatility', y='annualVolatility', hue='Clusters', data=df)
 plt.show(block=True)
 
 #Get cluster centers
@@ -37,9 +37,9 @@ df['Distance'] = kmeans.labels_
 
 #Calculate distance from cluster centers
 for i in range(len(df)):
-    distance = hypot(abs(centers[df.at[i, 'Clusters']][1] - df['Spending_Score'][i]), abs(centers[df.at[i, 'Clusters']][0] - df['Income'][i]))
+    distance = hypot(abs(centers[df.at[i, 'Clusters']][1] - df['dailyVolatility'][i]), abs(centers[df.at[i, 'Clusters']][0] - df['annualVolatility'][i]))
     df['Distance'][i] = distance
 
 #Sort dataframe by clusters then distance within cluster
 df.sort_values(by=['Clusters', 'Distance'], inplace=True)
-df.to_csv('AI/CSVs/mallClusters.csv', index = False)
+df.to_csv('AI/coinClusters.csv', index = False)

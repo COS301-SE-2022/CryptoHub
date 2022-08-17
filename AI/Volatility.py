@@ -104,7 +104,6 @@ coinid=[
 'kadena'
 ]
 
-# vf = pd.DataFrame(coinid, columns=['coinId', 'dailyVolatility', 'annualVolatility'])
 dailyVolatility = []
 annualVolatility = []
 
@@ -122,4 +121,4 @@ data = [coinid, dailyVolatility, annualVolatility]
 vf = pd.DataFrame(coinid, columns=['coinId'])
 vf['dailyVolatility'] = dailyVolatility
 vf['annualVolatility'] = annualVolatility
-vf.to_csv('AI/CSVs/Volatilities.csv', index = False)
+vf.to_csv('AI/Volatilities.csv', index = False)
