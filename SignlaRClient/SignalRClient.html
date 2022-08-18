@@ -5,7 +5,7 @@
 
   <head>
     <meta charset="UTF-8" />
-    <title>SignalR client</title>
+    <title>SignalR client 1</title>
   </head>
 
   <body>
@@ -85,8 +85,9 @@
     });
 
     hubConnection.on("AddNotification", function () {
-      ntfy.value =
-        ntfy.value.substring(0, 13) + parseInt(ntfy.value.substring(13)) + 1;
+      ntfy.innerText =
+        ntfy.innerText.substring(0, 15) +
+        (parseInt(ntfy.innerText.substring(15)) + 1);
     });
 
     btnread.onclick = function () {
@@ -94,8 +95,19 @@
     };
 
     hubConnection.on("RemoveNotification", function () {
-      ntfy.value =
-        ntfy.value.substring(0, 13) + parseInt(ntfy.value.substring(13)) - 1;
+      console.log("rmv");
+      ntfy.innerText =
+        ntfy.innerText.substring(0, 15) +
+        (parseInt(ntfy.innerText.substring(15)) - 1);
+    });
+
+    hubConnection.on("Read", function () {
+      console.log("read");
+      console.log(text.childElementCount);
+      for (let i = 0; i < text.childElementCount; i++) {
+        console.log(text.children[i].innerText);
+        text.children[i].style.color = "blue";
+      }
     });
   </script>
 </html>

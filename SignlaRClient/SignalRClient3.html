@@ -100,5 +100,12 @@
         ntfy.innerText.substring(0, 15) +
         (parseInt(ntfy.innerText.substring(15)) - 1);
     });
+
+    hubConnection.on("Read", function () {
+      console.log("read");
+      for (let i = 0; i < text.childElementCount(); i++) {
+        text.children[i].style.color = "blue";
+      }
+    });
   </script>
 </html>
