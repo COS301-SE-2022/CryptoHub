@@ -95,6 +95,7 @@
     };
 
     hubConnection.on("RemoveNotification", function () {
+      console.log("rmv");
       ntfy.innerText =
         ntfy.innerText.substring(0, 15) +
         (parseInt(ntfy.innerText.substring(15)) - 1);
