@@ -126,7 +126,7 @@ for i in range (len(coinid)):
     # follow.append(d.get_following(coinid[i]))1
     # rating.append(d.get_rating(coinid[i]))
 
-    demand.append(d.Equation(coinid[i], 1))
+    demand.append(d.Equation(coinid[i], 1, 0.2, 0.2, 1, 1))
 
 data = [coinid, dailyVolatility, annualVolatility]
 vf = pd.DataFrame(coinid, columns=['coinId'])
