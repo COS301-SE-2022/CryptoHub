@@ -20,6 +20,13 @@ def get_rating(coinName):
             if row['coinName'] == coinName:
                 return row['rating']
 
+def get_following(coinName):
+    with open('AI/following.csv', 'r') as f:
+        reader = DictReader(f)
+        for row in reader:
+            if row['coinName'] == coinName:
+                return row['following']
+
 
 
 
