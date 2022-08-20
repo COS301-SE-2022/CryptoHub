@@ -135,7 +135,7 @@ for i in range (100):
     df = pd.read_json(json.dumps(content))
 
     #headers = ['priceUsd','time','date']
-    df.to_csv(os.path.join('CSVs',filename), encoding = 'utf-8',sep=";")
+    df.to_csv(os.path.join('CSVs',filename), encoding = 'utf-8',sep=",")
 
 
 

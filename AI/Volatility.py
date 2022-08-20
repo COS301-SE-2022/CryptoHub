@@ -1,5 +1,6 @@
 import math
 import pandas as pd
+import demand as d
 
 coinid=[
 'bitcoin',
@@ -106,9 +107,12 @@ coinid=[
 
 dailyVolatility = []
 annualVolatility = []
+# follow = []
+# rating = []
+demand = []
 
 for i in range (len(coinid)):
-    df = pd.read_csv('AI/CSVs/'+ coinid[i] +'.csv')
+    df = pd.read_csv('CSVs/'+ coinid[i] +'.csv')
 
     price = df['priceUsd'].tolist()
     volatility = math.sqrt(sum(price)/len(price))
@@ -117,8 +121,18 @@ for i in range (len(coinid)):
     dailyVolatility.append(volatility)
     annualVolatility.append(annual)
 
+    #test for get follow/rating
+    # print(d.get_marketCapUsd(coinid[i]))
+    # follow.append(d.get_following(coinid[i]))1
+    # rating.append(d.get_rating(coinid[i]))
+
+    demand.append(d.Equation(coinid[i], 1))
+
 data = [coinid, dailyVolatility, annualVolatility]
 vf = pd.DataFrame(coinid, columns=['coinId'])
 vf['dailyVolatility'] = dailyVolatility
 vf['annualVolatility'] = annualVolatility
-vf.to_csv('AI/Volatilities.csv', index = False)
+# vf['coidFollowers'] = follow
+# vf['coinRating'] = rating
+vf['demand'] = demand
+vf.to_csv('Volatilities.csv', index = False)

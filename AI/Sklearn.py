@@ -16,7 +16,7 @@ df = pd.read_csv('AI/Volatilities.csv')
 
 #Run kmeans clustering on Income and Spending_Score
 kmeans = cluster.KMeans(n_clusters=5, init="k-means++", random_state=42)
-kmeans = kmeans.fit(df[['dailyVolatility', 'annualVolatility']])
+kmeans = kmeans.fit(df[['demand', 'annualVolatility']])
 
 #View cluster centroids
 print(kmeans.cluster_centers_)
@@ -26,7 +26,7 @@ df['Clusters'] = kmeans.labels_
 print(df.head())
 
 #Plot clusters
-sns.scatterplot(x='dailyVolatility', y='annualVolatility', hue='Clusters', data=df)
+sns.scatterplot(x='demand', y='annualVolatility', hue='Clusters', data=df)
 plt.show(block=True)
 
 #Get cluster centers
@@ -37,7 +37,7 @@ df['Distance'] = kmeans.labels_
 
 #Calculate distance from cluster centers
 for i in range(len(df)):
-    distance = hypot(abs(centers[df.at[i, 'Clusters']][1] - df['dailyVolatility'][i]), abs(centers[df.at[i, 'Clusters']][0] - df['annualVolatility'][i]))
+    distance = hypot(abs(centers[df.at[i, 'Clusters']][1] - df['demand'][i]), abs(centers[df.at[i, 'Clusters']][0] - df['annualVolatility'][i]))
     df['Distance'][i] = distance
 
 #Sort dataframe by clusters then distance within cluster

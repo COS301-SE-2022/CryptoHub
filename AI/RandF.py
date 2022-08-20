@@ -145,7 +145,7 @@ for i in coinid:
 df = pd.read_json(json.dumps([ob.__dict__ for ob in lst]))
 
     #headers = ['priceUsd','time','date']
-df.to_csv("RatingAndFollows.csv", encoding = 'utf-8',sep=";")
+df.to_csv("RatingAndFollows.csv", encoding = 'utf-8',sep=",")
 
 
 
