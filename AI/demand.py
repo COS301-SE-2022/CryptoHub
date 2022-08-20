@@ -30,11 +30,11 @@ def get_following(coinName):
 
 
 
-def Equation(coinid,coinName, x, rating , following):
+def Equation(coinid, coinName, x):
     a = get_supply(coinid)
     b = get_marketCapUsd(coinid)
-    c = rating
-    d = following
+    c = get_rating(coinName)
+    d = get_following(coinName)
     fx = a(x)**3 + b(x)**2 + c(x) + d(x)
     return fx
 
