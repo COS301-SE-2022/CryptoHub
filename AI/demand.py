@@ -6,36 +6,36 @@ from csv import DictReader
 def get_supply(coinid):
     x = requests.get('http://api.coincap.io/v2/assets/'+coinid)
     content = x.json().get('data')
-    return content.get('supply')
+    return float(content.get('supply'))
 
 def get_marketCapUsd(coinid):
     x = requests.get('http://api.coincap.io/v2/assets/'+coinid)
     content = x.json().get('data')
-    return content.get('marketCapUsd')
+    return float(content.get('marketCapUsd'))
 
-def get_rating(coinName):
-    with open('AI/ratings.csv', 'r') as f:
+def get_rating(Name):
+    with open('RatingAndFollows.csv', 'r') as f:
         reader = DictReader(f)
         for row in reader:
-            if row['coinName'] == coinName:
-                return row['rating']
+            if row['coinName'] == Name:
+                return float(row['rating'])
 
-def get_following(coinName):
-    with open('AI/following.csv', 'r') as f:
+def get_following(Name):
+    with open('RatingAndFollows.csv', 'r') as f:
         reader = DictReader(f)
         for row in reader:
-            if row['coinName'] == coinName:
-                return row['following']
+            if row['coinName'] == Name:
+                return float(row['followers'])
 
 
 
 
-def Equation(coinid, coinName, x):
-    a = get_supply(coinid)
-    b = get_marketCapUsd(coinid)
+def Equation(coinName, x):
+    a = get_supply(coinName)
+    b = get_marketCapUsd(coinName)
     c = get_rating(coinName)
     d = get_following(coinName)
-    fx = a(x)**3 + b(x)**2 + c(x) + d(x)
+    fx = a*(x**3) + b*(x**2) + c*(x) + d*(x)
     return fx
 
 
