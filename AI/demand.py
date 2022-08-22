@@ -3,15 +3,16 @@ import requests
 from csv import DictReader
 
 
-def get_supply(coinid):
-    x = requests.get('http://api.coincap.io/v2/assets/'+coinid)
-    content = x.json().get('data')
-    return float(content.get('supply'))
 
-def get_marketCapUsd(coinid):
-    x = requests.get('http://api.coincap.io/v2/assets/'+coinid)
+def get_ChangePercentage(coinName):
+    x = requests.get('http://api.coincap.io/v2/assets/'+coinName)
     content = x.json().get('data')
-    return float(content.get('marketCapUsd'))
+    return float(content.get('changePercentage'))
+
+def get_VWAP(coinName):
+    x = requests.get('http://api.coincap.io/v2/assets/'+coinName)
+    content = x.json().get('data')
+    return float(content.get('vwap'))
 
 def get_rating(Name):
     with open('RatingAndFollows.csv', 'r') as f:
@@ -31,8 +32,8 @@ def get_following(Name):
 
 
 def Equation(coinName, x, w1, w2, w3, w4):
-    a = get_supply(coinName)
-    b = get_marketCapUsd(coinName)
+    a = get_ChangePercentage(coinName)
+    b = get_VWAP(coinName)
     c = get_rating(coinName)
     d = get_following(coinName)
     fx = x*(a*w1 + b*w2 + c*w3 + d*w4)
