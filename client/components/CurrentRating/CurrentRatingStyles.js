@@ -1,7 +1,18 @@
-import React from "react";
+import styled from "styled-components";
 
-function CurrentRatingStyles() {
-  return <div>CurrentRatingStyles</div>;
-}
+export const Container = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
 
-export default CurrentRatingStyles;
+  ${"" /* padding-left: 200px; */}
+  ${"" /* min-height: 10vh; */}
+  font-size: 30px;
+`;
+export const Radio = styled.input`
+  display: none;
+`;
+export const Rating = styled.div`
+  cursor: pointer;
+`;
