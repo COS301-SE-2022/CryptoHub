@@ -1,7 +1,7 @@
 import "./CurrentApp.css";
-import Rating from "./components/Rating";
+import CurrentRating from "./components/CurrentRating";
 
 function CurrentApp() {
-  return <Rating />;
+  return <CurrentRating />;
 }
 export default CurrentApp;
