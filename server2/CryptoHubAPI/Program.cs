@@ -167,7 +167,7 @@ app.UseCors(
     options =>
     {
         options.
-        WithOrigins("null").
+        WithOrigins("null","http://localhost:3000/").
         AllowAnyMethod().
         AllowAnyHeader().
         AllowCredentials();
