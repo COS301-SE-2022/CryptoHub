@@ -73,7 +73,6 @@ const Rate = () => {
               type="radio"
               value={givenRating}
               onClick={() => {
-                // console.log(givenRating);
                 setRate(givenRating);
                 handleRateCoin(givenRating);
               }}
