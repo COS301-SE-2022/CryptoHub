@@ -30,6 +30,34 @@ function CurrentRating() {
       .catch((error) => {});
   };
 
+  const handleRateCoin = (givenRating) => {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: user.id,
+        coinId: id,
+        rate: givenRating,
+      }),
+    };
+
+    fetch(
+      `http://localhost:7215/api/Coin/RateCoin/${user.id}/${id}/${givenRating}`,
+      options
+    )
+      .then((response) => {
+        setClicked(true);
+        setIsFollowing(true);
+        response.json();
+      })
+      .then((data) => {
+        setClicked(true);
+        setIsFollowing(true);
+        setRate(givenRating);
+      })
+      .catch(() => {});
+  };
+
   return <div>CurrentRating</div>;
 }
 
