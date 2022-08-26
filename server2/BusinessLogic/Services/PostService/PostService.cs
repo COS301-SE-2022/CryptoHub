@@ -14,12 +14,14 @@ namespace BusinessLogic.Services.PostService
         private readonly IPostRepository _postRepository;
         private readonly IImageService _imageService;
         private readonly IPostReportRepository _postReportRepository;
+        private readonly IPostTagRepository _postTagRepository;
         private readonly ITagService _tagService;
+        private readonly ITagRepository _tagRepository;
         private readonly ICommentRepository _commentRepository;
         private readonly ILikeRepository _likeRepository;
         private readonly IReplyRepository _replyRepository;
         private readonly IMapper _mapper;
-        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository, IMapper mapper, ITagService tagService, ICommentRepository commentRepository, ILikeRepository likeRepository, IReplyRepository replyRepository)
+        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository, IMapper mapper, ITagService tagService, ICommentRepository commentRepository, ILikeRepository likeRepository, IReplyRepository replyRepository, ITagRepository tagRepository, IPostTagRepository postTagRepository)
         {
             _postRepository = postRepository;
             _imageService = imageService;
@@ -29,6 +31,8 @@ namespace BusinessLogic.Services.PostService
             _commentRepository = commentRepository;
             _likeRepository = likeRepository;
             _replyRepository = replyRepository;
+            _tagRepository = tagRepository;
+            _postTagRepository = postTagRepository;
         }
 
         public async Task<List<PostDTO>> GetAllPosts()
@@ -205,6 +209,33 @@ namespace BusinessLogic.Services.PostService
 
 
             return _mapper.Map<IEnumerable<ReportPostDTO>>(final);
+        }
+
+
+        public async Task<IEnumerable<PostDTO>> GetPostByTag(string tagLabel)
+        {
+            var tag = await _tagRepository.GetByExpression(t => t.Content == tagLabel);
+
+            if (tag == null)
+                return null;
+
+            var postTags = await _postTagRepository.ListByExpression(p => p.TagId == tag.TagId);
+
+            var posts = await _postRepository.ListByExpression(p => true);
+
+            var taggedPosts = from pt in postTags
+                              join p in posts
+                              on pt.PostId equals p.PostId
+                              select new PostDTO
+                              {
+                                  PostId = p.PostId,
+                                  Content = p.Content,
+
+                              };
+
+            return taggedPosts;
+
+            
         }
     }
 }

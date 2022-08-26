@@ -57,6 +57,7 @@ builder.Services.AddTransient<IUserCoinRepository, UserCoinRepository>();
 builder.Services.AddTransient<IPostReportRepository, PostReportRepository>();
 builder.Services.AddTransient<IMessageRepository, MessageRepository>();
 builder.Services.AddTransient<INotificationRepository, NotificationRepository>();
+builder.Services.AddTransient<IPostTagRepository, PostTagRepository>();
 
 
 

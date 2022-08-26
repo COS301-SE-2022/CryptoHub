@@ -34,6 +34,8 @@ namespace Infrastructure.Data
 
         public virtual DbSet<Notification> Notifications { get; set; } = null!;
 
+        public virtual DbSet<PostTag> PostTags { get; set; } = null!; 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -289,6 +291,24 @@ namespace Infrastructure.Data
                .HasForeignKey(d => d.UserId)
                .OnDelete(DeleteBehavior.ClientSetNull)
                .HasConstraintName("FK_Notification_UserId");
+
+            });
+
+            modelBuilder.Entity<PostTag>(entity =>
+            {
+                entity.ToTable("PostTag");
+
+                entity.HasOne(d => d.Post)
+               .WithMany(p => p.PostTags)
+               .HasForeignKey(d => d.PostId)
+               .OnDelete(DeleteBehavior.ClientSetNull)
+               .HasConstraintName("FK_PostTag_postId");
+
+                entity.HasOne(d => d.Tag)
+               .WithMany(p => p.PostTags)
+               .HasForeignKey(d => d.TagId)
+               .OnDelete(DeleteBehavior.ClientSetNull)
+               .HasConstraintName("FK_PostTag_TagId");
 
             });
 
