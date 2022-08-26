@@ -90,14 +90,14 @@ namespace BusinessLogic.Services.CoinService
 
         public async Task<Response<object>> GetCoinRating(string name)
         {
-           
-            var coin = await  _coinRepository.GetByExpression(c => c.CoinName == name);
+
+            var coin = await _coinRepository.GetByExpression(c => c.CoinName == name);
             if (coin == null)
                 return new Response<object>(null, true, "coin not found");
 
             var coinRating = await _coinRatingRepository.ListByExpression(c => c.CoinId == coin.CoinId);
 
-            if(coinRating.Count()<1)
+            if (coinRating.Count() < 1)
                 return new Response<object>(null, false, "");
 
             var response = new
@@ -108,6 +108,21 @@ namespace BusinessLogic.Services.CoinService
 
             return new Response<object>(response, false, "");
 
+        }
+
+        public async Task<Response<object>> GetCoinRatingByUserId(int userId, string CoinName)
+        {
+            var coin = _coinRepository.FindOne(c => c.CoinName == CoinName);
+
+            if (coin == null)
+                return new Response<object>(null, true, "coin not found");
+
+            var coinRating = await _coinRatingRepository.FindOne(c => c.CoinId == coin.Result.CoinId && c.UserId == userId);
+
+            if (coinRating == null)
+                return new Response<object>(null, true, "Rating not found");
+
+            return new Response<object>(new { Rating = coinRating.Rating }, false, "");
         }
     }
 }

@@ -1,7 +1,6 @@
 import React from "react";
 import NavigationBar from "../NavigationBar/NavigationBar";
 import Image from "next/image";
-import PhoneImage from "../../public/images/landing.png";
 import { useRouter } from "next/router";
 
 const LandingPage = () => {
@@ -50,7 +49,12 @@ const MainContent = () => {
         </div>
 
         <div className="mt-4 sm:mt-20 w-11/12 sm:w-12/12 justify-center flex">
-          <Image src={PhoneImage} layout="intrinsic" />
+          <Image
+            src="https://firebasestorage.googleapis.com/v0/b/cryptohub-12abc.appspot.com/o/landing.png?alt=media&token=be95a74b-c81f-4d6a-8084-c74ea08d64f6"
+            layout="intrinsic"
+            width={300}
+            height={600}
+          />
           <div className="flex flex-col ml-2 mt-2">
             <div className="bg-indigo-300 h-30 sm:h-7 px-3 w-5/12 rounded-lg text-indigo-800 text-lg mb-3">
               to the moon 🚀

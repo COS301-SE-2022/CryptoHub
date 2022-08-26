@@ -5,6 +5,8 @@ import CoinInfo from "../../components/CoinAccount/CoinInfo";
 import CoinInfoNext from "../../components/CoinAccount/CoinInfoNext";
 import Layout from "../../components/Layout";
 import { userContext } from "../../auth/auth";
+import { coinHistory } from "../../data/coin-history";
+import Rate from "../../components/Rating/RatingC.js";
 
 const Coin = () => {
   const router = useRouter();
@@ -13,6 +15,26 @@ const Coin = () => {
   const [coinData, setCoinData] = useState({});
   const [isFollowing, setIsFollowing] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [amount, setAmount] = useState(0);
+  const [amountInput, setAmountInput] = useState(0);
+
+  const handleGetCoinRating = () => {
+    const options = {
+      method: "GET",
+    };
+    console.log(id);
+    console.log(user.id);
+
+    fetch(
+      `http://localhost:7215/api/Coin/GetCoinRatingByUserId/${user.id}/${id}`,
+      options
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setRate(data.rating);
+      })
+      .catch((error) => {});
+  };
 
   const handleGetCoin = () => {
     const options = {
@@ -22,6 +44,7 @@ const Coin = () => {
     fetch(`https://api.coincap.io/v2/assets/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
+        console.log("data", data.data);
         setCoinData(data.data);
       })
       .catch((error) => {});
@@ -65,9 +88,6 @@ const Coin = () => {
 
     fetch(`http://localhost:7215/api/Coin/FollowCoin/${user.id}/${id}`, options)
       .then((response) => {
-        console.log(user.id);
-        console.log(id);
-
         setClicked(true);
         setIsFollowing(true);
         response.json();
@@ -83,7 +103,6 @@ const Coin = () => {
     fetch(`http://localhost:7215/api/Coin/GetCoinsFollowers/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        //console.warn("dataaaa", data);
         data.map((d) => {
           if (d.userId == user.id) {
             setIsFollowing(true);
@@ -161,12 +180,85 @@ const Coin = () => {
             name="Price"
             price={Math.round(coinData.priceUsd * 100) / 100}
           />
+          <div className="bg-white m-4 p-4 rounded-lg w-full">
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              Calculate Price
+            </p>
+            <div className="flex flex-col mb-2">
+              <div className="flex flex-col sm:px-24 text-left -translate-x-24 ml-1">
+                <input
+                  className="border text-sm mb-3 mt-3 h-10 rounded-md w-full px-2 py-1 mr-1 sm:mr-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  placeholder="Amount"
+                  onChange={(e) =>
+                    setAmountInput(
+                      (e.target.value * Math.round(coinData.priceUsd * 100)) /
+                        100
+                    )
+                  }
+                />
+                <p className="text-3xl font-semibold ml-1">{amountInput} USD</p>
+              </div>
+            </div>
+          </div>
           <CoinInfoNext
             id={id}
             name="Change"
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
             arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
           />
+
+          <div className="bg-white m-4 p-4 rounded-lg w-full">
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              About {coinData.name}
+            </p>
+            <div className="flex flex-col mb-2">
+              <p className="ml-2 text-base">
+                {coinHistory.map((coin) => {
+                  if (coin.name == id) {
+                    return coin.history;
+                  }
+                })}
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white m-4 p-4 rounded-lg w-full">
+            {/* ==============================================================================================≠ */}
+            {/* {user.auth ? (
+              isFollowing ? (
+                <>
+                  <button onClick={handleUnfollowCoin}>
+                    <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
+                      Following
+                    </p>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button onClick={handleFollowCoin}>
+                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition -translate-x-5">
+                      Follow
+                    </p>
+                  </button>
+                </>
+              )
+            ) : null} */}
+
+            {/* ==============================================================================================≠ */}
+            {/* remember IF statement */}
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              Your current rating is {handleGetCoinRating()}
+            </p>
+            <div className="flex flex-col mb-2 translate-x-1">
+              <Rate />
+            </div>
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              Please rate this coin.
+            </p>
+            <div className="flex flex-col mb-2 translate-x-1">
+              <Rate />
+            </div>
+          </div>
         </div>
       </Layout>
     </>

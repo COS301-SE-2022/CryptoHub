@@ -131,5 +131,13 @@ namespace Infrastructure.Repository
             return Task.CompletedTask;
         }
 
+        public Task AddRange(List<TEntity> entities)
+        {
+            dbSet.AddRange(entities);
+            dBContext.SaveChanges();
+
+            return Task.CompletedTask;
+        }
+
     }
 }

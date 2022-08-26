@@ -1918,6 +1918,9 @@ VALUES
 (105,14,2),
 (105,15,3);
 
+INSERT INTO [dbo].[Message] ([UserId],[RecieverId],[Content])
+VALUES
+(1,2,'jello');
 
 
 
