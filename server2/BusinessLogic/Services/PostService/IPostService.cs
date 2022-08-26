@@ -16,6 +16,8 @@ namespace BusinessLogic.Services.PostService
         Task<PostReport> Report(int postid, int userid);
         Task<Response<object>> GetReportCountByPostId(int id);
         Task<IEnumerable<ReportPostDTO>> GetAllReportedPosts();
+
+        Task<List<PostDTO>> GetPostByTag(string tagLabel);
     }
 }
 

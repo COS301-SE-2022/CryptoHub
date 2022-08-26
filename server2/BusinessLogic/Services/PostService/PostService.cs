@@ -212,7 +212,7 @@ namespace BusinessLogic.Services.PostService
         }
 
 
-        public async Task<IEnumerable<PostDTO>> GetPostByTag(string tagLabel)
+        public async Task<List<PostDTO>> GetPostByTag(string tagLabel)
         {
             var tag = await _tagRepository.GetByExpression(t => t.Content == tagLabel);
 
@@ -223,7 +223,7 @@ namespace BusinessLogic.Services.PostService
 
             var posts = await _postRepository.ListByExpression(p => true);
 
-            var taggedPosts = from pt in postTags
+            var taggedPosts = (from pt in postTags
                               join p in posts
                               on pt.PostId equals p.PostId
                               select new PostDTO
@@ -231,7 +231,7 @@ namespace BusinessLogic.Services.PostService
                                   PostId = p.PostId,
                                   Content = p.Content,
 
-                              };
+                              }).ToList();
 
             return taggedPosts;
 

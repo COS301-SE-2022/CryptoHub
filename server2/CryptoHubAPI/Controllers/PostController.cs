@@ -111,5 +111,11 @@ namespace CryptoHubAPI.Controllers
 
         }
 
+        [HttpGet("{tag}")]
+        public async Task<ActionResult<List<PostDTO>>> GetPostsByTag(string tag)
+        {
+            return await _postService.GetPostByTag(tag);
+        }
+
     }
 }
