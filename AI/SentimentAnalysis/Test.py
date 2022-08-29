@@ -29,6 +29,6 @@ def sentiment_Score(sentence) :
 
 
 
-print("\n1st statement :")
-sentence = "I have lost a lot of money, the market is doing really bad."
+
+sentence = input("Enter a sentence: ")
 sentiment_Score(sentence)
