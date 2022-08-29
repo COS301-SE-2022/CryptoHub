@@ -17,3 +17,14 @@ def sentiment_Score(sentence) :
     print("sentence was rated as ", sentiment_value['pos']*100, "% Positive")
 
     print("Overall  Sentiment : ", end = " ")
+
+    if sentiment_value['compound'] >= 0.05 :
+         print("Positive")
+    
+    elif sentiment_value['compound'] <= -0.05 :
+        print("Negative")
+    
+    else:
+        print("Neutral")
+
+     
