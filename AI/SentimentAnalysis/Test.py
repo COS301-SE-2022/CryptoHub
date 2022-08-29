@@ -27,4 +27,8 @@ def sentiment_Score(sentence) :
     else:
         print("Neutral")
 
-     
+
+
+print("\n1st statement :")
+sentence = "I have lost a lot of money, the market is doing really bad."
+sentiment_Score(sentence)
