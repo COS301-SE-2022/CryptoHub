@@ -76,10 +76,23 @@ namespace BusinessLogic.Services.PostService
 
             if (createPostDTO.BatchTags != null)
             {
-                var response = await _tagService.BatchAddTag(post.PostId, createPostDTO.BatchTags);
+                foreach (var item in createPostDTO.BatchTags.Tags)
+                {
+                    var tag = await _tagService.GetTagbyLabel(item);
+                    if(tag != null)
+                    {
+                        
+                        var postTag = new PostTag();
+                        postTag.TagId = tag.TagId;
+                        postTag.PostId = post.PostId;
 
-                if (response.HasError)
-                    return null;
+                        var postTagInDb = await _postTagRepository.GetByExpression(p => p == postTag);
+                        if (postTagInDb == null)
+                            await _postTagRepository.Add(postTag);
+                    }
+
+                }
+
             }
 
             return _mapper.Map<PostDTO>(post);
@@ -212,8 +225,14 @@ namespace BusinessLogic.Services.PostService
         }
 
 
-        public async Task<List<PostDTO>> GetPostByTag(string tagLabel)
+        public async Task<List<PostDTO>> GetPostByTag(string tagLabel, DateTime startDate, DateTime endDate)
         {
+            if(startDate  == null || endDate == null)
+            {
+                startDate = DateTime.UtcNow;
+                endDate = DateTime.UtcNow.AddDays(-7);
+            }
+            
             var tag = await _tagRepository.GetByExpression(t => t.Content == tagLabel);
 
             if (tag == null)
@@ -226,16 +245,41 @@ namespace BusinessLogic.Services.PostService
             var taggedPosts = (from pt in postTags
                               join p in posts
                               on pt.PostId equals p.PostId
+                              where p.DateCreated >= startDate && p.DateCreated <= endDate
                               select new PostDTO
                               {
                                   PostId = p.PostId,
                                   Content = p.Content,
 
-                              }).ToList();
+                              }
+                              ).ToList();
 
             return taggedPosts;
 
             
+        }
+
+        public async Task BatchAddSentimentScore(List<PostSentimentScoreDTO> postSentimentScoreDTO)
+        {
+            var posts = await _postRepository.ListByExpression(p => true);
+
+            var scoredPosts = (from p in posts
+                              join cp in postSentimentScoreDTO
+                              on p.PostId equals cp.PostId
+                              select new Post
+                              {
+                                  PostId = cp.PostId,
+                                  UserId = p.UserId,
+                                  Content = p.Content,
+                                  ImageId = p.ImageId,
+                                  ImageUrl = p.ImageUrl,
+                                  DateCreated = p.DateCreated,
+                                  SentimentScore = cp.SentimentScore,
+                              }).ToList();
+
+
+
+            await _postRepository.UpdateRange(scoredPosts);
         }
     }
 }

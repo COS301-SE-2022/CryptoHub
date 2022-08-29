@@ -19,7 +19,8 @@ namespace CryptoHubAPI.Controllers
         [HttpGet]
         public async Task<ICollection<TagDTO>> GetTagByPost(int Id)
         {
-            return await _tagService.GetTagsByPost(Id);
+            //return await _tagService.GetTagsByPost(Id);
+            return null;
         }
     }
 }

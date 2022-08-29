@@ -24,34 +24,31 @@ namespace BusinessLogic.Services.TagService
 
         }
 
-        public async Task<ICollection<TagDTO>> GetTagsByPost(int id)
+        public async Task<Tag> GetTagbyLabel(string tagLabel)
         {
-            var tag = await _tagRepository.FindRange(t => t.PostId == id);
-            return _mapper.Map<ICollection<TagDTO>>(tag);
+            var tag = await _tagRepository.GetByExpression(t => t.Content == tagLabel);
+            if (tag == null)
+                return null;
+
+            return tag;
         }
 
-        public async Task<Response<string>> BatchAddTag(int postId, BatchTagsDTO batchTagsDTO)
+
+        public async Task<Response<string>> AddTag(string tagLabel)
         {
-            var post = await _postRepository.GetByExpression(p => p.PostId == postId);
+            if (!tagLabel.StartsWith('#'))
+                return new Response<string>(null, false, "tag must start with #");
 
-            if (post == null)
-                return new Response<string>(null, true, "post not found");
+            var tag = _tagRepository.GetByExpression(t => t.Content == tagLabel);
 
-            foreach (var item in batchTagsDTO.Tags)
-            {
-                if (item.StartsWith('#'))
-                {
+            if (tag != null)
+                return new Response<string>(null, false, "tag already exits");
 
-                    var tag = new Tag
-                    {
-                        PostId = postId,
-                        Content = item
-                    };
-                    await _tagRepository.Add(tag);
-                }
-            };
-
-            return new Response<string>(null, false, "tags added to post");
+            await _tagRepository.Add(new Tag { Content = tagLabel});
+            
+            return new Response<string>(null, false, "tag added");
         }
+
+        
     }
 }

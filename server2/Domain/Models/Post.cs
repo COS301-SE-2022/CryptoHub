@@ -21,6 +21,13 @@ namespace Domain.Models
 
         public string? ImageUrl { get; set; } = null!;
 
+        public DateTime DateCreated { get; set; }
+
+        public float SentimentScore { get; set; }
+
+
+
+
         public virtual Image? Image { get; set; }
         public virtual User User { get; set; } = null!;
         public virtual ICollection<Comment> Comments { get; set; }

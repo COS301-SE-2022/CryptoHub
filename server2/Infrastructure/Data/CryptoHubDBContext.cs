@@ -162,11 +162,6 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Content).HasMaxLength(50);
 
-                entity.HasOne(d => d.Post)
-                    .WithMany(p => p.Tags)
-                    .HasForeignKey(d => d.PostId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Tag_PostId");
             });
 
             modelBuilder.Entity<User>(entity =>

@@ -17,7 +17,9 @@ namespace BusinessLogic.Services.PostService
         Task<Response<object>> GetReportCountByPostId(int id);
         Task<IEnumerable<ReportPostDTO>> GetAllReportedPosts();
 
-        Task<List<PostDTO>> GetPostByTag(string tagLabel);
+        Task<List<PostDTO>> GetPostByTag(string tagLabel, DateTime startDate, DateTime endDate);
+
+        Task BatchAddSentimentScore(List<PostSentimentScoreDTO> postSentimentScoreDTO);
     }
 }
 
