@@ -10,6 +10,7 @@ const Rate = () => {
   const router = useRouter();
   const { id } = router.query;
   const { user } = useContext(userContext);
+  const [rated, setRated] = useState(false);
 
   const handleGetCoinRating = () => {
     const options = {
@@ -22,8 +23,16 @@ const Rate = () => {
       `http://localhost:7215/api/Coin/GetCoinRatingByUserId/${user.id}/${id}`,
       options
     )
-      .then((response) => response.json())
+      .then((response) => {
+        //console.log(response.status());
+        if (response.status() == 400) {
+          setRated(false);
+        }
+
+        return response.json();
+      })
       .then((data) => {
+        console.log(response.status());
         setCoinData(data.data);
         setRate(data.rating);
       })
@@ -63,7 +72,7 @@ const Rate = () => {
   }, []);
 
   return (
-    <Container>
+    <Container className={`${rated == false && "hidden"}`}>
       {[...Array(5)].map((item, index) => {
         const givenRating = index + 1;
 

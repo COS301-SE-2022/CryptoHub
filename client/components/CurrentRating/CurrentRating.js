@@ -23,7 +23,7 @@ function CurrentRating() {
       options
     )
       .then((response) => {
-        console.log(response.status());
+        console.log("Rating " + response.status());
         if (response.status() == 400) {
           setRated(false);
         }
