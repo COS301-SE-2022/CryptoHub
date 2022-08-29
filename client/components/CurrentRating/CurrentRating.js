@@ -6,6 +6,7 @@ import { userContext } from "../../auth/auth";
 
 function CurrentRating() {
   const [rate, setRate] = useState(0);
+  const [testrate, setTestrate] = useState(0);
   const router = useRouter();
   const { id } = router.query;
   const { user } = useContext(userContext);
@@ -23,8 +24,10 @@ function CurrentRating() {
       options
     )
       .then((response) => {
-        console.log("Rating " + response.status());
-        if (response.status() == 400) {
+        console.log("Rating " + response.status);
+        if (response.status == 200) {
+          setRated(true);
+        } else {
           setRated(false);
         }
 
@@ -32,6 +35,7 @@ function CurrentRating() {
       })
 
       .then((data) => {
+        console.warn("ratinggggg, ", data.rating);
         setCoinData(data.data);
         setRate(data.rating);
       })
@@ -72,8 +76,12 @@ function CurrentRating() {
 
   return (
     <div className={`${rated == false && "hidden"}`}>
-      <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-        Your current rating is
+      <p className="text-xl font-semibold mb-2 ml-2 -translate-x-2 text-left text-gray-700">
+        Your current rating is:
+      </p>
+      <p className="text-5xl -translate-y-2">{rate}</p>
+      <p className="text-xl font-semibold mb-2 ml-2 -translate-x-2 text-left text-gray-700">
+        Change rating here:
       </p>
 
       <Container className={`${rated == false && "hidden"}`}>
