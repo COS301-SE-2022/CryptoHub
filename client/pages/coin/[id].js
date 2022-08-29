@@ -19,24 +19,6 @@ const Coin = () => {
   const [amount, setAmount] = useState(0);
   const [amountInput, setAmountInput] = useState(0);
 
-  const handleGetCoinRating = () => {
-    const options = {
-      method: "GET",
-    };
-    console.log(id);
-    console.log(user.id);
-
-    fetch(
-      `http://localhost:7215/api/Coin/GetCoinRatingByUserId/${user.id}/${id}`,
-      options
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setRate(data.rating);
-      })
-      .catch((error) => {});
-  };
-
   const handleGetCoin = () => {
     const options = {
       method: "GET",

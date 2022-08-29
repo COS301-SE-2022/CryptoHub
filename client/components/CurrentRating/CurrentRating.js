@@ -16,8 +16,8 @@ function CurrentRating() {
     const options = {
       method: "GET",
     };
-    console.log(id);
-    console.log(user.id);
+    // console.log(id);
+    // console.log(user.id);
 
     fetch(
       `http://localhost:7215/api/Coin/GetCoinRatingByUserId/${user.id}/${id}`,
@@ -35,9 +35,10 @@ function CurrentRating() {
       })
 
       .then((data) => {
+        setRate(data.rating);
         console.warn("ratinggggg, ", data.rating);
         setCoinData(data.data);
-        setRate(data.rating);
+        console.log(data.rating);
       })
       .catch((error) => {});
   };
