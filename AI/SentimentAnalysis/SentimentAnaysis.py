@@ -7,10 +7,11 @@ import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 
 
-def sentiment_Score(sentence) : 
+def sentiment_Score(sentence, list) : 
     s_obj = SentimentIntensityAnalyzer()
 
     sentiment_value = s_obj.polarity_scores(sentence)
+    
 
     # print("Overall Sentiment:  ", sentiment_value)
     # print("sentence was rated as ", sentiment_value['neg']*100, "% Negative")
@@ -27,3 +28,9 @@ def sentiment_Score(sentence) :
     
     # else:
     #     print("Neutral")
+
+
+def Main(sentence):
+    list = []
+    sentiment_Score(sentence, list)
+
