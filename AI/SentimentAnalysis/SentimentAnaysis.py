@@ -13,7 +13,7 @@ def sentiment_Score(posts, list) :
     for i in range(len(posts)):
         sentiment_value = s_obj.polarity_scores(posts)
         x = sentiment_value['compound']
-        list.append()
+        list.append(x)
 
 def GetAverageSentiment(list):
     return sum(list)/ len(list)
