@@ -22,8 +22,14 @@ def DetermineTheSentiment(x):
     if x['compound'] >= 0.05 :
          return("Positive")
     
-    elif x['compound'] <= -0.05 :
+    elif x['compond'] >= 0.075:
+        return("Very Positive")
+    
+    elif x['compound'] <= -0.05:
         return("Negative")
+    
+    elif x['compound'] <= -0.075:
+        return ("Very Negative")
     
     else:
         return("Neutral")
