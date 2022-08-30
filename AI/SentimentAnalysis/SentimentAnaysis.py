@@ -18,9 +18,21 @@ def sentiment_Score(posts, list) :
 def GetAverageSentiment(list):
     return sum(list)/ len(list)
 
+def DetermineTheSentiment(x):
+    if x['compound'] >= 0.05 :
+         return("Positive")
+    
+    elif x['compound'] <= -0.05 :
+        return("Negative")
+    
+    else:
+        return("Neutral")
+
 
 def Main(posts):
     list = []
     sentiment_Score(posts, list)
-    x = GetAverageSentiment(list)
+    SentimentNum = GetAverageSentiment(list)
+    SentimentValue = DetermineTheSentiment(SentimentNum)
+
 
