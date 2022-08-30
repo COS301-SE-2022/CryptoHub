@@ -39,6 +39,6 @@ def Main(posts):
     list = []
     sentiment_Score(posts, list)
     SentimentNum = GetAverageSentiment(list)
-    SentimentValue = DetermineTheSentiment(SentimentNum)
+    DetermineTheSentiment(SentimentNum)
 
 
