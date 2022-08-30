@@ -38,6 +38,7 @@ function CurrentRating() {
         setRate(data.rating);
         console.warn("ratinggggg, ", data.rating);
         setCoinData(data.data);
+
         console.log(data.rating);
       })
       .catch((error) => {});

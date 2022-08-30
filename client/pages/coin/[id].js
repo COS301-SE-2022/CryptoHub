@@ -18,6 +18,8 @@ const Coin = () => {
   const [clicked, setClicked] = useState(false);
   const [amount, setAmount] = useState(0);
   const [amountInput, setAmountInput] = useState(0);
+  const [AverageRate, setAverageRate] = useState(0);
+  const [AverageCount, setAverageCount] = useState(0);
 
   const handleGetCoin = () => {
     const options = {
@@ -29,6 +31,23 @@ const Coin = () => {
       .then((data) => {
         console.log("data", data.data);
         setCoinData(data.data);
+      })
+      .catch((error) => {});
+  };
+
+  const handleGetCoinRating = () => {
+    const options = {
+      method: "GET",
+    };
+    fetch(`http://localhost:7215/api/Coin/GetCoinRating/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data", data.data);
+        setCoinData(data.data);
+        setAverageRate(data.rating);
+        setAverageCount(data.count);
+        console.log("count:" + data.count);
+        console.log("count:" + data.rating);
       })
       .catch((error) => {});
   };
