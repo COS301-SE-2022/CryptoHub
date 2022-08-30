@@ -15,27 +15,12 @@ def sentiment_Score(posts, list) :
         x = sentiment_value['compound']
         list.append()
 
-
-    
-
-    # print("Overall Sentiment:  ", sentiment_value)
-    # print("sentence was rated as ", sentiment_value['neg']*100, "% Negative")
-    # print("sentence was rated as ", sentiment_value['neu']*100, "% Neutral")
-    # print("sentence was rated as ", sentiment_value['pos']*100, "% Positive")
-
-    # print("Overall  Sentiment : ", end = " ")
-
-    # if sentiment_value['compound'] >= 0.05 :
-    #      print("Positive")
-    
-    # elif sentiment_value['compound'] <= -0.05 :
-    #     print("Negative")
-    
-    # else:
-    #     print("Neutral")
+def GetAverageSentiment(list):
+    return sum(list)/ len(list)
 
 
 def Main(posts):
     list = []
     sentiment_Score(posts, list)
+    x = GetAverageSentiment(list)
 
