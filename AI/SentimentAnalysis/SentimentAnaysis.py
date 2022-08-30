@@ -19,16 +19,16 @@ def GetAverageSentiment(list):
     return sum(list)/ len(list)
 
 def DetermineTheSentiment(x):
-    if x['compound'] >= 0.05 :
+    if x['compound'] >= 0.05 and x < 0.07 :
          return("Positive")
     
-    elif x['compond'] >= 0.075:
+    elif x['compond'] >= 0.07:
         return("Very Positive")
     
-    elif x['compound'] <= -0.05:
+    elif x['compound'] <= -0.05 and x >= -0.07:
         return("Negative")
     
-    elif x['compound'] <= -0.075:
+    elif x['compound'] <= -0.07:
         return ("Very Negative")
     
     else:
