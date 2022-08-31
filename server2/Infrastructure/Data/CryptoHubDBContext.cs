@@ -113,6 +113,8 @@ namespace Infrastructure.Data
             {
                 entity.ToTable("Post");
 
+                entity.Property(e => e.SentimentScore).HasColumnType("decimal(4,4)");
+
                 entity.HasOne(d => d.Image)
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.ImageId)

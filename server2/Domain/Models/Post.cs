@@ -22,7 +22,7 @@ namespace Domain.Models
 
         public DateTime DateCreated { get; set; }
 
-        public double? SentimentScore { get; set; }
+        public decimal? SentimentScore { get; set; }
 
 
 

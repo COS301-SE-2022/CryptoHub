@@ -58,8 +58,13 @@ def main():
     
     scoredposts = json.dumps(lst, default=lambda o: o.__dict__, 
             sort_keys=True)
+
+    scoredposts = json.loads(scoredposts)
     
-    x = requests.post('http://localhost:7215/api/Post/UpdatePostSentiment',json=scoredposts)
+    #print(scoredposts)
+
+    x = requests.patch('http://localhost:7215/api/Post/UpdatePostSentiment',json=scoredposts)
+    print("done")
 
     # SentimentNum = GetAverageSentiment(lst)
     # DetermineTheSentiment(SentimentNum)
