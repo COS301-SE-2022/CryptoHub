@@ -101,12 +101,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddDbContext<CryptoHubDBContext>(
     options =>
     {
-        if(builder.Environment.IsDevelopment())
+        if (builder.Environment.IsDevelopment())
+        {
             options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
+
+        }
         else
             options.UseSqlServer(DBConnctionSettings.ConnectionString);
 
     });
+
+builder.Services.AddDbContext<PGSQLCryptoHubDBContext>(
+    options =>
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            options.UseNpgsql("Server = 127.0.0.1;Port = 5432; Database = cryptohub; User Id =postgres; Password = P@55w0rd");
+
+        }
+
+    });
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
