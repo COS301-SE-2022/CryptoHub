@@ -1,12 +1,12 @@
 import { FaStar } from "react-icons/fa";
-import { Container, Radio, Rating } from "./RatingStyles";
+import { Container, Radio, Rating } from "./CurrentRatingStyles";
 import React, { useState, useEffect, useContext } from "react";
-
 import { useRouter } from "next/router";
 import { userContext } from "../../auth/auth";
 
-const Rate = () => {
+function CurrentRating() {
   const [rate, setRate] = useState(0);
+  const [testrate, setTestrate] = useState(0);
   const router = useRouter();
   const { id } = router.query;
   const { user } = useContext(userContext);
@@ -16,27 +16,27 @@ const Rate = () => {
     const options = {
       method: "GET",
     };
-    console.log(id);
-    console.log(user.id);
+    // console.log(id);
+    // console.log(user.id);
 
     fetch(
       `http://localhost:7215/api/Coin/GetCoinRatingByUserId/${user.id}/${id}`,
       options
     )
       .then((response) => {
-        console.log("Hello there " + response.status);
-        if (response.status == 400) {
-          setRated(false);
-        } else {
+        console.log("Rating " + response.status);
+        if (response.status == 200) {
           setRated(true);
+        } else {
+          setRated(false);
         }
 
         return response.json();
       })
+
       .then((data) => {
-        console.log(response.status());
-        setCoinData(data.data);
         setRate(data.rating);
+        setCoinData(data.data);
       })
       .catch((error) => {});
   };
@@ -74,10 +74,15 @@ const Rate = () => {
   }, []);
 
   return (
-    <div className={`${rated == true && "hidden"}`}>
-      <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-        Please rate this coin.
+    <div className={`${rated == false && "hidden"}`}>
+      <p className="text-xl font-semibold mb-2 ml-2 -translate-x-2 text-left text-gray-700">
+        Your current rating is:
       </p>
+      <p className="text-5xl -translate-y-2">{rate}</p>
+      <p className="text-xl font-semibold mb-2 ml-2 -translate-x-2 text-left text-gray-700">
+        Change rating here:
+      </p>
+
       <Container className={`${rated == false && "hidden"}`}>
         {[...Array(5)].map((item, index) => {
           const givenRating = index + 1;
@@ -107,6 +112,6 @@ const Rate = () => {
       </Container>
     </div>
   );
-};
+}
 
-export default Rate;
+export default CurrentRating;
