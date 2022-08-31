@@ -7,6 +7,7 @@ import Layout from "../../components/Layout";
 import { userContext } from "../../auth/auth";
 import { coinHistory } from "../../data/coin-history";
 import Rate from "../../components/Rating/RatingC.js";
+import CurrentRating from "../../components/CurrentRating/CurrentRating";
 
 const Coin = () => {
   const router = useRouter();
@@ -17,24 +18,8 @@ const Coin = () => {
   const [clicked, setClicked] = useState(false);
   const [amount, setAmount] = useState(0);
   const [amountInput, setAmountInput] = useState(0);
-
-  const handleGetCoinRating = () => {
-    const options = {
-      method: "GET",
-    };
-    console.log(id);
-    console.log(user.id);
-
-    fetch(
-      `http://localhost:7215/api/Coin/GetCoinRatingByUserId/${user.id}/${id}`,
-      options
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setRate(data.rating);
-      })
-      .catch((error) => {});
-  };
+  const [AverageRate, setAverageRate] = useState(0);
+  const [AverageCount, setAverageCount] = useState(0);
 
   const handleGetCoin = () => {
     const options = {
@@ -46,6 +31,22 @@ const Coin = () => {
       .then((data) => {
         console.log("data", data.data);
         setCoinData(data.data);
+      })
+      .catch((error) => {});
+  };
+
+  const handleGetCoinRating = () => {
+    const options = {
+      method: "GET",
+    };
+    fetch(`http://localhost:7215/api/Coin/GetCoinRating/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data", data.data);
+        setAverageRate(data.rating);
+        setAverageCount(data.count);
+        console.log("count:" + data.count);
+        console.log("count:" + data.rating);
       })
       .catch((error) => {});
   };
@@ -118,6 +119,7 @@ const Coin = () => {
   useEffect(() => {
     checkFollowing();
     handleGetCoin();
+    handleGetCoinRating();
     const interval = setInterval(() => {
       handleGetCoin();
     }, 10000);
@@ -180,6 +182,22 @@ const Coin = () => {
             name="Price"
             price={Math.round(coinData.priceUsd * 100) / 100}
           />
+
+          <div className="bg-white m-4 p-4 rounded-lg w-full">
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              Users Rating:
+            </p>
+            <div className="flex flex-col mb-2">
+              <p className="ml-2 text-3xl">{AverageRate}</p>
+            </div>
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              Total number of Ratings:
+            </p>
+            <div className="flex flex-col mb-2">
+              <p className="ml-2 text-3xl">{AverageCount}</p>
+            </div>
+          </div>
+
           <div className="bg-white m-4 p-4 rounded-lg w-full">
             <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
               Calculate Price
@@ -223,38 +241,11 @@ const Coin = () => {
           </div>
 
           <div className="bg-white m-4 p-4 rounded-lg w-full">
-            {/* ==============================================================================================≠ */}
-            {/* {user.auth ? (
-              isFollowing ? (
-                <>
-                  <button onClick={handleUnfollowCoin}>
-                    <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
-                      Following
-                    </p>
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button onClick={handleFollowCoin}>
-                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition -translate-x-5">
-                      Follow
-                    </p>
-                  </button>
-                </>
-              )
-            ) : null} */}
-
-            {/* ==============================================================================================≠ */}
             {/* remember IF statement */}
-            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-              Your current rating is {handleGetCoinRating()}
-            </p>
+
             <div className="flex flex-col mb-2 translate-x-1">
-              <Rate />
+              <CurrentRating />
             </div>
-            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-              Please rate this coin.
-            </p>
             <div className="flex flex-col mb-2 translate-x-1">
               <Rate />
             </div>
