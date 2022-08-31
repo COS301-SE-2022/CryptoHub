@@ -30,8 +30,7 @@ def sentiment_Score(posts:List[Post], lst) :
         p.sentimentScore = sentiment_value['compound']
         lst.append(ScoredPost(p))
 
-def GetAverageSentiment(list):
-    return sum(list)/ len(list)
+
 
 def DetermineTheSentiment(x):
     if x['compound'] >= 0.05 and x < 0.07 :
@@ -66,8 +65,7 @@ def main():
     x = requests.patch('http://localhost:7215/api/Post/UpdatePostSentiment',json=scoredposts)
     print("done")
 
-    # SentimentNum = GetAverageSentiment(lst)
-    # DetermineTheSentiment(SentimentNum)
+    
 
 
 if __name__ == "__main__":
