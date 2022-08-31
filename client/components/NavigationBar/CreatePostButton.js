@@ -33,7 +33,14 @@ const CreatePostButton = () => {
     setImage(base64Image);
   };
 
-  const checkHastag = (text) => {};
+  const checkHastag = (text) => {
+    let hastags = text.match(/[a-zA-Z0-9]+/g);
+    if (hastags) {
+      return hastags;
+    } else {
+      return [];
+    }
+  };
 
   const handleCreatePost = (e) => {
     e.preventDefault();
