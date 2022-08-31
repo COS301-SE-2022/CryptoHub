@@ -1,4 +1,4 @@
-USE [CryptoHubDB]
+USE [codeforce_dev]
 GO
 
 INSERT INTO [dbo].[Image]([Name],[Url])
