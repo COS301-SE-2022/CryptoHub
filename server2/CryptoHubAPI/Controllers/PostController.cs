@@ -111,8 +111,8 @@ namespace CryptoHubAPI.Controllers
 
         }
 
-        [HttpGet("{tag}/{startDate}/{endDate}")]
-        public async Task<ActionResult<List<PostDTO>>> GetPostsByTag(string tag,DateTime startDate,DateTime endDate)
+        [HttpGet("{tag}")]
+        public async Task<ActionResult<List<PostDTO>>> GetPostsByTag(string tag,DateTime? startDate,DateTime? endDate)
         {
             return await _postService.GetPostByTag(tag, startDate, endDate);
         }

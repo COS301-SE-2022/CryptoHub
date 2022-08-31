@@ -297,7 +297,7 @@ namespace Infrastructure.Data
                .WithMany(p => p.PostTags)
                .HasForeignKey(d => d.PostId)
                .OnDelete(DeleteBehavior.ClientSetNull)
-               .HasConstraintName("FK_PostTag_postId");
+               .HasConstraintName("FK_PostTag_PostId");
 
                 entity.HasOne(d => d.Tag)
                .WithMany(p => p.PostTags)

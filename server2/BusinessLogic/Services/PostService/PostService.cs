@@ -225,7 +225,7 @@ namespace BusinessLogic.Services.PostService
         }
 
 
-        public async Task<List<PostDTO>> GetPostByTag(string tagLabel, DateTime startDate, DateTime endDate)
+        public async Task<List<PostDTO>> GetPostByTag(string tagLabel, DateTime? startDate, DateTime? endDate)
         {
             if(startDate  == null || endDate == null)
             {
@@ -245,7 +245,7 @@ namespace BusinessLogic.Services.PostService
             var taggedPosts = (from pt in postTags
                               join p in posts
                               on pt.PostId equals p.PostId
-                              where p.DateCreated >= startDate && p.DateCreated <= endDate
+                              where p.DateCreated >= endDate && p.DateCreated <= startDate
                               select new PostDTO
                               {
                                   PostId = p.PostId,
@@ -266,17 +266,12 @@ namespace BusinessLogic.Services.PostService
             var scoredPosts = (from p in posts
                               join cp in postSentimentScoreDTO
                               on p.PostId equals cp.PostId
-                              select new Post
-                              {
-                                  PostId = cp.PostId,
-                                  UserId = p.UserId,
-                                  Content = p.Content,
-                                  ImageId = p.ImageId,
-                                  ImageUrl = p.ImageUrl,
-                                  DateCreated = p.DateCreated,
-                                  SentimentScore = cp.SentimentScore,
-                              }).ToList();
+                              select p).ToList();
 
+            for (int i = 0; i < scoredPosts.Count; i++)
+            {
+                scoredPosts[i].SentimentScore = postSentimentScoreDTO[i].SentimentScore;
+            }
 
 
             await _postRepository.UpdateRange(scoredPosts);

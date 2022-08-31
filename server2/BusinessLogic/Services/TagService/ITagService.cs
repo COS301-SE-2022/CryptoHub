@@ -10,6 +10,8 @@ namespace BusinessLogic.Services.TagService
 {
     public interface ITagService
     {
+        Task<List<Tag>> GetTags();
+
         Task<Tag> GetTagbyLabel(string tagLabel);
 
         Task<Response<string>> AddTag(string tagLabel);

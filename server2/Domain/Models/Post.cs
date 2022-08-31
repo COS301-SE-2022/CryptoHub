@@ -9,7 +9,6 @@ namespace Domain.Models
         {
             Comments = new HashSet<Comment>();
             Likes = new HashSet<Like>();
-            Tags = new HashSet<Tag>();
             PostReports = new HashSet<PostReport>();
             PostTags = new HashSet<PostTag>();
         }
@@ -23,7 +22,7 @@ namespace Domain.Models
 
         public DateTime DateCreated { get; set; }
 
-        public float SentimentScore { get; set; }
+        public double? SentimentScore { get; set; }
 
 
 
@@ -32,7 +31,6 @@ namespace Domain.Models
         public virtual User User { get; set; } = null!;
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Like> Likes { get; set; }
-        public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<PostReport> PostReports { get; set; }
 
         public virtual ICollection<PostTag> PostTags { get; set; }

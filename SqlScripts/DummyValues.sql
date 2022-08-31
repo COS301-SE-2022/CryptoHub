@@ -2032,9 +2032,9 @@ VALUES
 ('#ankr'),
 ('#yearn-finance'),
 ('#ravencoin'),
-('#kadena')
+('#kadena');
 
-INSERT INTO [dbo].[PostTag]([PostId,TagId])
+INSERT INTO [dbo].[PostTag]([PostId],[TagId])
 VALUES
 (9,1),
 (10,1),
@@ -2044,7 +2044,7 @@ VALUES
 (14,3),
 (15,3),
 (16,3),
-(17,3),
+(17,3);
 
 
 

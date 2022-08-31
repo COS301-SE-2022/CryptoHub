@@ -24,6 +24,11 @@ namespace BusinessLogic.Services.TagService
 
         }
 
+        public async Task<List<Tag>> GetTags()
+        {
+            return await _tagRepository.ListByExpression(t => true);
+        }
+
         public async Task<Tag> GetTagbyLabel(string tagLabel)
         {
             var tag = await _tagRepository.GetByExpression(t => t.Content == tagLabel);
