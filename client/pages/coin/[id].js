@@ -178,7 +178,7 @@ const Coin = () => {
           <div>
             <p className="text-sm mt-4 text-gray-600">Info</p>
           </div>
-          <CoinSentiment />
+          <CoinSentiment id={id} />
           <CoinInfo
             name="Price"
             price={Math.round(coinData.priceUsd * 100) / 100}
