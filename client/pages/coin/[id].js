@@ -8,6 +8,7 @@ import { userContext } from "../../auth/auth";
 import { coinHistory } from "../../data/coin-history";
 import Rate from "../../components/Rating/RatingC.js";
 import CurrentRating from "../../components/CurrentRating/CurrentRating";
+import CoinSentiment from "../../components/CoinSentiment/CoinSentiment";
 
 const Coin = () => {
   const router = useRouter();
@@ -177,7 +178,7 @@ const Coin = () => {
           <div>
             <p className="text-sm mt-4 text-gray-600">Info</p>
           </div>
-          <div className="w-full"></div>
+          <CoinSentiment />
           <CoinInfo
             name="Price"
             price={Math.round(coinData.priceUsd * 100) / 100}
