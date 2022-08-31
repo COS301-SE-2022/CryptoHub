@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLogic.Services.ImageService;
+using BusinessLogic.Services.PostService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.CoinDTOs;
@@ -22,7 +23,8 @@ namespace BusinessLogic.Services.CoinService
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICoinRatingRepository _coinRatingRepository;
         private readonly IMapper _mapper;
-        public CoinService(ICoinRepository coinRepository, IImageService imageService, IMapper mapper, IUserRepository userRepository, IHttpContextAccessor httpContextAccessor, ICoinRatingRepository coinRatingRepository)
+        private readonly IPostService _postService;
+        public CoinService(ICoinRepository coinRepository, IImageService imageService, IMapper mapper, IUserRepository userRepository, IHttpContextAccessor httpContextAccessor, ICoinRatingRepository coinRatingRepository, IPostService postService)
         {
             _coinRepository = coinRepository;
             _imageService = imageService;
@@ -30,6 +32,7 @@ namespace BusinessLogic.Services.CoinService
             _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
             _coinRatingRepository = coinRatingRepository;
+            _postService = postService;
         }
 
         public async Task<CoinDTO> GetCoin(int id)
@@ -90,14 +93,14 @@ namespace BusinessLogic.Services.CoinService
 
         public async Task<Response<object>> GetCoinRating(string name)
         {
-           
-            var coin = await  _coinRepository.GetByExpression(c => c.CoinName == name);
+
+            var coin = await _coinRepository.GetByExpression(c => c.CoinName == name);
             if (coin == null)
                 return new Response<object>(null, true, "coin not found");
 
             var coinRating = await _coinRatingRepository.ListByExpression(c => c.CoinId == coin.CoinId);
 
-            if(coinRating.Count()<1)
+            if (coinRating.Count() < 1)
                 return new Response<object>(null, false, "");
 
             var response = new
@@ -108,6 +111,32 @@ namespace BusinessLogic.Services.CoinService
 
             return new Response<object>(response, false, "");
 
+        }
+
+        public async Task<Response<object>> GetCoinRatingByUserId(int userId, string CoinName)
+        {
+            var coin = _coinRepository.FindOne(c => c.CoinName == CoinName);
+
+            if (coin == null)
+                return new Response<object>(null, true, "coin not found");
+
+            var coinRating = await _coinRatingRepository.FindOne(c => c.CoinId == coin.Result.CoinId && c.UserId == userId);
+
+            if (coinRating == null)
+                return new Response<object>(null, true, "Rating not found");
+
+            return new Response<object>(new { Rating = coinRating.Rating }, false, "");
+        }
+
+        public async Task<Response<object>> GetCoinSentiment(string coinTag)
+        {
+            coinTag = '#'+ coinTag.ToLower();
+            var posts = await _postService.GetPostByTag(coinTag, null, null);
+
+            decimal? average = posts != null ? posts.Average(p => p.SentimentScore) : null;
+            int? postsInTheLastWeek = posts != null ? posts.Count() : null;
+
+            return new Response<object>(new { Average = average, PostsInTheLastweek = postsInTheLastWeek }, false, "");
         }
     }
 }

@@ -57,10 +57,10 @@ namespace CryptoHubAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPost("{userId}/{coinId}/{rating}")]
-        public async Task<ActionResult<string>> RateCoin(int userId, int coinId, int rating)
+        [HttpPost("{userId}/{coinName}/{rating}")]
+        public async Task<ActionResult<string>> RateCoin(int userId, string coinName, int rating)
         {
-            var response = await _coinRatingService.RateCoin(userId, coinId, rating);
+            var response = await _coinRatingService.RateCoin(userId, coinName, rating);
             if (response.HasError)
                 return BadRequest(response.Message);
 
@@ -132,10 +132,11 @@ namespace CryptoHubAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPost("{coinId}")]
-        public async Task<IActionResult> UpdateProfilePic(int coinId, CreateImageDTO createdImageDTO)
+        [HttpPost("{coinName}")]
+        public async Task<IActionResult> UpdateProfilePic(string coinName, CreateImageDTO createdImageDTO)
         {
-            var response = await _coinService.UpdateCoinProfileImage(coinId, createdImageDTO);
+            var coin = await _coinService.GetCoinByName(coinName);
+            var response = await _coinService.UpdateCoinProfileImage(coin.CoinId, createdImageDTO);
             if (response.HasError)
                 return BadRequest(response.Message);
 
@@ -151,6 +152,28 @@ namespace CryptoHubAPI.Controllers
                 return BadRequest(response.Message);
 
             return Ok(response.Model);
+        }
+
+        [HttpGet("{userId}/{coinName}")]
+        public async Task<IActionResult> GetCoinRatingByUserId(int userId, string coinName)
+        {
+            var response = await _coinService.GetCoinRatingByUserId(userId, coinName);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Model);
+        }
+
+        [HttpGet("{coinName}")]
+
+        public async Task<IActionResult> GetCoinSentiment(string coinName)
+        {
+            var response = await _coinService.GetCoinSentiment(coinName);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Model);
+
         }
     }
 }

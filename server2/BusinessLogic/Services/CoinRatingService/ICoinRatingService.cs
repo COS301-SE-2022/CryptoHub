@@ -9,6 +9,6 @@ namespace BusinessLogic.Services.CoinRatingService
 {
     public interface ICoinRatingService
     {
-        Task<Response<string>> RateCoin(int userId, int coinId, int rating);
+        Task<Response<string>> RateCoin(int userId, string coinName, int rating);
     }
 }
