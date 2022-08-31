@@ -1,4 +1,4 @@
-USE [CryptoHubDB]
+USE [codeforce_dev]
 GO
 
 INSERT INTO [dbo].[Image]([Name],[Url])
@@ -147,7 +147,16 @@ VALUES
 (2,'DogeCoin go',null,null),
 (3,'Too the moon',null,null),
 (5,'the market is looking bad',null,null),
-(1,'THIS IS IT PEOPLE',null,'https://firebasestorage.googleapis.com/v0/b/cryptohub-12abc.appspot.com/o/mandela.jpg?alt=media&token=48dab6df-947c-4b53-9f1d-675411ab2d5c');
+(1,'THIS IS IT PEOPLE',null,'https://firebasestorage.googleapis.com/v0/b/cryptohub-12abc.appspot.com/o/mandela.jpg?alt=media&token=48dab6df-947c-4b53-9f1d-675411ab2d5c'),
+(1,'#bitcoin The market is so bad, I don’t know how to feel',null,null),
+(2,'#bitcoin  Down again',null,null),
+(3,'#bitcoin Hopefully it gets better',null,null),
+(4,'#bitcoin This is a good opportunity to buy low',null,null),
+(1,'#etheruem BUY THE DIP!',null,null),
+(2,'#etheruem A bad year for crypto folks',null,null),
+(3,'#etheruem I can’t believe I lost much money In a week',null,null),
+(4,'#etheruem Brand new to ETH',null,null),
+(5,'#etheruem All will be well with patience',null,null)
 
 INSERT INTO [dbo].[Comment]([UserId],[PostId],[Content])
 VALUES
@@ -1917,6 +1926,128 @@ VALUES
 (105,13,4),
 (105,14,2),
 (105,15,3);
+
+INSERT INTO [dbo].[Message] ([UserId],[RecieverId],[Content])
+VALUES
+(1,2,'jello');
+
+INSERT INTO [dbo].[Tag]([Content])
+VALUES
+('#bitcoin'),
+('#tether'),
+('#ethereum'),
+('#binance-coin'),
+('#usd-coin'),
+('#cardano'),
+('#binance-usd'),
+('#xrp'),
+('#solana'),
+('#polkadot'),
+('#dogecoin'),
+('#avalanche'),
+('#polygon'),
+('#multi-collateral-dai'),
+('#terra-luna'),
+('#shiba-inu'),
+('#uniswap'),
+('#tron'),
+('#wrapped-bitcoin'),
+('#ethereum-classic'),
+('#unus-sed-leo'),
+('#litecoin'),
+('#near-protocol'),
+('#chainlink'),
+('#ftx-token'),
+('#crypto-com-coin'),
+('#stellar'),
+('#flow'),
+('#monero'),
+('#cosmos'),
+('#bitcoin-cash'),
+('#bitcoin-bep2'),
+('#algorand'),
+('#vechain'),
+('#filecoin'),
+('#internet-computer'),
+('#decentraland'),
+('#tezos'),
+('#the-sandbox'),
+('#axie-infinity'),
+('#theta'),
+('#aave'),
+('#quant'),
+('#elrond-egld'),
+('#frax'),
+('#eos'),
+('#okb'),
+('#trueusd'),
+('#bitcoin-sv'),
+('#hedera-hashgraph'),
+('#zcash'),
+('#helium'),
+('#kucoin-token'),
+('#maker'),
+('#fantom'),
+('#iota'),
+('#the-graph'),
+('#thorchain'),
+('#chiliz'),
+('#paxos-standard'),
+('#lido-dao'),
+('#klaytn'),
+('#ecash'),
+('#celsius'),
+('#neo'),
+('#huobi-token'),
+('#curve-dao-token'),
+('#pancakeswap'),
+('#basic-attention-token'),
+('#stacks'),
+('#waves'),
+('#loopring'),
+('#enjin-coin'),
+('#zilliqa'),
+('#dash'),
+('#pax-gold'),
+('#mina'),
+('#kava'),
+('#nexo'),
+('#bitcoin-gold'),
+('#celo'),
+('#kusama'),
+('#decred'),
+('#1inch'),
+('#arweave'),
+('#gnosis-gno'),
+('#nem'),
+('#oasis-network'),
+('#convex-finance'),
+('#trust-wallet-token'),
+('#compound'),
+('#synthetix-network-token'),
+('#gala'),
+('#holo'),
+('#qtum'),
+('#xinfin-network'),
+('#ankr'),
+('#yearn-finance'),
+('#ravencoin'),
+('#kadena');
+
+INSERT INTO [dbo].[PostTag]([PostId],[TagId])
+VALUES
+(9,1),
+(10,1),
+(11,1),
+(12,1),
+(13,3),
+(14,3),
+(15,3),
+(16,3),
+(17,3);
+
+
+
 
 
 

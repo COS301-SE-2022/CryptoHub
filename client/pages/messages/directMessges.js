@@ -7,21 +7,9 @@ import { getFirestore, serverTimestamp } from "@firebase/firestore";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { HubConnection } from "signalr-client-react";
 
+
+
 function directMessges() {
-  let connection = new HubConnection( //wants this to happen when you log in
-    "http://localhost:7215/messagehub?username=khotso&userId=1"
-  );
-
-  connection.on("newMessage", (data) => {
-    console.log(data);
-  });
-
-  connection.start();
-
-  connection.start().then(function () {
-    console.log("do this");
-  });
-
   const router = useRouter();
   const { user, app } = useContext(userContext);
   const { id } = router.query;
