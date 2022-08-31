@@ -18,11 +18,17 @@ def sentiment_Score(sentence) :
 
     print("Overall  Sentiment : ", end = " ")
 
-    if sentiment_value['compound'] >= 0.05 :
+    if sentiment_value['compound'] >= 0.05 and sentiment_value['compound'] < 0.7 :
          print("Positive")
     
-    elif sentiment_value['compound'] <= -0.05 :
+    elif sentiment_value["compound"] >= 0.07:
+        print("Very Positive")
+    
+    elif sentiment_value['compound'] <= -0.05 and sentiment_value['compound'] > -0.7 :
         print("Negative")
+    
+    elif sentiment_value["compound"] <= -0.07:
+        print("Very Negative")
     
     else:
         print("Neutral")
