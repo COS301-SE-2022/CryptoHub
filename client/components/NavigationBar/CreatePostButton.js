@@ -6,7 +6,7 @@ import Image from "next/image";
 const CreatePostButton = () => {
   const { user, refreshfeed } = useContext(userContext);
   const [showModal, setShowModal] = useState(false);
-  const [post, setPost] = useState("");
+  const [post, setPost] = useState(""); //the text
   const [, setError] = useState(false);
   const [, setLoading] = useState(false);
   const [image, setImage] = useState(null);
@@ -31,9 +31,9 @@ const CreatePostButton = () => {
     const base64 = await convertToBase64(file);
     let base64Image = base64.split(",").pop();
     setImage(base64Image);
-    // console.warn(base64);
-    // console.warn(base64Image);
   };
+
+  const checkHastag = (text) => {};
 
   const handleCreatePost = (e) => {
     e.preventDefault();
