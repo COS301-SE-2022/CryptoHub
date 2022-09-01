@@ -30,6 +30,12 @@ namespace Infrastructure.Data
         public virtual DbSet<UserFollower> UserFollowers { get; set; } = null!;
         public virtual DbSet<CoinRating> CoinRatings { get; set; } = null!;
 
+        public virtual DbSet<Message> Messages { get; set; } = null!;
+
+        public virtual DbSet<Notification> Notifications { get; set; } = null!;
+
+        public virtual DbSet<PostTag> PostTags { get; set; } = null!; 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -108,6 +114,8 @@ namespace Infrastructure.Data
             {
                 entity.ToTable("Post");
 
+                entity.Property(e => e.SentimentScore).HasColumnType("decimal(4,4)");
+
                 entity.HasOne(d => d.Image)
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.ImageId)
@@ -157,11 +165,6 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Content).HasMaxLength(50);
 
-                entity.HasOne(d => d.Post)
-                    .WithMany(p => p.Tags)
-                    .HasForeignKey(d => d.PostId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Tag_PostId");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -260,6 +263,50 @@ namespace Infrastructure.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PostReport_PostId");
 
+
+            });
+
+            modelBuilder.Entity<Message>(entity =>
+            {
+                entity.ToTable("Message");
+
+                entity.Property(d => d.TimeDelivered).HasDefaultValue(DateTime.UtcNow);
+
+                entity.HasOne(d => d.User)
+                .WithMany(p => p.Messages)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Message_UserId");
+
+            });
+
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.ToTable("Notification");
+
+                entity.HasOne(d => d.User)
+               .WithMany(p => p.Notifications)
+               .HasForeignKey(d => d.UserId)
+               .OnDelete(DeleteBehavior.ClientSetNull)
+               .HasConstraintName("FK_Notification_UserId");
+
+            });
+
+            modelBuilder.Entity<PostTag>(entity =>
+            {
+                entity.ToTable("PostTag");
+
+                entity.HasOne(d => d.Post)
+               .WithMany(p => p.PostTags)
+               .HasForeignKey(d => d.PostId)
+               .OnDelete(DeleteBehavior.ClientSetNull)
+               .HasConstraintName("FK_PostTag_PostId");
+
+                entity.HasOne(d => d.Tag)
+               .WithMany(p => p.PostTags)
+               .HasForeignKey(d => d.TagId)
+               .OnDelete(DeleteBehavior.ClientSetNull)
+               .HasConstraintName("FK_PostTag_TagId");
 
             });
 
