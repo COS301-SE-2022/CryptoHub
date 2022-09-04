@@ -12,9 +12,6 @@ namespace BusinessLogic.Services.RoleServices
     {
         Task<ICollection<RoleDTO>> GetRoles();
 
-        Task<ICollection<Roles>> GetRoles2();
-
-
         Task<RoleDTO> GetRoleById(int id);
         
     }
