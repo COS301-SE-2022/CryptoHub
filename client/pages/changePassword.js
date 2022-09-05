@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import Router from "next/router";
 import { userContext } from "../auth/auth";
 import { useContext } from "react";
-import { useRouter } from "next/router";
 
 function changePassword() {
   const [error, setError] = useState(false);

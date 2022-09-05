@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { userContext } from "../auth/auth";
 import { useContext } from "react";
-import { useRouter } from "next/router";
 
 function forgotPassword() {
   const router = useRouter();
