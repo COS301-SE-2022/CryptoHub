@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
+import Signals from "../../pages/messages/SignalRClient";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { userContext } from "../../auth/auth";
 import { getFirestore, serverTimestamp } from "@firebase/firestore";
 import { collection, getDocs, addDoc } from "firebase/firestore";
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 
 const Messages = () => {
   const router = useRouter();
@@ -14,6 +16,7 @@ const Messages = () => {
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [connection, setConnection] = useState(null);
 
   const db = getFirestore(app);
   const messagesRef = collection(db, "messages");
@@ -43,6 +46,49 @@ const Messages = () => {
       .catch((error) => {});
   };
 
+  const handleGetConnection = async () => {
+    console.log("Getting connection");
+    setConnection(
+      new HubConnectionBuilder()
+        .withUrl(`http://localhost:7215/messagehub?userId=${user.id}`)
+        .configureLogging(LogLevel.Information)
+        .build()
+    );
+
+    // connection.on("RecievedID", function (connectionID, id) {
+    //   console.log("connection id: " + connectionID);
+    //   connect.innerHTML += "<p>" + connectionID + "</p>";
+    // });
+
+    if (connection != null) {
+      console.log("Connection is not null");
+      connection.start().then(function () {
+        console.log("do this");
+      });
+
+      connection.on("RecieveMessage", (connectionid, id) => {
+        console.log(connectionid);
+      });
+
+      connection.on("RecievedMessage", function (message) {
+        console.log("message");
+        text.innerHTML += "<p>" + message + "</p>";
+      });
+    }
+    // } else {
+    //   handleOnRecieved();
+    // }
+  };
+
+  const handleOnRecieved = () => {
+    console.log("Recieved message");
+    if (connection != null) {
+      connection.on("RecieveMessage", (connectionid, id) => {
+        console.log(connectionid);
+      });
+    }
+  };
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
@@ -58,6 +104,9 @@ const Messages = () => {
 
   useEffect(() => {
     !user.auth && router.push("/");
+    console.log("use effect for DMS");
+
+    handleGetConnection();
     handleGetUser();
     getMessages();
 

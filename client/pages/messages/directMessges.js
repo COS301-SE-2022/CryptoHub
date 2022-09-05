@@ -5,9 +5,6 @@ import { useContext } from "react";
 import { userContext } from "../../auth/auth";
 import { getFirestore, serverTimestamp } from "@firebase/firestore";
 import { collection, getDocs, addDoc } from "firebase/firestore";
-import { HubConnection } from "signalr-client-react";
-
-
 
 function directMessges() {
   const router = useRouter();
@@ -45,7 +42,10 @@ function directMessges() {
     setMessage("");
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("use effect for DMS");
+    handleGetConnection();
+  }, []);
   return <div>directMessges</div>;
 }
 

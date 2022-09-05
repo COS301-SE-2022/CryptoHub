@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { useRouter } from "next/router";
 import { initializeApp } from "firebase/app";
-import { HubConnection } from "signalr-client-react";
+//import { HubConnection } from "signalr-client-react";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAs6bxiM71e6LE4E8-pGzUNL3OGeyE8iTA",
@@ -38,19 +38,19 @@ const UserProvider = ({ children }) => {
 
   const app = initializeApp(firebaseConfig);
 
-  console.log("starting");
+  // console.log("starting");
 
-  let connection = new HubConnection( //wants this to happen when you log in
-    "http://localhost:7215/messagehub?username=khotso&userId=1"
-  );
-  connection.on("RecieveID", (connectionid, id) => {
-    console.log(connectionid);
-    console.log(id);
-  });
+  // let connection = new HubConnection( //wants this to happen when you log in
+  //   "http://localhost:7215/messagehub?username=khotso&userId=1"
+  // );
+  // connection.on("RecieveID", (connectionid, id) => {
+  //   console.log(connectionid);
+  //   console.log(id);
+  // });
 
-  connection.start().then(function () {
-    console.log("do this");
-  });
+  // connection.start().then(function () {
+  //   console.log("do this");
+  // });
 
   const parseJwt = (token) => {
     var base64Url = token.split(".")[1];
