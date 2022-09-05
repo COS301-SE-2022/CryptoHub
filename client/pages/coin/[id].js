@@ -130,6 +130,7 @@ const Coin = () => {
   return (
     <>
       <Head>
+        {/* FIX */}
         <title>{coinData.name}</title>
       </Head>
       <Layout>

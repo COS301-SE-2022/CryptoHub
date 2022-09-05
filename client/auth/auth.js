@@ -22,7 +22,11 @@ export const userContext = createContext({
 
 const UserProvider = ({ children }) => {
   const router = useRouter();
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState(
+    !process.env.NODE_ENV || process.env.NODE_ENV === "development"
+      ? "http://localhost:7215"
+      : "https://seashell-app-d57zw.ondigitalocean.app"
+  );
   const [user, setUser] = useState({
     username: "",
     auth: false,
@@ -104,9 +108,9 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-      setUrl("development");
+      setUrl("http://localhost:7215");
     } else {
-      setUrl("production");
+      setUrl("https://seashell-app-d57zw.ondigitalocean.app");
     }
   });
 

@@ -10,7 +10,7 @@ const Home = () => {
 
   return (
     <>
-      {console.warn("dev", url)}
+      {console.warn("environment: ", url)}
       <Head>
         <title>CryptoHub</title>
       </Head>
