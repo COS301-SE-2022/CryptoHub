@@ -60,21 +60,21 @@ const Messages = () => {
     //   connect.innerHTML += "<p>" + connectionID + "</p>";
     // });
 
-    if (connection != null) {
-      console.log("Connection is not null");
-      connection.start().then(function () {
-        console.log("do this");
-      });
+    // if (connection != null) {
+    //   console.log("Connection is not null");
+    //   connection.start().then(function () {
+    //     console.log("do this");
+    //   });
 
-      connection.on("RecieveMessage", (connectionid, id) => {
-        console.log(connectionid);
-      });
+    //   connection.on("RecieveMessage", (connectionid, id) => {
+    //     console.log(connectionid);
+    //   });
 
-      connection.on("RecievedMessage", function (message) {
-        console.log("message");
-        text.innerHTML += "<p>" + message + "</p>";
-      });
-    }
+    //   connection.on("RecievedMessage", function (message) {
+    //     console.log("message");
+    //     text.innerHTML += "<p>" + message + "</p>";
+    //   });
+    // }
     // } else {
     //   handleOnRecieved();
     // }
@@ -115,6 +115,14 @@ const Messages = () => {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (connection) {
+      connection.start().then(function () {
+        console.log("do this");
+      });
+    }
+  }, [connection]);
 
   return (
     <Layout>
