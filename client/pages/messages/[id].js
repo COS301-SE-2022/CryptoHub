@@ -71,12 +71,10 @@ const Messages = () => {
     // });
   };
 
-  const handleOnRecieved = () => {
+  const handleRecievedMessage = () => {
     console.log("Recieved message");
-    if (connection != null) {
-      connection.on("RecieveMessage", (message) => {
-        console.log(message);
-      });
+    if (connection) {
+      connection.on("RecieveMessage", (message) => {});
     }
   };
 
@@ -91,6 +89,21 @@ const Messages = () => {
     });
     getMessages();
     setMessage("");
+
+    const msg = {
+      UserId: user.id.toString(),
+      ReceiverId: id.toString(),
+      Content: message,
+    };
+
+    //msg as json string
+    const msgString = JSON.stringify(msg);
+
+    if (connection) {
+      connection
+        .invoke("SendMessage", msgString)
+        .catch((err) => console.error(err));
+    }
   };
 
   useEffect(() => {
