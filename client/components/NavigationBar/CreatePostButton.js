@@ -11,6 +11,7 @@ const CreatePostButton = () => {
   const [, setLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [clientImage, setClientImage] = useState(undefined);
+  const [hashtag, setHashtag] = useState("");
 
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -33,25 +34,50 @@ const CreatePostButton = () => {
     setImage(base64Image);
   };
 
+  const handleCheckDatabaseHastag = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`http://localhost:7215/api/Tag/GetTags`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (
+          hashtag == data.content.map((item.content = hashtag))
+          // => {
+          //   item.context == hashtag;
+          // })
+        ) {
+          console.log("true");
+          return true;
+        } else {
+          console.log("false");
+          return false;
+        }
+      })
+      .catch((error) => {});
+  };
+
   //busy with this
   const checkHastag = (text) => {
     let hashtag = "";
     let pos = 0;
-    let found = true;
     for (let i = 0; i < post.length; i++) {
       if (post[i] == "#" && post[i] != " " && post[i] != ".") {
         pos = i;
-        found = true;
       }
     }
 
     for (let x = pos; x < post.length; x++) {
-      if (post[x] != " " || post[x] != "." || post[x] != "\n") {
+      if (post[x] != " " && post[x] != "." && post[x] != "\n") {
         hashtag += post[x];
       }
     }
+    setHashtag(hashtag);
     console.log("word: " + hashtag.length);
     console.log("Hastag: " + hashtag);
+    handleCheckDatabaseHastag();
   };
 
   const handleCreatePost = (e) => {
