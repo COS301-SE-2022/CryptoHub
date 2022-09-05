@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { userContext } from "../../auth/auth";
+import { useContext } from "react";
+import { useRouter } from "next/router";
 
 const CoinSentiment = ({ id }) => {
   const [sentiment, setSentiment] = useState(null);
   const [numberOfPosts, setNumberOfPosts] = useState(0);
+  const { url } = useContext(userContext);
 
   const handleGetCoinSentiment = () => {
     const options = {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/Coin/GetCoinSentiment/${id}`, options)
+    fetch(`${url}/api/Coin/GetCoinSentiment/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
         console.warn("sentiment:", data);
