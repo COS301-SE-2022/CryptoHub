@@ -35,13 +35,23 @@ const CreatePostButton = () => {
 
   //busy with this
   const checkHastag = (text) => {
-    // let hastags = text.match(/[a-zA-Z0-9]+/g);
     let hashtag = "";
+    let pos = 0;
+    let found = true;
     for (let i = 0; i < post.length; i++) {
       if (post[i] == "#" && post[i] != " " && post[i] != ".") {
-        hashtag += post[i];
+        pos = i;
+        found = true;
       }
     }
+
+    for (let x = pos; x < post.length; x++) {
+      if (post[x] != " " || post[x] != "." || post[x] != "\n") {
+        hashtag += post[x];
+      }
+    }
+    console.log("word: " + hashtag.length);
+    console.log("Hastag: " + hashtag);
   };
 
   const handleCreatePost = (e) => {
@@ -67,6 +77,8 @@ const CreatePostButton = () => {
         } else {
           setError(true);
         }
+        checkHastag(post);
+        // console.log(post);
       })
       .catch(() => {
         setError(true);
