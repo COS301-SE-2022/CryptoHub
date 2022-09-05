@@ -6,7 +6,7 @@ import { userContext } from "../auth/auth";
 import { useRouter } from "next/router";
 
 const editprofile = () => {
-  const { user, refreshfeed, profilePicture } = useContext(userContext);
+  const { user, refreshfeed, profilePicture, url } = useContext(userContext);
   const [showModal, setShowModal] = useState(false);
   const [post, setPost] = useState("");
   const [, setError] = useState(false);
@@ -54,7 +54,7 @@ const editprofile = () => {
       }),
     };
 
-    fetch("http://localhost:7215/api/User/UpdateProfileImage", options)
+    fetch(`${url}/api/User/UpdateProfileImage`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);

@@ -3,7 +3,7 @@ import SuggestedAccount from "./SuggestedAccount";
 import { userContext } from "../../auth/auth";
 
 const Suggestions = () => {
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
   // const [accounts, setAccounts] = useState([]);
   // const [followers, setFollowers] = useState([]);
   const [suggestedAccounts, setSuggestedAccounts] = useState([]);
@@ -16,7 +16,7 @@ const Suggestions = () => {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/User/SuggestedUsers/${user.id}`, options)
+    fetch(`${url}/api/User/SuggestedUsers/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setSuggestedAccounts(data);
