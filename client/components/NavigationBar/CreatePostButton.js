@@ -36,15 +36,11 @@ const CreatePostButton = () => {
   //busy with this
   const checkHastag = (text) => {
     // let hastags = text.match(/[a-zA-Z0-9]+/g);
+    let hashtag = "";
     for (let i = 0; i < post.length; i++) {
-      if (post[i] == "#") {
-        console.log("found a hastag");
+      if (post[i] == "#" && post[i] != " " && post[i] != ".") {
+        hashtag += post[i];
       }
-    }
-    if (hastags) {
-      return hastags;
-    } else {
-      return [];
     }
   };
 
