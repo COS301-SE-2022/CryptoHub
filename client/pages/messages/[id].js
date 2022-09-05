@@ -66,25 +66,16 @@ const Messages = () => {
     //     console.log("do this");
     //   });
 
-    //   connection.on("RecieveMessage", (connectionid, id) => {
-    //     console.log(connectionid);
-    //   });
-
-    //   connection.on("RecievedMessage", function (message) {
-    //     console.log("message");
-    //     text.innerHTML += "<p>" + message + "</p>";
-    //   });
-    // }
-    // } else {
-    //   handleOnRecieved();
-    // }
+    // connection.on("RecieveMessage", (connectionid, id) => {
+    //   console.log(connectionid);
+    // });
   };
 
   const handleOnRecieved = () => {
     console.log("Recieved message");
     if (connection != null) {
-      connection.on("RecieveMessage", (connectionid, id) => {
-        console.log(connectionid);
+      connection.on("RecieveMessage", (message) => {
+        console.log(message);
       });
     }
   };
@@ -107,20 +98,26 @@ const Messages = () => {
     console.log("use effect for DMS");
 
     handleGetConnection();
-    handleGetUser();
-    getMessages();
+    //handleGetUser();
+    //getMessages();
 
-    const interval = setInterval(() => {
-      getMessages();
-    }, 3000);
-    return () => clearInterval(interval);
+    // const interval = setInterval(() => {
+    //   getMessages();
+    // }, 3000);
+    // return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     if (connection) {
-      connection.start().then(function () {
-        console.log("do this");
-      });
+      if (connection.state === "Disconnected") {
+        connection.start().then(function () {
+          console.log("do this");
+        });
+
+        connection.on("RecievedMessage", (message) => {
+          console.log(message);
+        });
+      }
     }
   }, [connection]);
 
