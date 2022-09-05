@@ -33,8 +33,14 @@ const CreatePostButton = () => {
     setImage(base64Image);
   };
 
+  //busy with this
   const checkHastag = (text) => {
-    let hastags = text.match(/[a-zA-Z0-9]+/g);
+    // let hastags = text.match(/[a-zA-Z0-9]+/g);
+    for (let i = 0; i < post.length; i++) {
+      if (post[i] == "#") {
+        console.log("found a hastag");
+      }
+    }
     if (hastags) {
       return hastags;
     } else {
