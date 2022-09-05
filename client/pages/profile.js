@@ -286,17 +286,14 @@ const MyCoins = () => {
   const [coins, setCoins] = useState([]);
   const [myCoins, setMyCoins] = useState([]);
   const [count, setCount] = useState(5);
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
 
   const getUserFollowingCoins = () => {
     const options = {
       method: "GET",
     };
 
-    fetch(
-      `http://localhost:7215/api/Coin/GetCoinsFollowedByUser/${user.id}`,
-      options
-    )
+    fetch(`${url}/api/Coin/GetCoinsFollowedByUser/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setCoins(data);

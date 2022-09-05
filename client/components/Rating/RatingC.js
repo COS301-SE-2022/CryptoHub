@@ -9,7 +9,7 @@ const Rate = () => {
   const [rate, setRate] = useState(0);
   const router = useRouter();
   const { id } = router.query;
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
   const [rated, setRated] = useState(false);
 
   const handleGetCoinRating = () => {
@@ -19,10 +19,7 @@ const Rate = () => {
     console.log(id);
     console.log(user.id);
 
-    fetch(
-      `http://localhost:7215/api/Coin/GetCoinRatingByUserId/${user.id}/${id}`,
-      options
-    )
+    fetch(`${url}/api/Coin/GetCoinRatingByUserId/${user.id}/${id}`, options)
       .then((response) => {
         console.log("Hello there " + response.status);
         if (response.status == 400) {
@@ -52,10 +49,7 @@ const Rate = () => {
       }),
     };
 
-    fetch(
-      `http://localhost:7215/api/Coin/RateCoin/${user.id}/${id}/${givenRating}`,
-      options
-    )
+    fetch(`${url}/api/Coin/RateCoin/${user.id}/${id}/${givenRating}`, options)
       .then((response) => {
         setClicked(true);
         setIsFollowing(true);
