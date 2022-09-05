@@ -4,7 +4,6 @@ import InfoSection from "../InfoSection/InfoSection";
 import { userContext } from "../../auth/auth";
 import Post from "../Posts/Post";
 import { useRouter } from "next/router";
-import { userContext } from "../../auth/auth";
 
 const AdminFeed = () => {
   const { user, url } = useContext(userContext);
