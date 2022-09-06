@@ -54,21 +54,6 @@ const Messages = () => {
         .configureLogging(LogLevel.Information)
         .build()
     );
-
-    // connection.on("RecievedID", function (connectionID, id) {
-    //   console.log("connection id: " + connectionID);
-    //   connect.innerHTML += "<p>" + connectionID + "</p>";
-    // });
-
-    // if (connection != null) {
-    //   console.log("Connection is not null");
-    //   connection.start().then(function () {
-    //     console.log("do this");
-    //   });
-
-    // connection.on("RecieveMessage", (connectionid, id) => {
-    //   console.log(connectionid);
-    // });
   };
 
   const handleRecievedMessage = () => {
@@ -81,18 +66,18 @@ const Messages = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
-    await addDoc(messagesRef, {
-      sender: user.id.toString(),
-      receiver: id.toString(),
-      message: message,
-      timestamp: serverTimestamp(),
-    });
-    getMessages();
-    setMessage("");
+    // await addDoc(messagesRef, {
+    //   sender: user.id.toString(),
+    //   receiver: id.toString(),
+    //   message: message,
+    //   timestamp: serverTimestamp(),
+    // });
+    // getMessages();
+    // setMessage("");
 
     const msg = {
       UserId: user.id.toString(),
-      ReceiverId: id.toString(),
+      RecieverId: id.toString(),
       Content: message,
     };
 
@@ -129,6 +114,7 @@ const Messages = () => {
 
         connection.on("RecievedMessage", (message) => {
           console.log(message);
+          setMessages(...setMessages, message);
         });
       }
     }
