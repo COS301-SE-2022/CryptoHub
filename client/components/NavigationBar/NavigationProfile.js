@@ -12,14 +12,14 @@ const NavigationProfile = () => {
   const router = useRouter();
   const { logout, profilePicture, setProfilePicture } = useContext(userContext);
   const [thisUser, setThisUser] = useState(null);
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
 
   const handleGetUser = () => {
     const options = {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/User/GetUserById/${user.id}`, options)
+    fetch(`${url}/api/User/GetUserById/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setThisUser(data.imageUrl);
@@ -30,7 +30,6 @@ const NavigationProfile = () => {
 
   useEffect(() => {
     handleGetUser();
-    console.warn("Image url: ", profilePicture);
   }, []);
 
   return (

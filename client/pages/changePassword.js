@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Router from "next/router";
+import { userContext } from "../auth/auth";
+import { useContext } from "react";
 
 function changePassword() {
   const [error, setError] = useState(false);
@@ -9,6 +11,7 @@ function changePassword() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const router = useRouter();
+  const { url } = useContext(userContext);
 
   const handleCheckPassword = (e) => {
     setLoading(true);
@@ -39,7 +42,7 @@ function changePassword() {
       // console.log(newPassword);
 
       fetch(
-        `http://localhost:7215/api/Authorization/UpdateForgotPassword/${router.query.email}/${newPassword}`,
+        `${url}/api/Authorization/UpdateForgotPassword/${router.query.email}/${newPassword}`,
         options
       )
         .then((response) => {

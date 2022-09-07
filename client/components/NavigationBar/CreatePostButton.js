@@ -4,7 +4,7 @@ import { userContext } from "../../auth/auth";
 import Image from "next/image";
 
 const CreatePostButton = () => {
-  const { user, refreshfeed } = useContext(userContext);
+  const { user, refreshfeed, url } = useContext(userContext);
   const [showModal, setShowModal] = useState(false);
   const [post, setPost] = useState("");
   const [, setError] = useState(false);
@@ -48,7 +48,7 @@ const CreatePostButton = () => {
       }),
     };
 
-    fetch("http://localhost:7215/api/Post/AddPost", options)
+    fetch(`${url}/api/Post/AddPost`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
