@@ -8,7 +8,7 @@ import { collection, getDocs, addDoc } from "firebase/firestore";
 
 const Messages = () => {
   const router = useRouter();
-  const { user, app } = useContext(userContext);
+  const { user, app, url } = useContext(userContext);
   const { id } = router.query;
   const [thisUser, setUser] = useState({});
   const [username, setUsername] = useState("");
@@ -33,7 +33,7 @@ const Messages = () => {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/User/GetUserById/${id}`, options)
+    fetch(`${url}/api/User/GetUserById/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
@@ -56,13 +56,13 @@ const Messages = () => {
   };
 
   useEffect(() => {
-    id == undefined && router.push("/");
+    !user.auth && router.push("/");
     handleGetUser();
     getMessages();
 
     const interval = setInterval(() => {
       getMessages();
-    }, 1000);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -88,6 +88,7 @@ const Messages = () => {
                   message={message.message}
                   sender={message.sender}
                   receiver={message.receiver}
+                  time={message.time}
                 />
               );
             } else if (
@@ -99,6 +100,7 @@ const Messages = () => {
                   message={message.message}
                   sender={message.sender}
                   receiver={message.receiver}
+                  time={message.time}
                 />
               );
             }
@@ -120,7 +122,9 @@ const Messages = () => {
                   setMessage(e.target.value);
                 }}
               />
-              <button className="ml-4 font-semibold">Send</button>
+              <button className="ml-6 bg-indigo-600 px-4 text-white rounded-xl hover:bg-indigo-500 transition">
+                Send
+              </button>
             </div>
           </form>
         </div>
@@ -131,25 +135,27 @@ const Messages = () => {
 
 export default Messages;
 
-const SenderMessage = ({ message, sender, receiver }) => {
+const SenderMessage = ({ message, sender, receiver, time }) => {
   const router = useRouter();
   const { user } = useContext(userContext);
   const { id } = router.query;
 
   return (
     <div className="bg-indigo-300 text-right m-3 rounded-xl px-3 py-1 min:w-4/12 self-end">
-      {message}
+      <p>{message}</p>
+      {/* <p>{time}</p> */}
     </div>
   );
 };
 
-const ReceiverMessage = ({ message, sender, receiver }) => {
+const ReceiverMessage = ({ message, sender, receiver, time }) => {
   const router = useRouter();
   const { user } = useContext(userContext);
   const { id } = router.query;
   return (
     <div className="bg-gray-200  m-3 rounded-xl px-3 py-1 min:w-4/12 self-start">
-      {message}
+      <p>{message}</p>
+      {/* <p>{time}</p> */}
     </div>
   );
 };

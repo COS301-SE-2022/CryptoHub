@@ -57,10 +57,10 @@ namespace CryptoHubAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPost("{userId}/{coinId}/{rating}")]
-        public async Task<ActionResult<string>> RateCoin(int userId, int coinId, int rating)
+        [HttpPost("{userId}/{coinName}/{rating}")]
+        public async Task<ActionResult<string>> RateCoin(int userId, string coinName, int rating)
         {
-            var response = await _coinRatingService.RateCoin(userId, coinId, rating);
+            var response = await _coinRatingService.RateCoin(userId, coinName, rating);
             if (response.HasError)
                 return BadRequest(response.Message);
 
@@ -74,32 +74,50 @@ namespace CryptoHubAPI.Controllers
             return Ok(await _userCoinService.GetAllUserCoins());
         }
 
-        [HttpPost("{userId}/{coinId}")]
-        public async Task<IActionResult> FollowCoin(int userId, int coinId)
+        [HttpPost("{userId}/{coinName}")]
+        public async Task<IActionResult> FollowCoin(int userId, string coinName)
         {
-            var response = await _userCoinService.FollowCoin(userId, coinId);
+            var response = await _userCoinService.FollowCoin(userId, coinName);
             if (response.HasError)
                 return BadRequest(response.Message);
 
             return Ok(response.Message);
         }
 
-        [HttpPost("{userId}/{coinId}")]
-        public async Task<IActionResult> UnfollowCoin(int userId, int coinId)
+        [HttpPost("{userId}/{coinName}")]
+        public async Task<IActionResult> UnfollowCoin(int userId, string coinName)
         {
-            var response = await _userCoinService.UnfollowCoin(userId, coinId);
+            var response = await _userCoinService.UnfollowCoin(userId, coinName);
             if (response.HasError)
                 return BadRequest(response.Message);
 
             return Ok(response.Message);
         }
 
-        [HttpGet("{coinId}")]
-        public async Task<ActionResult<List<UserCoinDTO>>> GetCoinsFollowers(int coinId)
+        [HttpGet("{coinName}")]
+        public async Task<ActionResult<UserCoinDTO>> GetCoinFollowCount(string coinName)
         {
-            var response = await _userCoinService.GetCoinFollowers(coinId);
+            var response = await _userCoinService.GetCoinFollowCount(coinName);
             if (response == null)
                 return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{coinName}")]
+        public async Task<ActionResult<List<UserCoinDTO>>> GetCoinsFollowers(string coinName)
+        {
+            var response = await _userCoinService.GetCoinFollowers(coinName);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<List<CoinDTO>>> GetCoinsFollowedByUser(int userId)
+        {
+            var response = await _userCoinService.GetCoinsFollowedByUser(userId);
 
             return Ok(response);
         }
@@ -114,14 +132,47 @@ namespace CryptoHubAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPost("{coinId}")]
-        public async Task<IActionResult> UpdateProfilePic(int coinId, CreateImageDTO createdImageDTO)
+        [HttpPost("{coinName}")]
+        public async Task<IActionResult> UpdateProfilePic(string coinName, CreateImageDTO createdImageDTO)
         {
-            var response = await _coinService.UpdateCoinProfileImage(coinId, createdImageDTO);
+            var coin = await _coinService.GetCoinByName(coinName);
+            var response = await _coinService.UpdateCoinProfileImage(coin.CoinId, createdImageDTO);
             if (response.HasError)
                 return BadRequest(response.Message);
 
             return Ok(response.Message);
+
+        }
+
+        [HttpGet("{coinName}")]
+        public async Task<IActionResult> GetCoinRating(string coinName)
+        {
+            var response = await _coinService.GetCoinRating(coinName);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Model);
+        }
+
+        [HttpGet("{userId}/{coinName}")]
+        public async Task<IActionResult> GetCoinRatingByUserId(int userId, string coinName)
+        {
+            var response = await _coinService.GetCoinRatingByUserId(userId, coinName);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Model);
+        }
+
+        [HttpGet("{coinName}")]
+
+        public async Task<IActionResult> GetCoinSentiment(string coinName)
+        {
+            var response = await _coinService.GetCoinSentiment(coinName);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Model);
 
         }
     }

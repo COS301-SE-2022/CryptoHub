@@ -5,6 +5,7 @@ using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.EmailDTOs;
 using Infrastructure.DTO.UserDTOs;
+using Infrastructure.Helper.PasswordEncryption;
 using Infrastructure.Setting;
 using Intergration.SendGridEmailService;
 using Intergration.SendInBlueEmailService;
@@ -48,7 +49,13 @@ namespace BusinessLogic.Services.AuthorizationService
             if (loginUser == null)
                 return new Response<JWT>(null, true, "incorrect username or password");
 
-            if (!(loginUser.Password == loginDTO.Password))
+            var decryptedPassword = string.Empty;
+            if (loginUser.UserId < 106)
+                decryptedPassword = loginDTO.Password;
+            else
+               decryptedPassword = AesOperation.EncryptString("abcdefghijklmnop", loginDTO.Password);
+            
+            if (!(loginUser.Password == decryptedPassword))
                 return new Response<JWT>(null, true, "incorrect username or password");
 
 
@@ -68,6 +75,8 @@ namespace BusinessLogic.Services.AuthorizationService
             var user = _mapper.Map<User>(registerDTO);
 
             user.RoleId = 3;
+            user.Password = AesOperation.EncryptString("abcdefghijklmnop", user.Password);
+
             await _userRepository.Add(user);
 
             var role = await _roleService.GetRoleById(user.RoleId);
@@ -143,7 +152,7 @@ namespace BusinessLogic.Services.AuthorizationService
             if (!user.HasForgottenPassword.Value)
                 return new Response<UserDTO>(null, true, "forgot password not requested");
 
-            user.Password = password;
+            user.Password = AesOperation.EncryptString("abcdefghijklmnop", password);
             user.HasForgottenPassword = false;
 
             await _userRepository.Update(user);

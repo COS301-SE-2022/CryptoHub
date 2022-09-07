@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { initializeApp } from "firebase/app";
 
@@ -17,17 +17,28 @@ export const userContext = createContext({
   auth: false,
   id: 0,
   token: "",
+  admin: false,
 });
 
 const UserProvider = ({ children }) => {
   const router = useRouter();
+  const [url, setUrl] = useState(
+    !process.env.NODE_ENV || process.env.NODE_ENV === "development"
+      ? "http://localhost:7215"
+      : "https://seashell-app-d57zw.ondigitalocean.app"
+  );
   const [user, setUser] = useState({
     username: "",
     auth: false,
     id: 0,
     token: "",
+    admin: false,
   });
+
   const [feedstate, setFeedstate] = useState(false);
+  const [show, setShow] = useState(false);
+  const [alertText, setAlertText] = useState("");
+  const [profilePicture, setProfilePicture] = useState(null);
 
   const app = initializeApp(firebaseConfig);
 
@@ -53,23 +64,73 @@ const UserProvider = ({ children }) => {
       auth: false,
       id: 0,
       token: "",
+      admin: false,
     });
     router.push("/");
   };
 
+  const alert = (text) => {
+    setAlertText(text);
+    setShow(true);
+  };
+
+  const closeAlert = () => {
+    setShow(false);
+  };
+
   const authorise = (token) => {
     let user = parseJwt(token);
-    setUser({ username: user.username, auth: true, id: user.id, token: token });
-    router.push("/");
+
+    if (user.roles == "Super") {
+      setUser({
+        username: user.username,
+        auth: true,
+        id: user.id,
+        token: token,
+        admin: true,
+      });
+      router.push("/");
+    } else {
+      setUser({
+        username: user.username,
+        auth: true,
+        id: user.id,
+        token: token,
+        admin: false,
+      });
+      router.push("/");
+    }
   };
 
   const refreshfeed = () => {
     setFeedstate(!feedstate);
   };
 
+  useEffect(() => {
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+      setUrl("http://localhost:7215");
+    } else {
+      setUrl("https://seashell-app-d57zw.ondigitalocean.app");
+    }
+  });
+
   return (
     <userContext.Provider
-      value={{ user, logout, authorise, feedstate, refreshfeed, app }}
+      value={{
+        user,
+        logout,
+        authorise,
+        feedstate,
+        refreshfeed,
+        app,
+        alert,
+        show,
+        alertText,
+        closeAlert,
+        profilePicture,
+        setProfilePicture,
+        url,
+      }}
     >
       {children}
     </userContext.Provider>

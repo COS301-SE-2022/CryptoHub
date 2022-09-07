@@ -6,7 +6,7 @@ import Feed from "../components/Feed/Feed";
 import Head from "next/head";
 
 const Home = () => {
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
 
   return (
     <>

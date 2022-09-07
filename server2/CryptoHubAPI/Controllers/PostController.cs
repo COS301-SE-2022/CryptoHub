@@ -1,7 +1,9 @@
 ﻿using BusinessLogic.Services.PostService;
+using BusinessLogic.Services.UserFollowerService;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.PostDTO;
+using Infrastructure.DTO.ReportPostDTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +15,12 @@ namespace CryptoHubAPI.Controllers
     {
 
         private readonly IPostService _postService;
+        private readonly IUserFollowerService _userFollowerService;
 
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, IUserFollowerService userFollowerService)
         {
             _postService = postService;
+            _userFollowerService = userFollowerService;
         }
 
         [HttpGet]
@@ -70,13 +74,54 @@ namespace CryptoHubAPI.Controllers
         {
             var response = await _postService.Report(postid, userid);
 
-            if(response == null)
+            if (response == null)
             {
                 return BadRequest();
             }
 
             return Ok(response);
 
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Post>> GetReportCountByPostId(int id)
+        {
+            var response = await _postService.GetReportCountByPostId(id);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        // GET: PostController
+        public async Task<ActionResult<List<ReportPostDTO>>> GetAllReportedPosts()
+        {
+            return Ok(await _postService.GetAllReportedPosts());
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<PostDTO>>> GetFeed()
+        {
+            var response = await _userFollowerService.GetFeed();
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Model);
+
+        }
+
+        [HttpGet("{tag}")]
+        public async Task<ActionResult<List<PostDTO>>> GetPostsByTag(string tag,DateTime? startDate,DateTime? endDate)
+        {
+            return await _postService.GetPostByTag(tag, startDate, endDate);
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> UpdatePostSentiment(List<PostSentimentScoreDTO> postSentimentScoreDTOs)
+        {
+            await _postService.BatchAddSentimentScore(postSentimentScoreDTOs);
+            return Ok();
         }
 
     }

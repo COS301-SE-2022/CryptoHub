@@ -8,6 +8,7 @@ using BusinessLogic.Services.UserCoinService;
 using BusinessLogic.Services.SearchService;
 using Infrastructure.DTO.UserDTOs;
 using Infrastructure.DTO.ImageDTOs;
+using BusinessLogic.Services.UserFollowerService;
 
 namespace CryptoHubAPI.Controllers
 {
@@ -20,12 +21,14 @@ namespace CryptoHubAPI.Controllers
         private readonly IUserService _userService;
         private readonly IUserCoinService _userCoinService;
         private readonly ISearchService _searchService;
+        private readonly IUserFollowerService _userFollowService;
 
-        public UserController(IUserService userService, IUserCoinService userCoinService, ISearchService searchService)
+        public UserController(IUserService userService, IUserCoinService userCoinService, ISearchService searchService, IUserFollowerService userFollowService)
         {
             _userService = userService;
             _userCoinService = userCoinService;
             _searchService = searchService;
+            _userFollowService = userFollowService;
         }
 
         [HttpGet]
@@ -126,5 +129,7 @@ namespace CryptoHubAPI.Controllers
 
             return Ok(response.Message);
         }
+
+        
     }
 }

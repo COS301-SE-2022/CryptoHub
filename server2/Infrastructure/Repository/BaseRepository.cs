@@ -122,5 +122,30 @@ namespace Infrastructure.Repository
 
             return Task.CompletedTask;
         }
+
+        public Task DeleteRange(List<TEntity> entities)
+        {
+            dbSet.RemoveRange(entities);
+            dBContext.SaveChanges();
+
+            return Task.CompletedTask;
+        }
+
+        public Task AddRange(List<TEntity> entities)
+        {
+            dbSet.AddRange(entities);
+            dBContext.SaveChanges();
+
+            return Task.CompletedTask;
+        }
+
+        public Task UpdateRange(List<TEntity> entities)
+        {
+            dbSet.UpdateRange(entities);
+            dBContext.SaveChanges();
+
+            return Task.CompletedTask;
+        }
+
     }
 }

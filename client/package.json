@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "backend": "cd ../server2/CryptoHubAPI && dotnet run",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "cypress": "cypress open",
@@ -27,8 +28,12 @@
     "react-chartjs-2": "^4.2.0",
     "react-dom": "18.1.0",
     "react-firebase-hooks": "^5.0.3",
+    "react-icons": "^4.4.0",
     "request": "^2.88.2",
-    "swiper": "^8.3.1"
+    "signalr-client-react": "^0.2.1",
+    "styled-components": "^5.3.5",
+    "swiper": "^8.3.1",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.6",

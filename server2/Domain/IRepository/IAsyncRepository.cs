@@ -31,12 +31,17 @@ namespace Domain.IRepository
 
         Task Update(TEntity entity);
 
+        Task UpdateRange(List<TEntity> entities);
+
         Task<TEntity> GetByExpression(Expression<Func<TEntity, bool>> expression);
 
         Task<List<TEntity>> ListByExpression(Expression<Func<TEntity, bool>> expression);
 
         Task Delete(TEntity entity);
 
+        Task DeleteRange(List<TEntity> entities);
+
+        Task AddRange(List<TEntity> entities);
 
 
 

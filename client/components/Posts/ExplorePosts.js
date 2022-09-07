@@ -9,7 +9,7 @@ const ExplorePosts = () => {
   const [error, setError] = useState(false);
   const [following, setFollowing] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
   const router = useRouter();
   const [refresh, setRefresh] = useState(false);
   const [explorePosts, setExplorePosts] = useState([]);
@@ -20,7 +20,7 @@ const ExplorePosts = () => {
         method: "GET",
       };
 
-      fetch("http://localhost:7215/api/Post/GetAllPosts", options)
+      fetch(`${url}/api/Post/GetAllPosts`, options)
         .then((response) => response.json())
         .then((data) => {
           let posts = data.reverse();
@@ -29,10 +29,7 @@ const ExplorePosts = () => {
             return post.userId != user.id;
           });
           setPosts(myPosts);
-          fetch(
-            `http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`,
-            options
-          )
+          fetch(`${url}/api/UserFollower/GetUserFollowing/${user.id}`, options)
             .then((response) => response.json())
             .then((data) => {
               setFollowing(data);
@@ -58,7 +55,6 @@ const ExplorePosts = () => {
         return acc.userId != user.id;
       });
 
-      console.warn("Final", final);
       setExplorePosts(final);
     } catch {}
   }, [refresh]);
@@ -67,6 +63,8 @@ const ExplorePosts = () => {
     <div className=" w-full sm:w-5/12">
       {loading ? (
         <p>loading...</p>
+      ) : explorePosts.count == 0 ? (
+        <p>No posts to explore</p>
       ) : (
         explorePosts.map((data, index) => {
           return (
@@ -76,7 +74,7 @@ const ExplorePosts = () => {
               content={data.content}
               userId={data.userId}
               postId={data.postId}
-              imageId={data.imageId}
+              imageId={data.imageUrl}
             />
           );
         })

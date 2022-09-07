@@ -60,7 +60,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
             {name}
           </p>
           <div className="flex flex-row justify-between">
-            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
+            {/* <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
               Day
             </button>
             <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
@@ -71,18 +71,13 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
             </button>
             <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
               Year
-            </button>
+            </button> */}
           </div>
         </div>
         <div className="flex flex-row">
           <p className="text-2xl font-bold mb-2 translate-y-1 ml-2 justify-between">
             {state}
           </p>
-          {arrow == "up" ? (
-            <div className="h-0 w-4.5 border-x-8 border-x-transparent translate-y-3 translate-x-2 border-b-[15px] border-b-green-600"></div>
-          ) : (
-            <div className="h-0 w-4.5 border-x-8 border-x-transparent translate-y-4 translate-x-2 border-b-[15px] border-b-red-600 rotate-180"></div>
-          )}
         </div>
         <div>
           <Line data={chartData} />
