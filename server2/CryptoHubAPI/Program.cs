@@ -117,7 +117,7 @@ builder.Services.AddDbContext<CryptoHubDBContext>(
         }
         else
         {
-            //coment for commit phase 2
+            //coment for commit phase 2 phase 3
             options.UseNpgsql(DBConnctionSettings.ConnectionString);
         }
     });
