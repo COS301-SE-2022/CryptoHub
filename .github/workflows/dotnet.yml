@@ -2,35 +2,55 @@ name: .NET
 
 on:
   push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
+    branches: ["feature-server-host-server"]
+  # pull_request:
+  #   branches: ["develop"]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    environment: dev
+  # build:
+  #   runs-on: ubuntu-latest
+  #   environment: de
 
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: Envs
+  #     run: |
+  #       echo ${{ secrets }}
+  #   - name: Setup .NET
+  #     uses: actions/setup-dotnet@v2
+  #     with:
+  #       dotnet-version: 6.0.x
+  #   - name: Restore dependencies
+  #     run: |
+  #       cd server2
+  #       dotnet restore
+  #   - name: Build
+  #     run: |
+  #       cd server2
+  #       dotnet build --no-restore
+  #   - name: Test
+  #     env :
+  #       DOPPLER_TOKEN : ${{ secrets.DOPPLER_TOKEN }}
+  #     run: |
+  #       cd server2
+  #       dotnet test --no-build --verbosity normal
+
+  build_dokcer:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Envs
-      run: |
-        echo ${{ secrets }}
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: |
-        cd server2
-        dotnet restore
-    - name: Build
-      run: |
-        cd server2
-        dotnet build --no-restore
-    - name: Test
-      env :
-        DOPPLER_TOKEN : ${{ secrets.DOPPLER_TOKEN }}
-      run: |
-        cd server2
-        dotnet test --no-build --verbosity normal
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./sever2
+          file: ./sever2/Dockerfile
+          push: true
+          tags: codeforce301/cryptohubapi:latest
