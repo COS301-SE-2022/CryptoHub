@@ -2,39 +2,38 @@ name: .NET
 
 on:
   push:
-    branches: ["feature-server-host-server"]
-  # pull_request:
-  #   branches: ["develop"]
+    branches: ["develop"]
+  pull_request:
+    branches: ["develop"]
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   environment: de
+  build:
+    runs-on: ubuntu-latest
+    environment: de
 
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - name: Envs
-  #     run: |
-  #       echo ${{ secrets }}
-  #   - name: Setup .NET
-  #     uses: actions/setup-dotnet@v2
-  #     with:
-  #       dotnet-version: 6.0.x
-  #   - name: Restore dependencies
-  #     run: |
-  #       cd server2
-  #       dotnet restore
-  #   - name: Build
-  #     run: |
-  #       cd server2
-  #       dotnet build --no-restore
-  #   - name: Test
-  #     env :
-  #       DOPPLER_TOKEN : ${{ secrets.DOPPLER_TOKEN }}
-  #     run: |
-  #       cd server2
-  #       dotnet test --no-build --verbosity normal
-
+    steps:
+      - uses: actions/checkout@v3
+      - name: Envs
+        run: |
+          echo ${{ secrets }}
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: |
+          cd server2
+          dotnet restore
+      - name: Build
+        run: |
+          cd server2
+          dotnet build --no-restore
+      - name: Test
+        env:
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+        run: |
+          cd server2
+          dotnet test --no-build --verbosity normal
   build_docker:
     name: Build Docker image and push to Docker Hub
     runs-on: ubuntu-latest
