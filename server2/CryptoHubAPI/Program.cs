@@ -114,13 +114,16 @@ builder.Services.AddDbContext<CryptoHubDBContext>(
         if (builder.Environment.IsDevelopment())
         {
             //options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
-            options.UseNpgsql("Server = 127.0.0.1;Port = 5432; Database = cryptohub; User Id =postgres; Password = P@55w0rd");
-            
+            //options.UseNpgsql("Server = 127.0.0.1;Port = 5432; Database = cryptohub; User Id =postgres; Password = P@55w0rd");
+            options.UseNpgsql("Server = ec2-52-1-17-228.compute-1.amazonaws.com;Port = 5432; Database = d2l4gm4krbcba6; User Id =jexdqlpsaockeq; Password = 9fd59b81c1196dd7c5ba13bbac002034a908d342b61e809bba917d170d7d0c08");
+
 
         }
         else
-            options.UseSqlServer(DBConnctionSettings.ConnectionString);
-
+        {
+            options.UseNpgsql("Server = ec2-52-1-17-228.compute-1.amazonaws.com;Port = 5432; Database = d2l4gm4krbcba6; User Id =jexdqlpsaockeq; Password = 9fd59b81c1196dd7c5ba13bbac002034a908d342b61e809bba917d170d7d0c08");
+            //options.UseSqlServer(DBConnctionSettings.ConnectionString);
+        }
     });
 
 
