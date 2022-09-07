@@ -35,7 +35,8 @@ jobs:
   #       cd server2
   #       dotnet test --no-build --verbosity normal
 
-  build_dokcer:
+  build_docker:
+    name: Build Docker image and push to Docker Hub
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -53,3 +54,16 @@ jobs:
           context: "${{ github.server_url }}/${{ github.repository }}.git#${{ github.ref }}:server2"
           push: true
           tags: codeforce301/cryptohubapi:latest
+  update_on_linode:
+    name: Update image on Linode
+    needs: "build_docker"
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: bash update.sh
