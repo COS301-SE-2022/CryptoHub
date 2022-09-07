@@ -111,12 +111,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddDbContext<CryptoHubDBContext>(
     options =>
     {
-        if(builder.Environment.IsDevelopment())
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
+        if (builder.Environment.IsDevelopment())
+        {
+            options.UseNpgsql(DBConnctionSettings.ConnectionString);
+        }
         else
-            options.UseSqlServer(DBConnctionSettings.ConnectionString);
-
+        {
+            //coment for commit phase 2 phase 3
+            options.UseNpgsql(DBConnctionSettings.ConnectionString);
+        }
     });
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
