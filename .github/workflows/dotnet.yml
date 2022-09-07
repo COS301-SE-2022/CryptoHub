@@ -33,7 +33,7 @@ jobs:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
         run: |
           cd server2
-          echo Hello
+          echo Hello Again
           echo $DOPPLER_TOKEN
           echo ${{ secrets.PORT }}
           dotnet test --no-build --verbosity normal
