@@ -52,7 +52,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./sever2
-          file: ./sever2/Dockerfile
+          context: "${{ github.server_url }}/${{ github.repository }}.git#${{ github.ref }}:server2"
           push: true
           tags: codeforce301/cryptohubapi:latest
