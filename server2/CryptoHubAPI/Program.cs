@@ -113,11 +113,11 @@ builder.Services.AddDbContext<CryptoHubDBContext>(
     {
         if (builder.Environment.IsDevelopment())
         {
-            options.UseSqlServer(DBConnctionSettings.ConnectionString);
+            options.UseNpgsql(DBConnctionSettings.ConnectionString);
         }
         else
         {
-            options.UseSqlServer(DBConnctionSettings.ConnectionString);
+            options.UseNpgsql(DBConnctionSettings.ConnectionString);
         }
     });
 
