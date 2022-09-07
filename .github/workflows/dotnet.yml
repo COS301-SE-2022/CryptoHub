@@ -33,6 +33,7 @@ jobs:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
         run: |
           cd server2
+          export DOPPLER_TOKEN=${{ secrets.DOPPLER_TOKEN }}
           dotnet test --no-build --verbosity normal
   build_docker:
     name: Build Docker image and push to Docker Hub
