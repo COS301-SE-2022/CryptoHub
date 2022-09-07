@@ -57,14 +57,16 @@ namespace CryptoHubAPI.Hubs
         public override async Task<Task> OnDisconnectedAsync(Exception? exception)
         {
             var user = _users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+            if (user != null)
+            {
+                var messages = _messages.FindAll(m => m.UserId == user.UserId);
 
-            var messages = _messages.FindAll(m => m.UserId == user.UserId);
+                await _messageService.AddBatchMessages(messages);
 
-            await _messageService.AddBatchMessages(messages);
+                _messages.RemoveAll(m => m.UserId == user.UserId);
 
-            _messages.RemoveAll(m => m.UserId == user.UserId);
-
-            _users.Remove(user);
+                _users.Remove(user);
+            }
 
             return base.OnDisconnectedAsync(exception);
         }
@@ -124,7 +126,7 @@ namespace CryptoHubAPI.Hubs
 
         }
 
-        public async Task RemoveNotification(int userId, int senderId)
+        public async Task RemoveNotification(int userId, int senderId) sbyte
         {
            
 

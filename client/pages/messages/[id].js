@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Layout from "../../components/Layout";
 import Signals from "../../pages/messages/SignalRClient";
 import { useRouter } from "next/router";
@@ -17,6 +17,9 @@ const Messages = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [connection, setConnection] = useState(null);
+  const latestMessage = useRef(null);
+
+  latestMessage.current = messages;
 
   const db = getFirestore(app);
   const messagesRef = collection(db, "messages");
@@ -29,7 +32,7 @@ const Messages = () => {
         return a.timestamp - b.timestamp;
       });
     console.warn("Final messages: ", messages);
-    setMessages(final);
+    //setMessages(final);
   };
 
   const handleGetUser = () => {
@@ -85,7 +88,7 @@ const Messages = () => {
     const msgString = JSON.stringify(msg);
 
     if (connection) {
-      connection
+      await connection
         .invoke("SendMessage", msgString)
         .catch((err) => console.error(err));
     }
@@ -114,7 +117,18 @@ const Messages = () => {
 
         connection.on("RecievedMessage", (message) => {
           console.log(message);
-          setMessages(...setMessages, message);
+          const msg = {
+            id: messages.length,
+            sender: 1,
+            receiver: 2,
+            message: message,
+            //timestamp: serverTimestamp(),
+          };
+          const updatedMessages = [...latestMessage.current];
+          updatedMessages.push(msg);
+          console.log(updatedMessages);
+          setMessages(updatedMessages);
+          console.log(messages);
         });
       }
     }
@@ -139,6 +153,7 @@ const Messages = () => {
             ) {
               return (
                 <SenderMessage
+                  key={message.id}
                   message={message.message}
                   sender={message.sender}
                   receiver={message.receiver}
@@ -151,12 +166,15 @@ const Messages = () => {
             ) {
               return (
                 <ReceiverMessage
+                  key={message.id}
                   message={message.message}
                   sender={message.sender}
                   receiver={message.receiver}
                   time={message.time}
                 />
               );
+            } else {
+              <p>{message}</p>;
             }
           })}
         </div>
