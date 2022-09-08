@@ -18,6 +18,7 @@ const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [connection, setConnection] = useState(null);
   const latestMessage = useRef(null);
+  const messageRef = useRef();
 
   latestMessage.current = messages;
 
@@ -45,6 +46,24 @@ const Messages = () => {
       .then((data) => {
         setUser(data);
         setUsername(data.username);
+      })
+      .catch((error) => {});
+  };
+
+  const handleGetMessages = async () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(
+      `http://localhost:7215/api/Message/GetMessages/${user.id}/${id}`,
+      options
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Data: ", data[0]);
+        console.log("Messages: ", messages);
+        setMessages(data);
       })
       .catch((error) => {});
   };
@@ -79,16 +98,16 @@ const Messages = () => {
     // setMessage("");
 
     const msg = {
-      UserId: user.id.toString(),
-      RecieverId: id.toString(),
-      Content: message,
+      userId: user.id.toString(),
+      recieverId: id.toString(),
+      content: message,
     };
 
     //msg as json string
     const msgString = JSON.stringify(msg);
 
     if (connection) {
-      await connection
+      connection
         .invoke("SendMessage", msgString)
         .catch((err) => console.error(err));
     }
@@ -99,6 +118,7 @@ const Messages = () => {
     console.log("use effect for DMS");
 
     handleGetConnection();
+    handleGetMessages();
     //handleGetUser();
     //getMessages();
 
@@ -116,14 +136,12 @@ const Messages = () => {
         });
 
         connection.on("RecievedMessage", (message) => {
-          console.log(message);
-          const msg = {
-            id: messages.length,
-            sender: 1,
-            receiver: 2,
-            message: message,
-            //timestamp: serverTimestamp(),
-          };
+          console.log("Recieved message: ", message);
+          const msg = JSON.parse(message);
+          console.log("recivedMSG", msg);
+
+          msg.TimeDelivered = new Date(msg.TimeDelivered).getTime();
+
           const updatedMessages = [...latestMessage.current];
           updatedMessages.push(msg);
           console.log(updatedMessages);
@@ -134,9 +152,25 @@ const Messages = () => {
     }
   }, [connection]);
 
+  useEffect(() => {
+    if (messageRef && messageRef.current) {
+      const { scrollHeight, clientHeight } = messageRef.current;
+      console.log("scrollHeight: ", scrollHeight);
+      console.log("clientHeight: ", clientHeight);
+      messageRef.current.scrollTo({
+        left: 0,
+        top: scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
+
   return (
     <Layout>
-      <div className="fixed w-11/12 sm:w-8/12 bg-white p-4 rounded-md h-4/5 overflow-scroll scroll">
+      <div
+        ref={messageRef}
+        className="fixed w-11/12 sm:w-8/12 bg-white p-4 rounded-md h-4/5 overflow-scroll scroll"
+      >
         <div>
           <h1>{username}</h1>
         </div>
@@ -148,29 +182,29 @@ const Messages = () => {
         <div className="flex flex-col">
           {messages.map((message) => {
             if (
-              message.sender == user.id.toString() &&
-              message.receiver == id.toString()
+              message.userId == user.id.toString() &&
+              message.recieverId == id.toString()
             ) {
               return (
                 <SenderMessage
-                  key={message.id}
-                  message={message.message}
-                  sender={message.sender}
-                  receiver={message.receiver}
-                  time={message.time}
+                  key={message.timeDelivered}
+                  message={message.content}
+                  sender={message.userId}
+                  receiver={message.recieverId}
+                  time={message.timeDelivered}
                 />
               );
             } else if (
-              message.sender == id.toString() &&
-              message.receiver == user.id.toString()
+              message.userId == id.toString() &&
+              message.recieverId == user.id.toString()
             ) {
               return (
                 <ReceiverMessage
-                  key={message.id}
-                  message={message.message}
-                  sender={message.sender}
-                  receiver={message.receiver}
-                  time={message.time}
+                  key={message.timeDelivered}
+                  message={message.content}
+                  sender={message.userId}
+                  receiver={message.recieverId}
+                  time={message.timeDelivered}
                 />
               );
             } else {

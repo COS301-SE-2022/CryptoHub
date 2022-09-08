@@ -5,6 +5,7 @@ using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace CryptoHubAPI.Hubs
 {
@@ -79,22 +80,37 @@ namespace CryptoHubAPI.Hubs
 
             var msg = JsonConvert.DeserializeObject<Message>(message);
 
+            if (msg.UserId == null)
+                return;
+
+
+            msg.TimeDelivered = DateTime.UtcNow;
+            
             var reciever = _users.FirstOrDefault(x => x.UserId == msg.RecieverId);
+
+            var sendMessage = JsonConvert.SerializeObject(
+                msg, 
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
 
             if (reciever == null)
             {
                 //var x = await _messageService.GetMessages(1, 2);
+                
+                _ = Clients.Caller.SendAsync("RecievedMessage", sendMessage);
                 await _messageService.AddMessage(msg);
-                await Clients.Caller.SendAsync("RecievedMessage",msg.Content);
             }
             else
             {
+                
+                _ = Clients.Caller.SendAsync("RecievedMessage", sendMessage);
+                _ = Clients.Client(reciever.ConnectionId).SendAsync("RecievedMessage", sendMessage);
                 _messages.Add(msg);
-                await Clients.Caller.SendAsync("RecievedMessage", msg.Content);
-                await Clients.Client(reciever.ConnectionId).SendAsync("RecievedMessage", msg.Content);
             }
 
-            await AddNotification(msg.UserId, msg.RecieverId);
+            _ = AddNotification(msg.UserId, msg.RecieverId);
 
 
         }
@@ -110,7 +126,7 @@ namespace CryptoHubAPI.Hubs
 
             if (notification == null || notification.IsDeleted)
             {
-                await _notificationService.AddNotification(new Notification
+                _ = _notificationService.AddNotification(new Notification
                 {
 
                     UserId = reciverId,
@@ -119,14 +135,14 @@ namespace CryptoHubAPI.Hubs
 
                 var chatUser = _users.FirstOrDefault(x => x.UserId == user.UserId );
                 if (chatUser != null)
-                    await Clients.Clients(chatUser.ConnectionId).SendAsync("AddNotification");
+                    _ = Clients.Clients(chatUser.ConnectionId).SendAsync("AddNotification");
             }
             else
-                await _notificationService.AddNotification(notification);
+                _ = _notificationService.AddNotification(notification);
 
         }
 
-        public async Task RemoveNotification(int userId, int senderId) sbyte
+        public async Task RemoveNotification(int userId, int senderId)
         {
            
 
