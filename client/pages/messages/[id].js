@@ -55,10 +55,7 @@ const Messages = () => {
       method: "GET",
     };
 
-    fetch(
-      `http://localhost:7215/api/Message/GetMessages/${user.id}/${id}`,
-      options
-    )
+    fetch(`${url}/api/Message/GetMessages/${user.id}/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
         console.log("Data: ", data[0]);
@@ -72,7 +69,7 @@ const Messages = () => {
     console.log("Getting connection");
     setConnection(
       new HubConnectionBuilder()
-        .withUrl(`http://localhost:7215/messagehub?userId=${user.id}`)
+        .withUrl(`${url}/messagehub?userId=${user.id}`)
         .configureLogging(LogLevel.Information)
         .build()
     );
