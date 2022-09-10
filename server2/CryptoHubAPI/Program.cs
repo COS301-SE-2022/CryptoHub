@@ -90,7 +90,10 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors();
 
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(e =>
+{
+    e.MaximumReceiveMessageSize = 102400000;
+});
 
 builder.Services.AddControllers();
 
