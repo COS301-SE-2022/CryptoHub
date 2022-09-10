@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { useRouter } from "next/router";
 
 function forgotPasswordConfirmation() {
-  const { authorise } = useContext(userContext);
+  const { authorise, url } = useContext(userContext);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState(0);
@@ -25,9 +25,8 @@ function forgotPasswordConfirmation() {
         otp: otp,
       }),
     };
-    console.log(otp);
     fetch(
-      `http://localhost:7215/api/Authorization/ValidateOTP/${router.query.email}/${otp}`,
+      `${url}/api/Authorization/ValidateOTP/${router.query.email}/${otp}`,
       options
     )
       .then((response) => {

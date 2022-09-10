@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Comment = ({ name, hidefollow, id, userId, comment }) => {
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
   const [clicked, setClicked] = useState(false);
   const [thisUser, setThisUser] = useState({});
   const [profilePicture, setProfilePicture] = useState(null);
@@ -19,10 +19,7 @@ const Comment = ({ name, hidefollow, id, userId, comment }) => {
       }),
     };
 
-    fetch(
-      `http://localhost:7215/api/UserFollower/FollowUser/${id}/${user.id}`,
-      options
-    )
+    fetch(`${url}/api/UserFollower/FollowUser/${id}/${user.id}`, options)
       .then((response) => {
         setClicked(true);
         response.json();
@@ -38,7 +35,7 @@ const Comment = ({ name, hidefollow, id, userId, comment }) => {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/User/GetUserById/${userId}`, options)
+    fetch(`${url}/api/User/GetUserById/${userId}`, options)
       .then((response) => response.json())
       .then((data) => {
         setThisUser(data);

@@ -22,7 +22,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
   const [postImage, setPostImage] = useState(imageId);
   const [comment, setComment] = useState("");
   const [likeId, setLikeId] = useState(null);
-  const { user, refreshfeed, alert } = useContext(userContext);
+  const { user, refreshfeed, alert, url } = useContext(userContext);
   const [profilePicture, setProfilePicture] = useState(null);
 
   const handleGetUser = () => {
@@ -30,7 +30,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/User/GetUserById/${userId}`, options)
+    fetch(`${url}/api/User/GetUserById/${userId}`, options)
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
@@ -44,7 +44,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/Image/GetById/${imageId}`, options)
+    fetch(`${url}/api/Image/GetById/${imageId}`, options)
       .then((response) => response.json())
       .then((data) => {
         // let image = `data:image/jpeg;base64,${data.blob}`;
@@ -66,7 +66,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
         postId: postId,
       }),
     };
-    fetch("http://localhost:7215/api/Like/AddLike", options)
+    fetch(`${url}/api/Like/AddLike`, options)
       .then((response) => response.json())
       .then((data) => {
         setLiked(true);
@@ -81,10 +81,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       method: "GET",
     };
 
-    fetch(
-      `http://localhost:7215/api/Like/GetLikeBy/${user.id}/${postId}`,
-      options
-    )
+    fetch(`${url}/api/Like/GetLikeBy/${user.id}/${postId}`, options)
       .then((response) => response.json())
       .then((data) => {
         if (data.userId == user.id) {
@@ -98,15 +95,14 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
     const options = {
       method: "DELETE",
     };
-    fetch(
-      `http://localhost:7215/api/Like/Delete/${user.id}/${postId}`,
-      options
-    ).then((response) => {
-      if (response.status === 200) {
-        setLiked(false);
-        getLikeCount();
+    fetch(`${url}/api/Like/Delete/${user.id}/${postId}`, options).then(
+      (response) => {
+        if (response.status === 200) {
+          setLiked(false);
+          getLikeCount();
+        }
       }
-    });
+    );
   };
 
   const handleAddComment = (e) => {
@@ -123,7 +119,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
         content: comment,
       }),
     };
-    fetch("http://localhost:7215/api/Comment/AddComment", options)
+    fetch(`${url}/api/Comment/AddComment`, options)
       .then((response) => response.json())
       .then((data) => {
         handleGetComments();
@@ -135,10 +131,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       method: "GET",
     };
 
-    fetch(
-      `http://localhost:7215/api/Comment/GetCommentByPostId/${postId}`,
-      options
-    )
+    fetch(`${url}/api/Comment/GetCommentByPostId/${postId}`, options)
       .then((response) => response.json())
       .then((data) => {
         setComments(data);
@@ -157,10 +150,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
         postId: postId,
       }),
     };
-    fetch(
-      `http://localhost:7215/api/Post/Report?postid=${postId}&userid=${user.id}`,
-      options
-    )
+    fetch(`${url}/api/Post/Report?postid=${postId}&userid=${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         refreshfeed();
@@ -171,10 +161,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
     const options = {
       method: "GET",
     };
-    fetch(
-      `http://localhost:7215/api/Like/GetLikeCountByPostId/${postId}`,
-      options
-    )
+    fetch(`${url}/api/Like/GetLikeCountByPostId/${postId}`, options)
       .then((response) => response.json())
       .then((data) => {
         setLikes(data.count);
@@ -186,13 +173,11 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       method: "DELETE",
     };
 
-    fetch(`http://localhost:7215/api/Post/Delete?id=${postId}`, options).then(
-      (response) => {
-        if (response.status == 200) {
-          refreshfeed();
-        }
+    fetch(`${url}/api/Post/Delete?id=${postId}`, options).then((response) => {
+      if (response.status == 200) {
+        refreshfeed();
       }
-    );
+    });
   };
 
   useEffect(() => {

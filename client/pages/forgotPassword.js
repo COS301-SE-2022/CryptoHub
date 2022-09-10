@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { userContext } from "../auth/auth";
+import { useContext } from "react";
 
 function forgotPassword() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { url } = useContext(userContext);
 
   const handleGetForgotPassword = (e) => {
     setLoading(true);
@@ -20,10 +23,7 @@ function forgotPassword() {
         email: email,
       }),
     };
-    fetch(
-      `http://localhost:7215/api/Authorization/ForgetPassord/${email}`,
-      options
-    )
+    fetch(`${url}/api/Authorization/ForgetPassord/${email}`, options)
       .then((response) => {
         if (response.status === 200) {
           router.push("/forgotPasswordConfirmation?email=" + email);

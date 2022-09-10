@@ -163,6 +163,18 @@ namespace CryptoHubAPI.Controllers
 
             return Ok(response.Model);
         }
+
+        [HttpGet("{coinName}")]
+
+        public async Task<IActionResult> GetCoinSentiment(string coinName)
+        {
+            var response = await _coinService.GetCoinSentiment(coinName);
+            if (response.HasError)
+                return BadRequest(response.Message);
+
+            return Ok(response.Model);
+
+        }
     }
 }
 

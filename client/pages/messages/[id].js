@@ -10,7 +10,7 @@ import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 
 const Messages = () => {
   const router = useRouter();
-  const { user, app } = useContext(userContext);
+  const { user, app, url } = useContext(userContext);
   const { id } = router.query;
   const [thisUser, setUser] = useState({});
   const [username, setUsername] = useState("");
@@ -41,7 +41,7 @@ const Messages = () => {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/User/GetUserById/${id}`, options)
+    fetch(`${url}/api/User/GetUserById/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setUser(data);

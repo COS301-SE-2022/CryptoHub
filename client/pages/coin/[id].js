@@ -7,34 +7,20 @@ import Layout from "../../components/Layout";
 import { userContext } from "../../auth/auth";
 import { coinHistory } from "../../data/coin-history";
 import Rate from "../../components/Rating/RatingC.js";
+import CurrentRating from "../../components/CurrentRating/CurrentRating";
+import CoinSentiment from "../../components/CoinSentiment/CoinSentiment";
 
 const Coin = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
   const [coinData, setCoinData] = useState({});
   const [isFollowing, setIsFollowing] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [amount, setAmount] = useState(0);
   const [amountInput, setAmountInput] = useState(0);
-
-  const handleGetCoinRating = () => {
-    const options = {
-      method: "GET",
-    };
-    console.log(id);
-    console.log(user.id);
-
-    fetch(
-      `http://localhost:7215/api/Coin/GetCoinRatingByUserId/${user.id}/${id}`,
-      options
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setRate(data.rating);
-      })
-      .catch((error) => {});
-  };
+  const [AverageRate, setAverageRate] = useState(0);
+  const [AverageCount, setAverageCount] = useState(0);
 
   const handleGetCoin = () => {
     const options = {
@@ -50,6 +36,22 @@ const Coin = () => {
       .catch((error) => {});
   };
 
+  const handleGetCoinRating = () => {
+    const options = {
+      method: "GET",
+    };
+    fetch(`${url}/api/Coin/GetCoinRating/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data", data.data);
+        setAverageRate(data.rating);
+        setAverageCount(data.count);
+        console.log("count:" + data.count);
+        console.log("count:" + data.rating);
+      })
+      .catch((error) => {});
+  };
+
   const handleUnfollowCoin = () => {
     const options = {
       method: "POST",
@@ -60,10 +62,7 @@ const Coin = () => {
       }),
     };
 
-    fetch(
-      `http://localhost:7215/api/Coin/UnfollowCoin/${user.id}/${id}`,
-      options
-    )
+    fetch(`${url}/api/Coin/UnfollowCoin/${user.id}/${id}`, options)
       .then((response) => {
         setClicked(true);
         setIsFollowing(false);
@@ -86,7 +85,7 @@ const Coin = () => {
       }),
     };
 
-    fetch(`http://localhost:7215/api/Coin/FollowCoin/${user.id}/${id}`, options)
+    fetch(`${url}/api/Coin/FollowCoin/${user.id}/${id}`, options)
       .then((response) => {
         setClicked(true);
         setIsFollowing(true);
@@ -100,7 +99,7 @@ const Coin = () => {
   };
 
   const checkFollowing = () => {
-    fetch(`http://localhost:7215/api/Coin/GetCoinsFollowers/${id}`)
+    fetch(`${url}/api/Coin/GetCoinsFollowers/${id}`)
       .then((response) => response.json())
       .then((data) => {
         data.map((d) => {
@@ -118,6 +117,7 @@ const Coin = () => {
   useEffect(() => {
     checkFollowing();
     handleGetCoin();
+    handleGetCoinRating();
     const interval = setInterval(() => {
       handleGetCoin();
     }, 10000);
@@ -127,6 +127,7 @@ const Coin = () => {
   return (
     <>
       <Head>
+        {/* FIX */}
         <title>{coinData.name}</title>
       </Head>
       <Layout>
@@ -175,11 +176,27 @@ const Coin = () => {
           <div>
             <p className="text-sm mt-4 text-gray-600">Info</p>
           </div>
-          <div className="w-full"></div>
+          <CoinSentiment id={id} />
           <CoinInfo
             name="Price"
             price={Math.round(coinData.priceUsd * 100) / 100}
           />
+
+          <div className="bg-white m-4 p-4 rounded-lg w-full">
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              Users Rating:
+            </p>
+            <div className="flex flex-col mb-2">
+              <p className="ml-2 text-3xl">{AverageRate}</p>
+            </div>
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              Total number of Ratings:
+            </p>
+            <div className="flex flex-col mb-2">
+              <p className="ml-2 text-3xl">{AverageCount}</p>
+            </div>
+          </div>
+
           <div className="bg-white m-4 p-4 rounded-lg w-full">
             <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
               Calculate Price
@@ -223,38 +240,11 @@ const Coin = () => {
           </div>
 
           <div className="bg-white m-4 p-4 rounded-lg w-full">
-            {/* ==============================================================================================≠ */}
-            {/* {user.auth ? (
-              isFollowing ? (
-                <>
-                  <button onClick={handleUnfollowCoin}>
-                    <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
-                      Following
-                    </p>
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button onClick={handleFollowCoin}>
-                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition -translate-x-5">
-                      Follow
-                    </p>
-                  </button>
-                </>
-              )
-            ) : null} */}
-
-            {/* ==============================================================================================≠ */}
             {/* remember IF statement */}
-            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-              Your current rating is {handleGetCoinRating()}
-            </p>
+
             <div className="flex flex-col mb-2 translate-x-1">
-              <Rate />
+              <CurrentRating />
             </div>
-            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-              Please rate this coin.
-            </p>
             <div className="flex flex-col mb-2 translate-x-1">
               <Rate />
             </div>

@@ -1,7 +1,7 @@
 import { FaStar } from "react-icons/fa";
 import { Container, Radio, Rating } from "./RatingStyles";
 import React, { useState, useEffect, useContext } from "react";
-import Head from "next/head";
+
 import { useRouter } from "next/router";
 import { userContext } from "../../auth/auth";
 
@@ -9,7 +9,8 @@ const Rate = () => {
   const [rate, setRate] = useState(0);
   const router = useRouter();
   const { id } = router.query;
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
+  const [rated, setRated] = useState(false);
 
   const handleGetCoinRating = () => {
     const options = {
@@ -18,12 +19,19 @@ const Rate = () => {
     console.log(id);
     console.log(user.id);
 
-    fetch(
-      `http://localhost:7215/api/Coin/GetCoinRatingByUserId/${user.id}/${id}`,
-      options
-    )
-      .then((response) => response.json())
+    fetch(`${url}/api/Coin/GetCoinRatingByUserId/${user.id}/${id}`, options)
+      .then((response) => {
+        console.log("Hello there " + response.status);
+        if (response.status == 400) {
+          setRated(false);
+        } else {
+          setRated(true);
+        }
+
+        return response.json();
+      })
       .then((data) => {
+        console.log(response.status());
         setCoinData(data.data);
         setRate(data.rating);
       })
@@ -41,10 +49,7 @@ const Rate = () => {
       }),
     };
 
-    fetch(
-      `http://localhost:7215/api/Coin/RateCoin/${user.id}/${id}/${givenRating}`,
-      options
-    )
+    fetch(`${url}/api/Coin/RateCoin/${user.id}/${id}/${givenRating}`, options)
       .then((response) => {
         setClicked(true);
         setIsFollowing(true);
@@ -63,34 +68,38 @@ const Rate = () => {
   }, []);
 
   return (
-    <Container>
-      {[...Array(5)].map((item, index) => {
-        const givenRating = index + 1;
+    <div className={`${rated == true && "hidden"}`}>
+      <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+        Please rate this coin.
+      </p>
+      <Container className={`${rated == false && "hidden"}`}>
+        {[...Array(5)].map((item, index) => {
+          const givenRating = index + 1;
 
-        return (
-          <label>
-            <Radio
-              type="radio"
-              value={givenRating}
-              onClick={() => {
-                // console.log(givenRating);
-                setRate(givenRating);
-                handleRateCoin(givenRating);
-              }}
-            />
-            <Rating>
-              <FaStar
-                color={
-                  givenRating < rate || givenRating === rate
-                    ? "000"
-                    : "rgb(192,192,192)"
-                }
+          return (
+            <label>
+              <Radio
+                type="radio"
+                value={givenRating}
+                onClick={() => {
+                  setRate(givenRating);
+                  handleRateCoin(givenRating);
+                }}
               />
-            </Rating>
-          </label>
-        );
-      })}
-    </Container>
+              <Rating>
+                <FaStar
+                  color={
+                    givenRating < rate || givenRating === rate
+                      ? "000"
+                      : "rgb(192,192,192)"
+                  }
+                />
+              </Rating>
+            </label>
+          );
+        })}
+      </Container>
+    </div>
   );
 };
 

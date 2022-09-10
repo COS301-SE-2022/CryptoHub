@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { useRouter } from "next/router";
 
 const Login = () => {
-  const { authorise } = useContext(userContext);
+  const { authorise, url } = useContext(userContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -26,8 +26,7 @@ const Login = () => {
         password: password,
       }),
     };
-
-    fetch("http://localhost:7215/api/Authorization/Login", options)
+    fetch(`${url}/api/Authorization/Login`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
