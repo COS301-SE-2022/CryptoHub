@@ -2,7 +2,7 @@ name: .NET
 
 on:
   push:
-    branches: ["develop"]
+    branches: ["develop", "feature-client-direct-messaging"]
   pull_request:
     branches: ["develop"]
 
@@ -48,12 +48,18 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push
+      - name: Build and Push API
         uses: docker/build-push-action@v3
         with:
           context: "${{ github.server_url }}/${{ github.repository }}.git#${{ github.ref }}:server2"
           push: true
           tags: codeforce301/cryptohubapi:latest
+      - name: Build and Push Client
+        uses: docker/build-push-action@v3
+        with:
+          context: "${{ github.server_url }}/${{ github.repository }}.git#${{ github.ref }}:client"
+          push: true
+          tags: codeforce301/cryptohubclient:latest
   update_on_linode:
     name: Update image on Linode
     needs: "build_docker"
