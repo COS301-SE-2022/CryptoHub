@@ -34,30 +34,25 @@ const CreatePostButton = () => {
     setImage(base64Image);
   };
 
-  const handleCheckDatabaseHastag = () => {
-    const options = {
-      method: "GET",
-    };
+  // const handleCheckDatabaseHastag = () => {
+  //   const options = {
+  //     method: "GET",
+  //   };
 
-    fetch(`http://localhost:7215/api/Tag/GetTags`, options)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (
-          hashtag == data.content.map((item.content = hashtag))
-          // => {
-          //   item.context == hashtag;
-          // })
-        ) {
-          console.log("true");
-          return true;
-        } else {
-          console.log("false");
-          return false;
-        }
-      })
-      .catch((error) => {});
-  };
+  //   fetch(`http://localhost:7215/api/Tag/GetTags`, options)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data.content);
+  //       if (hashtag == data.content.map((item.content = hashtag))) {
+  //         console.log("true");
+  //         // return true;
+  //       } else {
+  //         console.log("false");
+  //         // return false;
+  //       }
+  //     })
+  //     .catch((error) => {});
+  // };
 
   //busy with this
   const checkHastag = (text) => {
