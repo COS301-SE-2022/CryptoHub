@@ -144,6 +144,16 @@ namespace CryptoHubAPI.Controllers
 
         }
 
+        [HttpPost("{coinName}")]
+        public async Task<IActionResult>AddCoin([FromBody] CoinDTO coin)
+        {
+            var response = await _coinService.AddCoin(coin);
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
         [HttpGet("{coinName}")]
         public async Task<IActionResult> GetCoinRating(string coinName)
         {
