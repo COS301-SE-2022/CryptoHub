@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { XIcon } from "@heroicons/react/outline";
 import { userContext } from "../../auth/auth";
 import Image from "next/image";
-import Dropdown from "../Dropdown";
+//import Dropdown from "../components/NavigationBar/Dropdown";
 
 const CreatePostButton = () => {
   const { user, refreshfeed } = useContext(userContext);
