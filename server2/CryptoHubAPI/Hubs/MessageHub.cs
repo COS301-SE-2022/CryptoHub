@@ -104,13 +104,13 @@ namespace CryptoHubAPI.Hubs
             }
             else
             {
-                
+                Console.WriteLine("reciver not null");
                 _ = Clients.Caller.SendAsync("RecievedMessage", sendMessage);
                 _ = Clients.Client(reciever.ConnectionId).SendAsync("RecievedMessage", sendMessage);
                 _messages.Add(msg);
             }
 
-            _ = AddNotification(msg.UserId, msg.RecieverId);
+            //_ = AddNotification(msg.UserId, msg.RecieverId);
 
 
         }
