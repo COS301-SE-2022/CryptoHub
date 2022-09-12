@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Data;
-using Infrastructure.DTO.PostDTO;
+using Infrastructure.DTO.CoinDTOs;
 using System.Net.Http;
 
 namespace UnitTests.IntegrationTests
@@ -57,5 +57,42 @@ namespace UnitTests.IntegrationTests
 
             Assert.Empty(coins);
         }
+
+        //[Fact]
+        //public async Task GetAllCoins_Coins()
+        //{
+        //    //Arrange
+        //    var testComment = new CoinDTO()
+        //    {
+        //        CoinId = 1,
+        //        CoinName = "TestCoin1",
+        //        ImageUrl = "TestURL"
+        //    };
+        //    var testComment1 = new CoinDTO()
+        //    {
+        //        CoinId = 2,
+        //        CoinName = "TestCoin2",
+        //        ImageUrl = "TestURL"
+        //    };
+        //    var testComment2 = new CoinDTO()
+        //    {
+        //        CoinId = 2,
+        //        CoinName = "TestCoin3",
+        //        ImageUrl = "TestURL"
+        //    };
+
+        //    //Act
+        //    await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testComment);
+        //    await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Comment/AddComment", testComment1);
+        //    await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Comment/AddComment", testComment2);
+
+        //    //Assert
+        //    Assert.NotNull(response);
+        //    Assert.Equal(200, (double)response.StatusCode);
+
+        //    var comments = await response.Content.ReadAsAsync<Comment>();
+
+        //    Assert.NotNull(comments);
+        //}
     }
 }
