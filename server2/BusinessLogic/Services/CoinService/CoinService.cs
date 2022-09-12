@@ -35,6 +35,13 @@ namespace BusinessLogic.Services.CoinService
             _postService = postService;
         }
 
+        public async Task<CoinDTO> AddCoin(CoinDTO coin)
+        {
+            Coin newCoin = new Coin();
+
+            return _mapper.Map<CoinDTO>(coin);
+        }
+
         public async Task<CoinDTO> GetCoin(int id)
         {
             var coin = await _coinRepository.GetById(c => c.CoinId == id);
