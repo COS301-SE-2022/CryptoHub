@@ -85,6 +85,7 @@ namespace CryptoHubAPI.Hubs
 
 
             msg.TimeDelivered = DateTime.UtcNow;
+
             
             var reciever = _users.FirstOrDefault(x => x.UserId == msg.RecieverId);
 

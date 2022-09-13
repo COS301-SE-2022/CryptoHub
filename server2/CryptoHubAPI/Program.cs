@@ -127,13 +127,16 @@ builder.Services.AddDbContext<CryptoHubDBContext>(
     {
         if (builder.Environment.IsDevelopment())
         {
-            options.UseNpgsql();
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DBConnection"));
+
         }
         else
         {
             //coment for commit phase 2 phase 3
             options.UseNpgsql(DBConnctionSettings.ConnectionString);
         }
+
+       
     });
 
 
@@ -164,6 +167,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // Configure the HTTP request pipeline.
 /*if (app.Environment.IsDevelopment())
