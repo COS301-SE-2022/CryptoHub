@@ -127,7 +127,7 @@ builder.Services.AddDbContext<CryptoHubDBContext>(
     {
         if (builder.Environment.IsDevelopment())
         {
-            options.UseNpgsql(DBConnctionSettings.ConnectionString);
+            options.UseNpgsql();
         }
         else
         {
