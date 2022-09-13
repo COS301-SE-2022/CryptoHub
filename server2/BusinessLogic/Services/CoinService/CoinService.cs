@@ -37,9 +37,16 @@ namespace BusinessLogic.Services.CoinService
 
         public async Task<CoinDTO> AddCoin(CoinDTO coin)
         {
-            Coin newCoin = new Coin();
+            var newCoin = new Coin
+            {
+                CoinId = coin.CoinId,
+                CoinName = coin.CoinName,
+                ImageUrl = coin.ImageUrl,
+            };
 
-            return _mapper.Map<CoinDTO>(coin);
+            await _coinRepository.Add(newCoin);
+
+            return _mapper.Map<CoinDTO>(newCoin);
         }
 
         public async Task<CoinDTO> GetCoin(int id)
@@ -137,7 +144,7 @@ namespace BusinessLogic.Services.CoinService
 
         public async Task<Response<object>> GetCoinSentiment(string coinTag)
         {
-            coinTag = '#'+ coinTag.ToLower();
+            coinTag = '#' + coinTag.ToLower();
             var posts = await _postService.GetPostByTag(coinTag, null, null);
 
             decimal? average = posts != null ? posts.Average(p => p.SentimentScore) : null;

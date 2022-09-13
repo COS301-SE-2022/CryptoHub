@@ -94,5 +94,36 @@ namespace UnitTests.IntegrationTests
 
         //    Assert.NotNull(comments);
         //}
+
+        [Fact]
+        public async Task AddCoin()
+        {
+            //Arrange
+            var testCoin = new CoinDTO()
+            {
+                CoinId = 1,
+                CoinName = "TestCoin1",
+                ImageUrl = "TestURL"
+            };
+
+
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin);
+
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoin/1");
+            //var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetAllCoins");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var coins = await response.Content.ReadAsAsync<List<CoinDTO>>();
+
+            Assert.Single(coins);
+            Assert.Equal(testCoin.CoinId, coins.First().CoinId);
+            Assert.Equal(testCoin.CoinName, coins.First().CoinName);
+            Assert.Equal(testCoin.ImageUrl, coins.First().ImageUrl);
+        }
+
     }
 }
