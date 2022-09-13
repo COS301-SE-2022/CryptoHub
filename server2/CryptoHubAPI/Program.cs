@@ -88,7 +88,18 @@ builder.Services.AddAutoMapper(Assembly.Load("Infrastructure"));
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowSpecficOrigin",
+        policy =>
+        {
+        policy.WithOrigins("null", "http://localhost:3000", "http://176.58.110.152:3000").
+        AllowAnyMethod().
+        AllowAnyHeader().
+        AllowCredentials();
+        });
+
+});
 
 builder.Services.AddSignalR(e =>
 {
@@ -172,16 +183,7 @@ app.UseSwaggerUI(config =>
     config.DisplayRequestDuration();
 });
 
-app.UseCors(
-    options =>
-    {
-        options.
-        WithOrigins("null","http://localhost:3000", "http://176.58.110.152:3000").
-        AllowAnyMethod().
-        AllowAnyHeader().
-        AllowCredentials();
-
-    });
+app.UseCors("AllowSpecficOrigin");
 
 app.MapHub<MessageHub>("/messagehub");
 
