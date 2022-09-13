@@ -12,7 +12,7 @@ import { Pagination } from "swiper";
 const News = () => {
   const [news, setNews] = useState([]);
 
-  const handleGetNews = () => {
+  const handleGetNews = async () => {
     fetch(
       "https://newsapi.org/v2/everything?q=(bitcoin OR doge OR cryptocurrency OR ethereum OR crypto OR litecoin OR tether OR bnb OR binance)&apiKey=e05964f35e4e48e0906ed98905cb2e16&language=en"
     )
@@ -25,7 +25,7 @@ const News = () => {
   };
 
   useEffect(() => {
-    handleGetNews();
+    await handleGetNews();
   }, []);
 
   return (
