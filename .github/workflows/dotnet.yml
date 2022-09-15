@@ -2,7 +2,7 @@ name: .NET
 
 on:
   push:
-    branches: ["develop", "feature-client-direct-messaging"]
+    branches: ["develop"]
   pull_request:
     branches: ["develop"]
 
