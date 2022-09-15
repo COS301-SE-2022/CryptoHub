@@ -20,11 +20,14 @@ const News = () => {
     //.then((data) => {
     const data = await response.json();
     let news = data.articles;
+    console.log("NEWS");
+    console.log(news.length);
     let finalnews = news.slice(0, 10);
     setNews(finalnews);
   };
 
   useEffect(() => {
+    console.log("NEWS");
     handleGetNews();
   }, []);
 
