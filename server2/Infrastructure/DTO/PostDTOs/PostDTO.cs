@@ -12,8 +12,6 @@ namespace Infrastructure.DTO.PostDTO
 
         public decimal? SentimentScore { get; set; }
 
-        public DateTime? DateCreated { get; set; }
-
 
     }
 }
