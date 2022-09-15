@@ -1,0 +1,5 @@
+**/.dockerignore
+**/.vs
+**/bin
+**/Dockerfile*
+**/obj

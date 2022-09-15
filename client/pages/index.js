@@ -6,9 +6,7 @@ import Feed from "../components/Feed/Feed";
 import Head from "next/head";
 
 const Home = () => {
-  const { user } = useContext(userContext);
-
-  console.warn("User admin: ", user.admin);
+  const { user, url } = useContext(userContext);
 
   return (
     <>
