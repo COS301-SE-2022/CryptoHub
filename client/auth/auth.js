@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import { useRouter } from "next/router";
 import { initializeApp } from "firebase/app";
 
@@ -22,11 +22,6 @@ export const userContext = createContext({
 
 const UserProvider = ({ children }) => {
   const router = useRouter();
-  const [url, setUrl] = useState(
-    !process.env.NODE_ENV || process.env.NODE_ENV === "development"
-      ? "http://localhost:7215"
-      : "https://seashell-app-d57zw.ondigitalocean.app"
-  );
   const [user, setUser] = useState({
     username: "",
     auth: false,
@@ -81,6 +76,8 @@ const UserProvider = ({ children }) => {
   const authorise = (token) => {
     let user = parseJwt(token);
 
+    console.warn("jwt: ", user);
+
     if (user.roles == "Super") {
       setUser({
         username: user.username,
@@ -106,14 +103,6 @@ const UserProvider = ({ children }) => {
     setFeedstate(!feedstate);
   };
 
-  useEffect(() => {
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-      setUrl("http://localhost:7215");
-    } else {
-      setUrl("https://seashell-app-d57zw.ondigitalocean.app");
-    }
-  });
-
   return (
     <userContext.Provider
       value={{
@@ -129,7 +118,6 @@ const UserProvider = ({ children }) => {
         closeAlert,
         profilePicture,
         setProfilePicture,
-        url,
       }}
     >
       {children}

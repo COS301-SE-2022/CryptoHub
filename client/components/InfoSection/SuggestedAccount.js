@@ -12,7 +12,7 @@ const SuggestedAccount = ({
   username,
   suggestions,
 }) => {
-  const { user, url } = useContext(userContext);
+  const { user } = useContext(userContext);
   const [clicked, setClicked] = useState(false);
   const [thisUser, setThisUser] = useState({});
   const [profilePicture, setProfilePicture] = useState(null);
@@ -27,7 +27,10 @@ const SuggestedAccount = ({
       }),
     };
 
-    fetch(`${url}/api/UserFollower/FollowUser/${id}/${user.id}`, options)
+    fetch(
+      `http://localhost:7215/api/UserFollower/FollowUser/${id}/${user.id}`,
+      options
+    )
       .then((response) => {
         setClicked(true);
         response.json();
@@ -43,7 +46,7 @@ const SuggestedAccount = ({
       method: "GET",
     };
 
-    fetch(`${url}/api/User/GetUserById/${id}`, options)
+    fetch(`http://localhost:7215/api/User/GetUserById/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setThisUser(data);

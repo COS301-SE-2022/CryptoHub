@@ -8,7 +8,7 @@ import { collection, getDocs, addDoc } from "firebase/firestore";
 
 const Messages = () => {
   const router = useRouter();
-  const { user, app, url } = useContext(userContext);
+  const { user, app } = useContext(userContext);
   const { id } = router.query;
   const [thisUser, setUser] = useState({});
   const [username, setUsername] = useState("");
@@ -25,6 +25,7 @@ const Messages = () => {
       .sort((a, b) => {
         return a.timestamp - b.timestamp;
       });
+    console.warn("Final messages: ", messages);
     setMessages(final);
   };
 
@@ -33,7 +34,7 @@ const Messages = () => {
       method: "GET",
     };
 
-    fetch(`${url}/api/User/GetUserById/${id}`, options)
+    fetch(`http://localhost:7215/api/User/GetUserById/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setUser(data);

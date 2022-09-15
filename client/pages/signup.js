@@ -3,7 +3,7 @@ import { userContext } from "../auth/auth";
 import { useRouter } from "next/router";
 
 const Signup = () => {
-  const { authorise, url } = useContext(userContext);
+  const { authorise } = useContext(userContext);
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
@@ -45,7 +45,7 @@ const Signup = () => {
       }),
     };
 
-    fetch(`${url}/api/Authorization/Register`, options)
+    fetch("http://localhost:7215/api/Authorization/Register", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);

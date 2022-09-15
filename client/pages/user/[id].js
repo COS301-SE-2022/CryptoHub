@@ -14,7 +14,7 @@ const User = () => {
   const [clicked, setClicked] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
 
-  const { user, url } = useContext(userContext);
+  const { user } = useContext(userContext);
   const [profilePicture, setProfilePicture] = useState(null);
 
   const handleGetUser = () => {
@@ -22,7 +22,7 @@ const User = () => {
       method: "GET",
     };
 
-    fetch(`${url}/api/User/GetUserById/${id}`, options)
+    fetch(`http://localhost:7215/api/User/GetUserById/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
@@ -36,7 +36,7 @@ const User = () => {
       method: "GET",
     };
 
-    fetch(`${url}/api/Post/GetAllPosts`, options)
+    fetch("http://localhost:7215/api/Post/GetAllPosts", options)
       .then((response) => response.json())
       .then((data) => {
         let posts = data.reverse();
@@ -58,7 +58,10 @@ const User = () => {
       }),
     };
 
-    fetch(`${url}/api/UserFollower/FollowUser/${id}/${user.id}`, options)
+    fetch(
+      `http://localhost:7215/api/UserFollower/FollowUser/${id}/${user.id}`,
+      options
+    )
       .then((response) => {
         setClicked(true);
         response.json();
@@ -75,7 +78,7 @@ const User = () => {
   };
 
   const checkFollowing = () => {
-    fetch(`${url}/api/UserFollower/GetUserFollowing/${user.id}`)
+    fetch(`http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`)
       .then((response) => response.json())
       .then((data) => {
         data.map((d) => {

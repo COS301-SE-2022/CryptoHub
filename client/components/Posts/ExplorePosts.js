@@ -9,7 +9,7 @@ const ExplorePosts = () => {
   const [error, setError] = useState(false);
   const [following, setFollowing] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { user, url } = useContext(userContext);
+  const { user } = useContext(userContext);
   const router = useRouter();
   const [refresh, setRefresh] = useState(false);
   const [explorePosts, setExplorePosts] = useState([]);
@@ -20,7 +20,7 @@ const ExplorePosts = () => {
         method: "GET",
       };
 
-      fetch(`${url}/api/Post/GetAllPosts`, options)
+      fetch("http://localhost:7215/api/Post/GetAllPosts", options)
         .then((response) => response.json())
         .then((data) => {
           let posts = data.reverse();
@@ -29,7 +29,10 @@ const ExplorePosts = () => {
             return post.userId != user.id;
           });
           setPosts(myPosts);
-          fetch(`${url}/api/UserFollower/GetUserFollowing/${user.id}`, options)
+          fetch(
+            `http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`,
+            options
+          )
             .then((response) => response.json())
             .then((data) => {
               setFollowing(data);
@@ -55,6 +58,7 @@ const ExplorePosts = () => {
         return acc.userId != user.id;
       });
 
+      console.warn("Final", final);
       setExplorePosts(final);
     } catch {}
   }, [refresh]);

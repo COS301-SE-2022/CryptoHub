@@ -8,12 +8,11 @@ import { userContext } from "../../auth/auth";
 import { coinHistory } from "../../data/coin-history";
 import Rate from "../../components/Rating/RatingC.js";
 import CurrentRating from "../../components/CurrentRating/CurrentRating";
-import CoinSentiment from "../../components/CoinSentiment/CoinSentiment";
 
 const Coin = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { user, url } = useContext(userContext);
+  const { user } = useContext(userContext);
   const [coinData, setCoinData] = useState({});
   const [isFollowing, setIsFollowing] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -40,7 +39,7 @@ const Coin = () => {
     const options = {
       method: "GET",
     };
-    fetch(`${url}/api/Coin/GetCoinRating/${id}`, options)
+    fetch(`http://localhost:7215/api/Coin/GetCoinRating/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
         console.log("data", data.data);
@@ -62,7 +61,10 @@ const Coin = () => {
       }),
     };
 
-    fetch(`${url}/api/Coin/UnfollowCoin/${user.id}/${id}`, options)
+    fetch(
+      `http://localhost:7215/api/Coin/UnfollowCoin/${user.id}/${id}`,
+      options
+    )
       .then((response) => {
         setClicked(true);
         setIsFollowing(false);
@@ -85,7 +87,7 @@ const Coin = () => {
       }),
     };
 
-    fetch(`${url}/api/Coin/FollowCoin/${user.id}/${id}`, options)
+    fetch(`http://localhost:7215/api/Coin/FollowCoin/${user.id}/${id}`, options)
       .then((response) => {
         setClicked(true);
         setIsFollowing(true);
@@ -99,7 +101,7 @@ const Coin = () => {
   };
 
   const checkFollowing = () => {
-    fetch(`${url}/api/Coin/GetCoinsFollowers/${id}`)
+    fetch(`http://localhost:7215/api/Coin/GetCoinsFollowers/${id}`)
       .then((response) => response.json())
       .then((data) => {
         data.map((d) => {
@@ -127,7 +129,6 @@ const Coin = () => {
   return (
     <>
       <Head>
-        {/* FIX */}
         <title>{coinData.name}</title>
       </Head>
       <Layout>
@@ -176,7 +177,7 @@ const Coin = () => {
           <div>
             <p className="text-sm mt-4 text-gray-600">Info</p>
           </div>
-          <CoinSentiment id={id} />
+          <div className="w-full"></div>
           <CoinInfo
             name="Price"
             price={Math.round(coinData.priceUsd * 100) / 100}

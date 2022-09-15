@@ -3,10 +3,9 @@ import Posts from "../Posts/Posts";
 import InfoSection from "../InfoSection/InfoSection";
 import { userContext } from "../../auth/auth";
 import Post from "../Posts/Post";
-import { useRouter } from "next/router";
 
 const AdminFeed = () => {
-  const { user, url } = useContext(userContext);
+  const { user } = useContext(userContext);
 
   return (
     <div className="flex flex-col w-full sm:w-11/12 sm:flex items-center">
@@ -22,9 +21,10 @@ const AdminPosts = () => {
   const { feedstate } = useContext(userContext);
   const [posts, setPosts] = useState([]);
   const [following, setFollowing] = useState([]);
+
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { user, url } = useContext(userContext);
+  const { user } = useContext(userContext);
   const [mainPosts, setMainPosts] = useState([]);
 
   const handleGetAllPosts = () => {
@@ -34,7 +34,7 @@ const AdminPosts = () => {
       method: "GET",
     };
 
-    fetch(`${url}/api/Post/GetAllPosts`, options)
+    fetch("http://localhost:7215/api/Post/GetAllPosts", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -54,7 +54,7 @@ const AdminPosts = () => {
       method: "GET",
     };
 
-    fetch(`${url}/api/Post/GetAllReportedPosts`, options)
+    fetch("http://localhost:7215/api/Post/GetAllReportedPosts", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);

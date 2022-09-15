@@ -2,7 +2,11 @@
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.RoleDTOs;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BusinessLogic.Services.RoleServices
 {
@@ -18,8 +22,6 @@ namespace BusinessLogic.Services.RoleServices
         public async Task<ICollection<RoleDTO>> GetRoles()
         {
             var roles = await _roleRepository.GetAll();
-
-
             return _mapper.Map<ICollection<RoleDTO>>(roles);
         }
 

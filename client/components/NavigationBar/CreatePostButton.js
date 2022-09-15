@@ -5,7 +5,7 @@ import Image from "next/image";
 //import Dropdown from "../components/NavigationBar/Dropdown";
 
 const CreatePostButton = () => {
-  const { user, refreshfeed, url } = useContext(userContext);
+  const { user, refreshfeed } = useContext(userContext);
   const [showModal, setShowModal] = useState(false);
   const [post, setPost] = useState(""); //the text
   const [, setError] = useState(false);
@@ -89,7 +89,7 @@ const CreatePostButton = () => {
       }),
     };
 
-    fetch(`${url}/api/Post/AddPost`, options)
+    fetch("http://localhost:7215/api/Post/AddPost", options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);

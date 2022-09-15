@@ -8,7 +8,7 @@ const NavigationSearchBar = () => {
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
-  const { user, url } = useContext(userContext);
+  const { user } = useContext(userContext);
 
   useEffect(() => {
     searchByUsername(searchInput);
@@ -19,7 +19,10 @@ const NavigationSearchBar = () => {
       method: "GET",
     };
 
-    fetch(`${url}/api/User/SearchUser/${user.id}/${searchTerm}`, options)
+    fetch(
+      `http://localhost:7215/api/User/SearchUser/${user.id}/${searchTerm}`,
+      options
+    )
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
