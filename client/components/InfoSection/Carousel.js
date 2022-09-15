@@ -18,7 +18,7 @@ const Carousel = () => {
       })
       .catch(() => {});
   };
-
+  //cooment
   useEffect(() => {
     getCoinInfo();
     const interval = setInterval(() => {
