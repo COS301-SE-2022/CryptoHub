@@ -18,7 +18,7 @@ const Carousel = () => {
       })
       .catch(() => {});
   };
-  //cooment
+
   useEffect(() => {
     getCoinInfo();
     const interval = setInterval(() => {
@@ -28,25 +28,32 @@ const Carousel = () => {
   }, []);
 
   return (
-    <div className="flex flew-row sm:justify-center flex-wrap">
-      {data.length == 0 ? (
-        <p className="text-sm text-gray-500">Loading...</p>
-      ) : (
-        data.map((data, index) => {
-          return (
-            <CoinInfo
-              key={index}
-              name={data.name}
-              price={data.priceUsd}
-              difference={data.changePercent24Hr}
-              color={
-                data.changePercent24Hr < 0 ? "text-red-600" : "text-green-600"
-              }
-              id={data.id}
-            />
-          );
-        })
-      )}
+    <div>
+      <div className="flex flew-row sm:justify-center flex-wrap">
+        {data.length == 0 ? (
+          <p className="text-sm text-gray-500">Loading...</p>
+        ) : (
+          data.map((data, index) => {
+            return (
+              <CoinInfo
+                key={index}
+                name={data.name}
+                price={data.priceUsd}
+                difference={data.changePercent24Hr}
+                color={
+                  data.changePercent24Hr < 0 ? "text-red-600" : "text-green-600"
+                }
+                id={data.id}
+              />
+            );
+          })
+        )}
+      </div>
+      <Link href="/coins">
+        <p className="text-sm cursor-pointer text-blue-800 -translate-y-2 -translate-x-7 text-right">
+          see more coins
+        </p>
+      </Link>
     </div>
   );
 };
