@@ -48,7 +48,11 @@ const Carousel = () => {
           })
         )}
       </div>
-      <p>see more</p>
+      <Link href="/coins">
+        <p className="text-sm cursor-pointer text-blue-800 -translate-y-2 -translate-x-7 text-right">
+          See more coins
+        </p>
+      </Link>
     </div>
   );
 };
