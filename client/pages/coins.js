@@ -5,12 +5,30 @@ import { userContext } from "../auth/auth";
 
 const coins = () => {
   const { user } = useContext(userContext);
+  const [data, setData] = useState([]);
+
+  const getCoinInfo = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch("https://api.coincap.io/v2/assets", options)
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data.data);
+      })
+      .catch(() => {});
+  };
 
   useEffect(() => {
-    if (!user.auth) {
-      router.push("/");
-    }
-  }, [user]);
+    getCoinInfo();
+  }, []);
+
+  //   useEffect(() => {
+  //     if (!user.auth) {
+  //       router.push("/");
+  //     }
+  //   }, [user]);
 
   return (
     <div>
