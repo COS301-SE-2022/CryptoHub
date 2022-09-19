@@ -1,29 +1,35 @@
 ﻿using AutoMapper;
 using BusinessLogic.Services.ImageService;
+using BusinessLogic.Services.RoleServices;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.DTO.ImageDTOs;
 using Infrastructure.DTO.UserDTOs;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Infrastructure.Helper.PasswordEncryption;
+
 
 namespace BusinessLogic.Services.UserService
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRoleService _roleService;
         private readonly IUserFollowerRepository _userFollowerRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly IImageService _imageService;
 
-        public UserService(IUserRepository userRepository, IImageService imageService, IHttpContextAccessor httpContextAccessor, IMapper mapper, IUserFollowerRepository userFollowerRepository)
+        public UserService(IUserRepository userRepository, IImageService imageService, IHttpContextAccessor httpContextAccessor, IMapper mapper, IUserFollowerRepository userFollowerRepository, IRoleService roleService)
         {
             _userRepository = userRepository;
             _imageService = imageService;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _userFollowerRepository = userFollowerRepository;
+            _roleService = roleService;
         }
 
         public async Task<List<UserDTO>> GetAllUsers()
@@ -51,15 +57,43 @@ namespace BusinessLogic.Services.UserService
             return _mapper.Map<UserDTO>(response);
         }
 
-        public async Task<UserDTO> AddUser(User user)
+        public async Task<Response<JWT>> AddUser(RegisterDTO registerDTO)
         {
-            var response = await _userRepository.FindOne(u => u.Email == user.Email);
-            if (response == null)
-                return null;
+            var registerUser = await _userRepository.GetByExpression(u => u.Email.ToLower() == registerDTO.Email.ToLower());
+
+            if (registerUser != null)
+                return new Response<JWT>(null, true, "user already exists");
+
+            var user = _mapper.Map<User>(registerDTO);
+
+            user.RoleId = 3;
+            user.Password = AesOperation.EncryptString("abcdefghijklmnop", user.Password);
 
             await _userRepository.Add(user);
 
-            return _mapper.Map<UserDTO>(user);
+            var role = await _roleService.GetRoleById(user.RoleId);
+
+            //var token = CreateToken(user, role.Name);
+
+            //var outGoingEmail = new EmailDTO
+            //{
+            //    RecieverEmail = user.Email,
+            //    RecieverName = user.Firstname,
+            //    Subject = "Welcome to CryptoHub",
+            //    plainTextContent = "Enjoy, using our website",
+            //};
+
+            //_sendInBlueEmailService.Sendemail(outGoingEmail);
+
+            return new Response<JWT>(null, false, "registered");
+
+            //var response = await _userRepository.FindOne(u => u.Email == user.Email);
+            //if (response == null)
+            //    return null;
+
+            //await _userRepository.Add(user);
+
+            //return _mapper.Map<UserDTO>(user);
 
         }
 
@@ -154,7 +188,7 @@ namespace BusinessLogic.Services.UserService
                     }
                 }
             }
-            
+
 
             foreach (var user in resultList.ToList())
             {
@@ -206,7 +240,7 @@ namespace BusinessLogic.Services.UserService
             return new Response<string>(null, false, "profile uploaded");
         }
 
-        
+
 
     }
 }

@@ -19,7 +19,7 @@ namespace BusinessLogic.Services.UserService
         Task<UserDTO> GetUserByEmail(string email);
 
 
-        Task<UserDTO> AddUser(User user);
+        Task<Response<JWT>> AddUser(RegisterDTO registerDTO);
 
 
         Task<UserDTO> UpateUser(User user);
