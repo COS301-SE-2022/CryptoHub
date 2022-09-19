@@ -136,7 +136,8 @@ namespace BusinessLogic.Services.UserFollowerService
                               UserId = p.UserId,
                               PostId = p.PostId,
                               Content = p.Content,
-                              ImageUrl = p.ImageUrl
+                              ImageUrl = p.ImageUrl,
+                              DateCreated = p.DateCreated
                               
                        }).ToList();
 
