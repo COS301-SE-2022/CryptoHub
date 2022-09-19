@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Data;
 using Infrastructure.DTO.CoinDTOs;
+using Infrastructure.DTO.UserDTOs;
 using System.Net.Http;
 
 namespace UnitTests.IntegrationTests
@@ -140,7 +141,7 @@ namespace UnitTests.IntegrationTests
         }
 
         [Fact]
-        public async Task GetCoins_Coin()
+        public async Task GetCoin_Coin()
         {
             //Arrange
             var testCoin = new CoinDTO()
@@ -159,9 +160,9 @@ namespace UnitTests.IntegrationTests
             Assert.NotNull(response);
             Assert.Equal(200, (double)response.StatusCode);
 
-            var comments = await response.Content.ReadAsAsync<Coin>();
+            var coins = await response.Content.ReadAsAsync<Coin>();
 
-            Assert.NotNull(comments);
+            Assert.NotNull(coins);
         }
 
         [Fact]
@@ -211,6 +212,59 @@ namespace UnitTests.IntegrationTests
             Assert.Equal(testCoin.CoinName, coins.CoinName);
             Assert.Equal(testCoin.ImageUrl, coins.ImageUrl);
         }
+
+        [Fact]
+        public async Task RateCoin_NoCoin()
+        {
+            //Arrange
+            var testCoin = new CoinDTO()
+            {
+                CoinId = 1,
+                CoinName = "TestCoin1",
+                ImageUrl = "TestURL"
+            };
+
+            //Act
+            var response = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/RateCoin/1/TestCoin1/2", testCoin);
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(400, (double)response.StatusCode);
+        }
+
+        //[Fact]
+        //public async Task RateCoin_Coin()
+        //{
+        //    //Arrange
+        //    var testCoin = new CoinDTO()
+        //    {
+        //        CoinId = 1,
+        //        CoinName = "TestCoin1",
+        //        ImageUrl = "TestURL"
+        //    };
+        //    var testUser = new User()
+        //    {
+        //        UserId = 1,
+        //        Firstname = "test1",
+        //        Lastname = "user1",
+        //        Username = "user1",
+        //        Email = "test@gmail.com",
+        //        Password = "1234"
+        //    };
+
+        //    var userAdd = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+        //    var coinAdd = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin);
+
+        //    Assert.Equal(200, (double)userAdd.StatusCode);
+
+        //    //Act
+        //    var response = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/RateCoin/1/TestCoin1/2", testCoin);
+
+        //    //Assert
+        //    Assert.NotNull(response);
+        //    //Assert.Equal(200, (double)response.StatusCode);
+        //}
+
 
     }
 }
