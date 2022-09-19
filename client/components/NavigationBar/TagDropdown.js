@@ -1,35 +1,30 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import React, { useState, useEffect } from "react";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-//fetch request
-const handleFollowCoin = () => {
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      userId: user.id,
-      followerId: id,
-    }),
+export default function TagDropdown() {
+  const GetPostTags = () => {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: user.id,
+        followerId: id,
+      }),
+    };
+
+    fetch(`http://176.58.110.152:7215/api/Tag/GetTags`, options)
+      .then((response) => {
+        response.json();
+      })
+      .then((data) => {})
+      .catch(() => {});
   };
 
-  fetch(`${url}/api/Coin/FollowCoin/${user.id}/${id}`, options)
-    .then((response) => {
-      setClicked(true);
-      setIsFollowing(true);
-      response.json();
-    })
-    .then((data) => {
-      setClicked(true);
-      setIsFollowing(true);
-    })
-    .catch(() => {});
-};
-
-export default function TagDropdown() {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
