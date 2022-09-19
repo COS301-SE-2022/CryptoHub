@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { XIcon } from "@heroicons/react/outline";
 import { userContext } from "../../auth/auth";
 import Image from "next/image";
+import TagDropdown from "./TagDropdown";
 
 const CreatePostButton = () => {
   const { user, refreshfeed, url } = useContext(userContext);
@@ -107,7 +108,9 @@ const CreatePostButton = () => {
                           />
                         </div>
                       </div>
-
+                      <div>
+                        <TagDropdown />
+                      </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700">
                           Upload a photo
