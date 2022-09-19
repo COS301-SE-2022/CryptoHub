@@ -88,9 +88,23 @@ builder.Services.AddAutoMapper(Assembly.Load("Infrastructure"));
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowSpecficOrigin",
+        policy =>
+        {
+        policy.WithOrigins("null", "http://localhost:3000", "http://176.58.110.152:3000").
+        AllowAnyMethod().
+        AllowAnyHeader().
+        AllowCredentials();
+        });
 
-builder.Services.AddSignalR();
+});
+
+builder.Services.AddSignalR(e =>
+{
+    e.MaximumReceiveMessageSize = 102400000;
+});
 
 builder.Services.AddControllers();
 
@@ -111,12 +125,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddDbContext<CryptoHubDBContext>(
     options =>
     {
-        if(builder.Environment.IsDevelopment())
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
-        else
-            options.UseSqlServer(DBConnctionSettings.ConnectionString);
+        if (builder.Environment.IsDevelopment())
+        {
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DBConnection"));
 
+        }
+        else
+        {
+            //coment for commit phase 2 phase 3
+            options.UseNpgsql(DBConnctionSettings.ConnectionString);
+        }
+
+       
     });
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -146,6 +168,8 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 // Configure the HTTP request pipeline.
 /*if (app.Environment.IsDevelopment())
 {
@@ -164,16 +188,7 @@ app.UseSwaggerUI(config =>
     config.DisplayRequestDuration();
 });
 
-app.UseCors(
-    options =>
-    {
-        options.
-        WithOrigins("null","http://localhost:3000").
-        AllowAnyMethod().
-        AllowAnyHeader().
-        AllowCredentials();
-
-    });
+app.UseCors("AllowSpecficOrigin");
 
 app.MapHub<MessageHub>("/messagehub");
 

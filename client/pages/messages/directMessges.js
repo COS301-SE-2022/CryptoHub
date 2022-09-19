@@ -5,13 +5,10 @@ import { useContext } from "react";
 import { userContext } from "../../auth/auth";
 import { getFirestore, serverTimestamp } from "@firebase/firestore";
 import { collection, getDocs, addDoc } from "firebase/firestore";
-import { HubConnection } from "signalr-client-react";
-
-
 
 function directMessges() {
   const router = useRouter();
-  const { user, app } = useContext(userContext);
+  const { user, app, url } = useContext(userContext);
   const { id } = router.query;
   const [thisUser, setUser] = useState({});
   const [username, setUsername] = useState("");
@@ -23,7 +20,7 @@ function directMessges() {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/User/GetUserById/${id}`, options)
+    fetch(`${url}/api/User/GetUserById/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
@@ -45,7 +42,10 @@ function directMessges() {
     setMessage("");
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("use effect for DMS");
+    handleGetConnection();
+  }, []);
   return <div>directMessges</div>;
 }
 

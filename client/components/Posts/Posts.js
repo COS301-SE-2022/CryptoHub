@@ -11,7 +11,7 @@ const Posts = () => {
 
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
   const [mainPosts, setMainPosts] = useState([]);
 
   const handleGetAllPosts = () => {
@@ -21,7 +21,7 @@ const Posts = () => {
       method: "GET",
     };
 
-    fetch("http://localhost:7215/api/Post/GetAllPosts", options)
+    fetch(`${url}/api/Post/GetAllPosts`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -45,7 +45,7 @@ const Posts = () => {
       },
     };
 
-    fetch("http://localhost:7215/api/Post/GetFeed", options)
+    fetch(`${url}/api/Post/GetFeed`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);

@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Profile = () => {
-  const { user, profilePicture } = useContext(userContext);
+  const { user, profilePicture, url } = useContext(userContext);
   const [posts, setPosts] = useState([]);
   const [, setError] = useState(false);
   const [, setLoading] = useState(false);
@@ -26,10 +26,7 @@ const Profile = () => {
       method: "GET",
     };
 
-    fetch(
-      `http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`,
-      options
-    )
+    fetch(`${url}/api/UserFollower/GetUserFollowing/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -46,10 +43,7 @@ const Profile = () => {
       method: "GET",
     };
 
-    fetch(
-      `http://localhost:7215/api/UserFollower/GetUserFollower/${user.id}`,
-      options
-    )
+    fetch(`${url}/api/UserFollower/GetUserFollower/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -68,7 +62,7 @@ const Profile = () => {
       method: "GET",
     };
 
-    fetch("http://localhost:7215/api/Post/GetAllPosts", options)
+    fetch(`${url}/api/Post/GetAllPosts`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -292,17 +286,14 @@ const MyCoins = () => {
   const [coins, setCoins] = useState([]);
   const [myCoins, setMyCoins] = useState([]);
   const [count, setCount] = useState(5);
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
 
   const getUserFollowingCoins = () => {
     const options = {
       method: "GET",
     };
 
-    fetch(
-      `http://localhost:7215/api/Coin/GetCoinsFollowedByUser/${user.id}`,
-      options
-    )
+    fetch(`${url}/api/Coin/GetCoinsFollowedByUser/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setCoins(data);
