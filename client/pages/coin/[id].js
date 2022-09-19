@@ -107,7 +107,8 @@ const Coin = () => {
             setIsFollowing(true);
           }
         });
-      });
+      })
+      .catch((error) => {});
   };
 
   useEffect(() => {
@@ -143,7 +144,6 @@ const Coin = () => {
             {/* ==================================================================== */}
             <div className="flex flex-row">
               <p className="font-semibold text-center sm:text-left"></p>{" "}
-              {console.warn("Is following: ", isFollowing)}
               {user.auth ? (
                 isFollowing ? (
                   <>
