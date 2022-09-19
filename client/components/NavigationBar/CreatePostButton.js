@@ -12,6 +12,7 @@ const CreatePostButton = () => {
   const [, setLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [clientImage, setClientImage] = useState(undefined);
+  const [tags, setTags] = useState([]);
 
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -66,6 +67,10 @@ const CreatePostButton = () => {
       });
   };
 
+  const addTag = (tag) => {
+    setTags([...tags, tag]);
+  };
+
   return (
     <>
       <button
@@ -109,7 +114,16 @@ const CreatePostButton = () => {
                         </div>
                       </div>
                       <div>
-                        <TagDropdown />
+                        <TagDropdown addTag={addTag} />
+                        {/* <div className="m-2">
+                          {tags.map((tag) => {
+                            return (
+                              <span className="text-indigo-500 mr-4">
+                                {tag}
+                              </span>
+                            );
+                          })}
+                        </div> */}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700">
