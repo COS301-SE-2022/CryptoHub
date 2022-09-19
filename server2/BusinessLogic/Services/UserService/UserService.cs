@@ -39,8 +39,8 @@ namespace BusinessLogic.Services.UserService
 
         public async Task<UserDTO> GetById(int id)
         {
-            //var response = await _userRepository.GetById(u => u.UserId == id);
-            var response = await _dBContext.Users.FromSqlRaw("select * from getuser({0})",id).FirstOrDefaultAsync();
+            var response = await _userRepository.GetById(u => u.UserId == id);
+            //var response = await _dBContext.Users.FromSqlRaw("select * from getuser({0})",id).FirstOrDefaultAsync();
             if (response == null)
                 return null;
 
