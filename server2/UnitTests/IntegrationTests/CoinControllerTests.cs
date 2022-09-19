@@ -267,7 +267,7 @@ namespace UnitTests.IntegrationTests
         //}
 
         [Fact]
-        public async Task GetAllUserCoins_NoCoins()
+        public async Task GetAllUserCoins_NoUserCoins()
         {
             //Act
             var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetAllUserCoins");
@@ -280,5 +280,39 @@ namespace UnitTests.IntegrationTests
 
             Assert.Empty(coins);
         }
+
+        [Fact]
+        public async Task GetAllUserCoins_UserCoins()
+        {
+            //Arrange
+            var testCoin = new CoinDTO()
+            {
+                CoinId = 1,
+                CoinName = "TestCoin1",
+                ImageUrl = "TestURL"
+            };
+            var testUserCoin = new UserCoinDTO()
+            {
+                UserId = 1,
+                CoinId = testCoin.CoinId,
+            };
+
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/FollowCoin/1/TestCoin1", testUserCoin);
+
+
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetAllUserCoins");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var coins = await response.Content.ReadAsAsync<List<UserCoinDTO>>();
+
+            Assert.NotEmpty(coins);
+        }
+
+
     }
 }
