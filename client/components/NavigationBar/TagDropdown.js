@@ -7,23 +7,27 @@ function classNames(...classes) {
 }
 
 export default function TagDropdown() {
+  const [tags, setTags] = useState([]);
+
   const GetPostTags = () => {
     const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: user.id,
-        followerId: id,
-      }),
+      method: "GET",
     };
 
     fetch(`http://176.58.110.152:7215/api/Tag/GetTags`, options)
       .then((response) => {
         response.json();
       })
-      .then((data) => {})
+      .then((data) => {
+        console.warn("Tags", data);
+        setTags(data);
+      })
       .catch(() => {});
   };
+
+  useEffect(() => {
+    GetPostTags();
+  }, []);
 
   return (
     <Menu as="div" className="relative inline-block text-left">
