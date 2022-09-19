@@ -24,9 +24,8 @@ const UserProvider = ({ children }) => {
   const router = useRouter();
   const [url, setUrl] = useState(
     !process.env.NODE_ENV || process.env.NODE_ENV === "development"
-      ? "http://176.58.110.152:7215"
-      : //"http://localhost:7215"
-        "https://seashell-app-d57zw.ondigitalocean.app"
+      ? "http://localhost:7215"
+      : "http://176.58.110.152:7215"
   );
   const [user, setUser] = useState({
     username: "",
@@ -108,11 +107,12 @@ const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    console.warn("Environment: ", url);
     if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-      setUrl("http://176.58.110.152:7215");
+      // setUrl("http://176.58.110.152:7215");
       //setUrl("http://localhost:7215");
     } else {
-      setUrl("https://seashell-app-d57zw.ondigitalocean.app");
+      // setUrl("https://seashell-app-d57zw.ondigitalocean.app");
     }
   });
 
