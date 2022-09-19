@@ -18,12 +18,10 @@ export default function TagDropdown() {
     };
 
     fetch(`${url}/api/Tag/GetTags`, options)
-      .then((response) => {
-        response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
-        console.warn("Tags", data);
-        // setTags(data);
+        // console.warn("Tags", data);
+        setTags(data);
       })
       .catch(() => {});
   };
@@ -51,6 +49,23 @@ export default function TagDropdown() {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
+            {tags.map((tag) => {
+              return (
+                <Menu.Item>
+                  {({ active }) => (
+                    <a
+                      href="#"
+                      className={classNames(
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                        "block px-4 py-2 text-sm"
+                      )}
+                    >
+                      {tag.content}
+                    </a>
+                  )}
+                </Menu.Item>
+              );
+            })}
             <Menu.Item>
               {({ active }) => (
                 <a
