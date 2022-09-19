@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Data;
 using Infrastructure.DTO.CoinDTOs;
 using Infrastructure.DTO.UserDTOs;
+using Infrastructure.DTO.UserCoinDTOs;
 using System.Net.Http;
 
 namespace UnitTests.IntegrationTests
@@ -265,6 +266,19 @@ namespace UnitTests.IntegrationTests
         //    //Assert.Equal(200, (double)response.StatusCode);
         //}
 
+        [Fact]
+        public async Task GetAllUserCoins_NoCoins()
+        {
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetAllUserCoins");
 
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var coins = await response.Content.ReadAsAsync<List<UserCoinDTO>>();
+
+            Assert.Empty(coins);
+        }
     }
 }
