@@ -90,6 +90,7 @@ const Posts = () => {
               userId={data.userId}
               postId={data.postId}
               imageId={data.imageUrl}
+              time={data.dateCreated}
             />
           );
         })

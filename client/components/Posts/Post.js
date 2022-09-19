@@ -7,12 +7,22 @@ import Image from "next/image";
 import { userContext } from "../../auth/auth";
 import { HeartIcon as RedHeartIcon } from "@heroicons/react/solid";
 import { Menu, Transition } from "@headlessui/react";
+import Moment from "moment";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
+const Post = ({
+  name,
+  content,
+  userId,
+  postId,
+  imageId,
+  admin,
+  reports,
+  time,
+}) => {
   const [thisUser, setUser] = useState({});
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
@@ -193,6 +203,8 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
     /* <Image src={postImage} height="200" width="200" /> */
   }
 
+  const formatDate = Moment(time).format("MMM Do YY");
+
   return (
     <div className="bg-white m-4 p-4 rounded-lg">
       <div className="flex flew-row items-center mb-2 justify-between">
@@ -344,26 +356,29 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
         </div>
       )}
       <p className="text-sm">{content}</p>
-      <div className="flex flex-row mt-4">
-        <button
-          onClick={liked ? handleUnlikePost : handleLikePost}
-          className="text-sm mr-4 flex flex-row"
-        >
-          {liked ? (
-            <RedHeartIcon className="h-5 w-5 text-red-500" />
-          ) : (
-            <HeartIcon className="h-5 w-5 text-black" />
-          )}{" "}
-          {""}
-          <p className="ml-1">{likes} likes</p>
-        </button>
-        <button
-          onClick={() => setShowModal(true)}
-          className="text-sm flex flex-row"
-        >
-          <ChatIcon className="h-5 w-5 text-black " /> {""}
-          <p className="ml-1">{comments.length} comments</p>
-        </button>
+      <div className="flex flex-row mt-4 w-full justify-between">
+        <div className="flex flex-row">
+          <button
+            onClick={liked ? handleUnlikePost : handleLikePost}
+            className="text-sm mr-4 flex flex-row"
+          >
+            {liked ? (
+              <RedHeartIcon className="h-5 w-5 text-red-500" />
+            ) : (
+              <HeartIcon className="h-5 w-5 text-black" />
+            )}{" "}
+            {""}
+            <p className="ml-1">{likes} likes</p>
+          </button>
+          <button
+            onClick={() => setShowModal(true)}
+            className="text-sm flex flex-row"
+          >
+            <ChatIcon className="h-5 w-5 text-black " /> {""}
+            <p className="ml-1">{comments.length} comments</p>
+          </button>
+        </div>
+        <div className=" text-sm text-gray-400 self-end">{formatDate}</div>
 
         {showModal ? (
           <>
