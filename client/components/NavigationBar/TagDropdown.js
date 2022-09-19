@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { userContext } from "../../auth/auth";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -8,19 +9,21 @@ function classNames(...classes) {
 
 export default function TagDropdown() {
   const [tags, setTags] = useState([]);
+  const { user, refreshfeed, url } = useContext(userContext);
 
   const GetPostTags = () => {
     const options = {
       method: "GET",
+      headers: { "Content-Type": "application/json" },
     };
 
-    fetch(`http://176.58.110.152:7215/api/Tag/GetTags`, options)
+    fetch(`${url}/api/Tag/GetTags`, options)
       .then((response) => {
         response.json();
       })
       .then((data) => {
         console.warn("Tags", data);
-        setTags(data);
+        // setTags(data);
       })
       .catch(() => {});
   };
