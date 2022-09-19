@@ -12,6 +12,7 @@ namespace Infrastructure.Repository
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
+        
         public UserRepository(CryptoHubDBContext dBContext) : base(dBContext)
         {
         }

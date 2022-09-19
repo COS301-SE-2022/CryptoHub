@@ -4,23 +4,19 @@ import { userContext } from "../../auth/auth";
 
 const Suggestions = () => {
   const { user, url } = useContext(userContext);
-  // const [accounts, setAccounts] = useState([]);
-  // const [followers, setFollowers] = useState([]);
   const [suggestedAccounts, setSuggestedAccounts] = useState([]);
-  //const [refresh, setRefresh] = useState(false);
-  const [, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [, setError] = useState(false);
 
   const handleSuggestedUser = () => {
     const options = {
       method: "GET",
     };
-
+    setLoading(true);
     fetch(`${url}/api/User/SuggestedUsers/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setSuggestedAccounts(data);
-        console.log(suggestedAccounts);
         setLoading(false);
         setFollowing(data);
       })
