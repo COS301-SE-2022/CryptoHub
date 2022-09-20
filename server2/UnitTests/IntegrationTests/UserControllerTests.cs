@@ -63,17 +63,15 @@ namespace UnitTests.IntegrationTests
         public async Task GetAllUsers_Users()
         {
             //Arrange
-            var testUser = new User()
+            var testUser = new RegisterDTO()
             {
-
-                Firstname = "test1",
-                Lastname = "user1",
-                Username = "user1",
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
                 Email = "test@gmail.com",
                 Password = "1234"
-
             };
-            var testUser2 = new User()
+            var testUser2 = new RegisterDTO()
             {
 
                 Firstname = "test2",
@@ -83,7 +81,7 @@ namespace UnitTests.IntegrationTests
                 Password = "1234"
 
             };
-            var testUser3 = new User()
+            var testUser3 = new RegisterDTO()
             {
 
                 Firstname = "test3",
@@ -125,35 +123,29 @@ namespace UnitTests.IntegrationTests
         public async Task GetUserById_UserFound()
         {
             //Arrange
-            var testUser = new User()
+            var testUser = new RegisterDTO()
             {
-                //UserId = 1,
                 Firstname = "test",
                 Lastname = "user",
                 Username = "user1",
                 Email = "test@gmail.com",
                 Password = "1234",
-                RoleId = 3,
             };
-            var testUser2 = new User()
+            var testUser2 = new RegisterDTO()
             {
-                //UserId = 2,
                 Firstname = "test",
                 Lastname = "user",
                 Username = "user2",
                 Email = "test2@gmail.com",
                 Password = "1234",
-                RoleId = 3,
             };
-            var testUser3 = new User()
+            var testUser3 = new RegisterDTO()
             {
-                //UserId = 3,
                 Firstname = "test",
                 Lastname = "user",
                 Username = "user3",
                 Email = "test3@gmail.com",
                 Password = "1234",
-                RoleId = 3,
             };
 
             var x = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
@@ -170,12 +162,9 @@ namespace UnitTests.IntegrationTests
             var user = await response.Content.ReadAsAsync<User>();
 
             Assert.NotNull(user);
-            Assert.Equal(testUser.UserId, user.UserId);
             Assert.Equal(testUser.Firstname, user.Firstname);
             Assert.Equal(testUser.Lastname, user.Lastname);
             Assert.Equal(testUser.Username, user.Username);
-            Assert.Equal(testUser.Password, user.Password);
-            Assert.Equal(testUser.Email, user.Email);
         }
 
         [Fact]
@@ -235,10 +224,12 @@ namespace UnitTests.IntegrationTests
             };
 
             //Act
-            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            var add = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
             var response = await _httpClient.GetAsync("http://localhost:7215/api/User/GetAllUsers");
 
             //Assert
+            Assert.NotNull(add);
+
             Assert.NotNull(response);
             Assert.Equal(200, (double)response.StatusCode);
 
@@ -248,8 +239,98 @@ namespace UnitTests.IntegrationTests
             Assert.Equal(testUser.Firstname, user.First().Firstname);
             Assert.Equal(testUser.Lastname, user.First().Lastname);
             Assert.Equal(testUser.Username, user.First().Username);
-            Assert.Equal(testUser.Password, user.First().Password);
-            Assert.Equal(testUser.Email, user.First().Email);
+        }
+
+        [Fact]
+        public async Task GetUserByEmail_UserNotFound()
+        {
+            //Arrange
+            var testUser = new User()
+            {
+                UserId = 1,
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test@gmail.com",
+                Password = "1234"
+            };
+            var testUser2 = new User()
+            {
+                UserId = 2,
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test2@gmail.com",
+                Password = "1234"
+            };
+            var testUser3 = new User()
+            {
+                UserId = 3,
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test3@gmail.com",
+                Password = "1234"
+            };
+
+            var x = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            var y = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser2);
+            var z = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser3);
+
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/User/GetUserByEmail/test4@gmail.com");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(404, (double)response.StatusCode);
+        }
+
+        [Fact]
+        public async Task GetUserByEmail_UserFound()
+        {
+            //Arrange
+            var testUser = new RegisterDTO()
+            {
+                Firstname = "test",
+                Lastname = "user",
+                Username = "user1",
+                Email = "test@gmail.com",
+                Password = "1234",
+            };
+            var testUser2 = new RegisterDTO()
+            {
+                Firstname = "test",
+                Lastname = "user",
+                Username = "user2",
+                Email = "test2@gmail.com",
+                Password = "1234",
+            };
+            var testUser3 = new RegisterDTO()
+            {
+                Firstname = "test",
+                Lastname = "user",
+                Username = "user3",
+                Email = "test3@gmail.com",
+                Password = "1234",
+            };
+
+            var x = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            var y = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser2);
+            var z = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser3);
+
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/User/GetUserByEmail/test@gmail.com");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var user = await response.Content.ReadAsAsync<User>();
+
+            Assert.NotNull(user);
+            Assert.Equal(testUser.Firstname, user.Firstname);
+            Assert.Equal(testUser.Lastname, user.Lastname);
+            Assert.Equal(testUser.Username, user.Username);
         }
     }
 }
