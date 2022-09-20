@@ -64,11 +64,10 @@ namespace CryptoHubAPI.Controllers
         public async Task<ActionResult<UserDTO>> AddUser([FromBody] RegisterDTO registerDTO)
         {
             var response = await _userService.AddUser(registerDTO);
-            if (response == null)
-                return BadRequest();
+            if (response.HasError)
+                return BadRequest(response.Message);
 
-            return Ok(response);
-
+            return Ok(response.Model);
         }
 
         [HttpPut]
