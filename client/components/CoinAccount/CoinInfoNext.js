@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import { Line } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto";
 
 const CoinInfoNext = ({ id, name, state, arrow }) => {
   const [fetchedData, setFetchedData] = useState([]);
@@ -11,11 +13,12 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
         label: "Price",
         data: [],
         backgroundColor: ["rgb(99 102 241)"],
+        // backgroundColor: ["rgb(99 102 241)"],
       },
     ],
   });
 
-  const getCoinHistory = (interval, period) => {
+  const getCoinHistory = () => {
     const options = {
       method: "GET",
     };
@@ -28,7 +31,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
         let f = [];
         f = fetched[0];
         f = f.reverse();
-        let final = f.slice(0, interval);
+        let final = f.slice(0, 10);
         let rawDates = final.map((item) => item.date);
         let dates = rawDates.reverse().map((item) => item.slice(5, 10));
         let prices = final.reverse().map((item) => item.priceUsd);
@@ -36,7 +39,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
           labels: dates,
           datasets: [
             {
-              label: `Price over the past ${period}`,
+              label: "Price over the past 10 days",
               data: prices,
               backgroundColor: ["rgb(99 102 241)"],
             },
@@ -46,7 +49,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
   };
 
   useEffect(() => {
-    getCoinHistory(7);
+    getCoinHistory();
   }, []);
 
   return (
@@ -57,30 +60,18 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
             {name}
           </p>
           <div className="flex flex-row justify-between">
-            <button
-              onClick={() => {
-                getCoinHistory(7, "week");
-              }}
-              className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition"
-            >
+            {/* <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
+              Day
+            </button>
+            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
               Week
             </button>
-            <button
-              onClick={() => {
-                getCoinHistory(30, "month");
-              }}
-              className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition"
-            >
+            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
               Month
             </button>
-            <button
-              onClick={() => {
-                getCoinHistory(365, "year");
-              }}
-              className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition"
-            >
+            <button className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition">
               Year
-            </button>
+            </button> */}
           </div>
         </div>
         <div className="flex flex-row">
