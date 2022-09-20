@@ -6,6 +6,7 @@ import { userContext } from "../../auth/auth";
 import Post from "../../components/Posts/Post";
 import Image from "next/image";
 import { XIcon } from "@heroicons/react/outline";
+import SuggestedAccount from "../../components//InfoSection/SuggestedAccount";
 
 const User = () => {
   const router = useRouter();
@@ -21,8 +22,10 @@ const User = () => {
   const [following, setFollowing] = useState([]);
   const { user, url } = useContext(userContext);
   const [profilePicture, setProfilePicture] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [clickedUser, setClickedUser] = useState({});
 
-  const handleGetUser = () => {
+  const handleGetUserByID = () => {
     const options = {
       method: "GET",
     };
@@ -30,7 +33,22 @@ const User = () => {
     fetch(`${url}/api/User/GetUserById/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
-        console.log("userID:", id);
+        setUser(data);
+        console.log("data", data);
+        setClickedUser(data.userId);
+      })
+      .catch((error) => {});
+  };
+
+  const handleGetUser = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`${url}/api/User/GetUserById/${clickedUser}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("userID:", user);
         setUser(data);
         setProfilePicture(data.imageUrl);
       })
@@ -132,6 +150,7 @@ const User = () => {
     checkFollowing();
     handleViewFollowers();
     handleViewFollowing();
+    handleGetUserByID();
     id == undefined && router.push("/");
   }, []);
 
