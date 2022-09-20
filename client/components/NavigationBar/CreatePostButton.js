@@ -38,11 +38,20 @@ const CreatePostButton = () => {
   const handleCreatePost = (e) => {
     e.preventDefault();
 
+    let finalpost = [];
+    finalpost.push(post + " ");
+
+    tags.map((word) => {
+      finalpost.push(word + " ");
+    });
+
+    let postToString = finalpost.join(" ");
+
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        post: post,
+        post: postToString,
         userId: user.id,
         imageDTO: image == null ? null : { name: "", blob: image },
         batchTags: {
