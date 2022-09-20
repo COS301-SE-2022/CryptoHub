@@ -114,7 +114,8 @@ const CreatePostButton = () => {
                         </div>
                       </div>
                       <div>
-                        <TagDropdown addTag={addTag} />
+                        <TagDropdown />
+                        {/* <TagDropdown addTag={addTag} /> */}
                         {/* <div className="m-2">
                           {tags.map((tag) => {
                             return (
