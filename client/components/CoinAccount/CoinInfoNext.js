@@ -46,7 +46,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
   };
 
   useEffect(() => {
-    getCoinHistory(7);
+    getCoinHistory(7, "week");
   }, []);
 
   return (
