@@ -7,7 +7,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function TagDropdown() {
+export default function TagDropdown({ addTag }) {
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const { url } = useContext(userContext);
@@ -30,18 +30,8 @@ export default function TagDropdown() {
     GetPostTags();
   }, []);
 
-  const addTag = (e, tag) => {
-    e.preventDefault();
-    !selectedTags.includes(tag) && setSelectedTags([...selectedTags, tag]);
-  };
-
   return (
     <div>
-      <div className="flex flex-wrap mb-5 w-full">
-        {selectedTags.map((tag) => {
-          return <span className="text-indigo-500 mr-4">{tag}</span>;
-        })}
-      </div>
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">

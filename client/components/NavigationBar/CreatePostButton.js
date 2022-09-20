@@ -45,6 +45,9 @@ const CreatePostButton = () => {
         post: post,
         userId: user.id,
         imageDTO: image == null ? null : { name: "", blob: image },
+        batchTags: {
+          tags: tags,
+        },
       }),
     };
 
@@ -65,8 +68,9 @@ const CreatePostButton = () => {
       });
   };
 
-  const addTag = (tag) => {
-    setTags([...tags, tag]);
+  const addTag = (e, tag) => {
+    e.preventDefault();
+    !tags.includes(tag) && setTags([...tags, tag]);
   };
 
   return (
@@ -88,7 +92,10 @@ const CreatePostButton = () => {
                   <button
                     className="px-1 p-1"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                      setShowModal(false);
+                      setTags([]);
+                    }}
                   >
                     <XIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
@@ -112,7 +119,16 @@ const CreatePostButton = () => {
                         </div>
                       </div>
                       <div>
-                        <TagDropdown />
+                        <div className="flex flex-wrap w-full">
+                          {tags.map((tag) => {
+                            return (
+                              <span className="text-indigo-500 mr-4 mb-3">
+                                {tag}
+                              </span>
+                            );
+                          })}
+                        </div>
+                        <TagDropdown addTag={addTag} />
                         {/* <TagDropdown addTag={addTag} /> */}
                         {/* <div className="m-2">
                           {tags.map((tag) => {
