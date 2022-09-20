@@ -129,7 +129,7 @@ const Coin = () => {
     <>
       <Head>
         {/* FIX */}
-        <title>{coinData != null && coinData.name}</title>
+        <title>{coinData.name}</title>
       </Head>
       <Layout>
         <div className="flex flex-col sm:flex-row w-full sm:w-6/12 items-center mt-8">
