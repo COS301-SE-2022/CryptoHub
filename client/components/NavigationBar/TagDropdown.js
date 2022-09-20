@@ -56,7 +56,7 @@ export default function TagDropdown() {
             <div className="py-1">
               {tags.map((tag) => {
                 return (
-                  <div>
+                  <Menu.Item>
                     {({ active }) => (
                       <button
                         onClick={() => {
@@ -72,7 +72,7 @@ export default function TagDropdown() {
                         {tag.content}
                       </button>
                     )}
-                  </div>
+                  </Menu.Item>
                 );
               })}
             </div>
