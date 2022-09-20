@@ -33,8 +33,6 @@ const CreatePostButton = () => {
     const base64 = await convertToBase64(file);
     let base64Image = base64.split(",").pop();
     setImage(base64Image);
-    // console.warn(base64);
-    // console.warn(base64Image);
   };
 
   const handleCreatePost = (e) => {
@@ -84,7 +82,7 @@ const CreatePostButton = () => {
         <>
           <div className="justify-center items-start mt-16 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative sm:w-6/12 my-6 mx-auto max-w-3xl">
-              <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none overflow-x-hidden">
                 <div className="flex items-start justify-between p-5 border-solid border-slate-200 rounded-t">
                   <h2>Post about the latest crypto news</h2>
                   <button
