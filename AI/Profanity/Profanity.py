@@ -1,7 +1,5 @@
 from better_profanity import profanity
 
-# text = ''
-# print(profanity.contains_profanity(text))
 
 def CheckForProfanity(text):
     return profanity.contains_profanity(text)
