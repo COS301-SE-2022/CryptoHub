@@ -4,7 +4,6 @@ import { Line } from "react-chartjs-2";
 
 const CoinInfoNext = ({ id, name, state, arrow }) => {
   const [fetchedData, setFetchedData] = useState([]);
-  const [interval, setInterval] = useState(7);
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -16,7 +15,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
     ],
   });
 
-  const getCoinHistory = () => {
+  const getCoinHistory = (interval, period) => {
     const options = {
       method: "GET",
     };
@@ -37,7 +36,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
           labels: dates,
           datasets: [
             {
-              label: "Price over the past week",
+              label: `Price over the past ${period}`,
               data: prices,
               backgroundColor: ["rgb(99 102 241)"],
             },
@@ -47,7 +46,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
   };
 
   useEffect(() => {
-    getCoinHistory();
+    getCoinHistory(7);
   }, []);
 
   return (
@@ -60,7 +59,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
           <div className="flex flex-row justify-between">
             <button
               onClick={() => {
-                setInterval(7);
+                getCoinHistory(7, "week");
               }}
               className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition"
             >
@@ -68,7 +67,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
             </button>
             <button
               onClick={() => {
-                setInterval(30);
+                getCoinHistory(30, "month");
               }}
               className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition"
             >
@@ -76,7 +75,7 @@ const CoinInfoNext = ({ id, name, state, arrow }) => {
             </button>
             <button
               onClick={() => {
-                setInterval(100);
+                getCoinHistory(365, "year");
               }}
               className="text-sm font-semibold mb-2 translate-y-1 ml-1 text-right bg-gray-100 px-3 p-1 rounded-md hover:bg-indigo-300 transition"
             >
