@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from SentimentAnalysis import main
+from SentimentAnaysis import main
 app = Flask(__name__)
 
 @app.route('/sentiment', methods=['GET'])
