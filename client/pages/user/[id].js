@@ -13,6 +13,8 @@ const User = () => {
   const [posts, setPosts] = useState([]);
   const [clicked, setClicked] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [, setError] = useState(false);
+  const [, setLoading] = useState(false);
 
   const { user, url } = useContext(userContext);
   const [profilePicture, setProfilePicture] = useState(null);
@@ -124,6 +126,8 @@ const User = () => {
     handleGetUser();
     handleGetAllPosts();
     checkFollowing();
+    handleViewFollowers();
+    handleViewFollowing();
     id == undefined && router.push("/");
   }, []);
 
@@ -160,6 +164,22 @@ const User = () => {
             <p className="font-semibold text-center sm:text-left">
               {thisUser.username}
             </p>{" "}
+            <div className="flex flex-row -translate-y-5">
+              <button
+                className="mr-3"
+                onClick={() => setFollowingShowModal(true)}
+              >
+                <span className="font-semibold">{`${following.length} `}</span>{" "}
+                following
+              </button>
+              <button onClick={() => setShowModal(true)}>
+                {" "}
+                <span className="font-semibold" f>
+                  {`${followers.length} `}
+                </span>
+                followers
+              </button>
+            </div>
             {user.auth ? (
               isFollowing ? (
                 <>
@@ -216,6 +236,49 @@ const User = () => {
                 />
               );
             })}
+            {showFollowingModal ? (
+              <>
+                <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                  <div className="relative w-11/12 sm:w-6/12 my-6 mx-auto max-w-3xl">
+                    <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                      <div className="flex items-start justify-between p-5 border-solid border-slate-200 rounded-t">
+                        <h2>Following</h2>
+                        <button
+                          className="px-1 p-1"
+                          type="button"
+                          onClick={() => setFollowingShowModal(false)}
+                        >
+                          <XIcon className="h-6 w-6" aria-hidden="true" />
+                        </button>
+                      </div>
+                      <div className="relative flex-auto">
+                        <form method="POST">
+                          <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
+                            <div>
+                              <div className="mt-1">
+                                {following.map((data, index) => {
+                                  return (
+                                    <SuggestedAccount
+                                      key={index}
+                                      name={data.username}
+                                      hidefollow={true}
+                                      id={data.userId}
+                                      suggestions={true}
+                                    />
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      <div className="flex items-center justify-end p-6 border-solid border-slate-200 rounded-b"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+              </>
+            ) : null}
           </div>
         </div>
       </Layout>
