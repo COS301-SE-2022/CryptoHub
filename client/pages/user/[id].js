@@ -103,6 +103,23 @@ const User = () => {
       });
   };
 
+  const handleViewFollowing = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`${url}/api/UserFollower/GetUserFollowing/${user.id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+        setFollowing(data);
+      })
+      .catch((error) => {
+        setError(true);
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     handleGetUser();
     handleGetAllPosts();
