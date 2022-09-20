@@ -272,7 +272,8 @@ namespace BusinessLogic.Services.PostService
 
             for (int i = 0; i < scoredPosts.Count; i++)
             {
-                scoredPosts[i].SentimentScore = postSentimentScoreDTO[i].SentimentScore;
+                var pid = scoredPosts[i].PostId;
+                scoredPosts.Find(p => p.PostId == pid).SentimentScore = postSentimentScoreDTO.Find(p => p.PostId == pid).SentimentScore;
             }
 
 
