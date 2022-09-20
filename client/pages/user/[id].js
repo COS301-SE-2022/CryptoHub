@@ -92,16 +92,19 @@ const User = () => {
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
-        console.log("data", data);
+        console.log("data", data.userId);
         setClickedUser(data.userId);
+        console.log("userID", data.userId);
+        console.log("clickedUser", clickedUser);
       })
       .catch((error) => {});
   };
 
   const checkFollowing = () => {
-    fetch(`${url}/api/UserFollower/GetUserFollowing/${clickedUser}`)
+    fetch(`${url}/api/UserFollower/GetUserFollowing/${id}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         data.map((d) => {
           if (d.userId == id) {
             setIsFollowing(true);
@@ -132,7 +135,7 @@ const User = () => {
       method: "GET",
     };
 
-    fetch(`${url}/api/UserFollower/GetUserFollowing/${user.id}`, options)
+    fetch(`${url}/api/UserFollower/GetUserFollowing/${clickedUser}`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -187,59 +190,57 @@ const User = () => {
             <p className="font-semibold text-center sm:text-left">
               {thisUser.username}
             </p>{" "}
-            <div className="flex flex-row -translate-y-5">
-              <button
-                className="mr-3"
-                onClick={() => setFollowingShowModal(true)}
-              >
-                <span className="font-semibold">{`${following.length} `}</span>{" "}
-                following
-              </button>
-              <button onClick={() => setShowModal(true)}>
-                {" "}
-                <span className="font-semibold" f>
-                  {`${followers.length} `}
-                </span>
-                followers
-              </button>
-            </div>
-            {user.auth ? (
-              isFollowing ? (
-                <>
-                  <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
-                    Following
-                  </p>
-                  <button
-                    onClick={() => {
-                      router.push(`/messages/${id}`);
-                    }}
-                  >
-                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
-                      Message
-                    </p>
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button onClick={handleFollowUser}>
-                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
-                      Follow
-                    </p>
-                  </button>
-                  <button
-                    onClick={() => {
-                      router.push(`/messages/${id}`);
-                    }}
-                  >
-                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
-                      Message
-                    </p>
-                  </button>
-                </>
-              )
-            ) : null}
             <br />
           </div>
+          {user.auth ? (
+            isFollowing ? (
+              <>
+                <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
+                  Following
+                </p>
+                <button
+                  onClick={() => {
+                    router.push(`/messages/${id}`);
+                  }}
+                >
+                  <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                    Message
+                  </p>
+                </button>
+              </>
+            ) : (
+              <>
+                <button onClick={handleFollowUser}>
+                  <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                    Follow
+                  </p>
+                </button>
+                <button
+                  onClick={() => {
+                    router.push(`/messages/${id}`);
+                  }}
+                >
+                  <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                    Message
+                  </p>
+                </button>
+              </>
+            )
+          ) : null}
+        </div>
+
+        <div className="flex flex-row -translate-y-16">
+          <button className="mr-3" onClick={() => setFollowingShowModal(true)}>
+            <span className="font-semibold">{`${following.length} `}</span>{" "}
+            following
+          </button>
+          <button onClick={() => setShowModal(true)}>
+            {" "}
+            <span className="font-semibold" f>
+              {`${followers.length} `}
+            </span>
+            followers
+          </button>
         </div>
         <div className="bg-gray-400 sm:w-7/12" style={{ height: "1px" }}></div>
         <div className="flex flex-col items-center w-full sm:w-5/12">
