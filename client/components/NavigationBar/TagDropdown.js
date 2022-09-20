@@ -59,7 +59,8 @@ export default function TagDropdown() {
                   <Menu.Item>
                     {({ active }) => (
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.preventDefault();
                           setSelectedTags([...selectedTags, tag.content]);
                         }}
                         className={classNames(
@@ -79,11 +80,11 @@ export default function TagDropdown() {
           </Menu.Items>
         </Transition>
       </Menu>
-      {/* <div className="m-2">
+      <div className="m-2">
         {selectedTags.map((tag) => {
           return <span className="text-indigo-500 mr-4">{tag}</span>;
         })}
-      </div> */}
+      </div>
     </div>
   );
 }
