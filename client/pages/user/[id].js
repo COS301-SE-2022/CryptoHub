@@ -25,27 +25,12 @@ const User = () => {
   const [showModal, setShowModal] = useState(false);
   const [clickedUser, setClickedUser] = useState({});
 
-  const handleGetUserByID = () => {
-    const options = {
-      method: "GET",
-    };
-
-    fetch(`${url}/api/User/GetUserById/${id}`, options)
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data);
-        console.log("data", data);
-        setClickedUser(data.userId);
-      })
-      .catch((error) => {});
-  };
-
   const handleGetUser = () => {
     const options = {
       method: "GET",
     };
 
-    fetch(`${url}/api/User/GetUserById/${clickedUser}`, options)
+    fetch(`${url}/api/User/GetUserById/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
         console.log("userID:", user);
@@ -98,8 +83,23 @@ const User = () => {
     return user.id == id;
   };
 
+  const handleGetUserByID = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`${url}/api/User/GetUserById/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        setUser(data);
+        console.log("data", data);
+        setClickedUser(data.userId);
+      })
+      .catch((error) => {});
+  };
+
   const checkFollowing = () => {
-    fetch(`${url}/api/UserFollower/GetUserFollowing/${user.id}`)
+    fetch(`${url}/api/UserFollower/GetUserFollowing/${clickedUser}`)
       .then((response) => response.json())
       .then((data) => {
         data.map((d) => {
@@ -115,7 +115,7 @@ const User = () => {
       method: "GET",
     };
 
-    fetch(`${url}/api/UserFollower/GetUserFollower/${user.id}`, options)
+    fetch(`${url}/api/UserFollower/GetUserFollower/${clickedUser}`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
