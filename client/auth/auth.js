@@ -28,7 +28,13 @@ const UserProvider = ({ children }) => {
       : "http://176.58.110.152:7215"
   );
 
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    username: "",
+    auth: false,
+    id: 0,
+    token: "",
+    admin: false,
+  });
 
   const [feedstate, setFeedstate] = useState(false);
   const [show, setShow] = useState(false);
@@ -102,7 +108,9 @@ const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    setUser(JSON.parse(window.sessionStorage.getItem("user")));
+    if (JSON.parse(window.sessionStorage.getItem("user"))) {
+      setUser(JSON.parse(window.sessionStorage.getItem("user")));
+    }
   }, []);
 
   useEffect(() => {

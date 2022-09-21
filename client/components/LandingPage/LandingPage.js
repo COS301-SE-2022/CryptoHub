@@ -56,8 +56,8 @@ const MainContent = () => {
             height={600}
           />
           <div className="flex flex-col ml-2 mt-2">
-            <div className="bg-indigo-300 h-30 sm:h-7 px-3 w-5/12 rounded-lg text-indigo-800 text-lg mb-3">
-              to the moon 🚀
+            <div className=" bg-indigo-300 h-30 sm:h-7 px-3 w-5/12 rounded-lg text-indigo-800 text-lg mb-3">
+              <p>to the moon 🚀</p>
             </div>
             <button
               onClick={() => {
@@ -65,7 +65,9 @@ const MainContent = () => {
               }}
               className="bg-indigo-300 text-wrap hover:bg-indigo-400 h-30 text-left sm:h-7 px-3 rounded-lg text-indigo-800 text-lg"
             >
-              not ready to sign up? see some posts here 💰
+              <div>
+                <p>not ready to sign up? see some posts here 💰</p>
+              </div>
             </button>
           </div>
         </div>

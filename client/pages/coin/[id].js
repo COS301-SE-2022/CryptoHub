@@ -30,7 +30,6 @@ const Coin = () => {
     fetch(`https://api.coincap.io/v2/assets/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data.data);
         setCoinData(data.data);
       })
       .catch((error) => {});
@@ -43,11 +42,8 @@ const Coin = () => {
     fetch(`${url}/api/Coin/GetCoinRating/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data.data);
         setAverageRate(data.rating);
         setAverageCount(data.count);
-        console.log("count:" + data.count);
-        console.log("count:" + data.rating);
       })
       .catch((error) => {});
   };
@@ -139,7 +135,7 @@ const Coin = () => {
           ></div>
           <div className="flex flex-row">
             <p className="font-semibold text-center sm:text-left mr-4">
-              {coinData.name}
+              {coinData.name != undefined && coinData.name}
             </p>{" "}
             {/* ==================================================================== */}
             <div className="flex flex-row">
