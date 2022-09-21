@@ -42,6 +42,7 @@ const Coin = () => {
         console.log("data", data.data);
         setCoinData(data.data);
         console.log("coinData", id);
+        console.log("followers", followers);
       })
       .catch((error) => {});
   };
@@ -126,10 +127,7 @@ const Coin = () => {
       method: "GET",
     };
 
-    fetch(
-      `${url}http://localhost:7215/api/Coin/GetCoinsFollowers/${id}`,
-      options
-    )
+    fetch(`${url}/api/Coin/GetCoinsFollowers/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -201,7 +199,7 @@ const Coin = () => {
             <div className="flex flex-row -translate-y-10"></div>
           </div>
         </div>
-        <div className="flex flex-row -translate-y-10 -translate-x-7">
+        <div className="flex flex-row -translate-y-10 -translate-x-8">
           <button onClick={() => setShowModal(true)}>
             {" "}
             <span className="font-semibold" f>
