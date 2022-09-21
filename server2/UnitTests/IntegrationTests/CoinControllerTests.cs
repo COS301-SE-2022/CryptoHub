@@ -9,6 +9,7 @@ using Infrastructure.DTO.CoinDTOs;
 using Infrastructure.DTO.UserDTOs;
 using Infrastructure.DTO.UserCoinDTOs;
 using Infrastructure.DTO.UserFollowerDTOs;
+using Infrastructure.DTO.ImageDTOs;
 using System.Net.Http;
 
 namespace UnitTests.IntegrationTests
@@ -634,8 +635,43 @@ namespace UnitTests.IntegrationTests
         }
 
         [Fact]
-        public async Task SearchCoin_Coins()
+        public async Task UpdateProfilePic()
         {
+            //Arrange
+            var testImage = new CreateImageDTO()
+            {
+                Name = "sample",
+                Blob = "100110 111010 001011 101001"
+            };
+            var testCoin1 = new CoinDTO()
+            {
+                CoinId = 1,
+                CoinName = "TestCoin1",
+                ImageUrl = "TestURL"
+            };
+
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin1);
+
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoin/1");
+
+            var coins = await response.Content.ReadAsAsync<CoinDTO>();
+
+            //Assert
+            Assert.NotNull(coins);
+            Assert.Equal(200, (double)response.StatusCode);
+            Assert.Equal("TestCoin1", coins.CoinName);
+
+            //Act
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/UpdateProfilePic/TestCoin1", testImage);
+            var responseUpdate = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoin/1");
+
+            var coinsUpdate = await responseUpdate.Content.ReadAsAsync<CoinDTO>();
+
+            //Assert
+            Assert.NotNull(responseUpdate);
+            Assert.Equal(200, (double)responseUpdate.StatusCode);
+            Assert.Equal(testImage.Name, coinsUpdate.CoinName);
         }
     }
 }
