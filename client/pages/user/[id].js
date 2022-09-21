@@ -86,13 +86,13 @@ const User = () => {
     fetch(`${url}/api/UserFollower/GetUserFollowing/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         data.map((d) => {
           if (d.userId == id) {
             setIsFollowing(true);
           }
         });
-      });
+      })
+      .catch(() => {});
   };
 
   const handleViewFollowers = (UsersID) => {
