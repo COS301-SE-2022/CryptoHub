@@ -44,6 +44,91 @@ namespace UnitTests.IntegrationTests
         }
 
         [Fact]
+        public async Task AddLike()
+        {
+            //Arrange
+            var testLike = new LikeDTO()
+            {
+                LikeId = 1,
+                UserId = 1,
+                PostId = 1,
+                CommentId = 1,
+            };
+
+
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Like/AddLike", testLike);
+
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Like/GetLikeByPostId/1");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var likes = await response.Content.ReadAsAsync<List<LikeDTO>>();
+
+            Assert.Single(likes);
+            Assert.Equal(testLike.LikeId, likes.First().LikeId);
+            Assert.Equal(testLike.UserId, likes.First().UserId);
+            Assert.Equal(testLike.PostId, likes.First().PostId);
+            Assert.Equal(testLike.CommentId, likes.First().CommentId);
+
+        }
+
+        [Fact]
+        public async Task UpdateLike()
+        {
+            //Arrange
+            var testLike = new LikeDTO()
+            {
+                LikeId = 1,
+                UserId = 1,
+                PostId = 1,
+                CommentId = 1,
+            };
+            var testLikeUpdate = new LikeDTO()
+            {
+                LikeId = 1,
+                UserId = 1,
+                PostId = 1,
+                CommentId = 1,
+            };
+
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Like/AddLike", testLike);
+
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Like/GetLikeByPostId/1");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var likes = await response.Content.ReadAsAsync<List<LikeDTO>>();
+
+            Assert.Single(likes);
+            Assert.Equal(testLike.LikeId, likes.First().LikeId);
+            Assert.Equal(testLike.UserId, likes.First().UserId);
+            Assert.Equal(testLike.PostId, likes.First().PostId);
+            Assert.Equal(testLike.CommentId, likes.First().CommentId);
+
+            //Act 2
+            await _httpClient.PutAsJsonAsync("http://localhost:7215/api/like/UpdateLike", testLikeUpdate);
+            var response2 = await _httpClient.GetAsync("http://localhost:7215/api/Like/GetLikeByPostId/1");
+
+            //Assert
+            Assert.NotNull(response2);
+            Assert.Equal(200, (double)response2.StatusCode);
+
+            var likes2 = await response2.Content.ReadAsAsync<List<LikeDTO>>();
+
+            Assert.Single(likes2);
+            Assert.Equal(testLike.LikeId, likes2.First().LikeId);
+            Assert.Equal(testLike.UserId, likes2.First().UserId);
+            Assert.Equal(testLike.PostId, likes2.First().PostId);
+            Assert.Equal(testLike.CommentId, likes2.First().CommentId);
+        }
+
+        [Fact]
         public async Task GetLikeByPostId_NoLikes()
         {
             //Act

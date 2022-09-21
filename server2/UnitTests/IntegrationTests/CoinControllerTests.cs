@@ -445,13 +445,7 @@ namespace UnitTests.IntegrationTests
 
             var coin = await response.Content.ReadAsAsync<UserCoinDTO>();
 
-            //var actual = (response as OkObjectResult).Value;
-
             Assert.NotNull(coin);
-
-            //var actual = (coin.Result as OkObjectResult).Value;
-            //Assert.IsType<List<UserCoinDTO>>(actual);
-            //Assert.Equal(3, (actual as List<Like>).Count);
         }
 
         [Fact]
@@ -770,13 +764,11 @@ namespace UnitTests.IntegrationTests
             Assert.Equal(200, (double)response.StatusCode);
 
             //Act
-            var response2 = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoinRating/TestCoin1");
+            var response2 = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoinRatingByUserId/1/TestCoin1");
 
             //Assert
             Assert.NotNull(response2);
             Assert.Equal(200, (double)response2.StatusCode);
-
-            var coins = await response2.Content.ReadAsAsync<UserCoinDTO>();
         }
     }
 }

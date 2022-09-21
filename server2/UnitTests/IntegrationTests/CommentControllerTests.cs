@@ -105,6 +105,7 @@ namespace UnitTests.IntegrationTests
 
             //Assert
             Assert.NotNull(response);
+            Assert.True(response.IsSuccessStatusCode);
 
             var comments = await response.Content.ReadAsAsync<List<Comment>>();
 
@@ -151,6 +152,17 @@ namespace UnitTests.IntegrationTests
             var comments = await response.Content.ReadAsAsync<List<Comment>>();
 
             Assert.Single(comments);
+        }
+
+        [Fact]
+        public async Task GetCommentCountByPostId_Comments()
+        {
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Comment/GetCommentCountByPostId/1");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
         }
 
         [Fact]

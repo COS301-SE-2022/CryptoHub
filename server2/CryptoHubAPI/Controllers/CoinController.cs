@@ -175,7 +175,6 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{coinName}")]
-
         public async Task<IActionResult> GetCoinSentiment(string coinName)
         {
             var response = await _coinService.GetCoinSentiment(coinName);

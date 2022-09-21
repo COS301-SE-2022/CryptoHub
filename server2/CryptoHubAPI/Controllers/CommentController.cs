@@ -41,8 +41,8 @@ namespace CryptoHubAPI.Controllers
         public async Task<ActionResult<Comment>> GetCommentCountByPostId(int id)
         {
             var response = await _commentService.GetCommentCountByPostId(id);
-            if (response == null)
-                return NotFound();
+            //if (response == null)
+            //    return NotFound();
 
             return Ok(response);
         }
