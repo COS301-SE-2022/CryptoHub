@@ -34,6 +34,7 @@ jobs:
         run: |
           cd server2
           dotnet test --no-build --verbosity normal
+
   build_docker:
     name: Build Docker image and push to Docker Hub
     needs: "build"
@@ -60,12 +61,18 @@ jobs:
           context: "${{ github.server_url }}/${{ github.repository }}.git#${{ github.ref }}:client"
           push: true
           tags: codeforce301/cryptohubclient:latest
+      - name: Build and Push AI
+        uses: docker/build-push-action@v3
+        with:
+          context: "${{ github.server_url }}/${{ github.repository }}.git#${{ github.ref }}:AI/App"
+          push: true
+          tags: codeforce301/cryptohubai:latest
   update_on_linode:
     name: Update image on Linode
     needs: "build_docker"
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
+      - name: executing remote ssh commands using password for system
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}

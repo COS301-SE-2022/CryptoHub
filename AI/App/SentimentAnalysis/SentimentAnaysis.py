@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import nltk
-nltk.download('vader_lexicon')
+#nltk.download('vader_lexicon')
 from nltk.sentiment import SentimentIntensityAnalyzer
-from Post import Post,ScoredPost
-import CoinTags
+import SentimentAnalysis.CoinTags as CoinTags
+from SentimentAnalysis.Post import Post,ScoredPost
 import requests
 import json
 
@@ -15,7 +15,7 @@ import json
 def GetCoinPostsByTag():
     lst = []
     for i in  range(CoinTags.tagCount()):
-        x = requests.get('http://localhost:7215/api/Post/GetPostsByTag/'+CoinTags.getTag(i))
+        x = requests.get('http://176.58.110.152:7215/api/Post/GetPostsByTag/'+CoinTags.getTag(i))
         posts = json.loads(x.text)
         for p in posts:
             lst.append(Post(p))
@@ -62,8 +62,8 @@ def main():
     
     #print(scoredposts)
 
-    x = requests.patch('http://localhost:7215/api/Post/UpdatePostSentiment',json=scoredposts)
-    print("done")
+    x = requests.patch('http://176.58.110.152:7215:7215/api/Post/UpdatePostSentiment',json=scoredposts)
+    return "done"
 
     
 
