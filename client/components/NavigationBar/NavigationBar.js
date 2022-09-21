@@ -38,7 +38,14 @@ const NavigationBar = () => {
       {user.auth ? (
         <NavigationProfile />
       ) : (
-        <p className="font-semibold ml-10">About</p>
+        <button
+          className="font-semibold ml-10"
+          onClick={() => {
+            router.push("/AboutPage");
+          }}
+        >
+          About
+        </button>
       )}
     </nav>
   );
