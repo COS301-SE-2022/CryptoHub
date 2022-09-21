@@ -27,6 +27,10 @@ const NavigationSearchBar = () => {
       .catch(() => {});
   };
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <button
@@ -41,7 +45,12 @@ const NavigationSearchBar = () => {
             <div className="relative w-10/12 sm:w-6/12 my-6 mx-auto max-w-3xl">
               <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 <div className="relative flex-auto">
-                  <form method="POST">
+                  <form
+                    method="POST"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
                     <div className="flex items-start justify-between p-5 border-solid border-slate-200 rounded-t">
                       <input
                         autoFocus
@@ -49,7 +58,9 @@ const NavigationSearchBar = () => {
                         type="text"
                         placeholder="Search"
                         value={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)}
+                        onChange={(e) => {
+                          setSearchInput(e.target.value);
+                        }}
                       />
                       <button
                         className="px-1 p-1"

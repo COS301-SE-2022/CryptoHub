@@ -105,7 +105,6 @@ namespace UnitTests.IntegrationTests
 
             //Assert
             Assert.NotNull(response);
-            Assert.Equal(200, (double)response.StatusCode);
 
             var comments = await response.Content.ReadAsAsync<List<Comment>>();
 
@@ -185,7 +184,7 @@ namespace UnitTests.IntegrationTests
         }
 
         //[Fact]
-        //public async Task DeleteComment()
+        //public async Task UpdateComment()
         //{
         //    //Arrange
         //    var testComment = new CommentDTO()
@@ -194,6 +193,13 @@ namespace UnitTests.IntegrationTests
         //        UserId = 1,
         //        PostId = 1,
         //        Content = "sample comment 1"
+        //    };
+        //    var testCommentUpdate = new Comment()
+        //    {
+        //        CommentId = 1,
+        //        UserId = 1,
+        //        PostId = 1,
+        //        Content = "Changed comment"
         //    };
 
         //    await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Comment/AddComment", testComment);
@@ -213,23 +219,69 @@ namespace UnitTests.IntegrationTests
         //    Assert.Equal(testComment.PostId, comments.First().PostId);
         //    Assert.Equal(testComment.Content, comments.First().Content);
 
-        //    //Act
-        //    var responseDelete = await _httpClient.DeleteAsync("http://localhost:7215/api/Comment/Delete?id=1");
+        //    //Act 2
+        //    await _httpClient.PutAsJsonAsync("http://localhost:7215/api/Comment/UpdateComment", testCommentUpdate);
+        //    var responseUpdate = await _httpClient.GetAsync("http://localhost:7215/api/Comment/GetCommentByPostId/1");
 
-        //    //Assert
-        //    Assert.NotNull(responseDelete);
-        //    Assert.Equal(200, (double)responseDelete.StatusCode);
+        //    //Assert 2
+        //    Assert.NotNull(responseUpdate);
+        //    Assert.Equal(200, (double)responseUpdate.StatusCode);
 
-        //    //Act
-        //    var responseGet = await _httpClient.GetAsync("http://localhost:7215/api/Comment/GetCommentByPostId/1");
+        //    var commentsUpdated = await responseUpdate.Content.ReadAsAsync<List<Comment>>();
 
-        //    //Assert
-        //    Assert.NotNull(responseGet);
-        //    Assert.Equal(200, (double)responseGet.StatusCode);
-
-        //    var commentsGet = await responseGet.Content.ReadAsAsync<List<Comment>>();
-
-        //    Assert.Empty(commentsGet);
+        //    Assert.Single(commentsUpdated);
+        //    Assert.Equal(testCommentUpdate.CommentId, commentsUpdated.First().CommentId);
+        //    Assert.Equal(testCommentUpdate.UserId, commentsUpdated.First().UserId);
+        //    Assert.Equal(testCommentUpdate.PostId, commentsUpdated.First().PostId);
+        //    Assert.Equal(testCommentUpdate.Content, commentsUpdated.First().Content);
         //}
+
+        [Fact]
+        public async Task DeleteComment()
+        {
+            //Arrange
+            var testComment = new CommentDTO()
+            {
+                CommentId = 1,
+                UserId = 1,
+                PostId = 1,
+                Content = "sample comment 1"
+            };
+
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Comment/AddComment", testComment);
+
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Comment/GetCommentByPostId/1");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var comments = await response.Content.ReadAsAsync<List<Comment>>();
+
+            Assert.Single(comments);
+            Assert.Equal(testComment.CommentId, comments.First().CommentId);
+            Assert.Equal(testComment.UserId, comments.First().UserId);
+            Assert.Equal(testComment.PostId, comments.First().PostId);
+            Assert.Equal(testComment.Content, comments.First().Content);
+
+            //Act
+            var responseDelete = await _httpClient.DeleteAsync("http://localhost:7215/api/Comment/Delete?id=1");
+
+            //Assert
+            Assert.NotNull(responseDelete);
+            Assert.Equal(200, (double)responseDelete.StatusCode);
+
+            //Act
+            var responseGet = await _httpClient.GetAsync("http://localhost:7215/api/Comment/GetCommentByPostId/1");
+
+            //Assert
+            Assert.NotNull(responseGet);
+            Assert.Equal(200, (double)responseGet.StatusCode);
+
+            var commentsGet = await responseGet.Content.ReadAsAsync<List<Comment>>();
+
+            Assert.Empty(commentsGet);
+        }
     }
 }
