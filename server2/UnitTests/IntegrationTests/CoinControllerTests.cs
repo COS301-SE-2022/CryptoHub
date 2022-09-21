@@ -235,38 +235,38 @@ namespace UnitTests.IntegrationTests
             Assert.Equal(400, (double)response.StatusCode);
         }
 
-        //[Fact]
-        //public async Task RateCoin_Coin()
-        //{
-        //    //Arrange
-        //    var testCoin = new CoinDTO()
-        //    {
-        //        CoinId = 1,
-        //        CoinName = "TestCoin1",
-        //        ImageUrl = "TestURL"
-        //    };
-        //    var testUser = new User()
-        //    {
-        //        UserId = 1,
-        //        Firstname = "test1",
-        //        Lastname = "user1",
-        //        Username = "user1",
-        //        Email = "test@gmail.com",
-        //        Password = "1234"
-        //    };
+        [Fact]
+        public async Task RateCoin_Coin()
+        {
+            //Arrange
+            var testCoin = new CoinDTO()
+            {
+                CoinId = 1,
+                CoinName = "TestCoin1",
+                ImageUrl = "TestURL"
+            };
+            var testUser = new RegisterDTO()
+            {
+                Firstname = "test1",
+                Lastname = "user1",
+                Username = "user1",
+                Email = "test@gmail.com",
+                Password = "1234"
+            };
 
-        //    var userAdd = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
-        //    var coinAdd = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin);
+            //var userAdd = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            var coinAdd = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin);
 
-        //    Assert.Equal(200, (double)userAdd.StatusCode);
 
-        //    //Act
-        //    var response = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/RateCoin/1/TestCoin1/2", testCoin);
+            //Act
+            var response = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/RateCoin/1/TestCoin1/2", testCoin);
 
-        //    //Assert
-        //    Assert.NotNull(response);
-        //    //Assert.Equal(200, (double)response.StatusCode);
-        //}
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+        }
 
         [Fact]
         public async Task GetAllUserCoins_NoUserCoins()
@@ -673,5 +673,110 @@ namespace UnitTests.IntegrationTests
         //    Assert.Equal(200, (double)responseUpdate.StatusCode);
         //    Assert.Equal(testImage.Name, coinsUpdate.CoinName);
         //}
+
+        [Fact]
+        public async Task GetCoinRating_NoRating()
+        {
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoinRating/TestCoin");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(400, (double)response.StatusCode);
+        }
+
+        [Fact]
+        public async Task GetCoinRating_Rating()
+        {
+            //Arrange
+            var testCoin = new CoinDTO()
+            {
+                CoinId = 1,
+                CoinName = "TestCoin1",
+                ImageUrl = "TestURL"
+            };
+            var testUser = new RegisterDTO()
+            {
+                Firstname = "test1",
+                Lastname = "user1",
+                Username = "user1",
+                Email = "test@gmail.com",
+                Password = "1234"
+            };
+
+            //var userAdd = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            var coinAdd = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin);
+
+
+            //Act
+            var response = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/RateCoin/1/TestCoin1/2", testCoin);
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            //Act
+            var response2 = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoinRating/TestCoin1");
+
+            //Assert
+            Assert.NotNull(response2);
+            Assert.Equal(200, (double)response2.StatusCode);
+
+            var coins = await response2.Content.ReadAsAsync<UserCoinDTO>();
+
+        }
+
+        [Fact]
+        public async Task GetCoinRatingByUserId_NoRating()
+        {
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoinRatingByUserId/1");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(404, (double)response.StatusCode);
+        }
+
+        [Fact]
+        public async Task GetCoinRatingByUserId_Rating()
+        {
+            //Arrange
+            var testCoin = new CoinDTO()
+            {
+                CoinId = 1,
+                CoinName = "TestCoin1",
+                ImageUrl = "TestURL"
+            };
+            var testUser = new RegisterDTO()
+            {
+                Firstname = "test1",
+                Lastname = "user1",
+                Username = "user1",
+                Email = "test@gmail.com",
+                Password = "1234"
+            };
+
+            //var userAdd = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            var coinAdd = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin);
+
+
+            //Act
+            var response = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/RateCoin/1/TestCoin1/2", testCoin);
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            //Act
+            var response2 = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoinRating/TestCoin1");
+
+            //Assert
+            Assert.NotNull(response2);
+            Assert.Equal(200, (double)response2.StatusCode);
+
+            var coins = await response2.Content.ReadAsAsync<UserCoinDTO>();
+        }
     }
 }
