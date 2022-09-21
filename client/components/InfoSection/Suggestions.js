@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import SuggestedAccount from "./SuggestedAccount";
 import { userContext } from "../../auth/auth";
+import Loader from "../Loader";
 
 const Suggestions = () => {
   const { user, url } = useContext(userContext);
@@ -35,7 +36,9 @@ const Suggestions = () => {
       <p className="text-md font-bold text-indigo-600 mb-2 overflow-auto">
         Suggestions
       </p>
-      {suggestedAccounts.length == 0 ? (
+      {loading ? (
+        <Loader />
+      ) : suggestedAccounts.length == 0 ? (
         <p className="text-sm text-gray-500">No suggestions</p>
       ) : (
         suggestedAccounts.map((data, index) => {

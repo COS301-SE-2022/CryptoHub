@@ -4,6 +4,7 @@ import InfoSection from "../InfoSection/InfoSection";
 import { userContext } from "../../auth/auth";
 import Post from "../Posts/Post";
 import { useRouter } from "next/router";
+import Loader from "../Loader";
 
 const AdminFeed = () => {
   const { user, url } = useContext(userContext);
@@ -74,7 +75,7 @@ const AdminPosts = () => {
   return (
     <div className="w-full sm:w-5/12">
       {loading ? (
-        <p>loading...</p>
+        <Loader />
       ) : (
         posts.map((data, index) => {
           return (

@@ -2,11 +2,13 @@ import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../../auth/auth";
 import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../InfoSection/SuggestedAccount";
+import Loader from "../Loader";
 
 const NavigationSearchBar = () => {
   const [showModal, setShowModal] = useState(false);
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { user, url } = useContext(userContext);
 
@@ -18,13 +20,16 @@ const NavigationSearchBar = () => {
     const options = {
       method: "GET",
     };
-
+    setLoading(true);
     fetch(`${url}/api/User/SearchUser/${user.id}/${searchTerm}`, options)
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
+        setLoading(false);
       })
-      .catch(() => {});
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   const submitHandler = (e) => {
@@ -72,7 +77,9 @@ const NavigationSearchBar = () => {
                     </div>
                     <div className="flex flex-col p-5">
                       <div>
-                        {users.length == 0 || searchInput == "" ? (
+                        {loading ? (
+                          <Loader />
+                        ) : users.length == 0 || searchInput == "" ? (
                           <p className="text-gray-400">No search results</p>
                         ) : (
                           users.map((data, index) => {

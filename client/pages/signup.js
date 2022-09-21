@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { userContext } from "../auth/auth";
 import { useRouter } from "next/router";
+import Loader from "../components/Loader";
 
 const Signup = () => {
   const { authorise, url } = useContext(userContext);
@@ -187,11 +188,7 @@ const Signup = () => {
                 } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                 disabled={!validPassword}
               >
-                {loading ? (
-                  <p className="text-indigo-200">Loading...</p>
-                ) : (
-                  <p>Create account</p>
-                )}
+                {loading ? <Loader /> : <p>Create account</p>}
               </button>
               <div className="text-gray-400 text-center font-sm mt-5">
                 Already signed up ?{" "}

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Post from "./Post";
 import { userContext } from "../../auth/auth";
 import { useRouter } from "next/router";
+import Loader from "../Loader";
 
 const ExplorePosts = () => {
   const { feedstate } = useContext(userContext);
@@ -62,7 +63,7 @@ const ExplorePosts = () => {
   return (
     <div className=" w-full sm:w-5/12">
       {loading ? (
-        <p>loading...</p>
+        <Loader />
       ) : explorePosts.count == 0 ? (
         <p>No posts to explore</p>
       ) : (

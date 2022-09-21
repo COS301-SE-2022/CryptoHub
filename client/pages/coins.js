@@ -3,6 +3,7 @@ import Head from "next/head";
 import Layout from "../components/Layout";
 import { userContext } from "../auth/auth";
 import Link from "next/link";
+import Loader from "../components/Loader";
 
 const coins = () => {
   const { user } = useContext(userContext);
@@ -92,7 +93,7 @@ const MyCoins = () => {
         </p>
       </div>
       {data.length == 0 ? (
-        <p className="text-sm text-gray-500">Loading...</p>
+        <Loader />
       ) : (
         data.map((data, index) => {
           return <CoinInfo key={index} id={data.id} index={index + 1} />;
