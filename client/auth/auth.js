@@ -27,13 +27,8 @@ const UserProvider = ({ children }) => {
       ? "http://localhost:7215"
       : "http://176.58.110.152:7215"
   );
-  const [user, setUser] = useState({
-    username: "",
-    auth: false,
-    id: 0,
-    token: "",
-    admin: false,
-  });
+
+  const [user, setUser] = useState({});
 
   const [feedstate, setFeedstate] = useState(false);
   const [show, setShow] = useState(false);
@@ -107,14 +102,13 @@ const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.warn("Environment: ", url);
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-      // setUrl("http://176.58.110.152:7215");
-      //setUrl("http://localhost:7215");
-    } else {
-      // setUrl("https://seashell-app-d57zw.ondigitalocean.app");
-    }
-  });
+    setUser(JSON.parse(window.sessionStorage.getItem("user")));
+  }, []);
+
+  useEffect(() => {
+    const json = JSON.stringify(user);
+    sessionStorage.setItem("user", json);
+  }, [user]);
 
   return (
     <userContext.Provider
