@@ -23,8 +23,6 @@ const User = () => {
   const { user, url } = useContext(userContext);
   const [profilePicture, setProfilePicture] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [clickedUser, setClickedUser] = useState({});
-  const [please, setPlease] = useState({});
 
   const handleGetUser = () => {
     const options = {
@@ -97,12 +95,12 @@ const User = () => {
       });
   };
 
-  const handleViewFollowers = () => {
+  const handleViewFollowers = (UsersID) => {
     const options = {
       method: "GET",
     };
 
-    fetch(`${url}/api/UserFollower/GetUserFollower/${clickedUser}`, options)
+    fetch(`${url}/api/UserFollower/GetUserFollower/${UsersID}`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -114,12 +112,12 @@ const User = () => {
       });
   };
 
-  const handleViewFollowing = () => {
+  const handleViewFollowing = (UsersID) => {
     const options = {
       method: "GET",
     };
 
-    fetch(`${url}/api/UserFollower/GetUserFollowing/${please}`, options)
+    fetch(`${url}/api/UserFollower/GetUserFollowing/${UsersID}`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -139,18 +137,16 @@ const User = () => {
     fetch(`${url}/api/User/GetUserById/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
-        setClickedUser(data.userId);
-        setPlease(data.userId);
-        console.log("clickedUser:", clickedUser);
+        console.log("data");
+        handleViewFollowers(data.userId);
+        handleViewFollowing(data.userId);
       })
       .catch((error) => {});
   };
 
   useEffect(() => {
-    handleGetUser();
-    handleViewFollowers();
-    handleViewFollowing();
     handleGetUserByID();
+    handleGetUser();
 
     handleGetAllPosts();
     checkFollowing();
