@@ -9,4 +9,4 @@ COPY ./AI_API.py ./
 
 RUN pip install -r req/requirements.txt
 
-CMD [ "flask","--app","AI_API.py","run","--host","0.0.0.0"]
+CMD [ "python","AI_API.py"]
