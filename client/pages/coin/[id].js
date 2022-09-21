@@ -10,6 +10,8 @@ import Rate from "../../components/Rating/RatingC.js";
 import CurrentRating from "../../components/CurrentRating/CurrentRating";
 import CoinSentiment from "../../components/CoinSentiment/CoinSentiment";
 import { FaChevronCircleLeft } from "react-icons/fa";
+import { XIcon } from "@heroicons/react/outline";
+import SuggestedAccount from "../../components//InfoSection/SuggestedAccount";
 
 const Coin = () => {
   const router = useRouter();
@@ -198,6 +200,15 @@ const Coin = () => {
             <br />
             <div className="flex flex-row -translate-y-10"></div>
           </div>
+        </div>
+        <div className="flex flex-row -translate-y-10 -translate-x-7">
+          <button onClick={() => setShowModal(true)}>
+            {" "}
+            <span className="font-semibold" f>
+              {`${followers.length} `}
+            </span>
+            followers
+          </button>
         </div>
 
         <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>

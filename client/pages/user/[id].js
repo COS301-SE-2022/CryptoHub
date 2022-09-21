@@ -225,7 +225,7 @@ const User = () => {
           ) : null}
         </div>
 
-        <div className="flex flex-row -translate-y-16">
+        <div className="flex flex-row -translate-y-16 translate-x-3">
           <button className="mr-3" onClick={() => setFollowingShowModal(true)}>
             <span className="font-semibold">{`${following.length} `}</span>{" "}
             following
