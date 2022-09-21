@@ -8,6 +8,7 @@ import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../components/InfoSection/SuggestedAccount";
 import Image from "next/image";
 import Link from "next/link";
+import Loader from "../components/Loader";
 
 const Profile = () => {
   const { user, profilePicture, url } = useContext(userContext);
@@ -356,7 +357,7 @@ const MyCoins = () => {
         </p>
       </div>
       {data.length == 0 ? (
-        <p className="text-sm text-gray-500">Loading...</p>
+        <Loader />
       ) : (
         myCoins.map((data, index) => {
           return <CoinInfo key={index} id={data.coinName} />;
