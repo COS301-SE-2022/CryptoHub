@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import nltk
-nltk.download('vader_lexicon')
+#nltk.download('vader_lexicon')
 from nltk.sentiment import SentimentIntensityAnalyzer
-from Post import Post,ScoredPost
-import CoinTags
+import SentimentAnalysis.CoinTags as CoinTags
+from SentimentAnalysis.Post import Post,ScoredPost
 import requests
 import json
 
