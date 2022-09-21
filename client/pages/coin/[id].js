@@ -199,8 +199,11 @@ const Coin = () => {
             <div className="flex flex-row -translate-y-10"></div>
           </div>
         </div>
-        <div className="flex flex-row -translate-y-10 -translate-x-8">
-          <button onClick={() => setShowModal(true)}>
+        <div className="flex flex-row -translate-y-10 -translate-x-20">
+          <button
+            className="mr-3 -translate-x-14"
+            onClick={() => setShowModal(true)}
+          >
             {" "}
             <span className="font-semibold" f>
               {`${followers.length} `}
