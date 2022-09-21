@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import Layout from "../../components/Layout";
-import Signals from "../../pages/messages/SignalRClient";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { userContext } from "../../auth/auth";
