@@ -5,17 +5,10 @@ def CheckForProfanity(text):
     return profanity.contains_profanity(text)
 
 def sendToAdmin(text):
-    x = CheckForProfanity(text)
-    if x == True:
-        return "Profanity detected"
-        #Khotso send to Admin
-    elif x == False:
-        return "No profanity detected"
-        #Khotso dont send to Admin
+    return CheckForProfanity(text)
 
 
 
-def main():
-    text = 'fuck you'
+def main(text):
     return sendToAdmin(text)
     

@@ -1,3 +1,5 @@
+import json
+import requests
 from flask import Flask, request, jsonify
 from SentimentAnalysis import SentimentAnaysis
 from Profanity import Profanity 
@@ -13,10 +15,19 @@ def sentiment():
     return jsonify({'text': text})
 
 
-@app.route('/profanity', methods=['GET'])
+@app.route('/profanity', methods=['POST'])
 def profanity():
-    text = Profanity.main()
-    return jsonify({'text': text})
+    post = {"userId": request.json['userId'],
+            "content": request.json['content'],
+            "postId": request.json['postId']
+            }
+
+    print(post.get('content'))
+    
+    if(Profanity.main(post.get('content'))):
+         requests.post('http://176.58.110.152:7215/api/Post/Report?postid='+str(post.get('postId'))+'&userid='+str(post.get('userId')))
+    
+    return jsonify({'message': 'success'})
 
 
 if __name__ == '__main__':
