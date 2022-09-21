@@ -484,5 +484,12 @@ namespace UnitTests.IntegrationTests
             Assert.Empty(commentsGet);
 
         }
+
+        //[Fact]
+        //public async Task GetAllUsersFollowingCoin_NoUsers()
+        //{
+
+        //}
+
     }
 }

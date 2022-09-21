@@ -123,7 +123,7 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{id}/{searchterm}")]
-        public async Task<ActionResult<List<User>>> SearchCoin(int id, string searchterm)
+        public async Task<ActionResult<List<Coin>>> SearchCoin(int id, string searchterm)
         {
             var response = await _searchService.SearchCoin(id, searchterm);
             if (response == null)

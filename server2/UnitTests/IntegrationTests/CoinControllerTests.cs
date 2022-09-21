@@ -8,6 +8,7 @@ using Infrastructure.Data;
 using Infrastructure.DTO.CoinDTOs;
 using Infrastructure.DTO.UserDTOs;
 using Infrastructure.DTO.UserCoinDTOs;
+using Infrastructure.DTO.UserFollowerDTOs;
 using System.Net.Http;
 
 namespace UnitTests.IntegrationTests
@@ -166,53 +167,53 @@ namespace UnitTests.IntegrationTests
             Assert.NotNull(coins);
         }
 
-        [Fact]
-        public async Task UpdateCoin()
-        {
-            //Arrange
-            var testCoin = new CoinDTO()
-            {
-                CoinId = 1,
-                CoinName = "TestCoin1",
-                ImageUrl = "TestURL"
-            };
-            var testCoinUpdate = new CoinDTO()
-            {
-                CoinId = 1,
-                CoinName = "TestCoin1",
-                ImageUrl = "Updated URL"
-            };
+        //[Fact]
+        //public async Task UpdateCoin()
+        //{
+        //    //Arrange
+        //    var testCoin = new CoinDTO()
+        //    {
+        //        CoinId = 1,
+        //        CoinName = "TestCoin1",
+        //        ImageUrl = "TestURL"
+        //    };
+        //    var testCoinUpdate = new CoinDTO()
+        //    {
+        //        CoinId = 1,
+        //        CoinName = "TestCoin1",
+        //        ImageUrl = "Updated URL"
+        //    };
 
-            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin);
+        //    await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin);
 
-            //Act
-            var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoin/1");
+        //    //Act
+        //    var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoin/1");
 
-            //Assert
-            Assert.NotNull(response);
-            Assert.Equal(200, (double)response.StatusCode);
+        //    //Assert
+        //    Assert.NotNull(response);
+        //    Assert.Equal(200, (double)response.StatusCode);
 
-            var coins = await response.Content.ReadAsAsync<CoinDTO>();
+        //    var coins = await response.Content.ReadAsAsync<CoinDTO>();
 
-            //Assert.Single(coins);
-            Assert.Equal(testCoin.CoinId, coins.CoinId);
-            Assert.Equal(testCoin.CoinName, coins.CoinName);
-            Assert.Equal(testCoin.ImageUrl, coins.ImageUrl);
+        //    //Assert.Single(coins);
+        //    Assert.Equal(testCoin.CoinId, coins.CoinId);
+        //    Assert.Equal(testCoin.CoinName, coins.CoinName);
+        //    Assert.Equal(testCoin.ImageUrl, coins.ImageUrl);
 
-            //Act 2
-            await _httpClient.PutAsJsonAsync("http://localhost:7215/api/Coin/UpdateCoin", testCoinUpdate);
-            var responseUpdate = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetAllCoins");
+        //    //Act 2
+        //    await _httpClient.PutAsJsonAsync("http://localhost:7215/api/Coin/UpdateCoin", testCoinUpdate);
+        //    var responseUpdate = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetAllCoins");
 
-            //Assert 2
-            Assert.NotNull(responseUpdate);
-            Assert.Equal(200, (double)responseUpdate.StatusCode);
+        //    //Assert 2
+        //    Assert.NotNull(responseUpdate);
+        //    Assert.Equal(200, (double)responseUpdate.StatusCode);
 
-            var commentsUpdated = await responseUpdate.Content.ReadAsAsync<List<CoinDTO>>();
+        //    var commentsUpdated = await responseUpdate.Content.ReadAsAsync<List<CoinDTO>>();
 
-            Assert.Equal(testCoinUpdate.CoinId, commentsUpdated.First().CoinId);
-            Assert.Equal(testCoinUpdate.CoinName, commentsUpdated.First().CoinName);
-            Assert.Equal(testCoinUpdate.ImageUrl, commentsUpdated.First().ImageUrl);
-        }
+        //    Assert.Equal(testCoinUpdate.CoinId, commentsUpdated.First().CoinId);
+        //    Assert.Equal(testCoinUpdate.CoinName, commentsUpdated.First().CoinName);
+        //    Assert.Equal(testCoinUpdate.ImageUrl, commentsUpdated.First().ImageUrl);
+        //}
 
         [Fact]
         public async Task RateCoin_NoCoin()
@@ -322,7 +323,7 @@ namespace UnitTests.IntegrationTests
         }
 
         [Fact]
-        public async Task Follow_UserCoins()
+        public async Task FollowCoin_UserCoins()
         {
             //Arrange
             var testCoin1 = new CoinDTO()
@@ -350,27 +351,11 @@ namespace UnitTests.IntegrationTests
             var coins = await response.Content.ReadAsAsync<List<UserCoinDTO>>();
 
             Assert.NotEmpty(coins);
-            Assert.Equal(2, coins.Count());
-
-            //Arrange 2
-            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/UnfollowCoin/1/TestCoin2", testUserCoin);
-
-            //Act 2
-            var response2 = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetAllUserCoins");
-
-            //Assert 2
-            Assert.NotNull(response2);
-            Assert.Equal(200, (double)response2.StatusCode);
-
-            var coins2 = await response2.Content.ReadAsAsync<List<UserCoinDTO>>();
-
-            Assert.NotEmpty(coins2);
-            Assert.Equal(1, coins2.Count());
-
+            Assert.Equal(1, coins.Count());
         }
 
         [Fact]
-        public async Task Unfollow_UserCoins()
+        public async Task UnfollowCoin_UserCoins()
         {
             //Arrange
             var testCoin1 = new CoinDTO()
@@ -488,10 +473,18 @@ namespace UnitTests.IntegrationTests
                 UserId = 2,
                 CoinId = testCoin1.CoinId,
             };
+            var testUser = new RegisterDTO()
+            {
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test@gmail.com",
+                Password = "1234"
+            };
 
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
             await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin1);
             await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/FollowCoin/1/TestCoin1", testUserCoin1);
-            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/FollowCoin/2/TestCoin1", testUserCoin2);
 
             //Act
             var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoinsFollowers/TestCoin1");
@@ -503,7 +496,146 @@ namespace UnitTests.IntegrationTests
             var coins = await response.Content.ReadAsAsync<List<UserCoinDTO>>();
 
             Assert.NotEmpty(coins);
+            Assert.Equal(1, coins.Count());
+        }
+
+        [Fact]
+        public async Task GetCoinsFollowedByUser_CoinsFollowed()
+        {
+            //Arrange
+            var testCoin1 = new CoinDTO()
+            {
+                CoinId = 1,
+                CoinName = "TestCoin1",
+                ImageUrl = "TestURL"
+            };
+            var testCoin2 = new CoinDTO()
+            {
+                CoinId = 2,
+                CoinName = "TestCoin2",
+                ImageUrl = "TestURL"
+            };
+            var testUserCoin1 = new UserCoinDTO()
+            {
+                UserId = 1,
+                CoinId = testCoin1.CoinId,
+            };
+            var testUser = new RegisterDTO()
+            {
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test@gmail.com",
+                Password = "1234"
+            };
+
+            var add = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/User/AddUser", testUser);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin1);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin2);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/FollowCoin/1/TestCoin1", testUserCoin1);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/FollowCoin/1/TestCoin2", testUserCoin1);
+
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoinsFollowedByUser/1");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var coins = await response.Content.ReadAsAsync<List<UserCoinDTO>>();
+
+            Assert.NotEmpty(coins);
             Assert.Equal(2, coins.Count());
+        }
+
+        [Fact]
+        public async Task GetCoinsFollowedByUser_NoCoinsFollowed()
+        {
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoinsFollowedByUser/1");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var coins = await response.Content.ReadAsAsync<List<UserCoinDTO>>();
+
+            Assert.Empty(coins);
+        }
+
+        [Fact]
+        public async Task SearchCoin_NoCoins()
+        {
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/SearchCoin/1/Test");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var coins = await response.Content.ReadAsAsync<List<UserCoinDTO>>();
+
+            Assert.Empty(coins);
+        }
+
+        [Fact]
+        public async Task SearchCoin_Coins()
+        {
+            //Arrange
+            var testCoin1 = new CoinDTO()
+            {
+                CoinId = 1,
+                CoinName = "TestCoin1",
+                ImageUrl = "TestURL"
+            };
+            var testUser1 = new RegisterDTO()
+            {
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test@gmail.com",
+                Password = "1234"
+            };
+            var testUser2 = new RegisterDTO()
+            {
+                Firstname = "test",
+                Lastname = "user",
+                Username = "test user",
+                Email = "test@gmail.com",
+                Password = "1234"
+            };
+            var testUserCoin1 = new UserCoinDTO()
+            {
+                UserId = 1,
+                CoinId = testCoin1.CoinId,
+            };
+            var testUserFollow = new UserFollowerDTO()
+            {
+                Id = 1,
+                UserId = 1,
+                FollowId = 2,
+                FollowDate = DateTime.Now,
+            };
+
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/AddCoin", testCoin1);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/UserFollower/FollowUser/2/1", testUserFollow);
+            await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Coin/FollowCoin/2/TestCoin1", testUserCoin1);
+
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/SearchCoin/1/Test");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var coins = await response.Content.ReadAsAsync<List<UserCoinDTO>>();
+
+            Assert.NotEmpty(coins);
+        }
+
+        [Fact]
+        public async Task SearchCoin_Coins()
+        {
         }
     }
 }
