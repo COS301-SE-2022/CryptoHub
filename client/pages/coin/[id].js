@@ -9,6 +9,9 @@ import { coinHistory } from "../../data/coin-history";
 import Rate from "../../components/Rating/RatingC.js";
 import CurrentRating from "../../components/CurrentRating/CurrentRating";
 import CoinSentiment from "../../components/CoinSentiment/CoinSentiment";
+import { FaChevronCircleLeft } from "react-icons/fa";
+import { XIcon } from "@heroicons/react/outline";
+import SuggestedAccount from "../../components//InfoSection/SuggestedAccount";
 
 const Coin = () => {
   const router = useRouter();
@@ -21,6 +24,12 @@ const Coin = () => {
   const [amountInput, setAmountInput] = useState(0);
   const [AverageRate, setAverageRate] = useState(0);
   const [AverageCount, setAverageCount] = useState(0);
+  const [, setError] = useState(false);
+  const [, setLoading] = useState(false);
+  const [followers, setFollowers] = useState([]);
+  const [showFollowingModal, setFollowingShowModal] = useState(false);
+  const [following, setFollowing] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const handleGetCoin = () => {
     const options = {
@@ -31,6 +40,8 @@ const Coin = () => {
       .then((response) => response.json())
       .then((data) => {
         setCoinData(data.data);
+        console.log("coinData", id);
+        console.log("followers", followers);
       })
       .catch((error) => {});
   };
@@ -107,6 +118,23 @@ const Coin = () => {
       .catch(() => {});
   };
 
+  const handleViewFollowers = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`${url}/api/Coin/GetCoinsFollowers/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+        setFollowers(data);
+      })
+      .catch((error) => {
+        setError(true);
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     id == undefined && router.push("/");
   }, []);
@@ -115,6 +143,7 @@ const Coin = () => {
     checkFollowing();
     handleGetCoin();
     handleGetCoinRating();
+    handleViewFollowers();
     const interval = setInterval(() => {
       handleGetCoin();
     }, 10000);
@@ -165,6 +194,18 @@ const Coin = () => {
             <br />
             <div className="flex flex-row -translate-y-10"></div>
           </div>
+        </div>
+        <div className="flex flex-row -translate-y-10 -translate-x-20">
+          <button
+            className="mr-3 -translate-x-14"
+            onClick={() => setShowModal(true)}
+          >
+            {" "}
+            <span className="font-semibold" f>
+              {`${followers.length} `}
+            </span>
+            followers
+          </button>
         </div>
 
         <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
@@ -244,6 +285,50 @@ const Coin = () => {
             <div className="flex flex-col mb-2 translate-x-1">
               <Rate />
             </div>
+
+            {showModal ? (
+              <>
+                <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                  <div className="relative w-11/12 sm:w-6/12 my-6 mx-auto max-w-3xl">
+                    <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                      <div className="flex items-start justify-between p-5 border-solid border-slate-200 rounded-t">
+                        <h2>Followers</h2>
+                        <button
+                          className="px-1 p-1"
+                          type="button"
+                          onClick={() => setShowModal(false)}
+                        >
+                          <XIcon className="h-6 w-6" aria-hidden="true" />
+                        </button>
+                      </div>
+                      <div className="relative flex-auto">
+                        <form method="POST">
+                          <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
+                            <div>
+                              <div className="mt-1">
+                                {followers.map((data, index) => {
+                                  return (
+                                    <SuggestedAccount
+                                      key={index}
+                                      name={data.username}
+                                      hidefollow={true}
+                                      id={data.userId}
+                                      suggestions={true}
+                                    />
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      <div className="flex items-center justify-end p-6 border-solid border-slate-200 rounded-b"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+              </>
+            ) : null}
           </div>
         </div>
       </Layout>

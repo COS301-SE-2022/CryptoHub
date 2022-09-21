@@ -44,7 +44,7 @@ const CoinSentiment = ({ id }) => {
         <p className="bg-red-400 rounded-md w-28 text-center">Very Negative</p>
       );
     } else {
-      return <p className="bg-grey-400 rounded-md w-28 text-center">Neutral</p>;
+      return <p className="bg-gray-200 rounded-md w-28 text-center">Neutral</p>;
     }
   };
 
