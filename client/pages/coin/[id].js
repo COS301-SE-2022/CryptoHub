@@ -202,9 +202,9 @@ const Coin = () => {
               Calculate Price
             </p>
             <div className="flex flex-col mb-2">
-              <div className="flex flex-col sm:px-24 text-left -translate-x-24 ml-1">
+              <div className="flex flex-col sm:px-24 text-left sm:-translate-x-24 ml-1">
                 <input
-                  className="border text-sm mb-3 mt-3 h-10 rounded-md w-full px-2 py-1 mr-1 sm:mr-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  className="border text-sm mb-3 mt-3 h-10 rounded-md sm:w-full px-2 py-1 mr-1 sm:mr-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="Amount"
                   onChange={(e) =>
                     setAmountInput(
