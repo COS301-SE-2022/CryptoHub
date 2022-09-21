@@ -117,6 +117,23 @@ const Coin = () => {
       .catch((error) => {});
   };
 
+  const handleViewFollowers = (UsersID) => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`${url}/api/UserFollower/GetUserFollower/${UsersID}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+        setFollowers(data);
+      })
+      .catch((error) => {
+        setError(true);
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     id == undefined && router.push("/");
   }, []);
