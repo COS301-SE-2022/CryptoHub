@@ -31,6 +31,10 @@ const User = () => {
       .catch((error) => {});
   };
 
+  const checkIfSameUser = () => {
+    return user.id == id;
+  };
+
   const handleGetAllPosts = () => {
     const options = {
       method: "GET",
@@ -68,10 +72,6 @@ const User = () => {
         setIsFollowing(true);
       })
       .catch(() => {});
-  };
-
-  const checkIfSameUser = () => {
-    return user.id == id;
   };
 
   const checkFollowing = () => {
