@@ -9,6 +9,7 @@ import { coinHistory } from "../../data/coin-history";
 import Rate from "../../components/Rating/RatingC.js";
 import CurrentRating from "../../components/CurrentRating/CurrentRating";
 import CoinSentiment from "../../components/CoinSentiment/CoinSentiment";
+import { FaChevronCircleLeft } from "react-icons/fa";
 
 const Coin = () => {
   const router = useRouter();
@@ -38,6 +39,7 @@ const Coin = () => {
       .then((data) => {
         console.log("data", data.data);
         setCoinData(data.data);
+        console.log("coinData", id);
       })
       .catch((error) => {});
   };
@@ -117,12 +119,15 @@ const Coin = () => {
       .catch((error) => {});
   };
 
-  const handleViewFollowers = (UsersID) => {
+  const handleViewFollowers = () => {
     const options = {
       method: "GET",
     };
 
-    fetch(`${url}/api/UserFollower/GetUserFollower/${UsersID}`, options)
+    fetch(
+      `${url}http://localhost:7215/api/Coin/GetCoinsFollowers/${id}`,
+      options
+    )
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -142,6 +147,7 @@ const Coin = () => {
     checkFollowing();
     handleGetCoin();
     handleGetCoinRating();
+    handleViewFollowers();
     const interval = setInterval(() => {
       handleGetCoin();
     }, 10000);
@@ -271,6 +277,50 @@ const Coin = () => {
             <div className="flex flex-col mb-2 translate-x-1">
               <Rate />
             </div>
+
+            {showModal ? (
+              <>
+                <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                  <div className="relative w-11/12 sm:w-6/12 my-6 mx-auto max-w-3xl">
+                    <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                      <div className="flex items-start justify-between p-5 border-solid border-slate-200 rounded-t">
+                        <h2>Followers</h2>
+                        <button
+                          className="px-1 p-1"
+                          type="button"
+                          onClick={() => setShowModal(false)}
+                        >
+                          <XIcon className="h-6 w-6" aria-hidden="true" />
+                        </button>
+                      </div>
+                      <div className="relative flex-auto">
+                        <form method="POST">
+                          <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
+                            <div>
+                              <div className="mt-1">
+                                {followers.map((data, index) => {
+                                  return (
+                                    <SuggestedAccount
+                                      key={index}
+                                      name={data.username}
+                                      hidefollow={true}
+                                      id={data.userId}
+                                      suggestions={true}
+                                    />
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      <div className="flex items-center justify-end p-6 border-solid border-slate-200 rounded-b"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+              </>
+            ) : null}
           </div>
         </div>
       </Layout>
