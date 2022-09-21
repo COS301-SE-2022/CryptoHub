@@ -21,6 +21,12 @@ const Coin = () => {
   const [amountInput, setAmountInput] = useState(0);
   const [AverageRate, setAverageRate] = useState(0);
   const [AverageCount, setAverageCount] = useState(0);
+  const [, setError] = useState(false);
+  const [, setLoading] = useState(false);
+  const [followers, setFollowers] = useState([]);
+  const [showFollowingModal, setFollowingShowModal] = useState(false);
+  const [following, setFollowing] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const handleGetCoin = () => {
     const options = {
