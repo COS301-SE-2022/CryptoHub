@@ -82,7 +82,7 @@ namespace BusinessLogic.Services.UserService
 
         }
 
-        public async Task<UserDTO> UpateUser(User user)
+        public async Task<UserDTO> UpdateUser(User user)
         {
             var response = await _userRepository.Update(u => u.UserId == user.UserId, user);
             if (response == null)

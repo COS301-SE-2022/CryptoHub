@@ -73,9 +73,9 @@ namespace CryptoHubAPI.Controllers
         [HttpPut]
         public async Task<ActionResult<UserDTO>> UpdateUser([FromBody] User user)
         {
-            var response = await _userService.UpateUser(user);
+            var response = await _userService.UpdateUser(user);
             if (response == null)
-                return null;
+                return NotFound();
 
             return Ok(response);
         }

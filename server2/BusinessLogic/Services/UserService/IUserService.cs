@@ -22,7 +22,7 @@ namespace BusinessLogic.Services.UserService
         Task<Response<JWT>> AddUser(RegisterDTO registerDTO);
 
 
-        Task<UserDTO> UpateUser(User user);
+        Task<UserDTO> UpdateUser(User user);
 
 
         Task Delete(int id);

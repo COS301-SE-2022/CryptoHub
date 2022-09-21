@@ -201,17 +201,17 @@ namespace UnitTests.IntegrationTests
 
             //Act 2
             await _httpClient.PutAsJsonAsync("http://localhost:7215/api/Coin/UpdateCoin", testCoinUpdate);
-            var responseUpdate = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoin/1");
+            var responseUpdate = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetAllCoins");
 
             //Assert 2
             Assert.NotNull(responseUpdate);
             Assert.Equal(200, (double)responseUpdate.StatusCode);
 
-            var commentsUpdated = await responseUpdate.Content.ReadAsAsync<CoinDTO>();
+            var commentsUpdated = await responseUpdate.Content.ReadAsAsync<List<CoinDTO>>();
 
-            Assert.Equal(testCoin.CoinId, coins.CoinId);
-            Assert.Equal(testCoin.CoinName, coins.CoinName);
-            Assert.Equal(testCoin.ImageUrl, coins.ImageUrl);
+            Assert.Equal(testCoinUpdate.CoinId, commentsUpdated.First().CoinId);
+            Assert.Equal(testCoinUpdate.CoinName, commentsUpdated.First().CoinName);
+            Assert.Equal(testCoinUpdate.ImageUrl, commentsUpdated.First().ImageUrl);
         }
 
         [Fact]
