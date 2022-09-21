@@ -225,12 +225,18 @@ const User = () => {
           ) : null}
         </div>
 
-        <div className="flex flex-row -translate-y-16">
-          <button className="mr-3" onClick={() => setFollowingShowModal(true)}>
+        <div className="flex flex-row text-left -translate-y-16 -translate-x-20">
+          <button
+            className="mr-3 -translate-x-10"
+            onClick={() => setFollowingShowModal(true)}
+          >
             <span className="font-semibold">{`${following.length} `}</span>{" "}
             following
           </button>
-          <button onClick={() => setShowModal(true)}>
+          <button
+            className="mr-3 -translate-x-10"
+            onClick={() => setShowModal(true)}
+          >
             {" "}
             <span className="font-semibold" f>
               {`${followers.length} `}
