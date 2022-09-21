@@ -53,8 +53,8 @@ namespace CryptoHubAPI.Controllers
         public async Task<ActionResult<Comment>> AddComment([FromBody] CommentDTO comment)
         {
             var response = await _commentService.AddComment(comment);
-            if (response == null)
-                return BadRequest();
+            //if (response == null)
+            //    return BadRequest();
 
             return Ok(response);
         }

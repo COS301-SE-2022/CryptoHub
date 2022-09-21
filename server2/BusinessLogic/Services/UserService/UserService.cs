@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLogic.Services.ImageService;
+using BusinessLogic.Services.RoleServices;
 using Domain.IRepository;
 using Domain.Models;
 using Infrastructure.Data;
@@ -8,12 +9,17 @@ using Infrastructure.DTO.UserDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Infrastructure.Helper.PasswordEncryption;
+
+
 
 namespace BusinessLogic.Services.UserService
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRoleService _roleService;
         private readonly IUserFollowerRepository _userFollowerRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
@@ -56,19 +62,27 @@ namespace BusinessLogic.Services.UserService
             return _mapper.Map<UserDTO>(response);
         }
 
-        public async Task<UserDTO> AddUser(User user)
+        public async Task<Response<JWT>> AddUser(RegisterDTO registerDTO)
         {
-            var response = await _userRepository.FindOne(u => u.Email == user.Email);
-            if (response == null)
-                return null;
+            var registerUser = await _userRepository.GetByExpression(u => u.Email.ToLower() == registerDTO.Email.ToLower());
+
+            if (registerUser != null)
+                return new Response<JWT>(null, true, "user already exists");
+
+            var user = _mapper.Map<User>(registerDTO);
+
+            user.RoleId = 3;
+            user.Password = AesOperation.EncryptString("abcdefghijklmnop", user.Password);
 
             await _userRepository.Add(user);
 
-            return _mapper.Map<UserDTO>(user);
+            var role = await _roleService.GetRoleById(user.RoleId);
+
+            return new Response<JWT>(null, false, "registered");
 
         }
 
-        public async Task<UserDTO> UpateUser(User user)
+        public async Task<UserDTO> UpdateUser(User user)
         {
             var response = await _userRepository.Update(u => u.UserId == user.UserId, user);
             if (response == null)
@@ -83,7 +97,7 @@ namespace BusinessLogic.Services.UserService
         }
         public async Task<List<SearchDTO>> SuggestedUsers(int id)
         {
-            
+
             /*var followers = await _userFollowerRepository.FindRange(uf => uf.FollowId == id);
             var users = await _userRepository.GetAll();
 
@@ -160,7 +174,7 @@ namespace BusinessLogic.Services.UserService
                     }
                 }
             }
-            
+
 
             foreach (var user in resultList.ToList())
             {
@@ -213,8 +227,6 @@ namespace BusinessLogic.Services.UserService
 
             return new Response<string>(null, false, "profile uploaded");
         }
-
-        
 
     }
 }
