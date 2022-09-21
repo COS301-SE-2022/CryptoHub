@@ -4,7 +4,7 @@ import ScaleLoader from "react-spinners/ClipLoader";
 const Loader = () => {
   return (
     <div class="flex justify-center items-center">
-      <ScaleLoader color="#717171" />
+      <ScaleLoader color="#717171" size={20} />
     </div>
   );
 };
