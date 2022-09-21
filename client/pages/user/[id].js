@@ -24,6 +24,7 @@ const User = () => {
   const [profilePicture, setProfilePicture] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [clickedUser, setClickedUser] = useState({});
+  const [please, setPlease] = useState({});
 
   const handleGetUser = () => {
     const options = {
@@ -33,7 +34,7 @@ const User = () => {
     fetch(`${url}/api/User/GetUserById/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
-        console.log("userID:", user);
+        //console.log("userID:", user);
         setUser(data);
         setProfilePicture(data.imageUrl);
       })
@@ -83,23 +84,6 @@ const User = () => {
     return user.id == id;
   };
 
-  const handleGetUserByID = () => {
-    const options = {
-      method: "GET",
-    };
-
-    fetch(`${url}/api/User/GetUserById/${id}`, options)
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data);
-        console.log("data", data.userId);
-        setClickedUser(data.userId);
-        console.log("userID", data.userId);
-        console.log("clickedUser", clickedUser);
-      })
-      .catch((error) => {});
-  };
-
   const checkFollowing = () => {
     fetch(`${url}/api/UserFollower/GetUserFollowing/${id}`)
       .then((response) => response.json())
@@ -135,7 +119,7 @@ const User = () => {
       method: "GET",
     };
 
-    fetch(`${url}/api/UserFollower/GetUserFollowing/${clickedUser}`, options)
+    fetch(`${url}/api/UserFollower/GetUserFollowing/${please}`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -147,13 +131,29 @@ const User = () => {
       });
   };
 
+  const handleGetUserByID = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`${url}/api/User/GetUserById/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        setClickedUser(data.userId);
+        setPlease(data.userId);
+        console.log("clickedUser:", clickedUser);
+      })
+      .catch((error) => {});
+  };
+
   useEffect(() => {
     handleGetUser();
-    handleGetAllPosts();
-    checkFollowing();
     handleViewFollowers();
     handleViewFollowing();
     handleGetUserByID();
+
+    handleGetAllPosts();
+    checkFollowing();
     id == undefined && router.push("/");
   }, []);
 
