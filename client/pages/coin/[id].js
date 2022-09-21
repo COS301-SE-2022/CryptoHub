@@ -71,6 +71,19 @@ const Coin = () => {
       .catch(() => {});
   };
 
+  const checkFollowing = () => {
+    fetch(`${url}/api/Coin/GetCoinsFollowers/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        data.map((d) => {
+          if (d.userId == user.id) {
+            setIsFollowing(true);
+          }
+        });
+      })
+      .catch((error) => {});
+  };
+
   const handleFollowCoin = () => {
     const options = {
       method: "POST",
@@ -92,19 +105,6 @@ const Coin = () => {
         setIsFollowing(true);
       })
       .catch(() => {});
-  };
-
-  const checkFollowing = () => {
-    fetch(`${url}/api/Coin/GetCoinsFollowers/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        data.map((d) => {
-          if (d.userId == user.id) {
-            setIsFollowing(true);
-          }
-        });
-      })
-      .catch((error) => {});
   };
 
   useEffect(() => {
