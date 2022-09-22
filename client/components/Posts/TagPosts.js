@@ -40,19 +40,14 @@ const TagPosts = ({ tag }) => {
 
   return (
     <div className="sm:w-5/12">
+      <p className="text-2xl text-center mb-3">Posts for #{tag}</p>
       {loading ? (
         <Loader />
       ) : posts.length == 0 ? (
         <div className="flex flex-col items-center w-full pt-10">
-          <button
-            onClick={() => {
-              router.push("/explore");
-            }}
-          >
-            <p className="text-2xl font-semibold text-indigo-600">
-              Explore more posts 🚀
-            </p>
-          </button>
+          <p className="text-md font-semibold text-grey-600">
+            No tagged posts for this cryptocurrency
+          </p>
         </div>
       ) : (
         posts.map((data, index) => {
