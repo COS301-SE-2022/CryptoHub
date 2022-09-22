@@ -428,6 +428,7 @@ const CoinInfo = ({ id }) => {
 
   useEffect(() => {
     getCoinInfo();
+    handleGetCoinSentiment();
   }, []);
 
   return (
@@ -440,9 +441,12 @@ const CoinInfo = ({ id }) => {
       <p className="text-md font-semibold text-indigo-600 mr-3 w-32">{`$${
         Math.round(coin.priceUsd * 10) / 10
       }`}</p>
-      <p className={`${color} text-sm font-semibold`}>{` ${
+      <p className={`${color} text-sm font-semibold mr-3 w-32`}>{` ${
         color === "text-green-600" ? "+" : ""
       }${Math.round(coin.changePercent24Hr * 100) / 100}%`}</p>
+      <p className="ml-2 text-base  mr-3 w-32 -translate-x-7">
+        {sentiment == null ? "No sentiment" : handleSentimentScore(sentiment)}
+      </p>
     </div>
   );
 };
