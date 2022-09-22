@@ -117,6 +117,12 @@ namespace CryptoHubAPI.Controllers
             return await _postService.GetPostByTag(tag, startDate, endDate);
         }
 
+        [HttpGet("{tag}")]
+        public async Task<ActionResult<object>> GetWeeklySentimentByTag(string tag, DateTime? startDate, DateTime? endDate)
+        {
+            return await _postService.GetWeeklySentimentByTag(tag, startDate, endDate);
+        }
+
         [HttpPatch]
         public async Task<IActionResult> UpdatePostSentiment(List<PostSentimentScoreDTO> postSentimentScoreDTOs)
         {
