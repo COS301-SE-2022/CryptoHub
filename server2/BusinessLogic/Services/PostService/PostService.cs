@@ -251,7 +251,8 @@ namespace BusinessLogic.Services.PostService
                                   PostId = p.PostId,
                                   Content = p.Content,
                                   SentimentScore = p.SentimentScore,
-                                  ImageUrl = p.ImageUrl
+                                  ImageUrl = p.ImageUrl,
+                                  DateCreated = p.DateCreated
 
                               }
                               ).ToList();
@@ -259,6 +260,47 @@ namespace BusinessLogic.Services.PostService
             return taggedPosts;
 
             
+        }
+
+        public async Task<object> GetWeeklySentimentByTag(string tagLabel, DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate == null || endDate == null)
+            {
+                startDate = DateTime.UtcNow;
+                endDate = DateTime.UtcNow.AddDays(-7);
+            }
+
+            var tag = await _tagRepository.GetByExpression(t => t.Content == tagLabel);
+
+            if (tag == null)
+                return null;
+
+            var postTags = await _postTagRepository.ListByExpression(p => p.TagId == tag.TagId);
+
+            var posts = await _postRepository.ListByExpression(p => true);
+
+            var taggedPosts = (from pt in postTags
+                               join p in posts
+                               on pt.PostId equals p.PostId
+                               where p.DateCreated >= endDate && p.DateCreated <= startDate
+                               group p by p.DateCreated.Date into score
+                               select new
+                               {
+                                   Date = score.Key,
+                                   Score = score.Select(s => s.SentimentScore).Average()
+
+                               }
+                              ).ToList();
+
+    
+
+
+
+            
+
+            return taggedPosts;
+
+
         }
 
         public async Task BatchAddSentimentScore(List<PostSentimentScoreDTO> postSentimentScoreDTO)
