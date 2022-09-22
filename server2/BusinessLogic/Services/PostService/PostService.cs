@@ -261,7 +261,7 @@ namespace BusinessLogic.Services.PostService
             
         }
 
-        public async Task<List<PostDTO>> GetWeeklySentimentByTag(string tagLabel, DateTime? startDate, DateTime? endDate)
+        public async Task<object> GetWeeklySentimentByTag(string tagLabel, DateTime? startDate, DateTime? endDate)
         {
             if (startDate == null || endDate == null)
             {
@@ -282,20 +282,22 @@ namespace BusinessLogic.Services.PostService
                                join p in posts
                                on pt.PostId equals p.PostId
                                where p.DateCreated >= endDate && p.DateCreated <= startDate
-                               select new PostDTO
+                               group p by p.DateCreated.Date into score
+                               select new
                                {
-\
-                                   SentimentScore = p.SentimentScore,
-                                   DateCreated = p.DateCreated,
+                                   Date = score.Key,
+                                   Score = score.Select(s => s.SentimentScore).Average()
 
                                }
-                              ).GroupBy(p => p.DateCreated.Value.Date);
+                              ).ToList();
+
+    
 
 
 
             
 
-            return null;
+            return taggedPosts;
 
 
         }
