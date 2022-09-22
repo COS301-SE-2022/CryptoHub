@@ -355,6 +355,9 @@ const MyCoins = () => {
         <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 translate-x-3">
           Change
         </p>
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 translate-x-3">
+          Sentiment
+        </p>
       </div>
       {data.length == 0 ? (
         <Loader />
@@ -370,6 +373,8 @@ const MyCoins = () => {
 const CoinInfo = ({ id }) => {
   const [coin, setCoin] = useState({});
   const [color, setColor] = useState("");
+  const [sentiment, setSentiment] = useState(null);
+  const { url } = useContext(userContext);
 
   const getCoinInfo = () => {
     fetch(`https://api.coincap.io/v2/assets/${id}`)
