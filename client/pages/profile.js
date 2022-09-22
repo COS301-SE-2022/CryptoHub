@@ -398,6 +398,21 @@ const CoinInfo = ({ id }) => {
     }
   };
 
+  const handleGetCoinSentiment = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`${url}/api/Coin/GetCoinSentiment/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.warn("sentiment:", data);
+        setSentiment(data.average);
+        setNumberOfPosts(data.postsInTheLastweek);
+      })
+      .catch(() => {});
+  };
+
   const getCoinInfo = () => {
     fetch(`https://api.coincap.io/v2/assets/${id}`)
       .then((response) => response.json())
