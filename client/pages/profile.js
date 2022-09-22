@@ -355,6 +355,9 @@ const MyCoins = () => {
         <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 translate-x-3">
           Change
         </p>
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 translate-x-3">
+          Sentiment
+        </p>
       </div>
       {data.length == 0 ? (
         <Loader />
@@ -370,6 +373,45 @@ const MyCoins = () => {
 const CoinInfo = ({ id }) => {
   const [coin, setCoin] = useState({});
   const [color, setColor] = useState("");
+  const [sentiment, setSentiment] = useState(null);
+  const { url } = useContext(userContext);
+
+  const handleSentimentScore = (sentiment) => {
+    if (sentiment >= 0.07) {
+      return (
+        <p className="bg-green-400 rounded-md w-28 text-center">
+          Very Positive
+        </p>
+      );
+    } else if (sentiment <= 0.05 && sentiment < 0.07) {
+      return (
+        <p className="bg-green-200 rounded-md w-28 text-center">Positive</p>
+      );
+    } else if (sentiment <= -0.05 && sentiment >= -0.07) {
+      return <p className="bg-red-200 rounded-md w-28 text-center">Negative</p>;
+    } else if (sentiment <= -0.07) {
+      return (
+        <p className="bg-red-400 rounded-md w-28 text-center">Very Negative</p>
+      );
+    } else {
+      return <p className="bg-gray-200 rounded-md w-28 text-center">Neutral</p>;
+    }
+  };
+
+  const handleGetCoinSentiment = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`${url}/api/Coin/GetCoinSentiment/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.warn("sentiment:", data);
+        setSentiment(data.average);
+        setNumberOfPosts(data.postsInTheLastweek);
+      })
+      .catch(() => {});
+  };
 
   const getCoinInfo = () => {
     fetch(`https://api.coincap.io/v2/assets/${id}`)
@@ -386,6 +428,7 @@ const CoinInfo = ({ id }) => {
 
   useEffect(() => {
     getCoinInfo();
+    handleGetCoinSentiment();
   }, []);
 
   return (
@@ -398,9 +441,12 @@ const CoinInfo = ({ id }) => {
       <p className="text-md font-semibold text-indigo-600 mr-3 w-32">{`$${
         Math.round(coin.priceUsd * 10) / 10
       }`}</p>
-      <p className={`${color} text-sm font-semibold`}>{` ${
+      <p className={`${color} text-sm font-semibold mr-3 w-32`}>{` ${
         color === "text-green-600" ? "+" : ""
       }${Math.round(coin.changePercent24Hr * 100) / 100}%`}</p>
+      <p className="ml-2 text-base  mr-3 w-32 -translate-x-7">
+        {sentiment == null ? "No sentiment" : handleSentimentScore(sentiment)}
+      </p>
     </div>
   );
 };

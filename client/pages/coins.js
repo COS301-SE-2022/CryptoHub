@@ -181,7 +181,7 @@ const CoinInfo = ({ index, id }) => {
       <p className={`${color} text-sm font-semibold sm:mr-24 mr-3 w-32`}>{` ${
         color === "text-green-600" ? "+" : ""
       }${Math.round(coin.changePercent24Hr * 100) / 100}%`}</p>
-      <p className="ml-2 text-base sm:mr-24 mr-3 w-32 -translate-x-7">
+      <p className="ml-2 text-base sm:mr-24 mr-3 w-32 -translate-x-10">
         {sentiment == null ? "No sentiment" : handleSentimentScore(sentiment)}
       </p>
     </div>
