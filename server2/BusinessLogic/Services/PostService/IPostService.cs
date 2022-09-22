@@ -19,6 +19,8 @@ namespace BusinessLogic.Services.PostService
 
         Task<List<PostDTO>> GetPostByTag(string tagLabel, DateTime? startDate, DateTime? endDate);
 
+        Task<List<PostDTO>> GetWeeklySentimentByTag(string tagLabel, DateTime? startDate, DateTime? endDate);
+
         Task BatchAddSentimentScore(List<PostSentimentScoreDTO> postSentimentScoreDTO);
     }
 }

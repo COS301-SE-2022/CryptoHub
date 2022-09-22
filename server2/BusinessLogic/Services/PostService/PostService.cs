@@ -261,6 +261,45 @@ namespace BusinessLogic.Services.PostService
             
         }
 
+        public async Task<List<PostDTO>> GetWeeklySentimentByTag(string tagLabel, DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate == null || endDate == null)
+            {
+                startDate = DateTime.UtcNow;
+                endDate = DateTime.UtcNow.AddDays(-7);
+            }
+
+            var tag = await _tagRepository.GetByExpression(t => t.Content == tagLabel);
+
+            if (tag == null)
+                return null;
+
+            var postTags = await _postTagRepository.ListByExpression(p => p.TagId == tag.TagId);
+
+            var posts = await _postRepository.ListByExpression(p => true);
+
+            var taggedPosts = (from pt in postTags
+                               join p in posts
+                               on pt.PostId equals p.PostId
+                               where p.DateCreated >= endDate && p.DateCreated <= startDate
+                               select new PostDTO
+                               {
+\
+                                   SentimentScore = p.SentimentScore,
+                                   DateCreated = p.DateCreated,
+
+                               }
+                              ).GroupBy(p => p.DateCreated.Value.Date);
+
+
+
+            
+
+            return null;
+
+
+        }
+
         public async Task BatchAddSentimentScore(List<PostSentimentScoreDTO> postSentimentScoreDTO)
         {
             var posts = await _postRepository.ListByExpression(p => true);
