@@ -36,9 +36,7 @@ const CoinSentiment = ({ id }) => {
       );
     } else if (sentiment <= 0.05 && sentiment < 0.07) {
       return (
-        <p className="bg-green-200 rounded-md w-28 text-center py-1">
-          Positive
-        </p>
+        <p className="bg-green-200 rounded-md w-28 text-center">Positive</p>
       );
     } else if (sentiment <= -0.05 && sentiment >= -0.07) {
       return <p className="bg-red-200 rounded-md w-28 text-center">Negative</p>;
