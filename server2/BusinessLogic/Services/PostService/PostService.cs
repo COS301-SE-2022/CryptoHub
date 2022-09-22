@@ -251,7 +251,8 @@ namespace BusinessLogic.Services.PostService
                                   PostId = p.PostId,
                                   Content = p.Content,
                                   SentimentScore = p.SentimentScore,
-                                  ImageUrl = p.ImageUrl
+                                  ImageUrl = p.ImageUrl,
+                                  DateCreated = p.DateCreated
 
                               }
                               ).ToList();
