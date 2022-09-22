@@ -70,6 +70,23 @@ const CreatePostButton = () => {
         } else {
           setError(true);
         }
+
+        const profanityoptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            postId: data.postId,
+            userId: user.id,
+            content: postToString,
+          }),
+        };
+
+        fetch(`http://176.58.110.152:5000/profanity`, profanityoptions)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("profanity", data);
+          })
+          .catch(() => {});
       })
       .catch(() => {
         setError(true);
