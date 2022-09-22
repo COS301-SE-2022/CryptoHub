@@ -1,9 +1,12 @@
 import json
 import requests
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from SentimentAnalysis import SentimentAnaysis
 from Profanity import Profanity 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "http://176.58.110.152:3000"}})
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -28,6 +31,7 @@ def profanity():
          requests.post('http://176.58.110.152:7215/api/Post/Report?postid='+str(post.get('postId'))+'&userid='+str(post.get('userId')))
     
     return jsonify({'message': 'success'})
+
 
 
 if __name__ == '__main__':
