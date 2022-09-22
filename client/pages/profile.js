@@ -376,6 +376,28 @@ const CoinInfo = ({ id }) => {
   const [sentiment, setSentiment] = useState(null);
   const { url } = useContext(userContext);
 
+  const handleSentimentScore = (sentiment) => {
+    if (sentiment >= 0.07) {
+      return (
+        <p className="bg-green-400 rounded-md w-28 text-center">
+          Very Positive
+        </p>
+      );
+    } else if (sentiment <= 0.05 && sentiment < 0.07) {
+      return (
+        <p className="bg-green-200 rounded-md w-28 text-center">Positive</p>
+      );
+    } else if (sentiment <= -0.05 && sentiment >= -0.07) {
+      return <p className="bg-red-200 rounded-md w-28 text-center">Negative</p>;
+    } else if (sentiment <= -0.07) {
+      return (
+        <p className="bg-red-400 rounded-md w-28 text-center">Very Negative</p>
+      );
+    } else {
+      return <p className="bg-gray-200 rounded-md w-28 text-center">Neutral</p>;
+    }
+  };
+
   const getCoinInfo = () => {
     fetch(`https://api.coincap.io/v2/assets/${id}`)
       .then((response) => response.json())
