@@ -12,6 +12,7 @@ import CoinSentiment from "../../components/CoinSentiment/CoinSentiment";
 import { FaChevronCircleLeft } from "react-icons/fa";
 import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../../components//InfoSection/SuggestedAccount";
+import CoinSentimentGraph from "../../components/CoinSentiment/CoinSentimentGraph";
 
 const Coin = () => {
   const router = useRouter();
@@ -257,6 +258,13 @@ const Coin = () => {
           <CoinInfoNext
             id={id}
             name="Change"
+            state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
+            arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
+          />
+
+          <CoinSentimentGraph
+            id={id}
+            name="Sentiment"
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
             arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
           />
