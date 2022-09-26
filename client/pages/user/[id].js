@@ -222,7 +222,7 @@ const User = () => {
                     </p>
                   </button>
                 </div>
-                <div className="flex flex-row text-left translate-y-3">
+                <div className="flex flex-row text-left sm:translate-y-3 translate-x-10 sm:translate-x-0 mt-1">
                   <button
                     className="mr-3 -translate-x-10"
                     onClick={() => setFollowingShowModal(true)}
