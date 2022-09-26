@@ -154,11 +154,10 @@ const Signup = () => {
                   autoComplete="current-password"
                   required
                   data-tip="hello world"
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 ${
-                    validPassword
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 ${validPassword
                       ? "focus:border-green-700"
                       : "focus:border-red-500"
-                  } focus:z-10 sm:text-sm`}
+                    } focus:z-10 sm:text-sm`}
                   placeholder="Password"
                   onChange={(e) => {
                     setPassword(e.target.value);
@@ -181,11 +180,10 @@ const Signup = () => {
             <div>
               <button
                 type="submit"
-                className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
-                  validPassword
+                className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${validPassword
                     ? "bg-indigo-600 hover:bg-indigo-700"
                     : "bg-gray-400 cursor-not-allowed"
-                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                 disabled={!validPassword}
               >
                 {loading ? <Loader /> : <p>Create account</p>}
@@ -205,7 +203,7 @@ const Signup = () => {
             </div>
           </form>
           {error ? (
-            <h2 className="text-center text-sm font-semibold text-red-500">
+            <h2 id="SignupFail" className="text-center text-sm font-semibold text-red-500">
               Failed to sign up
             </h2>
           ) : null}
