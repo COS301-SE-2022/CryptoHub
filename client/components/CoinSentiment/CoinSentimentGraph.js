@@ -40,7 +40,7 @@ const CoinSentimentGraph = ({ id, name, state, arrow }) => {
           ],
         });
       })
-      .catch();
+      .catch(() => {});
   };
 
   const getCoinHistory = (interval, period) => {

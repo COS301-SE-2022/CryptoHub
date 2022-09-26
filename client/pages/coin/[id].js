@@ -163,9 +163,18 @@ const Coin = () => {
             className="w-32 h-32 bg-black sm:mr-10 mb-5"
             style={{ borderRadius: "100%" }}
           ></div>
-          <div className="flex flex-row">
+          <div className="flex flex-col">
             <p className="font-semibold text-center sm:text-left mr-4">
               {coinData.name != undefined && coinData.name}
+              <div className="flex flex-row">
+                <div className="mr-3">
+                  {" "}
+                  <span className="font-semibold" f>
+                    {`${followers.length} `}
+                  </span>
+                  followers
+                </div>
+              </div>
             </p>{" "}
             {/* ==================================================================== */}
             <div className="flex flex-row">
@@ -173,7 +182,10 @@ const Coin = () => {
               {user.auth ? (
                 isFollowing ? (
                   <>
-                    <button onClick={handleUnfollowCoin}>
+                    <button
+                      onClick={handleUnfollowCoin}
+                      className="-translate-x-6 mt-2"
+                    >
                       <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
                         Following
                       </p>
@@ -181,7 +193,7 @@ const Coin = () => {
                   </>
                 ) : (
                   <>
-                    <button onClick={handleFollowCoin}>
+                    <button onClick={handleFollowCoin} className="mt-2">
                       <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition -translate-x-5">
                         Follow
                       </p>
@@ -195,18 +207,6 @@ const Coin = () => {
             <br />
             <div className="flex flex-row -translate-y-10"></div>
           </div>
-        </div>
-        <div className="flex flex-row -translate-y-10 -translate-x-20">
-          <button
-            className="mr-3 -translate-x-14"
-            onClick={() => setShowModal(true)}
-          >
-            {" "}
-            <span className="font-semibold" f>
-              {`${followers.length} `}
-            </span>
-            followers
-          </button>
         </div>
 
         <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
