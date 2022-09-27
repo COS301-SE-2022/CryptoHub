@@ -6,9 +6,12 @@ import Post from "../components/Posts/Post";
 import { useRouter } from "next/router";
 import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../components/InfoSection/SuggestedAccount";
+import Image from "next/image";
+import Link from "next/link";
+import Loader from "../components/Loader";
 
 const Profile = () => {
-  const { user } = useContext(userContext);
+  const { user, profilePicture, url } = useContext(userContext);
   const [posts, setPosts] = useState([]);
   const [, setError] = useState(false);
   const [, setLoading] = useState(false);
@@ -17,16 +20,14 @@ const Profile = () => {
   const [following, setFollowing] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showFollowingModal, setFollowingShowModal] = useState(false);
+  const [, setProfilePicture] = useState(null);
 
   const handleViewFollowing = () => {
     const options = {
       method: "GET",
     };
 
-    fetch(
-      `http://localhost:7215/api/UserFollower/GetUserFollowing/${user.id}`,
-      options
-    )
+    fetch(`${url}/api/UserFollower/GetUserFollowing/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -43,10 +44,7 @@ const Profile = () => {
       method: "GET",
     };
 
-    fetch(
-      `http://localhost:7215/api/UserFollower/GetUserUserFollower/${user.id}`,
-      options
-    )
+    fetch(`${url}/api/UserFollower/GetUserFollower/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -65,7 +63,7 @@ const Profile = () => {
       method: "GET",
     };
 
-    fetch("http://localhost:7215/api/Post/GetAllPosts", options)
+    fetch(`${url}/api/Post/GetAllPosts`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -102,53 +100,85 @@ const Profile = () => {
         <title>CryptoHub</title>
       </Head>
       <Layout>
-        <div className="flex flex-col sm:flex-row w-full sm:w-6/12 items-center mt-8">
-          <div
-            className="w-32 h-32 bg-black sm:mr-10 mb-5"
-            style={{ borderRadius: "100%" }}
-          ></div>
-          <div className="flex flex-col">
-            <p className="font-semibold text-center sm:text-left">
-              {user.username}
-            </p>{" "}
-            <br />
-            <div className="flex flex-row -translate-y-5">
-              <button
-                className="mr-3"
-                onClick={() => setFollowingShowModal(true)}
+        <div className="flex flex-col w-full px-2 sm:px-10">
+          <div className="flex flex-col sm:flex-row w-fullsm:w-8/12 items-center mt-8">
+            {profilePicture == null ? (
+              <span className="inline-block h-40 w-40 m-4 rounded-full overflow-hidden bg-gray-100">
+                <svg
+                  className="h-full w-full text-gray-300"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </span>
+            ) : (
+              <div
+                className="rounded-full overflow-hidden m-4"
+                style={{
+                  width: "170px",
+                  height: "170px",
+                  position: "relative",
+                }}
               >
-                <span className="font-semibold">{`${following.length} `}</span>{" "}
-                following
-              </button>
-              <button onClick={() => setShowModal(true)}>
-                {" "}
-                <span className="font-semibold" f>
-                  {`${followers.length} `}
-                </span>
-                followers
+                <Image src={profilePicture} layout="fill" />
+              </div>
+            )}
+            <div className="flex flex-col">
+              <p className="font-semibold text-center sm:text-left">
+                {user.username}
+              </p>{" "}
+              <br />
+              <div className="flex flex-row -translate-y-5">
+                <button
+                  className="mr-3"
+                  onClick={() => setFollowingShowModal(true)}
+                >
+                  <span className="font-semibold">{`${following.length} `}</span>{" "}
+                  following
+                </button>
+                <button onClick={() => setShowModal(true)}>
+                  {" "}
+                  <span className="font-semibold" f>
+                    {`${followers.length} `}
+                  </span>
+                  followers
+                </button>
+              </div>
+              <button
+                onClick={() => {
+                  router.push("/editprofile");
+                }}
+                className="sm:self-start text-sm font-semibold bg-gray-300 px-3 py-1 rounded-md hover:bg-gray-400 transition"
+              >
+                edit profile
               </button>
             </div>
           </div>
-        </div>
-        <div className="bg-gray-400 sm:w-6/12" style={{ height: "1px" }}></div>
-        <div className="flex flex-col items-center w-full sm:w-4/12">
-          <div>
-            <p className="text-sm mt-4 text-gray-600">Posts</p>
+          <div
+            className="bg-gray-400 sm:w-6/12 mt-10 sm:my-0"
+            style={{ height: "1px" }}
+          ></div>
+          <div className="flex flex-col items-center justify-center sm:translate-x-14 w-full sm:w-5/12">
+            <div>
+              <p className="text-sm mt-4 text-gray-600">Posts</p>
+            </div>
+            <div className="w-full">
+              {posts.map((data, index) => {
+                return (
+                  <Post
+                    key={index}
+                    name={data.username}
+                    content={data.content}
+                    userId={data.userId}
+                    imageId={data.imageUrl}
+                    postId={data.postId}
+                  />
+                );
+              })}
+            </div>
           </div>
-          <div className="w-full">
-            {posts.map((data, index) => {
-              return (
-                <Post
-                  key={index}
-                  name={data.username}
-                  content={data.post1}
-                  userId={data.userId}
-                  imageId={data.imageId}
-                  postId={data.postId}
-                />
-              );
-            })}
-          </div>
+          <WatchList />
         </div>
       </Layout>
       {showModal ? (
@@ -178,6 +208,7 @@ const Profile = () => {
                                 name={data.username}
                                 hidefollow={true}
                                 id={data.userId}
+                                suggestions={true}
                               />
                             );
                           })}
@@ -220,6 +251,7 @@ const Profile = () => {
                                 name={data.username}
                                 hidefollow={true}
                                 id={data.userId}
+                                suggestions={true}
                               />
                             );
                           })}
@@ -236,6 +268,186 @@ const Profile = () => {
         </>
       ) : null}
     </>
+  );
+};
+
+const WatchList = () => {
+  return (
+    <div className="bg-white sm:w-5/12 m-4 p-4 rounded-lg sm:fixed right-10 overflow-auto max-h-[40rem]">
+      <p className="text-left font-semibold text-indigo-600 text-2xl mb-4">
+        Watch List
+      </p>
+      <MyCoins />
+    </div>
+  );
+};
+
+const MyCoins = () => {
+  const [data, setData] = useState([]);
+  const [coins, setCoins] = useState([]);
+  const [myCoins, setMyCoins] = useState([]);
+  const [count, setCount] = useState(5);
+  const { user, url } = useContext(userContext);
+
+  const getUserFollowingCoins = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`${url}/api/Coin/GetCoinsFollowedByUser/${user.id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        setCoins(data);
+        let coinss = data;
+        fetch("https://api.coincap.io/v2/assets")
+          .then((response) => response.json())
+          .then((data) => {
+            let final = data.data.map((i) => {
+              return coinss.find((x) => {
+                if (x.coinName == i.id) {
+                  return i;
+                }
+              });
+            });
+
+            let final2 = final.filter((i) => {
+              return i != undefined;
+            });
+
+            setMyCoins(final2);
+          })
+          .catch(() => {});
+      })
+      .catch(() => {});
+  };
+
+  const getCoinInfo = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch("https://api.coincap.io/v2/assets", options)
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data.data.slice(0, 5));
+      })
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    getCoinInfo();
+    getUserFollowingCoins();
+    const interval = setInterval(() => {
+      getCoinInfo();
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div>
+      <div className="flex flex-row my-2 items-center">
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-32 text-gray-500 translate-x-1">
+          Name
+        </p>
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 -translate-x-2">
+          Price
+        </p>
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 translate-x-3">
+          Change
+        </p>
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 translate-x-3">
+          Sentiment
+        </p>
+      </div>
+      {data.length == 0 ? (
+        <Loader />
+      ) : (
+        myCoins.map((data, index) => {
+          return <CoinInfo key={index} id={data.coinName} />;
+        })
+      )}
+    </div>
+  );
+};
+
+const CoinInfo = ({ id }) => {
+  const [coin, setCoin] = useState({});
+  const [color, setColor] = useState("");
+  const [sentiment, setSentiment] = useState(null);
+  const { url } = useContext(userContext);
+
+  const handleSentimentScore = (sentiment) => {
+    if (sentiment >= 0.07) {
+      return (
+        <p className="bg-green-400 rounded-md w-28 text-center">
+          Very Positive
+        </p>
+      );
+    } else if (sentiment <= 0.05 && sentiment < 0.07) {
+      return (
+        <p className="bg-green-200 rounded-md w-28 text-center">Positive</p>
+      );
+    } else if (sentiment <= -0.05 && sentiment >= -0.07) {
+      return <p className="bg-red-200 rounded-md w-28 text-center">Negative</p>;
+    } else if (sentiment <= -0.07) {
+      return (
+        <p className="bg-red-400 rounded-md w-28 text-center">Very Negative</p>
+      );
+    } else {
+      return <p className="bg-gray-200 rounded-md w-28 text-center">Neutral</p>;
+    }
+  };
+
+  const handleGetCoinSentiment = () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`${url}/api/Coin/GetCoinSentiment/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.warn("sentiment:", data);
+        setSentiment(data.average);
+        setNumberOfPosts(data.postsInTheLastweek);
+      })
+      .catch(() => {});
+  };
+
+  const getCoinInfo = () => {
+    fetch(`https://api.coincap.io/v2/assets/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.warn(data.data);
+        setColor(
+          data.data.changePercent24Hr < 0 ? "text-red-600" : "text-green-600"
+        );
+        setCoin(data.data);
+      })
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    getCoinInfo();
+    handleGetCoinSentiment();
+  }, []);
+
+  return (
+    <div className="flex flex-row p-1 my-2 items-center bg-gray-100 rounded-md">
+      <Link href={`/coin/${id}`}>
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-32">
+          {coin.name}
+        </p>
+      </Link>
+      <p className="text-md font-semibold text-indigo-600 mr-3 w-32">{`$${
+        Math.round(coin.priceUsd * 10) / 10
+      }`}</p>
+      <p className={`${color} text-sm font-semibold mr-3 w-32`}>{` ${
+        color === "text-green-600" ? "+" : ""
+      }${Math.round(coin.changePercent24Hr * 100) / 100}%`}</p>
+      <p className="ml-2 text-base  mr-3 w-32 -translate-x-7">
+        {sentiment == null ? "No sentiment" : handleSentimentScore(sentiment)}
+      </p>
+    </div>
   );
 };
 

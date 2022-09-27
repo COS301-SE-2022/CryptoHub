@@ -1,5 +1,6 @@
-﻿using Domain.IRepository;
+﻿using BusinessLogic.Services.CommentService;
 using Domain.Models;
+using Infrastructure.DTO.CommentDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +10,17 @@ namespace CryptoHubAPI.Controllers
     [Route("api/[controller]/[action]")]
     public class CommentController : Controller
     {
-        private readonly ICommentRepository _commentRepository;
+        private readonly ICommentService _commentService;
 
-        public CommentController(ICommentRepository commentRepository)
+        public CommentController(ICommentService commentService)
         {
-            _commentRepository = commentRepository;
+            _commentService = commentService;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Comment>> GetCommentByUserId(int id)
         {
-            var response = await _commentRepository.FindRange(p => p.UserId == id);
+            var response = await _commentService.GetCommentByUserId(id);
             if (response == null)
                 return NotFound();
 
@@ -27,9 +28,9 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Comment>> GetCommentByPostId(int id)
+        public async Task<ActionResult<List<CommentDTO>>> GetCommentByPostId(int id)
         {
-            var response = await _commentRepository.FindRange(p => p.PostId == id);
+            var response = await _commentService.GetCommentByPostId(id);
             if (response == null)
                 return NotFound();
 
@@ -39,25 +40,29 @@ namespace CryptoHubAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Comment>> GetCommentCountByPostId(int id)
         {
-            var response = await _commentRepository.FindRange(p => p.PostId == id);
+            var response = await _commentService.GetCommentCountByPostId(id);
             if (response == null)
                 return NotFound();
 
-            return Ok(new {Count = response.Count()});
+            return Ok(response);
         }
 
-        
+
 
         [HttpPost]
-        public async Task<ActionResult<Comment>> AddComment([FromBody] Comment comment)
+        public async Task<ActionResult<Comment>> AddComment([FromBody] CommentDTO comment)
         {
-            return Ok(await _commentRepository.Add(comment));
+            var response = await _commentService.AddComment(comment);
+            //if (response == null)
+            //    return BadRequest();
+
+            return Ok(response);
         }
 
         [HttpPut]
         public async Task<ActionResult<Comment>> UpdateComment([FromBody] Comment comment)
         {
-            var response = await _commentRepository.Update(u => u.CommentId == comment.CommentId, comment);
+            var response = await _commentService.UpdateComment(comment);
             if (response == null)
                 return null;
 
@@ -67,7 +72,7 @@ namespace CryptoHubAPI.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            await _commentRepository.DeleteOne(u => u.CommentId == id);
+            await _commentService.Delete(id);
             return Ok();
         }
     }

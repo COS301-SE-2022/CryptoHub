@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { userContext } from "../auth/auth";
 import { useContext } from "react";
+import { useRouter } from "next/router";
+import Loader from "../components/Loader";
 
 const Login = () => {
-  const { authorise } = useContext(userContext);
+  const { authorise, url } = useContext(userContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleLogin = (e) => {
     setLoading(true);
@@ -20,21 +23,16 @@ const Login = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: 1,
-        firstname: "",
-        lastname: "",
-        username: "",
         email: email,
         password: password,
       }),
     };
-
-    fetch("http://localhost:7215/api/Authorization/Login", options)
+    fetch(`${url}/api/Authorization/Login`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        if (!data.hasError) {
-          authorise(data.model.username, data.model.userId);
+        if (data.token) {
+          authorise(data.token);
         } else {
           setError(true);
         }
@@ -96,7 +94,7 @@ const Login = () => {
             <div className="flex items-center justify-center">
               <div className="text-sm">
                 <a
-                  href="#"
+                  href="/forgotPassword"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Forgot your password?
@@ -115,11 +113,7 @@ const Login = () => {
                     aria-hidden="true"
                   />
                 </span>
-                {loading ? (
-                  <p className="text-indigo-200">Loading...</p>
-                ) : (
-                  <p>Log in</p>
-                )}
+                {loading ? <Loader /> : <p>Log in</p>}
               </button>
             </div>
           </form>

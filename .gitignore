@@ -3,3 +3,5 @@ server/src/main/resources/application.properties
 server2/.vs
 server2/*/bin/
 server2/*/obj/
+server2/CryptoHubAPI/appsettings.json
+/AI/App/venv

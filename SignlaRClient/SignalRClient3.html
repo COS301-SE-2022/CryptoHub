@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <!--dotnet tool install -g Microsoft.Web.LibraryManager.cli-->
+  <!--libman install @aspnet/signalr@next -p unpkg -d lib/signalr --files dist/browser/signalr.js-->
+
+  <head>
+    <meta charset="UTF-8" />
+    <title>SignalR client 2</title>
+  </head>
+
+  <body>
+    <div align="left">
+      <p id="ntfy">Notifications: 1</p>
+    </div>
+    <button id="start">Start</button> <button id="stop">Stop</button>
+    <div id="message">
+      <label for="msg">Message:</label><br />
+      <input type="text" id="msg" name="msg" /><br />
+      <button id="sendmsg">submit</button>
+    </div>
+    <div id="connect">
+      <p>hello</p>
+    </div>
+    <div>
+      <button id="read">Read</button>
+      <div id="text" style="border: 1px solid black"></div>
+    </div>
+  </body>
+
+  <script src="lib/signalr/dist//browser/signalr.js"></script>
+
+  <script>
+    var connect = document.getElementById("connect");
+    var form = document.getElementById("msgfrm");
+    var text = document.getElementById("text");
+    var button = document.getElementById("start");
+    var btnstop = document.getElementById("stop");
+    var btnsndmsg = document.getElementById("sendmsg");
+    var msg = document.getElementById("msg");
+    var ntfy = document.getElementById("ntfy");
+    var btnread = document.getElementById("read");
+
+    var hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl("http://176.58.110.152:7215/messagehub?username=khotso&userId=2")
+      .build();
+
+    button.onclick = function () {
+      hubConnection.start().then(function () {
+        console.log("do this");
+
+        connect.innerHTML += "<p>started</p>";
+      });
+    };
+
+    btnstop.onclick = function () {
+      hubConnection.stop().then(function () {
+        console.log("Requested stop on hub");
+      });
+    };
+
+    function handleForm(event) {
+      event.preventDefault();
+    }
+
+    btnsndmsg.onclick = function () {
+      let message =
+        '{"UserId" : 2,"RecieverId" : 1,"Content" : "' + msg.value + '"}';
+
+      hubConnection.invoke("SendMessage", message);
+    };
+
+    hubConnection.onclose(function () {
+      console.log("stopped");
+      connect.innerHTML += "<p>stopped</p>";
+    });
+
+    hubConnection.on("RecievedID", function (connectionID, id) {
+      console.log("connection id: " + connectionID);
+      connect.innerHTML += "<p>" + connectionID + "</p>";
+    });
+
+    hubConnection.on("RecievedMessage", function (message) {
+      console.log("message");
+      text.innerHTML += "<p>" + message + "</p>";
+    });
+
+    hubConnection.on("AddNotification", function () {
+      ntfy.innerText =
+        ntfy.innerText.substring(0, 15) +
+        (parseInt(ntfy.innerText.substring(15)) + 1);
+    });
+
+    btnread.onclick = function () {
+      hubConnection.invoke("MarkAsRead", 2, 1);
+    };
+
+    hubConnection.on("RemoveNotification", function () {
+      console.log("rmv");
+      ntfy.innerText =
+        ntfy.innerText.substring(0, 15) +
+        (parseInt(ntfy.innerText.substring(15)) - 1);
+    });
+
+    hubConnection.on("Read", function () {
+      console.log("read");
+      for (let i = 0; i < text.childElementCount(); i++) {
+        text.children[i].style.color = "blue";
+      }
+    });
+  </script>
+</html>

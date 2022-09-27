@@ -1,4 +1,4 @@
-﻿using CryptoHubAPI.Controllers;
+﻿/*using CryptoHubAPI.Controllers;
 using Domain.IRepository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -77,7 +77,6 @@ namespace UnitTests.ControllerTests
             Assert.Equal(3, (actual as List<CoinHistory>).Count);
         }
 
-        [Fact]
         public async Task AddCoinHistory_CoinHistory_ReturnsCoinHistory()
         {
             //arrange
@@ -178,3 +177,4 @@ namespace UnitTests.ControllerTests
         }
     }
 }
+*/

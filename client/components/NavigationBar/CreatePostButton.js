@@ -2,15 +2,17 @@ import React, { useState, useContext } from "react";
 import { XIcon } from "@heroicons/react/outline";
 import { userContext } from "../../auth/auth";
 import Image from "next/image";
+import TagDropdown from "./TagDropdown";
 
 const CreatePostButton = () => {
-  const { user, refreshfeed } = useContext(userContext);
+  const { user, refreshfeed, url } = useContext(userContext);
   const [showModal, setShowModal] = useState(false);
   const [post, setPost] = useState("");
   const [, setError] = useState(false);
   const [, setLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [clientImage, setClientImage] = useState(undefined);
+  const [tags, setTags] = useState([]);
 
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -31,24 +33,34 @@ const CreatePostButton = () => {
     const base64 = await convertToBase64(file);
     let base64Image = base64.split(",").pop();
     setImage(base64Image);
-    // console.warn(base64);
-    // console.warn(base64Image);
   };
 
   const handleCreatePost = (e) => {
     e.preventDefault();
 
+    let finalpost = [];
+    finalpost.push(post + " ");
+
+    tags.map((word) => {
+      finalpost.push(word + " ");
+    });
+
+    let postToString = finalpost.join(" ");
+
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        post: post,
-        userid: user.id,
-        imageDTO: image == null ? null : { blob: image },
+        post: postToString,
+        userId: user.id,
+        imageDTO: image == null ? null : { name: "", blob: image },
+        batchTags: {
+          tags: tags,
+        },
       }),
     };
 
-    fetch("http://localhost:7215/api/Post/AddPost", options)
+    fetch(`${url}/api/Post/AddPost`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -58,11 +70,33 @@ const CreatePostButton = () => {
         } else {
           setError(true);
         }
+
+        const profanityoptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            postId: data.postId,
+            userId: user.id,
+            content: postToString,
+          }),
+        };
+
+        fetch(`http://176.58.110.152:5000/profanity`, profanityoptions)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("profanity", data);
+          })
+          .catch(() => {});
       })
       .catch(() => {
         setError(true);
         setLoading(false);
       });
+  };
+
+  const addTag = (e, tag) => {
+    e.preventDefault();
+    !tags.includes(tag) && setTags([...tags, tag]);
   };
 
   return (
@@ -78,13 +112,16 @@ const CreatePostButton = () => {
         <>
           <div className="justify-center items-start mt-16 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative sm:w-6/12 my-6 mx-auto max-w-3xl">
-              <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none overflow-x-hidden">
                 <div className="flex items-start justify-between p-5 border-solid border-slate-200 rounded-t">
                   <h2>Post about the latest crypto news</h2>
                   <button
                     className="px-1 p-1"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                      setShowModal(false);
+                      setTags([]);
+                    }}
                   >
                     <XIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
@@ -107,7 +144,28 @@ const CreatePostButton = () => {
                           />
                         </div>
                       </div>
-
+                      <div>
+                        <div className="flex flex-wrap w-full">
+                          {tags.map((tag) => {
+                            return (
+                              <span className="text-indigo-500 mr-4 mb-3">
+                                {tag}
+                              </span>
+                            );
+                          })}
+                        </div>
+                        <TagDropdown addTag={addTag} />
+                        {/* <TagDropdown addTag={addTag} /> */}
+                        {/* <div className="m-2">
+                          {tags.map((tag) => {
+                            return (
+                              <span className="text-indigo-500 mr-4">
+                                {tag}
+                              </span>
+                            );
+                          })}
+                        </div> */}
+                      </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700">
                           Upload a photo

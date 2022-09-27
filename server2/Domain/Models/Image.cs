@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Domain.Models
 {
@@ -14,15 +13,11 @@ namespace Domain.Models
         }
 
         public int ImageId { get; set; }
-        public byte[] Image1 { get; set; } = null!;
+        public string Url { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
-        [JsonIgnore]
-        public virtual ICollection<Coin>? Coins { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<Post>? Posts { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<User>? Users { get; set; }
+        public virtual ICollection<Coin> Coins { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }
