@@ -250,6 +250,7 @@ namespace BusinessLogic.Services.PostService
                               select new PostDTO
                               {
                                   PostId = p.PostId,
+                                  UserId = p.UserId,
                                   Content = p.Content,
                                   SentimentScore = p.SentimentScore,
                                   ImageUrl = p.ImageUrl,
