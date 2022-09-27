@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import nltk
-#nltk.download('vader_lexicon')
+nltk.download('vader_lexicon')
 from nltk.sentiment import SentimentIntensityAnalyzer
 import SentimentAnalysis.CoinTags as CoinTags
 from SentimentAnalysis.Post import Post,ScoredPost
@@ -60,9 +60,9 @@ def main():
 
     scoredposts = json.loads(scoredposts)
     
-    #print(scoredposts)
+    print(scoredposts)
 
-    x = requests.patch('http://176.58.110.152:7215:7215/api/Post/UpdatePostSentiment',json=scoredposts)
+    x = requests.patch('http://176.58.110.152:7215/api/Post/UpdatePostSentiment',json=scoredposts)
     return "done"
 
     
