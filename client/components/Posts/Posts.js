@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Post from "./Post";
 import { userContext } from "../../auth/auth";
 import { useRouter } from "next/router";
+import Loader from "../Loader";
 
 const Posts = () => {
   const { feedstate } = useContext(userContext);
@@ -67,7 +68,7 @@ const Posts = () => {
   return (
     <div className="sm:w-5/12">
       {loading ? (
-        <p>loading...</p>
+        <Loader />
       ) : posts.length == 0 ? (
         <div className="flex flex-col items-center w-full pt-10">
           <button

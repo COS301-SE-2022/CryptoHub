@@ -2,11 +2,13 @@ import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../../auth/auth";
 import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../InfoSection/SuggestedAccount";
+import Loader from "../Loader";
 
 const NavigationSearchBar = () => {
   const [showModal, setShowModal] = useState(false);
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { user, url } = useContext(userContext);
 
@@ -18,13 +20,20 @@ const NavigationSearchBar = () => {
     const options = {
       method: "GET",
     };
-
+    setLoading(true);
     fetch(`${url}/api/User/SearchUser/${user.id}/${searchTerm}`, options)
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
+        setLoading(false);
       })
-      .catch(() => {});
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -41,7 +50,12 @@ const NavigationSearchBar = () => {
             <div className="relative w-10/12 sm:w-6/12 my-6 mx-auto max-w-3xl">
               <div className="border-0 rounded-lg shadow-sm relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 <div className="relative flex-auto">
-                  <form method="POST">
+                  <form
+                    method="POST"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
                     <div className="flex items-start justify-between p-5 border-solid border-slate-200 rounded-t">
                       <input
                         autoFocus
@@ -49,7 +63,9 @@ const NavigationSearchBar = () => {
                         type="text"
                         placeholder="Search"
                         value={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)}
+                        onChange={(e) => {
+                          setSearchInput(e.target.value);
+                        }}
                       />
                       <button
                         className="px-1 p-1"
@@ -61,7 +77,9 @@ const NavigationSearchBar = () => {
                     </div>
                     <div className="flex flex-col p-5">
                       <div>
-                        {users.length == 0 || searchInput == "" ? (
+                        {loading ? (
+                          <Loader />
+                        ) : users.length == 0 || searchInput == "" ? (
                           <p className="text-gray-400">No search results</p>
                         ) : (
                           users.map((data, index) => {

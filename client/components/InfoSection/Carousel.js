@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { mockCoinInfo } from "../../mocks/mockCoinInfo";
 import Link from "next/link";
+import Loader from "../Loader";
 
 const Carousel = () => {
   const [data, setData] = useState([]);
@@ -31,7 +32,7 @@ const Carousel = () => {
     <div>
       <div className="flex flew-row sm:justify-center flex-wrap">
         {data.length == 0 ? (
-          <p className="text-sm text-gray-500">Loading...</p>
+          <Loader />
         ) : (
           data.map((data, index) => {
             return (

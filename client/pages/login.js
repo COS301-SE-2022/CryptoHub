@@ -3,6 +3,7 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { userContext } from "../auth/auth";
 import { useContext } from "react";
 import { useRouter } from "next/router";
+import Loader from "../components/Loader";
 
 const Login = () => {
   const { authorise, url } = useContext(userContext);
@@ -112,11 +113,7 @@ const Login = () => {
                     aria-hidden="true"
                   />
                 </span>
-                {loading ? (
-                  <p className="text-indigo-200">Loading...</p>
-                ) : (
-                  <p>Log in</p>
-                )}
+                {loading ? <Loader /> : <p>Log in</p>}
               </button>
             </div>
           </form>
