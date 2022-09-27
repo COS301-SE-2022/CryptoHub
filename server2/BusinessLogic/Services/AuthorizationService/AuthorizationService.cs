@@ -50,7 +50,7 @@ namespace BusinessLogic.Services.AuthorizationService
                 return new Response<JWT>(null, true, "incorrect username or password");
 
             var decryptedPassword = string.Empty;
-            if (loginUser.UserId < 106)
+            if (loginUser.UserId < 6)
                 decryptedPassword = loginDTO.Password;
             else
                 decryptedPassword = AesOperation.EncryptString("abcdefghijklmnop", loginDTO.Password);
