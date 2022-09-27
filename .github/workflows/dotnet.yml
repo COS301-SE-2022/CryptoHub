@@ -69,9 +69,13 @@ jobs:
           cd server2
           dotnet test --no-build --verbosity normal
 
+on:
+  push:
+    branches: ["develop"]
+
+jobs:
   build_docker:
     name: Build Docker image and push to Docker Hub
-    needs: "build"
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
