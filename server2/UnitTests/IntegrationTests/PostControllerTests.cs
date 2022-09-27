@@ -264,7 +264,7 @@ namespace UnitTests.IntegrationTests
         }
 
         [Fact]
-        public async Task ReportPost_NoPost()
+        public async Task ReportPost_Post()
         {
             //Arrange
             var testPost = new CreatePostDTO()
@@ -279,6 +279,28 @@ namespace UnitTests.IntegrationTests
             };
 
             await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Post/AddPost", testPost);
+
+            //Act
+            var response = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Post/Report", report);
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+
+            var reports = await response.Content.ReadAsAsync<PostReport>();
+
+            Assert.NotNull(reports);
+        }
+
+        [Fact]
+        public async Task ReportPost_NoPost()
+        {
+            //Arrange
+            var report = new PostReport()
+            {
+                UserId = 1,
+                PostId = 1
+            };
 
             //Act
             var response = await _httpClient.PostAsJsonAsync("http://localhost:7215/api/Post/Report", report);

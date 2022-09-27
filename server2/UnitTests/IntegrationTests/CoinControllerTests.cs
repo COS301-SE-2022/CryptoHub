@@ -770,5 +770,16 @@ namespace UnitTests.IntegrationTests
             Assert.NotNull(response2);
             Assert.Equal(200, (double)response2.StatusCode);
         }
+
+        [Fact]
+        public async Task GetCoinSentiment_NoSentiment()
+        {
+            //Act
+            var response = await _httpClient.GetAsync("http://localhost:7215/api/Coin/GetCoinSentiment/TestCoin");
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(200, (double)response.StatusCode);
+        }
     }
 }
