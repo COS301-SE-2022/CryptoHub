@@ -286,6 +286,7 @@ namespace BusinessLogic.Services.PostService
                                on pt.PostId equals p.PostId
                                where p.DateCreated >= endDate && p.DateCreated <= startDate
                                group p by p.DateCreated.Date into score
+                               orderby score.Key ascending
                                select new
                                {
                                    Date = score.Key,
