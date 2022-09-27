@@ -62,6 +62,7 @@ def main():
     
     print(scoredposts)
 
+    #please work
     x = requests.patch('http://176.58.110.152:7215/api/Post/UpdatePostSentiment',json=scoredposts)
     return "done"
 
