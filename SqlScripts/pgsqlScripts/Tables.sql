@@ -49,7 +49,7 @@ CREATE TABLE Users(
 	Password VARCHAR(250) NOT NULL,
 	OTP INT NULL,
 	OTPExpirationTime TIMESTAMP NULL,
-	HasForgottenPassword bit NULL,
+	HasForgottenPassword BOOLEAN NULL,
 	ImageId INT NULL,
 	ImageUrl VARCHAR NULL,
 	RoleId INT NOT NULL,
@@ -212,7 +212,7 @@ CREATE TABLE Notification(
 	UserId INT NOT NULL,
 	SenderId INT NOT NULL,
 	LastModified TIMESTAMP NOT NULL,
-	IsDeleted bit NOT NULL,
+	IsDeleted BOOLEAN NOT NULL,
     CONSTRAINT PK_Notification PRIMARY KEY(Id),
     CONSTRAINT FK_Notification_UserId 
         FOREIGN KEY (UserId)
