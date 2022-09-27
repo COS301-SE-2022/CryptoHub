@@ -4,6 +4,16 @@ import { Line } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 import { userContext } from "../../auth/auth";
 
+import {
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+
 const CoinSentimentGraph = ({ id, name, state, arrow }) => {
   const [fetchedData, setFetchedData] = useState([]);
   const { url } = useContext(userContext);
@@ -26,16 +36,34 @@ const CoinSentimentGraph = ({ id, name, state, arrow }) => {
         console.log("graph", data);
 
         // let rawDates = final.map((item) => item.date);
-        let dates = data.reverse().map((item) => item.date);
-        let scores = data.reverse().map((item) => item.score);
+        let dates = data.reverse().map((item) => item.date.slice(5, 10));
+        let scores = data.reverse().map((item) => item.overall);
+        let positiveScores = data.reverse().map((item) => item.postive);
+        let negativeScores = data.reverse().map((item) => item.negative);
+        let neutralScores = data.reverse().map((item) => item.neutral);
 
         setChartData({
           labels: dates,
           datasets: [
             {
-              label: `Sentiment Score`,
+              label: `Overall Sentiment Score`,
               data: scores,
               backgroundColor: ["rgb(99 102 241)"],
+            },
+            {
+              label: `Positive Sentiment Score`,
+              data: positiveScores,
+              backgroundColor: ["rgb(0 153 0)"],
+            },
+            {
+              label: `Negative Sentiment Score`,
+              data: negativeScores,
+              backgroundColor: ["rgb(204 0 0)"],
+            },
+            {
+              label: `Neutral Sentiment Score`,
+              data: neutralScores,
+              backgroundColor: ["rgb(160 160 160)"],
             },
           ],
         });
@@ -77,6 +105,15 @@ const CoinSentimentGraph = ({ id, name, state, arrow }) => {
     getSentimentGraph();
   }, []);
 
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+    },
+  };
+
   return (
     <div className="bg-white m-4 p-4 rounded-lg w-full">
       <div className="flex flex-col mb-2">
@@ -87,7 +124,8 @@ const CoinSentimentGraph = ({ id, name, state, arrow }) => {
         </div>
 
         <div>
-          <Line data={chartData} />
+          {/* <Line data={chartData} /> */}
+          <Bar options={options} data={chartData} />
         </div>
       </div>
     </div>
