@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AutoMapper;
 using BusinessLogic.Services.ImageService;
 using BusinessLogic.Services.TagService;
@@ -287,7 +288,10 @@ namespace BusinessLogic.Services.PostService
                                select new
                                {
                                    Date = score.Key,
-                                   Score = score.Select(s => s.SentimentScore).Average()
+                                   Postive = score.Where(s => s.SentimentScore >= 0.5m).Select(s => s.SentimentScore).Average(),
+                                   Negative = score.Where(s => s.SentimentScore <= -0.5m).Select(s => s.SentimentScore).Average(),
+                                   Neutral = score.Where(s => s.SentimentScore > -0.5m && s.SentimentScore < 0.5m).Select(s => s.SentimentScore).Average(),
+                                   Overall = score.Select(s => s.SentimentScore).Average()
 
                                }
                               ).ToList();

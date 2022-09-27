@@ -183,67 +183,90 @@ const User = () => {
             </div>
           )}
           <div className="flex flex-row">
-            <p className="font-semibold text-center sm:text-left">
+            <p className="font-semibold text-center sm:text-left -translate-y-3">
               {thisUser.username}
             </p>{" "}
             <br />
           </div>
           {user.auth ? (
             isFollowing ? (
-              <>
-                <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
-                  Following
-                </p>
-                <button
-                  onClick={() => {
-                    router.push(`/messages/${id}`);
-                  }}
-                >
-                  <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
-                    Message
+              <div className="flex flex-col">
+                <div className="flex flex-row">
+                  <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
+                    Following
                   </p>
-                </button>
-              </>
+                  <button
+                    onClick={() => {
+                      router.push(`/messages/${id}`);
+                    }}
+                  >
+                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                      Message
+                    </p>
+                  </button>
+                </div>
+                <div className="flex flex-row text-left sm:translate-y-3 translate-x-10 sm:translate-x-0 mt-1">
+                  <button
+                    className="mr-3 -translate-x-10"
+                    onClick={() => setFollowingShowModal(true)}
+                  >
+                    <span className="font-semibold">{`${following.length} `}</span>{" "}
+                    following
+                  </button>
+                  <button
+                    className="mr-3 -translate-x-10"
+                    onClick={() => setShowModal(true)}
+                  >
+                    {" "}
+                    <span className="font-semibold" f>
+                      {`${followers.length} `}
+                    </span>
+                    followers
+                  </button>
+                </div>
+              </div>
             ) : (
-              <>
-                <button onClick={handleFollowUser}>
-                  <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
-                    Follow
-                  </p>
-                </button>
-                <button
-                  onClick={() => {
-                    router.push(`/messages/${id}`);
-                  }}
-                >
-                  <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
-                    Message
-                  </p>
-                </button>
-              </>
+              <div className="flex flex-col">
+                <div>
+                  <button onClick={handleFollowUser}>
+                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                      Follow
+                    </p>
+                  </button>
+                  <button
+                    onClick={() => {
+                      router.push(`/messages/${id}`);
+                    }}
+                  >
+                    <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition">
+                      Message
+                    </p>
+                  </button>
+                </div>
+                <div className="flex flex-row text-left sm:translate-y-3 translate-x-10 sm:translate-x-0 mt-1">
+                  <button
+                    className="mr-3 -translate-x-10"
+                    onClick={() => setFollowingShowModal(true)}
+                  >
+                    <span className="font-semibold">{`${following.length} `}</span>{" "}
+                    following
+                  </button>
+                  <button
+                    className="mr-3 -translate-x-10"
+                    onClick={() => setShowModal(true)}
+                  >
+                    {" "}
+                    <span className="font-semibold" f>
+                      {`${followers.length} `}
+                    </span>
+                    followers
+                  </button>
+                </div>
+              </div>
             )
           ) : null}
         </div>
 
-        <div className="flex flex-row text-left -translate-y-16 -translate-x-20">
-          <button
-            className="mr-3 -translate-x-10"
-            onClick={() => setFollowingShowModal(true)}
-          >
-            <span className="font-semibold">{`${following.length} `}</span>{" "}
-            following
-          </button>
-          <button
-            className="mr-3 -translate-x-10"
-            onClick={() => setShowModal(true)}
-          >
-            {" "}
-            <span className="font-semibold" f>
-              {`${followers.length} `}
-            </span>
-            followers
-          </button>
-        </div>
         <div className="bg-gray-400 sm:w-7/12" style={{ height: "1px" }}></div>
         <div className="flex flex-col items-center w-full sm:w-5/12">
           <div>
