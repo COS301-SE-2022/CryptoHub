@@ -184,7 +184,7 @@ const Coin = () => {
                   <>
                     <button
                       onClick={handleUnfollowCoin}
-                      className="-translate-x-6 mt-2"
+                      className="sm:-translate-x-6 mt-2"
                     >
                       <p className="text-sm ml-5 text-black bg-gray-400 rounded-md px-3 py-1">
                         Following
@@ -194,7 +194,7 @@ const Coin = () => {
                 ) : (
                   <>
                     <button onClick={handleFollowCoin} className="mt-2">
-                      <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition -translate-x-5">
+                      <p className="text-sm text-white ml-5 bg-indigo-600 rounded-md px-3 py-1 hover:bg-indigo-500 transition sm:-translate-x-5">
                         Follow
                       </p>
                     </button>
