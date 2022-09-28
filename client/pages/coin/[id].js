@@ -13,6 +13,8 @@ import { FaChevronCircleLeft } from "react-icons/fa";
 import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../../components//InfoSection/SuggestedAccount";
 import CoinSentimentGraph from "../../components/CoinSentiment/CoinSentimentGraph";
+import Image from "next/image";
+import { CoinImages } from "../../components/CoinImages";
 
 const Coin = () => {
   const router = useRouter();
@@ -159,10 +161,24 @@ const Coin = () => {
       </Head>
       <Layout>
         <div className="flex flex-col sm:flex-row w-full sm:w-6/12 items-center mt-8">
-          <div
-            className="w-32 h-32 bg-black sm:mr-10 mb-5"
-            style={{ borderRadius: "100%" }}
-          ></div>
+          {CoinImages[`${id}`] ? (
+            <div className="mx-5 my-5">
+              <Image
+                src={CoinImages[`${id}`]}
+                layout="intrinsic"
+                width={120}
+                height={120}
+              />
+            </div>
+          ) : (
+            <div
+              className="flex flex-row w-32 h-32 bg-gray-300 sm:mr-10 mb-5 justify-center items-center"
+              style={{ borderRadius: "100%" }}
+            >
+              <p className="text-white">No Logo</p>
+            </div>
+          )}
+
           <div className="flex flex-col">
             <p className="font-semibold text-center sm:text-left mr-4">
               {coinData.name != undefined && coinData.name}
