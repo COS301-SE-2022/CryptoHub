@@ -8,6 +8,7 @@ import { userContext } from "../../auth/auth";
 import { HeartIcon as RedHeartIcon } from "@heroicons/react/solid";
 import { Menu, Transition } from "@headlessui/react";
 import Moment from "moment";
+import Loader from "../Loader";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -34,6 +35,7 @@ const Post = ({
   const [likeId, setLikeId] = useState(null);
   const { user, refreshfeed, alert, url } = useContext(userContext);
   const [profilePicture, setProfilePicture] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleGetUser = () => {
     const options = {
@@ -182,12 +184,17 @@ const Post = ({
     const options = {
       method: "DELETE",
     };
-
-    fetch(`${url}/api/Post/Delete?id=${postId}`, options).then((response) => {
-      if (response.status == 200) {
-        refreshfeed();
-      }
-    });
+    setLoading(true);
+    fetch(`${url}/api/Post/Delete?id=${postId}`, options)
+      .then((response) => {
+        if (response.status == 200) {
+          refreshfeed();
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -329,7 +336,11 @@ const Post = ({
                                   "block px-2 py-2 text-sm text-red-700 font-semibold w-full"
                                 )}
                               >
-                                Delete Post
+                                {loading ? (
+                                  <Loader />
+                                ) : (
+                                  <p className="text-red-700">Delete Post</p>
+                                )}
                               </button>
                             </>
                           )}
