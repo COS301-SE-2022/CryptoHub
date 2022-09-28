@@ -141,10 +141,14 @@ namespace BusinessLogic.Services.PostService
 
             await _likeRepository.DeleteRange(commentlikes);
 
+            var posttags = await _postTagRepository.ListByExpression(p => p.PostId == post.PostId);
+
+            
             var postlikes = await _likeRepository.ListByExpression(l => l.PostId == post.PostId);
 
             var imageId = post.ImageId ?? null;
 
+            await _postTagRepository.DeleteRange(posttags);
             await _postReportRepository.DeleteRange(postReports);
             await _likeRepository.DeleteRange(postlikes);
             await _replyRepository.DeleteRange(repiles);
