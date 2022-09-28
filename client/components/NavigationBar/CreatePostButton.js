@@ -3,13 +3,14 @@ import { XIcon } from "@heroicons/react/outline";
 import { userContext } from "../../auth/auth";
 import Image from "next/image";
 import TagDropdown from "./TagDropdown";
+import Loader from "../Loader";
 
 const CreatePostButton = () => {
   const { user, refreshfeed, url } = useContext(userContext);
   const [showModal, setShowModal] = useState(false);
   const [post, setPost] = useState("");
   const [, setError] = useState(false);
-  const [, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [clientImage, setClientImage] = useState(undefined);
   const [tags, setTags] = useState([]);
@@ -60,6 +61,7 @@ const CreatePostButton = () => {
       }),
     };
 
+    setLoading(true);
     fetch(`${url}/api/Post/AddPost`, options)
       .then((response) => response.json())
       .then((data) => {
@@ -222,7 +224,7 @@ const CreatePostButton = () => {
                         type="submit"
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       >
-                        Share
+                        {loading ? <Loader /> : <p>Share</p>}
                       </button>
                     </div>
                   </form>
