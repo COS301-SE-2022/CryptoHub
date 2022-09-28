@@ -230,27 +230,10 @@ const Coin = () => {
           <div>
             <p className="text-sm mt-4 text-gray-600">Info</p>
           </div>
-          <CoinSentiment id={id} />
           <CoinInfo
             name="Price"
             price={Math.round(coinData.priceUsd * 100) / 100}
-          />
-
-          <div className="bg-white m-4 p-4 rounded-lg w-full">
-            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-              Users Rating:
-            </p>
-            <div className="flex flex-col mb-2">
-              <p className="ml-2 text-3xl">{AverageRate}</p>
-            </div>
-            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-              Total number of Ratings:
-            </p>
-            <div className="flex flex-col mb-2">
-              <p className="ml-2 text-3xl">{AverageCount}</p>
-            </div>
-          </div>
-
+          />{" "}
           <div className="bg-white m-4 p-4 rounded-lg w-full">
             <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
               Calculate Price
@@ -277,29 +260,27 @@ const Coin = () => {
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
             arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
           />
-
+          <CoinSentiment id={id} />
           <CoinSentimentGraph
             id={id}
             name="Sentiment"
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
             arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
           />
-
           <div className="bg-white m-4 p-4 rounded-lg w-full">
             <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-              About {coinData.name}
+              Users Rating:
             </p>
             <div className="flex flex-col mb-2">
-              <p className="ml-2 text-base">
-                {coinHistory.map((coin) => {
-                  if (coin.name == id) {
-                    return coin.history;
-                  }
-                })}
-              </p>
+              <p className="ml-2 text-3xl">{AverageRate}</p>
+            </div>
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              Total number of Ratings:
+            </p>
+            <div className="flex flex-col mb-2">
+              <p className="ml-2 text-3xl">{AverageCount}</p>
             </div>
           </div>
-
           <div className="bg-white m-4 p-4 rounded-lg w-full">
             {/* remember IF statement */}
 
@@ -353,6 +334,20 @@ const Coin = () => {
                 <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
               </>
             ) : null}
+          </div>
+          <div className="bg-white m-4 p-4 rounded-lg w-full">
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              About {coinData.name}
+            </p>
+            <div className="flex flex-col mb-2">
+              <p className="ml-2 text-base">
+                {coinHistory.map((coin) => {
+                  if (coin.name == id) {
+                    return coin.history;
+                  }
+                })}
+              </p>
+            </div>
           </div>
         </div>
       </Layout>
