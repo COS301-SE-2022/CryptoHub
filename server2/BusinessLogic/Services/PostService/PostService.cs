@@ -141,10 +141,14 @@ namespace BusinessLogic.Services.PostService
 
             await _likeRepository.DeleteRange(commentlikes);
 
+            var posttags = await _postTagRepository.ListByExpression(p => p.PostId == post.PostId);
+
+            
             var postlikes = await _likeRepository.ListByExpression(l => l.PostId == post.PostId);
 
             var imageId = post.ImageId ?? null;
 
+            await _postTagRepository.DeleteRange(posttags);
             await _postReportRepository.DeleteRange(postReports);
             await _likeRepository.DeleteRange(postlikes);
             await _replyRepository.DeleteRange(repiles);
@@ -250,6 +254,7 @@ namespace BusinessLogic.Services.PostService
                               select new PostDTO
                               {
                                   PostId = p.PostId,
+                                  UserId = p.UserId,
                                   Content = p.Content,
                                   SentimentScore = p.SentimentScore,
                                   ImageUrl = p.ImageUrl,
@@ -285,6 +290,7 @@ namespace BusinessLogic.Services.PostService
                                on pt.PostId equals p.PostId
                                where p.DateCreated >= endDate && p.DateCreated <= startDate
                                group p by p.DateCreated.Date into score
+                               orderby score.Key ascending
                                select new
                                {
                                    Date = score.Key,
