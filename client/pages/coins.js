@@ -126,19 +126,19 @@ const CoinInfo = ({ index, id }) => {
   };
 
   const handleSentimentScore = (sentiment) => {
-    if (sentiment >= 0.07) {
+    if (sentiment >= 0.075) {
       return (
         <p className="bg-green-400 rounded-md w-28 text-center">
           Very Positive
         </p>
       );
-    } else if (sentiment <= 0.05 && sentiment < 0.07) {
+    } else if (sentiment >= 0.05 && sentiment < 0.075) {
       return (
         <p className="bg-green-200 rounded-md w-28 text-center">Positive</p>
       );
-    } else if (sentiment <= -0.05 && sentiment >= -0.07) {
+    } else if (sentiment <= -0.05 && sentiment >= -0.075) {
       return <p className="bg-red-200 rounded-md w-28 text-center">Negative</p>;
-    } else if (sentiment <= -0.07) {
+    } else if (sentiment < -0.075) {
       return (
         <p className="bg-red-400 rounded-md w-28 text-center">Very Negative</p>
       );
