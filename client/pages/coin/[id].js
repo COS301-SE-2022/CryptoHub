@@ -13,6 +13,8 @@ import { FaChevronCircleLeft } from "react-icons/fa";
 import { XIcon } from "@heroicons/react/outline";
 import SuggestedAccount from "../../components//InfoSection/SuggestedAccount";
 import CoinSentimentGraph from "../../components/CoinSentiment/CoinSentimentGraph";
+import Image from "next/image";
+import { CoinImages } from "../../components/CoinImages";
 
 const Coin = () => {
   const router = useRouter();
@@ -159,10 +161,24 @@ const Coin = () => {
       </Head>
       <Layout>
         <div className="flex flex-col sm:flex-row w-full sm:w-6/12 items-center mt-8">
-          <div
-            className="w-32 h-32 bg-black sm:mr-10 mb-5"
-            style={{ borderRadius: "100%" }}
-          ></div>
+          {CoinImages[`${id}`] ? (
+            <div className="mx-5 my-5">
+              <Image
+                src={CoinImages[`${id}`]}
+                layout="intrinsic"
+                width={120}
+                height={120}
+              />
+            </div>
+          ) : (
+            <div
+              className="flex flex-row w-32 h-32 bg-gray-300 sm:mr-10 mb-5 justify-center items-center"
+              style={{ borderRadius: "100%" }}
+            >
+              <p className="text-white">No Logo</p>
+            </div>
+          )}
+
           <div className="flex flex-col">
             <p className="font-semibold text-center sm:text-left mr-4">
               {coinData.name != undefined && coinData.name}
@@ -214,27 +230,10 @@ const Coin = () => {
           <div>
             <p className="text-sm mt-4 text-gray-600">Info</p>
           </div>
-          <CoinSentiment id={id} />
           <CoinInfo
             name="Price"
             price={Math.round(coinData.priceUsd * 100) / 100}
-          />
-
-          <div className="bg-white m-4 p-4 rounded-lg w-full">
-            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-              Users Rating:
-            </p>
-            <div className="flex flex-col mb-2">
-              <p className="ml-2 text-3xl">{AverageRate}</p>
-            </div>
-            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-              Total number of Ratings:
-            </p>
-            <div className="flex flex-col mb-2">
-              <p className="ml-2 text-3xl">{AverageCount}</p>
-            </div>
-          </div>
-
+          />{" "}
           <div className="bg-white m-4 p-4 rounded-lg w-full">
             <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
               Calculate Price
@@ -261,29 +260,27 @@ const Coin = () => {
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
             arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
           />
-
+          <CoinSentiment id={id} />
           <CoinSentimentGraph
             id={id}
             name="Sentiment"
             state={`${Math.round(coinData.changePercent24Hr * 100) / 100}%`}
             arrow={coinData.changePercent24Hr < 0 ? "down" : "up"}
           />
-
           <div className="bg-white m-4 p-4 rounded-lg w-full">
             <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
-              About {coinData.name}
+              Users Rating:
             </p>
             <div className="flex flex-col mb-2">
-              <p className="ml-2 text-base">
-                {coinHistory.map((coin) => {
-                  if (coin.name == id) {
-                    return coin.history;
-                  }
-                })}
-              </p>
+              <p className="ml-2 text-3xl">{AverageRate}</p>
+            </div>
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              Total number of Ratings:
+            </p>
+            <div className="flex flex-col mb-2">
+              <p className="ml-2 text-3xl">{AverageCount}</p>
             </div>
           </div>
-
           <div className="bg-white m-4 p-4 rounded-lg w-full">
             {/* remember IF statement */}
 
@@ -337,6 +334,20 @@ const Coin = () => {
                 <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
               </>
             ) : null}
+          </div>
+          <div className="bg-white m-4 p-4 rounded-lg w-full">
+            <p className="text-xl font-semibold mb-2 translate-y-1 ml-2 text-left text-gray-700">
+              About {coinData.name}
+            </p>
+            <div className="flex flex-col mb-2">
+              <p className="ml-2 text-base">
+                {coinHistory.map((coin) => {
+                  if (coin.name == id) {
+                    return coin.history;
+                  }
+                })}
+              </p>
+            </div>
           </div>
         </div>
       </Layout>
