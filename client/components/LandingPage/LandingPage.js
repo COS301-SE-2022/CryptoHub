@@ -50,7 +50,7 @@ const MainContent = () => {
 
         <div className="mt-4 sm:mt-20 w-11/12 sm:w-12/12 justify-center flex">
           <Image
-            src="https://firebasestorage.googleapis.com/v0/b/cryptohub-12abc.appspot.com/o/landing.png?alt=media&token=be95a74b-c81f-4d6a-8084-c74ea08d64f6"
+            src="https://firebasestorage.googleapis.com/v0/b/cryptohub-12abc.appspot.com/o/landingpage.png?alt=media&token=06977573-7d98-4be9-a72e-049d2f5f40b3"
             layout="intrinsic"
             width={300}
             height={600}

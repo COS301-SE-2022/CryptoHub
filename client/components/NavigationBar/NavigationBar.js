@@ -38,7 +38,8 @@ const NavigationBar = () => {
       {user.auth ? (
         <NavigationProfile />
       ) : (
-        <p className="font-semibold ml-10">About</p>
+        <p className="font-semibold ml-10"></p>
+        // <p className="font-semibold ml-10"></p>
       )}
     </nav>
   );
