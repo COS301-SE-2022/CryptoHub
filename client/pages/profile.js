@@ -159,6 +159,7 @@ const Profile = () => {
             className="bg-gray-400 sm:w-6/12 mt-10 sm:my-0"
             style={{ height: "1px" }}
           ></div>
+          <WatchList />
           <div className="flex flex-col items-center justify-center sm:translate-x-14 w-full sm:w-5/12">
             <div>
               <p className="text-sm mt-4 text-gray-600">Posts</p>
@@ -178,7 +179,6 @@ const Profile = () => {
               })}
             </div>
           </div>
-          <WatchList />
         </div>
       </Layout>
       {showModal ? (
@@ -352,10 +352,10 @@ const MyCoins = () => {
         <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 -translate-x-2">
           Price
         </p>
-        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 translate-x-3">
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 translate-x-3 sm:block hidden">
           Change
         </p>
-        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 translate-x-3">
+        <p className="text-sm font-semibold cursor-pointer ml-3 mr-3 w-24 text-gray-500 sm:translate-x-5 translate-x-0">
           Sentiment
         </p>
       </div>
@@ -441,10 +441,12 @@ const CoinInfo = ({ id }) => {
       <p className="text-md font-semibold text-indigo-600 mr-3 w-32">{`$${
         Math.round(coin.priceUsd * 10) / 10
       }`}</p>
-      <p className={`${color} text-sm font-semibold mr-3 w-32`}>{` ${
-        color === "text-green-600" ? "+" : ""
-      }${Math.round(coin.changePercent24Hr * 100) / 100}%`}</p>
-      <p className="ml-2 text-base  mr-3 w-32 -translate-x-7">
+      <p
+        className={`${color} text-sm font-semibold mr-3 w-32 sm:block hidden`}
+      >{` ${color === "text-green-600" ? "+" : ""}${
+        Math.round(coin.changePercent24Hr * 100) / 100
+      }%`}</p>
+      <p className="ml-2 text-base  mr-3 w-32">
         {sentiment == null ? "No sentiment" : handleSentimentScore(sentiment)}
       </p>
     </div>
