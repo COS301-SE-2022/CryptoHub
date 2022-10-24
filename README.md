@@ -27,7 +27,7 @@ CryptoHub is an interactive and social application that allows a user to explore
 - [System Requirements Specification demo 1](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS)-Demo-1)
 - [System Requirements Specification demo 2](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS)-Demo-2)
 - [System Requirements Specification demo 3](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS)-Demo-3)
-- [Coding Standards](https://github.com/COS301-SE-2022/CryptoHub/wiki/Coding-Standards)
+- [System Requirements Specification demo 4](https://github.com/COS301-SE-2022/CryptoHub/wiki/System-Requirements(SRS)-Demo-4)
 - [User Manual](https://github.com/COS301-SE-2022/CryptoHub/wiki/User-Manual)
 - [Technical Installation Manual](https://github.com/COS301-SE-2022/CryptoHub/wiki/Technical-Installation-Manual)
 - [Coding Standards](https://github.com/COS301-SE-2022/CryptoHub/wiki/Coding-Standards)
@@ -40,6 +40,7 @@ CryptoHub is an interactive and social application that allows a user to explore
 - [Demo 1](https://drive.google.com/file/d/1YnMPmuTIb7v5p-PBGcOAJ29ZvJOSp_Mq/view?usp=sharing "Demo 1")
 - [Demo 2](https://drive.google.com/file/d/1Yi5ccYFGuM5NjST5syfAyzXmI7BbJv6z/view "Demo 2")
 - [Demo 3](https://drive.google.com/file/d/1ohZ6noy-qZMsM-XugT59VE8vI5Lnfzbg/view?usp=sharing)
+- [Demo 4](https://drive.google.com/file/d/1Ht0TQWamtBwpGjY2t6y6IB62mmI-hsmA/view?usp=sharing)
 
 
 

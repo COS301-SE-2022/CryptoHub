@@ -3,9 +3,10 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { userContext } from "../auth/auth";
 import { useContext } from "react";
 import { useRouter } from "next/router";
+import Loader from "../components/Loader";
 
 function forgotPasswordConfirmation() {
-  const { authorise } = useContext(userContext);
+  const { authorise, url } = useContext(userContext);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState(0);
@@ -25,9 +26,8 @@ function forgotPasswordConfirmation() {
         otp: otp,
       }),
     };
-    console.log(otp);
     fetch(
-      `http://localhost:7215/api/Authorization/ValidateOTP/${router.query.email}/${otp}`,
+      `${url}/api/Authorization/ValidateOTP/${router.query.email}/${otp}`,
       options
     )
       .then((response) => {
@@ -89,7 +89,7 @@ function forgotPasswordConfirmation() {
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 {loading ? (
-                  <p className="text-indigo-200">Loading...</p>
+                  <Loader />
                 ) : (
                   <a href={`/changePassword?email=${router.query.email}`}>
                     Confirm

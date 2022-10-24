@@ -1,4 +1,5 @@
 import { IdentificationIcon } from "@heroicons/react/outline";
+
 import React, { useEffect, useState } from "react";
 
 const CoinInfo = ({ name, price }) => {
@@ -70,25 +71,6 @@ const CoinInfo = ({ name, price }) => {
           <p className="text-sm font-semibold ml-1 translate-y-3 text-gray-400 text-left items-center">
             {currauncyLabel}
           </p>
-        </div>
-        <div
-          className="bg-gray-200 sm:w-12/12 mt-10 mb-3"
-          style={{ height: "1px" }}
-        ></div>
-        <div>
-          <p className="text-xl font-semibold mt-2 mb-2 translate-y-1 ml-2 text-center text-gray-700">
-            Calculate the price
-          </p>
-          <div className="flex flex-col sm:px-24 text-left">
-            <input
-              className="border text-sm mb-3 mt-3 h-10 rounded-md w-full px-2 py-1 mr-1 sm:mr-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder=" Crypto Amount"
-              onChange={(e) => setAmountInput(e.target.value * price)}
-            />
-            <p className="self-center text-3xl font-semibold text-indigo-600">
-              {amountInput} USD
-            </p>
-          </div>
         </div>
       </div>
     </div>

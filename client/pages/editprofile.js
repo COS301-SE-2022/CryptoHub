@@ -4,13 +4,14 @@ import { XIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 import { userContext } from "../auth/auth";
 import { useRouter } from "next/router";
+import Loader from "../components/Loader";
 
 const editprofile = () => {
-  const { user, refreshfeed, profilePicture } = useContext(userContext);
+  const { user, refreshfeed, profilePicture, url } = useContext(userContext);
   const [showModal, setShowModal] = useState(false);
   const [post, setPost] = useState("");
   const [, setError] = useState(false);
-  const [, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [clientImage, setClientImage] = useState(undefined);
 
@@ -54,12 +55,16 @@ const editprofile = () => {
       }),
     };
 
-    fetch("http://localhost:7215/api/User/UpdateProfileImage", options)
+    setLoading(true);
+    fetch(`${url}/api/User/UpdateProfileImage`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
+        router.push("/");
         setShowModal(false);
-        refreshfeed();
+
+        // refreshfeed();
+
         if (data.userId == user.id) {
         } else {
           setError(true);
@@ -209,7 +214,7 @@ const editprofile = () => {
                         type="submit"
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       >
-                        Save
+                        {loading ? <Loader /> : <p>Save</p>}
                       </button>
                     </div>
                   </form>

@@ -3,9 +3,10 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { userContext } from "../auth/auth";
 import { useContext } from "react";
 import { useRouter } from "next/router";
+import Loader from "../components/Loader";
 
 const Login = () => {
-  const { authorise } = useContext(userContext);
+  const { authorise, url } = useContext(userContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -26,8 +27,7 @@ const Login = () => {
         password: password,
       }),
     };
-
-    fetch("http://localhost:7215/api/Authorization/Login", options)
+    fetch(`${url}/api/Authorization/Login`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -113,11 +113,7 @@ const Login = () => {
                     aria-hidden="true"
                   />
                 </span>
-                {loading ? (
-                  <p className="text-indigo-200">Loading...</p>
-                ) : (
-                  <p>Log in</p>
-                )}
+                {loading ? <Loader /> : <p>Log in</p>}
               </button>
             </div>
           </form>

@@ -28,7 +28,7 @@ const NavigationBar = () => {
               onClick={() => {
                 router.push("/explore");
               }}
-              className="text-indigo-600 px-4 p-1 rounded-md font-semibold"
+              className="text-indigo-600 px-4 p-1 rounded-md font-semibold sm:block hidden"
             >
               Explore
             </button>
@@ -38,7 +38,8 @@ const NavigationBar = () => {
       {user.auth ? (
         <NavigationProfile />
       ) : (
-        <p className="font-semibold ml-10">About</p>
+        <p className="font-semibold ml-10"></p>
+        // <p className="font-semibold ml-10"></p>
       )}
     </nav>
   );

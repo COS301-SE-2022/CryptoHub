@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services.TagService;
+using Domain.Models;
 using Infrastructure.DTO.TagDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,17 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpGet]
+        public async Task<ICollection<Tag>> GetTags()
+        {
+            //return await _tagService.GetTagsByPost(Id);
+            return await _tagService.GetTags();
+        }
+
+        [HttpGet]
         public async Task<ICollection<TagDTO>> GetTagByPost(int Id)
         {
-            return await _tagService.GetTagsByPost(Id);
+            //return await _tagService.GetTagsByPost(Id);
+            return null;
         }
     }
 }

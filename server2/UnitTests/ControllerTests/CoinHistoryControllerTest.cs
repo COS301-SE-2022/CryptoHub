@@ -77,7 +77,6 @@ namespace UnitTests.ControllerTests
             Assert.Equal(3, (actual as List<CoinHistory>).Count);
         }
 
-        [Fact]
         public async Task AddCoinHistory_CoinHistory_ReturnsCoinHistory()
         {
             //arrange

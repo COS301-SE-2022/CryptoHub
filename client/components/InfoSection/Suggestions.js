@@ -1,26 +1,23 @@
 import React, { useState, useEffect, useContext } from "react";
 import SuggestedAccount from "./SuggestedAccount";
 import { userContext } from "../../auth/auth";
+import Loader from "../Loader";
 
 const Suggestions = () => {
-  const { user } = useContext(userContext);
-  // const [accounts, setAccounts] = useState([]);
-  // const [followers, setFollowers] = useState([]);
+  const { user, url } = useContext(userContext);
   const [suggestedAccounts, setSuggestedAccounts] = useState([]);
-  //const [refresh, setRefresh] = useState(false);
-  const [, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [, setError] = useState(false);
 
   const handleSuggestedUser = () => {
     const options = {
       method: "GET",
     };
-
-    fetch(`http://localhost:7215/api/User/SuggestedUsers/${user.id}`, options)
+    setLoading(true);
+    fetch(`${url}/api/User/SuggestedUsers/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setSuggestedAccounts(data);
-        console.log(suggestedAccounts);
         setLoading(false);
         setFollowing(data);
       })
@@ -39,7 +36,9 @@ const Suggestions = () => {
       <p className="text-md font-bold text-indigo-600 mb-2 overflow-auto">
         Suggestions
       </p>
-      {suggestedAccounts.length == 0 ? (
+      {loading ? (
+        <Loader />
+      ) : suggestedAccounts.length == 0 ? (
         <p className="text-sm text-gray-500">No suggestions</p>
       ) : (
         suggestedAccounts.map((data, index) => {

@@ -14,6 +14,8 @@
     <name>CryptoHub</name>
     <description>CryptoHub</description>
     <properties>
+        <sonar.organization>cos301-se-2022</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <java.version>17</java.version>
     </properties>
     <dependencies>

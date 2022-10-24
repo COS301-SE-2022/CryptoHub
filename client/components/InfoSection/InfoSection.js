@@ -9,7 +9,7 @@ const InfoSection = () => {
   const { user } = useContext(userContext);
 
   return (
-    <div className="bg-white sm:w-6/12 m-4 p-4 rounded-lg sm:fixed right-10 overflow-auto max-h-[40rem]">
+    <div className="bg-white sm:w-6/12 m-4 p-4 rounded-lg sm:fixed right-10 overflow-auto max-h-[40rem] min-h-[40rem]">
       {user.auth ? null : (
         <div>
           <p className="font-bold text-center">Create a free account now</p>

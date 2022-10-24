@@ -10,6 +10,10 @@ namespace Infrastructure.DTO.PostDTO
 
         public string? ImageUrl { get; set; } = null!;
 
+        public decimal? SentimentScore { get; set; }
+
+        public DateTime? DateCreated { get; set; }
+
 
     }
 }

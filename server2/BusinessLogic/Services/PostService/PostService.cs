@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AutoMapper;
 using BusinessLogic.Services.ImageService;
 using BusinessLogic.Services.TagService;
@@ -14,12 +15,14 @@ namespace BusinessLogic.Services.PostService
         private readonly IPostRepository _postRepository;
         private readonly IImageService _imageService;
         private readonly IPostReportRepository _postReportRepository;
+        private readonly IPostTagRepository _postTagRepository;
         private readonly ITagService _tagService;
+        private readonly ITagRepository _tagRepository;
         private readonly ICommentRepository _commentRepository;
         private readonly ILikeRepository _likeRepository;
         private readonly IReplyRepository _replyRepository;
         private readonly IMapper _mapper;
-        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository, IMapper mapper, ITagService tagService, ICommentRepository commentRepository, ILikeRepository likeRepository, IReplyRepository replyRepository)
+        public PostService(IPostRepository postRepository, IImageService imageService, IPostReportRepository postReportRepository, IMapper mapper, ITagService tagService, ICommentRepository commentRepository, ILikeRepository likeRepository, IReplyRepository replyRepository, ITagRepository tagRepository, IPostTagRepository postTagRepository)
         {
             _postRepository = postRepository;
             _imageService = imageService;
@@ -29,6 +32,8 @@ namespace BusinessLogic.Services.PostService
             _commentRepository = commentRepository;
             _likeRepository = likeRepository;
             _replyRepository = replyRepository;
+            _tagRepository = tagRepository;
+            _postTagRepository = postTagRepository;
         }
 
         public async Task<List<PostDTO>> GetAllPosts()
@@ -72,10 +77,23 @@ namespace BusinessLogic.Services.PostService
 
             if (createPostDTO.BatchTags != null)
             {
-                var response = await _tagService.BatchAddTag(post.PostId, createPostDTO.BatchTags);
+                foreach (var item in createPostDTO.BatchTags.Tags)
+                {
+                    var tag = await _tagService.GetTagbyLabel(item);
+                    if(tag != null)
+                    {
+                        
+                        var postTag = new PostTag();
+                        postTag.TagId = tag.TagId;
+                        postTag.PostId = post.PostId;
 
-                if (response.HasError)
-                    return null;
+                        var postTagInDb = await _postTagRepository.GetByExpression(p => p == postTag);
+                        if (postTagInDb == null)
+                            await _postTagRepository.Add(postTag);
+                    }
+
+                }
+
             }
 
             return _mapper.Map<PostDTO>(post);
@@ -123,10 +141,14 @@ namespace BusinessLogic.Services.PostService
 
             await _likeRepository.DeleteRange(commentlikes);
 
+            var posttags = await _postTagRepository.ListByExpression(p => p.PostId == post.PostId);
+
+            
             var postlikes = await _likeRepository.ListByExpression(l => l.PostId == post.PostId);
 
             var imageId = post.ImageId ?? null;
 
+            await _postTagRepository.DeleteRange(posttags);
             await _postReportRepository.DeleteRange(postReports);
             await _likeRepository.DeleteRange(postlikes);
             await _replyRepository.DeleteRange(repiles);
@@ -205,6 +227,109 @@ namespace BusinessLogic.Services.PostService
 
 
             return _mapper.Map<IEnumerable<ReportPostDTO>>(final);
+        }
+
+
+        public async Task<List<PostDTO>> GetPostByTag(string tagLabel, DateTime? startDate, DateTime? endDate)
+        {
+            if(startDate  == null || endDate == null)
+            {
+                startDate = DateTime.UtcNow;
+                endDate = DateTime.UtcNow.AddDays(-7);
+            }
+            
+            var tag = await _tagRepository.GetByExpression(t => t.Content == tagLabel);
+
+            if (tag == null)
+                return null;
+
+            var postTags = await _postTagRepository.ListByExpression(p => p.TagId == tag.TagId);
+
+            var posts = await _postRepository.ListByExpression(p => true);
+
+            var taggedPosts = (from pt in postTags
+                              join p in posts
+                              on pt.PostId equals p.PostId
+                              where p.DateCreated >= endDate && p.DateCreated <= startDate
+                              select new PostDTO
+                              {
+                                  PostId = p.PostId,
+                                  UserId = p.UserId,
+                                  Content = p.Content,
+                                  SentimentScore = p.SentimentScore,
+                                  ImageUrl = p.ImageUrl,
+                                  DateCreated = p.DateCreated
+
+                              }
+                              ).ToList();
+
+            return taggedPosts;
+
+            
+        }
+
+        public async Task<object> GetWeeklySentimentByTag(string tagLabel, DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate == null || endDate == null)
+            {
+                startDate = DateTime.UtcNow;
+                endDate = DateTime.UtcNow.AddDays(-7);
+            }
+
+            var tag = await _tagRepository.GetByExpression(t => t.Content == tagLabel);
+
+            if (tag == null)
+                return null;
+
+            var postTags = await _postTagRepository.ListByExpression(p => p.TagId == tag.TagId);
+
+            var posts = await _postRepository.ListByExpression(p => true);
+
+            var taggedPosts = (from pt in postTags
+                               join p in posts
+                               on pt.PostId equals p.PostId
+                               where p.DateCreated >= endDate && p.DateCreated <= startDate
+                               group p by p.DateCreated.Date into score
+                               orderby score.Key ascending
+                               select new
+                               {
+                                   Date = score.Key,
+                                   Postive = score.Where(s => s.SentimentScore >= 0.05m).Select(s => s.SentimentScore).Average(),
+                                   Negative = score.Where(s => s.SentimentScore <= -0.05m).Select(s => s.SentimentScore).Average(),
+                                   Neutral = score.Where(s => s.SentimentScore > -0.05m && s.SentimentScore < 0.05m).Select(s => s.SentimentScore).Average(),
+                                   Overall = score.Select(s => s.SentimentScore).Average()
+
+                               }
+                              ).ToList();
+
+    
+
+
+
+            
+
+            return taggedPosts;
+
+
+        }
+
+        public async Task BatchAddSentimentScore(List<PostSentimentScoreDTO> postSentimentScoreDTO)
+        {
+            var posts = await _postRepository.ListByExpression(p => true);
+
+            var scoredPosts = (from p in posts
+                              join cp in postSentimentScoreDTO
+                              on p.PostId equals cp.PostId
+                              select p).ToList();
+
+            for (int i = 0; i < scoredPosts.Count; i++)
+            {
+                var pid = scoredPosts[i].PostId;
+                scoredPosts.Find(p => p.PostId == pid).SentimentScore = postSentimentScoreDTO.Find(p => p.PostId == pid).SentimentScore;
+            }
+
+
+            await _postRepository.UpdateRange(scoredPosts);
         }
     }
 }

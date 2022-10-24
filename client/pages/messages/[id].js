@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { userContext } from "../../auth/auth";
 import { getFirestore, serverTimestamp } from "@firebase/firestore";
 import { collection, getDocs, addDoc } from "firebase/firestore";
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 
 const Messages = () => {
   const router = useRouter();
-  const { user, app } = useContext(userContext);
+  const { user, app, url } = useContext(userContext);
   const { id } = router.query;
   const [thisUser, setUser] = useState({});
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [connection, setConnection] = useState(null);
+  const latestMessage = useRef(null);
+  const messageRef = useRef();
+
+  latestMessage.current = messages;
 
   const db = getFirestore(app);
   const messagesRef = collection(db, "messages");
@@ -26,7 +32,7 @@ const Messages = () => {
         return a.timestamp - b.timestamp;
       });
     console.warn("Final messages: ", messages);
-    setMessages(final);
+    //setMessages(final);
   };
 
   const handleGetUser = () => {
@@ -34,7 +40,7 @@ const Messages = () => {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/User/GetUserById/${id}`, options)
+    fetch(`${url}/api/User/GetUserById/${id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
@@ -43,33 +49,124 @@ const Messages = () => {
       .catch((error) => {});
   };
 
+  const handleGetMessages = async () => {
+    const options = {
+      method: "GET",
+    };
+
+    fetch(`${url}/api/Message/GetMessages/${user.id}/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Data: ", data[0]);
+        console.log("Messages: ", messages);
+        setMessages(data);
+      })
+      .catch((error) => {});
+  };
+
+  const handleGetConnection = async () => {
+    console.log("Getting connection");
+    setConnection(
+      new HubConnectionBuilder()
+        .withUrl(`${url}/messagehub?userId=${user.id}`)
+        .configureLogging(LogLevel.Information)
+        .build()
+    );
+  };
+
+  const handleRecievedMessage = () => {
+    console.log("Recieved message");
+    if (connection) {
+      connection.on("RecieveMessage", (message) => {});
+    }
+  };
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
-    await addDoc(messagesRef, {
-      sender: user.id.toString(),
-      receiver: id.toString(),
-      message: message,
-      timestamp: serverTimestamp(),
-    });
-    getMessages();
-    setMessage("");
+    // await addDoc(messagesRef, {
+    //   sender: user.id.toString(),
+    //   receiver: id.toString(),
+    //   message: message,
+    //   timestamp: serverTimestamp(),
+    // });
+    // getMessages();
+    // setMessage("");
+
+    const msg = {
+      userId: user.id.toString(),
+      recieverId: id.toString(),
+      content: message,
+    };
+
+    //msg as json string
+    const msgString = JSON.stringify(msg);
+
+    if (connection) {
+      connection
+        .invoke("SendMessage", msgString)
+        .catch((err) => console.error(err));
+    }
   };
 
   useEffect(() => {
     !user.auth && router.push("/");
-    handleGetUser();
-    getMessages();
+    console.log("use effect for DMS");
 
-    const interval = setInterval(() => {
-      getMessages();
-    }, 3000);
-    return () => clearInterval(interval);
+    handleGetConnection();
+    handleGetMessages();
+    //handleGetUser();
+    //getMessages();
+
+    // const interval = setInterval(() => {
+    //   getMessages();
+    // }, 3000);
+    // return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (connection) {
+      if (connection.state === "Disconnected") {
+        connection.start().then(function () {
+          console.log("do this");
+        });
+
+        connection.on("RecievedMessage", (message) => {
+          console.log("Recieved message: ", message);
+          const msg = JSON.parse(message);
+          console.log("recivedMSG", msg);
+
+          msg.TimeDelivered = new Date(msg.TimeDelivered).getTime();
+
+          const updatedMessages = [...latestMessage.current];
+          updatedMessages.push(msg);
+          console.log(updatedMessages);
+          setMessages(updatedMessages);
+          console.log(messages);
+        });
+      }
+    }
+  }, [connection]);
+
+  useEffect(() => {
+    if (messageRef && messageRef.current) {
+      const { scrollHeight, clientHeight } = messageRef.current;
+      console.log("scrollHeight: ", scrollHeight);
+      console.log("clientHeight: ", clientHeight);
+      messageRef.current.scrollTo({
+        left: 0,
+        top: scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
 
   return (
     <Layout>
-      <div className="fixed w-11/12 sm:w-8/12 bg-white p-4 rounded-md h-4/5 overflow-scroll scroll">
+      <div
+        ref={messageRef}
+        className="fixed w-11/12 sm:w-8/12 bg-white p-4 rounded-md h-4/5 overflow-scroll scroll"
+      >
         <div>
           <h1>{username}</h1>
         </div>
@@ -81,29 +178,33 @@ const Messages = () => {
         <div className="flex flex-col">
           {messages.map((message) => {
             if (
-              message.sender == user.id.toString() &&
-              message.receiver == id.toString()
+              message.userId == user.id.toString() &&
+              message.recieverId == id.toString()
             ) {
               return (
                 <SenderMessage
-                  message={message.message}
-                  sender={message.sender}
-                  receiver={message.receiver}
-                  time={message.time}
+                  key={message.timeDelivered}
+                  message={message.content}
+                  sender={message.userId}
+                  receiver={message.recieverId}
+                  time={message.timeDelivered}
                 />
               );
             } else if (
-              message.sender == id.toString() &&
-              message.receiver == user.id.toString()
+              message.userId == id.toString() &&
+              message.recieverId == user.id.toString()
             ) {
               return (
                 <ReceiverMessage
-                  message={message.message}
-                  sender={message.sender}
-                  receiver={message.receiver}
-                  time={message.time}
+                  key={message.timeDelivered}
+                  message={message.content}
+                  sender={message.userId}
+                  receiver={message.recieverId}
+                  time={message.timeDelivered}
                 />
               );
+            } else {
+              <p>{message}</p>;
             }
           })}
         </div>

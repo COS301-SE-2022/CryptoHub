@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { initializeApp } from "firebase/app";
 
@@ -22,6 +22,12 @@ export const userContext = createContext({
 
 const UserProvider = ({ children }) => {
   const router = useRouter();
+  const [url, setUrl] = useState(
+    !process.env.NODE_ENV || process.env.NODE_ENV === "development"
+      ? "http://localhost:7215"
+      : "http://176.58.110.152:7215"
+  );
+
   const [user, setUser] = useState({
     username: "",
     auth: false,
@@ -76,8 +82,6 @@ const UserProvider = ({ children }) => {
   const authorise = (token) => {
     let user = parseJwt(token);
 
-    console.warn("jwt: ", user);
-
     if (user.roles == "Super") {
       setUser({
         username: user.username,
@@ -103,6 +107,17 @@ const UserProvider = ({ children }) => {
     setFeedstate(!feedstate);
   };
 
+  useEffect(() => {
+    if (JSON.parse(window.sessionStorage.getItem("user"))) {
+      setUser(JSON.parse(window.sessionStorage.getItem("user")));
+    }
+  }, []);
+
+  useEffect(() => {
+    const json = JSON.stringify(user);
+    sessionStorage.setItem("user", json);
+  }, [user]);
+
   return (
     <userContext.Provider
       value={{
@@ -118,6 +133,7 @@ const UserProvider = ({ children }) => {
         closeAlert,
         profilePicture,
         setProfilePicture,
+        url,
       }}
     >
       {children}

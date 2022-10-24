@@ -12,14 +12,14 @@ const NavigationProfile = () => {
   const router = useRouter();
   const { logout, profilePicture, setProfilePicture } = useContext(userContext);
   const [thisUser, setThisUser] = useState(null);
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
 
   const handleGetUser = () => {
     const options = {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/User/GetUserById/${user.id}`, options)
+    fetch(`${url}/api/User/GetUserById/${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         setThisUser(data.imageUrl);
@@ -30,7 +30,6 @@ const NavigationProfile = () => {
 
   useEffect(() => {
     handleGetUser();
-    console.warn("Image url: ", profilePicture);
   }, []);
 
   return (
@@ -98,6 +97,17 @@ const NavigationProfile = () => {
                   )}
                 >
                   Profile
+                </button>
+                <button
+                  onClick={() => {
+                    router.push("/explore");
+                  }}
+                  className={classNames(
+                    active ? "bg-gray-100" : "",
+                    "block px-4 py-2 text-sm text-gray-700 w-full sm:hidden block"
+                  )}
+                >
+                  Explore
                 </button>
                 <button
                   onClick={() => {

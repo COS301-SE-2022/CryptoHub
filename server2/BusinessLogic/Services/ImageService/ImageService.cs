@@ -42,7 +42,7 @@ namespace BusinessLogic.Services.ImageService
         public async Task<Response<Image>> AddImage(CreateImageDTO imageDTO)
         {
 
-            var image = await _imageRepository.GetByExpression(image => image.Name.Contains(imageDTO.Name));
+            var image = await _imageRepository.GetByExpression(image => image.Name.Contains($"{imageDTO.Name}."));
 
             if (image != null)
             {

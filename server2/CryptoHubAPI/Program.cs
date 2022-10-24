@@ -31,6 +31,9 @@ using Intergration.SendInBlueEmailService;
 using Infrastructure.Setting;
 using Microsoft.Extensions.DependencyInjection;
 using CryptoHubAPI;
+using CryptoHubAPI.Hubs;
+using BusinessLogic.Services.MessageService;
+using BusinessLogic.Services.NotificationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +55,9 @@ builder.Services.AddTransient<IRoleRepository, RoleRepository>();
 builder.Services.AddTransient<ICoinRatingRepository, CoinRatingRepository>();
 builder.Services.AddTransient<IUserCoinRepository, UserCoinRepository>();
 builder.Services.AddTransient<IPostReportRepository, PostReportRepository>();
+builder.Services.AddTransient<IMessageRepository, MessageRepository>();
+builder.Services.AddTransient<INotificationRepository, NotificationRepository>();
+builder.Services.AddTransient<IPostTagRepository, PostTagRepository>();
 
 
 
@@ -73,6 +79,8 @@ builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<ITagService, TagServices>();
 builder.Services.AddTransient<IFireStorageService, FireStorageService>();
 builder.Services.AddTransient<ISendInBlueEmailService, SendInBlueEmailService>();
+builder.Services.AddTransient<IMessageService, MessageService>();
+builder.Services.AddTransient<INotificationService, NotificationService>();
 
 
 //AutoMapper
@@ -80,7 +88,23 @@ builder.Services.AddAutoMapper(Assembly.Load("Infrastructure"));
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowSpecficOrigin",
+        policy =>
+        {
+        policy.WithOrigins("null", "http://localhost:3000", "http://176.58.110.152:3000").
+        AllowAnyMethod().
+        AllowAnyHeader().
+        AllowCredentials();
+        });
+
+});
+
+builder.Services.AddSignalR(e =>
+{
+    e.MaximumReceiveMessageSize = 102400000;
+});
 
 builder.Services.AddControllers();
 
@@ -101,12 +125,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddDbContext<CryptoHubDBContext>(
     options =>
     {
-        if(builder.Environment.IsDevelopment())
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
-        else
-            options.UseSqlServer(DBConnctionSettings.ConnectionString);
+        if (builder.Environment.IsDevelopment())
+        {
+            //options.UseNpgsql(builder.Configuration.GetConnectionString("DBConnection"));
+            options.UseNpgsql(DBConnctionSettings.ConnectionString);
 
+        }
+        else
+        {
+            //coment for commit phase 2 phase 3
+            options.UseNpgsql(DBConnctionSettings.ConnectionString);
+        }
+
+       
     });
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -136,6 +169,8 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 // Configure the HTTP request pipeline.
 /*if (app.Environment.IsDevelopment())
 {
@@ -154,15 +189,10 @@ app.UseSwaggerUI(config =>
     config.DisplayRequestDuration();
 });
 
-app.UseCors(
-    options =>
-    {
-        options.
-        AllowAnyOrigin().
-        AllowAnyMethod().
-        AllowAnyHeader();
+app.UseCors("AllowSpecficOrigin");
 
-    });
+app.MapHub<MessageHub>("/messagehub");
+
 
 app.UseAuthentication();
 

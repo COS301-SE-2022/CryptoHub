@@ -25,25 +25,26 @@ namespace BusinessLogic.Services.CoinRatingService
             _coinService = coinService;
         }
 
-        public async Task<Response<string>> RateCoin(int userId, int coinId, int rating)
+        public async Task<Response<string>> RateCoin(int userId, string coinName, int rating)
         {
+            var tempCoin = await _coinService.GetCoinByName(coinName);
             var user = await _userService.GetById(userId);
 
             if (user == null)
                 return new Response<string>(null, true, "user not found");
 
-            var coin = await _coinService.GetCoin(coinId);
+            var coin = await _coinService.GetCoin(tempCoin.CoinId);
 
-            if(coin == null)
+            if (coin == null)
                 return new Response<string>(null, true, "coin not found");
 
-            if(rating <0 || rating > 6)
+            if (rating < 0 || rating > 6)
                 return new Response<string>(null, true, "rating must be between 1 and 5");
 
 
             var coinRating = await _coinRatingRepository.FindOne(cr => cr.UserId == user.UserId && cr.CoinId == coin.CoinId);
 
-            if(coinRating == null)
+            if (coinRating == null)
             {
                 coinRating = new CoinRating
                 {

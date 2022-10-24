@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "backend": "cd ../server2/CryptoHubAPI && dotnet run",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "cypress": "cypress open",
@@ -17,18 +18,25 @@
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.6",
+    "@microsoft/signalr": "^6.0.8",
     "chartjs": "^0.3.24",
     "cheerio": "^1.0.0-rc.11",
     "firebase": "^9.8.4",
     "firebase-admin": "^11.0.0",
     "firebase-functions": "^3.22.0",
+    "moment": "^2.29.4",
     "next": "12.1.5",
     "react": "18.1.0",
     "react-chartjs-2": "^4.2.0",
     "react-dom": "18.1.0",
     "react-firebase-hooks": "^5.0.3",
+    "react-icons": "^4.4.0",
+    "react-spinners": "^0.13.4",
     "request": "^2.88.2",
-    "swiper": "^8.3.1"
+    "signalr-client-react": "^0.2.1",
+    "styled-components": "^5.3.5",
+    "swiper": "^8.3.1",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.6",

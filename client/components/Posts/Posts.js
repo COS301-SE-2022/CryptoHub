@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Post from "./Post";
 import { userContext } from "../../auth/auth";
 import { useRouter } from "next/router";
+import Loader from "../Loader";
 
 const Posts = () => {
   const { feedstate } = useContext(userContext);
@@ -11,7 +12,7 @@ const Posts = () => {
 
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { user } = useContext(userContext);
+  const { user, url } = useContext(userContext);
   const [mainPosts, setMainPosts] = useState([]);
 
   const handleGetAllPosts = () => {
@@ -21,7 +22,7 @@ const Posts = () => {
       method: "GET",
     };
 
-    fetch("http://localhost:7215/api/Post/GetAllPosts", options)
+    fetch(`${url}/api/Post/GetAllPosts`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -45,7 +46,7 @@ const Posts = () => {
       },
     };
 
-    fetch("http://localhost:7215/api/Post/GetFeed", options)
+    fetch(`${url}/api/Post/GetFeed`, options)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -67,7 +68,7 @@ const Posts = () => {
   return (
     <div className="sm:w-5/12">
       {loading ? (
-        <p>loading...</p>
+        <Loader />
       ) : posts.length == 0 ? (
         <div className="flex flex-col items-center w-full pt-10">
           <button
@@ -90,6 +91,7 @@ const Posts = () => {
               userId={data.userId}
               postId={data.postId}
               imageId={data.imageUrl}
+              time={data.dateCreated}
             />
           );
         })

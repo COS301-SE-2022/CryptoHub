@@ -61,22 +61,21 @@ namespace CryptoHubAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserDTO>> AddUser([FromBody] User user)
+        public async Task<ActionResult<UserDTO>> AddUser([FromBody] RegisterDTO registerDTO)
         {
-            var response = await _userService.AddUser(user);
-            if (response == null)
-                return BadRequest();
+            var response = await _userService.AddUser(registerDTO);
+            if (response.HasError)
+                return BadRequest(response.Message);
 
-            return Ok(response);
-
+            return Ok(response.Model);
         }
 
         [HttpPut]
         public async Task<ActionResult<UserDTO>> UpdateUser([FromBody] User user)
         {
-            var response = await _userService.UpateUser(user);
+            var response = await _userService.UpdateUser(user);
             if (response == null)
-                return null;
+                return NotFound();
 
             return Ok(response);
         }
@@ -130,6 +129,6 @@ namespace CryptoHubAPI.Controllers
             return Ok(response.Message);
         }
 
-        
+
     }
 }

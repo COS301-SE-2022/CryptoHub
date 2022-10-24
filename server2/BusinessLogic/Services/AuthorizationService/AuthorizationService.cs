@@ -50,18 +50,18 @@ namespace BusinessLogic.Services.AuthorizationService
                 return new Response<JWT>(null, true, "incorrect username or password");
 
             var decryptedPassword = string.Empty;
-            if (loginUser.UserId < 106)
+            if (loginUser.UserId < 6)
                 decryptedPassword = loginDTO.Password;
             else
-               decryptedPassword = AesOperation.EncryptString("abcdefghijklmnop", loginDTO.Password);
-            
+                decryptedPassword = AesOperation.EncryptString("abcdefghijklmnop", loginDTO.Password);
+
             if (!(loginUser.Password == decryptedPassword))
                 return new Response<JWT>(null, true, "incorrect username or password");
 
 
             var role = await _roleService.GetRoleById(loginUser.RoleId);
 
-            var token = CreateToken(loginUser,role.Name);
+            var token = CreateToken(loginUser, role.Name);
             return new Response<JWT>(token, false, "logged in");
         }
 
@@ -81,7 +81,7 @@ namespace BusinessLogic.Services.AuthorizationService
 
             var role = await _roleService.GetRoleById(user.RoleId);
 
-            var token = CreateToken(user,role.Name);
+            var token = CreateToken(user, role.Name);
 
             var outGoingEmail = new EmailDTO
             {
@@ -119,16 +119,16 @@ namespace BusinessLogic.Services.AuthorizationService
 
             _sendInBlueEmailService.Sendemail(outGoingEmail);
 
-            return _mapper.Map<UserDTO>(user);   
+            return _mapper.Map<UserDTO>(user);
         }
 
         public async Task<Response<UserDTO>> ValidateOTP(string email, int OTP)
         {
-            var user =  await _userRepository.GetByExpression(u => u.Email.ToLower() == email.ToLower());
+            var user = await _userRepository.GetByExpression(u => u.Email.ToLower() == email.ToLower());
             if (user == null)
                 return new Response<UserDTO>(null, true, "user not found");
 
-            if(!user.HasForgottenPassword.Value)
+            if (!user.HasForgottenPassword.Value)
                 return new Response<UserDTO>(null, true, "forgot password not requested");
 
             if (user.OTPExpirationTime < DateTime.UtcNow)
@@ -177,7 +177,7 @@ namespace BusinessLogic.Services.AuthorizationService
                 new Claim("firstname", user.Firstname),
                 new Claim("lastname", user.Lastname),
                 new Claim("roles",userRole)
-                 
+
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(JWTSettings.Key));
@@ -188,7 +188,7 @@ namespace BusinessLogic.Services.AuthorizationService
                 JWTSettings.Issuer,
                 JWTSettings.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddHours(1), 
+                expires: DateTime.Now.AddHours(1),
                 signingCredentials: cred);
 
             var JwtToken = new JwtSecurityTokenHandler().WriteToken(token);

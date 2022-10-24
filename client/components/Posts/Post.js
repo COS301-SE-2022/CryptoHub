@@ -7,12 +7,23 @@ import Image from "next/image";
 import { userContext } from "../../auth/auth";
 import { HeartIcon as RedHeartIcon } from "@heroicons/react/solid";
 import { Menu, Transition } from "@headlessui/react";
+import Moment from "moment";
+import Loader from "../Loader";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
+const Post = ({
+  name,
+  content,
+  userId,
+  postId,
+  imageId,
+  admin,
+  reports,
+  time,
+}) => {
   const [thisUser, setUser] = useState({});
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
@@ -22,15 +33,16 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
   const [postImage, setPostImage] = useState(imageId);
   const [comment, setComment] = useState("");
   const [likeId, setLikeId] = useState(null);
-  const { user, refreshfeed, alert } = useContext(userContext);
+  const { user, refreshfeed, alert, url } = useContext(userContext);
   const [profilePicture, setProfilePicture] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleGetUser = () => {
     const options = {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/User/GetUserById/${userId}`, options)
+    fetch(`${url}/api/User/GetUserById/${userId}`, options)
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
@@ -44,7 +56,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       method: "GET",
     };
 
-    fetch(`http://localhost:7215/api/Image/GetById/${imageId}`, options)
+    fetch(`${url}/api/Image/GetById/${imageId}`, options)
       .then((response) => response.json())
       .then((data) => {
         // let image = `data:image/jpeg;base64,${data.blob}`;
@@ -66,7 +78,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
         postId: postId,
       }),
     };
-    fetch("http://localhost:7215/api/Like/AddLike", options)
+    fetch(`${url}/api/Like/AddLike`, options)
       .then((response) => response.json())
       .then((data) => {
         setLiked(true);
@@ -81,10 +93,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       method: "GET",
     };
 
-    fetch(
-      `http://localhost:7215/api/Like/GetLikeBy/${user.id}/${postId}`,
-      options
-    )
+    fetch(`${url}/api/Like/GetLikeBy/${user.id}/${postId}`, options)
       .then((response) => response.json())
       .then((data) => {
         if (data.userId == user.id) {
@@ -98,15 +107,14 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
     const options = {
       method: "DELETE",
     };
-    fetch(
-      `http://localhost:7215/api/Like/Delete/${user.id}/${postId}`,
-      options
-    ).then((response) => {
-      if (response.status === 200) {
-        setLiked(false);
-        getLikeCount();
+    fetch(`${url}/api/Like/Delete/${user.id}/${postId}`, options).then(
+      (response) => {
+        if (response.status === 200) {
+          setLiked(false);
+          getLikeCount();
+        }
       }
-    });
+    );
   };
 
   const handleAddComment = (e) => {
@@ -123,7 +131,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
         content: comment,
       }),
     };
-    fetch("http://localhost:7215/api/Comment/AddComment", options)
+    fetch(`${url}/api/Comment/AddComment`, options)
       .then((response) => response.json())
       .then((data) => {
         handleGetComments();
@@ -135,10 +143,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
       method: "GET",
     };
 
-    fetch(
-      `http://localhost:7215/api/Comment/GetCommentByPostId/${postId}`,
-      options
-    )
+    fetch(`${url}/api/Comment/GetCommentByPostId/${postId}`, options)
       .then((response) => response.json())
       .then((data) => {
         setComments(data);
@@ -157,10 +162,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
         postId: postId,
       }),
     };
-    fetch(
-      `http://localhost:7215/api/Post/Report?postid=${postId}&userid=${user.id}`,
-      options
-    )
+    fetch(`${url}/api/Post/Report?postid=${postId}&userid=${user.id}`, options)
       .then((response) => response.json())
       .then((data) => {
         refreshfeed();
@@ -171,10 +173,7 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
     const options = {
       method: "GET",
     };
-    fetch(
-      `http://localhost:7215/api/Like/GetLikeCountByPostId/${postId}`,
-      options
-    )
+    fetch(`${url}/api/Like/GetLikeCountByPostId/${postId}`, options)
       .then((response) => response.json())
       .then((data) => {
         setLikes(data.count);
@@ -185,14 +184,17 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
     const options = {
       method: "DELETE",
     };
-
-    fetch(`http://localhost:7215/api/Post/Delete?id=${postId}`, options).then(
-      (response) => {
+    setLoading(true);
+    fetch(`${url}/api/Post/Delete?id=${postId}`, options)
+      .then((response) => {
         if (response.status == 200) {
           refreshfeed();
+          setLoading(false);
         }
-      }
-    );
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -207,6 +209,8 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
   {
     /* <Image src={postImage} height="200" width="200" /> */
   }
+
+  const formatDate = Moment(time).format("MMM Do YY");
 
   return (
     <div className="bg-white m-4 p-4 rounded-lg">
@@ -332,7 +336,11 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
                                   "block px-2 py-2 text-sm text-red-700 font-semibold w-full"
                                 )}
                               >
-                                Delete Post
+                                {loading ? (
+                                  <Loader />
+                                ) : (
+                                  <p className="text-red-700">Delete Post</p>
+                                )}
                               </button>
                             </>
                           )}
@@ -359,26 +367,29 @@ const Post = ({ name, content, userId, postId, imageId, admin, reports }) => {
         </div>
       )}
       <p className="text-sm">{content}</p>
-      <div className="flex flex-row mt-4">
-        <button
-          onClick={liked ? handleUnlikePost : handleLikePost}
-          className="text-sm mr-4 flex flex-row"
-        >
-          {liked ? (
-            <RedHeartIcon className="h-5 w-5 text-red-500" />
-          ) : (
-            <HeartIcon className="h-5 w-5 text-black" />
-          )}{" "}
-          {""}
-          <p className="ml-1">{likes} likes</p>
-        </button>
-        <button
-          onClick={() => setShowModal(true)}
-          className="text-sm flex flex-row"
-        >
-          <ChatIcon className="h-5 w-5 text-black " /> {""}
-          <p className="ml-1">{comments.length} comments</p>
-        </button>
+      <div className="flex flex-row mt-4 w-full justify-between">
+        <div className="flex flex-row">
+          <button
+            onClick={liked ? handleUnlikePost : handleLikePost}
+            className="text-sm mr-4 flex flex-row"
+          >
+            {liked ? (
+              <RedHeartIcon className="h-5 w-5 text-red-500" />
+            ) : (
+              <HeartIcon className="h-5 w-5 text-black" />
+            )}{" "}
+            {""}
+            <p className="ml-1">{likes} likes</p>
+          </button>
+          <button
+            onClick={() => setShowModal(true)}
+            className="text-sm flex flex-row"
+          >
+            <ChatIcon className="h-5 w-5 text-black " /> {""}
+            <p className="ml-1">{comments.length} comments</p>
+          </button>
+        </div>
+        <div className=" text-sm text-gray-400 self-end">{formatDate}</div>
 
         {showModal ? (
           <>
