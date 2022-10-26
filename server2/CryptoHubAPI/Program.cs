@@ -93,7 +93,11 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "AllowSpecficOrigin",
         policy =>
         {
-        policy.WithOrigins("null", "http://localhost:3000", "http://176.58.110.152:3000").
+        policy.WithOrigins(
+            "null", "http://localhost:3000", 
+            "http://176.58.110.152:3000", "http://www.crypto-hub.co.za:3000",
+            "http://www.crypto-hub.co.za:3000"
+            ).
         AllowAnyMethod().
         AllowAnyHeader().
         AllowCredentials();
