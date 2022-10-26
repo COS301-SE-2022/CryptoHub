@@ -5,6 +5,9 @@
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/COS301-SE-2022/CryptoHub)](https://github.com/COS301-SE-2022/CryptoHub/issues?q=is%3Aissue+is%3Aclosed)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/COS301-SE-2022/CryptoHub)](https://github.com/COS301-SE-2022/CryptoHub/pulls)
 
+## Prizes motivation video
+- [Prizes motivation](https://drive.google.com/file/d/1Vw7SmKxI6aUvjJU3gvRXwKC6TbaoOvFW/view?usp=sharing)
+
 ## Project Description
 CryptoHub is an interactive and social application that allows a user to explore the world of crypto. Each user has the ability to share and explore investment recommendations, crypto stories as well as have insight into crypto coins and the current global crypto news.
 

@@ -100,6 +100,17 @@ const NavigationProfile = () => {
                 </button>
                 <button
                   onClick={() => {
+                    router.push("/explore");
+                  }}
+                  className={classNames(
+                    active ? "bg-gray-100" : "",
+                    "block px-4 py-2 text-sm text-gray-700 w-full sm:hidden block"
+                  )}
+                >
+                  Explore
+                </button>
+                <button
+                  onClick={() => {
                     router.push("/");
                   }}
                   className={classNames(

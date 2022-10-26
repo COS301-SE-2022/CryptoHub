@@ -88,10 +88,10 @@ const MyCoins = () => {
         <p className="text-sm font-semibold cursor-pointer ml-3 sm:mr-24 mr-3 w-24 text-gray-500 translate-x-2">
           Price
         </p>
-        <p className="text-sm font-semibold cursor-pointer ml-3 sm:mr-24 mr-3 w-24 text-gray-500 translate-x-7">
+        <p className="text-sm font-semibold cursor-pointer ml-3 sm:mr-24 mr-3 w-24 text-gray-500 translate-x-7 sm:block hidden">
           Change
         </p>
-        <p className="text-sm font-semibold cursor-pointer ml-3 sm:mr-24 mr-3 w-24 text-gray-500 translate-x-7">
+        <p className="text-sm font-semibold cursor-pointer ml-3 sm:mr-24 mr-3 w-24 text-gray-500 -translate-x-3 sm:translate-x-7">
           Sentiment
         </p>
       </div>
@@ -178,10 +178,12 @@ const CoinInfo = ({ index, id }) => {
       <p className="text-md font-semibold text-indigo-600 sm:mr-24 mr-3 w-32">{`$${
         Math.round(coin.priceUsd * 10) / 10
       }`}</p>
-      <p className={`${color} text-sm font-semibold sm:mr-24 mr-3 w-32`}>{` ${
-        color === "text-green-600" ? "+" : ""
-      }${Math.round(coin.changePercent24Hr * 100) / 100}%`}</p>
-      <p className="ml-2 text-base sm:mr-24 mr-3 w-32 -translate-x-10">
+      <p
+        className={`${color} text-sm font-semibold sm:mr-24 mr-3 w-32 sm:block hidden`}
+      >{` ${color === "text-green-600" ? "+" : ""}${
+        Math.round(coin.changePercent24Hr * 100) / 100
+      }%`}</p>
+      <p className="ml-2 text-base sm:mr-24 mr-3 w-32">
         {sentiment == null ? "No sentiment" : handleSentimentScore(sentiment)}
       </p>
     </div>
